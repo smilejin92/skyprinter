@@ -56,7 +56,7 @@
 ### 6.  API 및 문서 정리
 
 1. [RapidAPISkyscanner-API-Documentation](https://github.com/smilejin92/skyprinter/blob/develop/RapidAPISkyscanner-API-Documentation.md)
-2. [Mainpage-Documentation & Use cases]()
+2. [Mainpage-Documentation & Use cases](https://github.com/HYEOK999/skyprinter/blob/develop/Mainpage-Use-cases-Documentation.md)
 
 <br/>
 
