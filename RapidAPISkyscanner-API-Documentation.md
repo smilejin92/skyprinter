@@ -390,28 +390,22 @@ import axios from 'axios';
 3. Airpot (공항)
 4. Anywhere (flight browse API)
 
-### 3.1. List Places
+### 3.1. List Places - 수정
 
 **Method**: GET
 
 **Description**: 쿼리 문자열과 매칭되는 장소 목록 조회한다.
 
-**요청 URL**: https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/{country}/{currency}/{locale}/
-
-**Request Headers**
-
-| 필드             | 필수 | 값              |
-| ---------------- | ---- | --------------- |
-| 'X-RapidAPI-Key' | O    | 'RapidApi_토큰' |
+**요청 URL**: https://www.skyscanner.co.kr/g/autosuggest-flights/KR/ko-KR/{query}
 
 **Request Parameters**
 
-| 필드     | 필수 | 타입   | 설명                                               | 예제    |
-| -------- | ---- | ------ | -------------------------------------------------- | ------- |
-| query    | O    | string | 검색어 (at least 2 characters long)                | '서울'  |
-| country  | O    | string | 사용자가 위치한 국가(마켓). 요청 URL에 append한다. | 'KR'    |
-| currency | O    | string | 가격을 표시할 화폐 단위                            | 'KRW'   |
-| locale   | O    | string | 결과를 표시할 언어 (ISO locale)                    | 'ko-KR' |
+| 필드                     | 필수 | 타입    | 설명                                                       | 예제   |
+| ------------------------ | ---- | ------- | ---------------------------------------------------------- | ------ |
+| query                    | O    | string  | 출발지/도착지 검색어. 요청 URL 뒤에 encode해서 append한다. | '인천' |
+| isDestination            | O    | boolean | 출발지/도착지 여부                                         | true   |
+| enable_general_search_v2 | O    | boolean | 내부 API 서치 파라미터. 항상 true                          | true   |
+
 **Request 예제**
 
 ```javascript
@@ -419,22 +413,15 @@ import axios from 'axios';
 
 (async () => {
   try {
-    const country = 'KR';
-    const currency = 'KRW';
-    const locale = 'ko-KR';
-
-    const GET_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/${country}/${currency}/${locale}/`;
-    
-    const headers = {
-      'X-RapidAPI-Key': 'RAPID_API_KEY'
-    };
+    const query = '인천';
+    const GET_URL = `https://www.skyscanner.co.kr/g/autosuggest-flights/KR/ko-KR/${query}`;
 
     const params = {
-      query: '서울'
+      isDestination: true,
+      enable_general_search_v2: true
     };
 
     const { data } = await axios.get(GET_URL, {
-      headers,
       params
     });
 
@@ -448,7 +435,7 @@ import axios from 'axios';
 
 **Response Parameters (success)**
 
-![](https://user-images.githubusercontent.com/32444914/73818186-2a16f880-4830-11ea-990f-2588f3c7e31f.PNG)
+![](https://user-images.githubusercontent.com/32444914/74079428-b4eb3380-4a7a-11ea-8059-1bfca77820f3.PNG)
 
 
 
