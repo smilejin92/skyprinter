@@ -1,6 +1,6 @@
-![Skyprinter](https://user-images.githubusercontent.com/31315644/73819677-68fa7d80-4833-11ea-99cd-699864fa3c22.png)
+![Thumbnail](https://user-images.githubusercontent.com/31315644/74083056-1f17ce80-4aa3-11ea-950a-371118f8f12a.png)
 
-------------
+---
 
 # Sky Printer
 
@@ -53,10 +53,10 @@
 
 <br/>
 
-### 6.  API 및 문서 정리
+### 6. API 및 문서 정리
 
-1. [RapidAPISkyscanner-API-Documentation](https://github.com/smilejin92/skyprinter/blob/develop/RapidAPISkyscanner-API-Documentation.md)
-2. [Mainpage-Documentation & Use cases](https://github.com/HYEOK999/skyprinter/blob/develop/Mainpage-Use-cases-Documentation.md)
+1. [RapidAPISkyscanner-API-Documentation](./RapidAPISkyscanner-API-Documentation.md)
+2. [Mainpage-Documentation & Use cases](./Mainpage-Use-cases-Documentation.md)
 
 <br/>
 
