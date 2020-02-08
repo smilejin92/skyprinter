@@ -1,9 +1,11 @@
 # RapidAPI-Skyscanner Flight Search API Documentation
-Source from [RapidAPI](https://rapidapi.com/skyscanner/api/skyscanner-flight-search) and [Skyscanner](https://skyscanner.github.io/slate/#api-documentation).
+> Source from [RapidAPI](https://rapidapi.com/skyscanner/api/skyscanner-flight-search) and [Skyscanner](https://skyscanner.github.io/slate/#api-documentation).
 
 ## 1. Flights Live Prices
 
 실시간 여행 일정(Itineraries)을 검색하기 위해서는 각 요청에 대한 세션을 우선적으로 생성해야한다. 검색 요청에는 장소, 날짜, 탑승 인원, 좌석 종류 등의 파라미터를 지정한다. 검색 요청에 대한 세션은 변경이 불가능하다 (단, 동일한 세션에 대하여 탑승 인원 파라미터는 변경이 가능하다).
+
+<br/>
 
 #### 1.1. Create Session
 
@@ -13,12 +15,16 @@ Source from [RapidAPI](https://rapidapi.com/skyscanner/api/skyscanner-flight-sea
 
 **요청 URL**: https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0
 
+<br/>
+
 **Request Header**
 
 | 필드             | 필수 | 값                                  |
 | ---------------- | ---- | ----------------------------------- |
 | 'Content-Type'   | O    | 'application/x-www-form-urlencoded' |
 | 'X-RapidAPI-Key' | O    | 'RapidApi_토큰'                     |
+
+<br/>
 
 **Request Parameters (form)**
 
@@ -38,6 +44,8 @@ Source from [RapidAPI](https://rapidapi.com/skyscanner/api/skyscanner-flight-sea
 | includeCarriers  | X    | string | [두 자리 항공사 코드](https://www.iata.org/en/publications/directories/code-search/). 2개 이상의 항공사 코드는 **쉼표**로 구분 (해당 항공사에 대한 정보만 검색). | 'KE,OZ'      |
 | excludeCarriers  | X    | string | [두 자리 항공사 코드](https://www.iata.org/en/publications/directories/code-search/). 2개 이상의 항공사 코드는 **쉼표**로 구분 (해당 항공사에 대한 정보를 제외하고 검색). | 'KE,OZ'      |
 | groupingPrice    | X    | string | "true" 요청시 입력된 탑승 인원 전체에 대한 가격 표시. "false" 요청시 탑승 인원 1인당 가격 표시 (기본값 "false"). | "false"      |
+
+<br/>
 
 **Request 예제**
 
@@ -81,11 +89,13 @@ import qs from 'query-string';
 })()
 ```
 
+<br/>
+
 **Response Parameters (success)**
 
 ![](https://user-images.githubusercontent.com/32444914/73818156-123f7480-4830-11ea-8a5c-52e6a9b3026c.PNG)
 
-
+<br/>
 
 ### 1.2. Poll Session Results
 
@@ -95,12 +105,16 @@ import qs from 'query-string';
 
 **요청 URL**: https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/uk2/v1.0/{session_key}
 
+<br/>
+
 **Request Header**
 
 | 필드             | 필수                                  | 값                                  |
 | ---------------- | ------------------------------------- | ----------------------------------- |
 | 'Content-Type'   | X (요청 parameter를 지정하지 않을 때) | 'application/x-www-form-urlencoded' |
 | 'X-RapidAPI-Key' | O                                     | 'RapidApi_토큰'                     |
+
+<br/>
 
 **Request Parameters (form)**
 
@@ -121,6 +135,8 @@ import qs from 'query-string';
 | inboundDepartTime       | X    | string | 귀국편 출발 시간 구간. morning, afternoon, evening 혹은 M, A, E을 세미콜론으로 구분. | 'M;A'     |
 | inboundDepartStartTime  | X    | string | 귀국편 출발 시간 (구간 시작). hh:mm 양식으로 입력.           | '07:00'   |
 | inboundDepartEndTime    | X    | string | 귀국편 출발 시간 (구간 끝). hh:mm 양식으로 입력.             | '14:00'   |
+
+<br/>
 
 **Request 예제**
 
@@ -157,6 +173,8 @@ import axios from 'axios';
 })();
 ```
 
+<br/>
+
 **Response Parameters (success)**
 
 ![](https://user-images.githubusercontent.com/32444914/73818169-208d9080-4830-11ea-95db-6dbccd96b9c7.PNG)
@@ -173,6 +191,8 @@ import axios from 'axios';
 | Places      | array  | 여행 일정에 나타나는 모든 장소                               |
 | Currencies  | array  | response에 나타난 화폐 단위 목록 (A list of the currencies shown in the response). |
 
+<br/>
+
 **Response Parameters - Itineraries**
 
 | 필드               | 타입   | 설명                                                         |
@@ -182,11 +202,13 @@ import axios from 'axios';
 | PricingOptions     | array  | 하나의 여행 일정에 대한 가격 목록.  판매사, 가격, 예매 링크(deep link), QuoteAgeInMinutes(가격이 측정된 시간(분)) 정보를 포함 |
 | BookingDetailsLink | object | (필요 없음)                                                  |
 
+<br/>
+
 **Leg and Segment**
 
 ![](https://user-images.githubusercontent.com/32444914/73818178-271c0800-4830-11ea-8489-a2d5c55c90e5.png)
 
-
+<br/>
 
 ## 2. Flight Browse Prices
 
@@ -198,11 +220,15 @@ import axios from 'axios';
 
 **요청 URL**: https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/{country}/{currency}/{locale}/{originplace}/{destinationplace}/{outboundpartialdate}/{inboundpartialdate}
 
+<br/>
+
 **Request Headers**
 
 | 필드             | 필수 | 값              |
 | ---------------- | ---- | --------------- |
 | 'X-RapidAPI-Key' | O    | 'RapidApi_토큰' |
+
+<br/>
 
 **Request Parameters**
 
@@ -215,6 +241,8 @@ import axios from 'axios';
 | destinationplace    | O    | string | 도착 [장소 ID](https://skyscanner.github.io/slate/#list-of-places) (공항, 도시, 국가). URL에 append하여 요청. | 'ICN-sky'    |
 | outboundpartialdate | O    | string | 출발 날짜 (YYYY-MM-DD, YYYY-MM, anytime). URL에 append하여 요청. | '2020-02-06' |
 | inboundpartialdate  | X    | string | 입국 날짜 (YYYY-MM-DD, YYYY-MM, anytime, 혹은 빈 문자열(편도)). URL에 append하여 요청. | '2020-02-09' |
+
+<br/>
 
 **Request 예제**
 
@@ -249,11 +277,13 @@ import axios from 'axios';
 })();
 ```
 
+<br/>
+
 **Response Parameters (success)**
 
 ![](https://user-images.githubusercontent.com/32444914/73818182-284d3500-4830-11ea-90ce-79d94614d2d3.PNG)
 
-
+<br/>
 
 ### 2.2. Browse Routes
 
@@ -263,11 +293,15 @@ import axios from 'axios';
 
 **요청 URL**: https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/{country}/{currency}/{locale}/{originplace}/{destinationplace}/{outboundpartialdate}/{inboundpartialdate}
 
+<br/>
+
 **Request Headers**
 
 | 필드             | 필수 | 값              |
 | ---------------- | ---- | --------------- |
 | 'X-RapidAPI-Key' | O    | 'RapidApi_토큰' |
+
+<br/>
 
 **Request Parameters**
 
@@ -280,6 +314,8 @@ import axios from 'axios';
 | destinationplace    | O    | string | 도착 [장소 ID](https://skyscanner.github.io/slate/#list-of-places) (공항, 도시, 국가). URL에 append하여 요청. | 'ICN-sky'    |
 | outboundpartialdate | O    | string | 출발 날짜 (YYYY-MM-DD, YYYY-MM, anytime). URL에 append하여 요청. | '2020-02-06' |
 | inboundpartialdate  | X    | string | 입국 날짜 (YYYY-MM-DD, YYYY-MM, anytime, 혹은 빈 문자열(편도)). URL에 append하여 요청. | '2020-02-09' |
+
+<br/>
 
 **Request 예제**
 
@@ -314,9 +350,13 @@ import axios from 'axios';
 })();
 ```
 
+<br/>
+
 **Response Parameters (success)**
 
 ![](https://user-images.githubusercontent.com/32444914/73818183-28e5cb80-4830-11ea-94eb-b296fe053d79.PNG)
+
+<br/>
 
 ### 2.3. Browse Dates - DEPRECATED
 
@@ -326,11 +366,15 @@ import axios from 'axios';
 
 **요청 URL**: https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsedates/v1.0/{country}/{currency}/{locale}/{originplace}/{destinationplace}/{outboundpartialdate}/{inboundpartialdate}
 
+<br/>
+
 **Request Headers**
 
 | 필드             | 필수 | 값              |
 | ---------------- | ---- | --------------- |
 | 'X-RapidAPI-Key' | O    | 'RapidApi_토큰' |
+
+<br/>
 
 **Request Parameters**
 
@@ -343,6 +387,8 @@ import axios from 'axios';
 | destinationplace    | O    | string | 도착 [장소 ID](https://skyscanner.github.io/slate/#list-of-places) (공항, 도시, 국가). URL에 append하여 요청. | 'ICN-sky'    |
 | outboundpartialdate | O    | string | 출발 날짜 (YYYY-MM-DD, YYYY-MM, anytime). URL에 append하여 요청. | '2020-02-06' |
 | inboundpartialdate  | X    | string | 입국 날짜 (YYYY-MM-DD, YYYY-MM, anytime, 혹은 빈 문자열(편도)). URL에 append하여 요청. | '2020-02-09' |
+
+<br/>
 
 **Request 예제**
 
@@ -377,9 +423,13 @@ import axios from 'axios';
 })();
 ```
 
+<br/>
+
 **Response parameters (fail)**
 
 ![](https://user-images.githubusercontent.com/32444914/73818181-284d3500-4830-11ea-8bbd-e6d34a75e21c.PNG)
+
+<br/>
 
 ## 3. Places
 
@@ -391,12 +441,14 @@ import axios from 'axios';
 4. Anywhere (flight browse API)
 
 ### 3.1. List Places - 수정
-
+<br />
 **Method**: GET
 
 **Description**: 쿼리 문자열과 매칭되는 장소 목록 조회한다.
 
 **요청 URL**: https://www.skyscanner.co.kr/g/autosuggest-flights/KR/ko-KR/{query}
+
+<br/>
 
 **Request Parameters**
 
@@ -433,11 +485,13 @@ import axios from 'axios';
 })();
 ```
 
+<br/>
+
 **Response Parameters (success)**
 
 ![](https://user-images.githubusercontent.com/32444914/74079428-b4eb3380-4a7a-11ea-8059-1bfca77820f3.PNG)
 
-
+<br/>
 
 ## 4. Localisation
 
@@ -447,6 +501,8 @@ import axios from 'axios';
 2. currency: 검색 결과에 나타난 가격을 표시할 세 자리 화폐 코드
 3. market: 사용자가 위치한 국가(마켓)
 
+<br/>
+
 ### 4.1. List markets
 
 **Method**: GET
@@ -455,17 +511,23 @@ import axios from 'axios';
 
 **요청 URL**:  https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/reference/v1.0/countries/{locale}
 
+<br/>
+
 **Request Headers**
 
 | 필드             | 필수 | 값              |
 | ---------------- | ---- | --------------- |
 | 'X-RapidAPI-Key' | O    | 'RapidApi_토큰' |
 
+<br/>
+
 **Request Parameters**
 
 | 필드   | 필수 | 타입   | 설명                                                      |
 | ------ | ---- | ------ | --------------------------------------------------------- |
 | locale | O    | string | 검색 결과를 표시할 언어를 요청 URL에 append하여 요청한다. |
+
+<br/>
 
 **Request 예제**
 
@@ -493,11 +555,13 @@ import axios from 'axios';
 })();
 ```
 
+<br/>
+
 **Response Parameters (success)**
 
 ![](https://user-images.githubusercontent.com/32444914/73818184-297e6200-4830-11ea-886a-e46ba987cda3.PNG)
 
-
+<br/>
 
 ### 4.2. List Currencies
 
@@ -507,11 +571,15 @@ import axios from 'axios';
 
 **요청 URL**: https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/reference/v1.0/currencies
 
+<br/>
+
 **Request Headers**
 
 | 필드             | 필수 | 값              |
 | ---------------- | ---- | --------------- |
 | 'X-RapidAPI-Key' | O    | 'RapidApi_토큰' |
+
+<br/>
 
 **Request 예제**
 
@@ -538,7 +606,10 @@ import axios from 'axios'
 })();
 ```
 
+<br/>
+
 **Request parameters (success)**
 
 ![](https://user-images.githubusercontent.com/32444914/73818185-297e6200-4830-11ea-859f-d13712f124fa.PNG)
 
+<br/>
