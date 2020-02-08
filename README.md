@@ -1,4 +1,4 @@
-![Skyprinter](https://user-images.githubusercontent.com/31315644/73819677-68fa7d80-4833-11ea-99cd-699864fa3c22.png)
+![Thumbnail](https://user-images.githubusercontent.com/31315644/74083056-1f17ce80-4aa3-11ea-950a-371118f8f12a.png)
 
 ---
 
