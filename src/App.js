@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import logo from './images/sky-pringer-logo.png';
-import { Icon } from 'antd';
+import React, { useState } from "react";
+import logo from "./images/sky-pringer-logo.png";
+import { Icon } from "antd";
 
 function App() {
   const [selectCountry, setSelectCountry] = useState(false);
@@ -55,15 +55,15 @@ function App() {
                   <span className="display-locale">한국어</span>
                   <span className="display-market">
                     <img
-                      src={`https://images.skyscnr.com/images/country/flag/header/${'kr'}.png`}
+                      src={`https://images.skyscnr.com/images/country/flag/header/${"kr"}.png`}
                       alt="국기"
                     />
-                    {'대한민국'}
+                    {"대한민국"}
                   </span>
                   <span className="display-currency">
                     {/* code: 3글자, symbol: 기호 */}
-                    {'₩'}
-                    {'KRW'}
+                    {"₩"}
+                    {"KRW"}
                   </span>
                 </div>
               </button>
@@ -79,12 +79,11 @@ function App() {
           <section className="search-area">
             <h2>검색 영역</h2>
           </section>
-          <svg
-            viewBox="0 0 14832 55"
-            class="bpk-flare-bar_bpk-flare-bar__curve__3z1de"
-          >
-            <path d="M7501.307 8.517l-68.043 39.341c-10.632 6.185-23.795 6.185-34.528 0l-68.144-39.34c-8.91-5.173-18.988-8.215-29.316-8.518H0v55h14832V0H7530.671a63.604 63.604 0 0 0-29.364 8.517z" />
-          </svg>
+          <div className="search-area-arrow-wrapper">
+            <svg viewBox="0 0 14832 55" className="search-area-arrow">
+              <path d="M7501.307 8.517l-68.043 39.341c-10.632 6.185-23.795 6.185-34.528 0l-68.144-39.34c-8.91-5.173-18.988-8.215-29.316-8.518H0v55h14832V0H7530.671a63.604 63.604 0 0 0-29.364 8.517z" />
+            </svg>
+          </div>
         </div>
       </main>
       <footer className="footer">푸터 영역</footer>
