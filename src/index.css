@@ -1,43 +1,194 @@
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
 body {
-	line-height: 1;
+  line-height: 1;
 }
-ol, ul {
-	list-style: none;
+ol,
+ul {
+  list-style: none;
 }
-blockquote, q {
-	quotes: none;
+blockquote,
+q {
+  quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
+/* 여기부터 시작 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none; /*글자 선을 만들지 않는다. 하이퍼링크 밑줄 제거함*/
+  color: inherit;
+}
+/*숨긴 콘텐츠*/
+.a11y-hidden,
+legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden; /* 넘치는 부분을 감쳐준다 */
+  clip: rect(0, 0, 0, 0); /* 선행조건 : position:absolute 해당 화면을 잘라내서 보여줌 */
+  white-space: nowrap; /* 줄바꿈을 하지않음. */
+  opacity: 0; /* 투명도  */
+}
+/* clearfix - float 이슈를 해결하기 위한 선언 */
+.clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+html {
+  font-size: 10px;
+}
+body {
+  font-size: 1.4rem;
+  margin: 0;
+  color: #181818;
+  font-family: 'Noto Sans JP', 'Sans-serif', 'Spoqa Han Sans';
+  font-weight: 400;
+  background: gray;
+}
+.header,
+.visual,
+.slogan,
+.search-area,
+.footer {
+  /*선택자의 그룹핑*/
+  width: 940px;
+  margin: 0 auto; /* auto는 남은영역을 계산해서 잘 나누어줌. */
+}
+.header {
+  box-sizing: border-box;
+  background-color: pink;
+  position: relative;
+  /* logo의 기준으로 삼기 위해서 */
+  padding: 0px 30px 50px 30px;
+}
+.search-area-wrapper {
+	min-height: 55rem;
+	background: 50% 50% / cover no-repeat url('https://content.skyscnr.com/m/785bdfcbe683606c/Large-Flights-hero-2.jpg?crop=1800px:1375px&quality=76');
+}
+.footer {
+	background: lime;
+}
+
+/* 
+background: center / contain no-repeat url("../../media/examples/firefox-logo.svg"),
+            #eee 35% url("../../media/examples/lizard.png"); */
