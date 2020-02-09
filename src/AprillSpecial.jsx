@@ -25,7 +25,10 @@ function AprillSpecial() {
           rel="noopener noreferrer"
         >
           <div className="special-content-area">
-            <img className="content-img"></img>
+            <img
+              alt="item1"
+              src="https://content.skyscnr.com/m/41d369e77ac54dfe/original/eyeem-26050318-126813454.jpg?resize=1048px:600px&quality=50"
+            ></img>
             <div className="content-description">
               <p>
                 호놀룰루,<span>미국</span>
@@ -45,7 +48,10 @@ function AprillSpecial() {
           rel="noopener noreferrer"
         >
           <div className="special-content-area">
-            <img className="content-img"></img>
+            <img
+              alt="item2"
+              src="https://content.skyscnr.com/m/41d369e77ac54dfe/original/eyeem-26050318-126813454.jpg?resize=1048px:600px&quality=50"
+            ></img>
             <div className="content-description">
               <p>
                 프라하,<span>체코</span>
@@ -65,7 +71,10 @@ function AprillSpecial() {
           rel="noopener noreferrer"
         >
           <div className="special-content-area">
-            <img className="content-img"></img>
+            <img
+              alt="item3"
+              src="https://content.skyscnr.com/6f3779016c23190fadcdc6f500f5dc11/GettyImages-464420602.jpg?resize=1048px:600px&quality=50"
+            ></img>
             <div className="content-description">
               <p>
                 Barigada,<span>괌</span>

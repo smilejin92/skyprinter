@@ -25,7 +25,10 @@ function RecommendProduct() {
           rel="noopener noreferrer"
         >
           <div className="content-area">
-            <img></img>
+            <img
+              alt="item1"
+              src="https://content.skyscnr.com/2b1b04f9dc4df591fe93e3deed87a906/GettyImages-78763208.jpg?resize=1048px:600px&quality=50"
+            />
             <div className="content-description">
               <p>
                 도쿄,<span>일본</span>
@@ -45,7 +48,11 @@ function RecommendProduct() {
           rel="noopener noreferrer"
         >
           <div className="content-area">
-            <img></img>
+            <img
+              alt="item2"
+              src="https://www.skyscanner.net/sponsored-portal-uploads/ce673ce73145ab4a363d631f25cb4517.jpg?resize=1048px:600px&quality=50"
+            ></img>
+
             <div className="content-description">
               <p>세상을 탐험해 보세요</p>
               <span>
@@ -63,7 +70,11 @@ function RecommendProduct() {
           rel="noopener noreferrer"
         >
           <div className="content-area">
-            <img className="content-img"></img>
+            <img
+              alt="item3"
+              src="https://content.skyscnr.com/99b6d376df86c55006e1ca90a18c5902/GettyImages-479490111.jpg?resize=1048px:600px&quality=50"
+            />
+
             <div className="content-description">
               <p>
                 삿포로,<span>일본</span>
