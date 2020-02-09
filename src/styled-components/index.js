@@ -49,6 +49,24 @@ export const FlexList = styled.ul`
   }}
 `;
 
+export const FlexLabel = styled.label.attrs(({ htmlFor }) => ({
+  for: htmlFor,
+}))`
+  display: flex;
+  flex-direction: ${props => props.direction || 'row'};
+  justify-content: ${props => props.justify || 'initial'};
+  align-items: ${props => props.align || 'initial'};
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding-bottom: 10px;
+  svg {
+    width: 24px;
+    height: 24px;
+    margin-right: 3px;
+    fill: #444560;
+  }
+`;
+
 export const Image = styled.img.attrs(props => ({
   src: props.src,
   alt: props.alt,
@@ -118,6 +136,10 @@ export const MainMenuButton = styled.button.attrs(
 `;
 
 // CULTURE SETTING POPUP
+export const CultureWrapper = styled(FlexWrapper)`
+  padding: 12px;
+`;
+
 export const CultureHeader = styled(FlexWrapper)`
   padding: 15px;
   border-bottom: 1px solid #ccc;
@@ -144,21 +166,28 @@ export const CultureItem = styled(FlexWrapper)`
   }
 `;
 
-export const FlexLabel = styled.label.attrs(({ htmlFor }) => ({
-  id: htmlFor,
-}))`
-  display: flex;
-  flex-direction: ${props => props.direction || 'row'};
-  justify-content: ${props => props.justify || 'initial'};
-  align-items: ${props => props.align || 'initial'};
-  font-size: 1.2rem;
+export const CultureSelect = styled.select.attrs(({ id }) => ({ id }))`
+  height: 36px;
+  padding-left: 8px;
+  font-size: 1.5rem;
+  border-radius: 0.4rem;
+`;
+
+export const CultureButton = styled.button`
+  height: 36px;
+  padding: 6px 18px;
+  font-size: 1.9rem;
   font-weight: 700;
-  padding-bottom: 10px;
-  svg {
-    width: 24px;
-    height: 24px;
-    margin-right: 3px;
-    fill: #444560;
+  border-radius: 0.4rem;
+  border: 2px solid #dddde5;
+  background: none;
+  color: #0770e3;
+
+  &:first-child {
+    margin-bottom: 11px;
+    color: white;
+    border: none;
+    background: #00a698;
   }
 `;
 

@@ -22,6 +22,9 @@ import {
   CultureItem,
   FlexLabel,
   Description,
+  CultureSelect,
+  CultureButton,
+  CultureWrapper,
 } from './styled-components';
 
 function App() {
@@ -851,7 +854,7 @@ function App() {
                 <Icon type="close" />
               </ExitButton>
             </CultureHeader>
-            <div className="content-wrapper">
+            <CultureWrapper direction="column" justify="space-around">
               <CultureItem direction="column">
                 <FlexLabel htmlFor="locale" align="center">
                   <svg>
@@ -859,9 +862,9 @@ function App() {
                   </svg>
                   언어
                 </FlexLabel>
-                <select id="locale">
+                <CultureSelect id="locale">
                   <option>한국어 (대한민국)</option>
-                </select>
+                </CultureSelect>
               </CultureItem>
               <CultureItem direction="column">
                 <FlexLabel htmlFor="market" align="center">
@@ -874,10 +877,10 @@ function App() {
                   국가를 선택하면 지역별 특가 상품 및 정보를 받아보실 수
                   있습니다.
                 </Description>
-                <select id="market">
+                <CultureSelect id="market">
                   {/* get list of markets */}
                   <option>대한민국</option>
-                </select>
+                </CultureSelect>
               </CultureItem>
               <CultureItem direction="column">
                 <FlexLabel htmlFor="currency" align="center">
@@ -886,20 +889,16 @@ function App() {
                   </svg>
                   통화
                 </FlexLabel>
-                <select id="currency">
+                <CultureSelect id="currency">
                   {/* get list of currencies */}
                   <option>KRW - ₩</option>
-                </select>
+                </CultureSelect>
               </CultureItem>
               <CultureItem direction="column">
-                <button className="btn-save" onClick={configCulture}>
-                  저장
-                </button>
-                <button className="btn-cancel" onClick={hideSelectCountry}>
-                  취소
-                </button>
+                <CultureButton onClick={configCulture}>저장</CultureButton>
+                <CultureButton onClick={hideSelectCountry}>취소</CultureButton>
               </CultureItem>
-            </div>
+            </CultureWrapper>
           </article>
         </div>
       )}
