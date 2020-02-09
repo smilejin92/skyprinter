@@ -358,7 +358,7 @@ function App() {
               <li>
                 <a href="#">
                   <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'hkg'}.png`}
+                    src={`https://images.skyscnr.com/images/country/flag/header/${'hk'}.png`}
                     alt="국기"
                   />
                   <span>香港 - 機票</span>
