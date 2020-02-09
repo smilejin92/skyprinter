@@ -15,7 +15,7 @@ import {
   BgWrapper,
   SearchArea,
   SearchAreaTitle,
-  TravelInfo,
+  SearchFormWrapper,
   CultureHeader,
   CultureTitle,
   ExitButton,
@@ -24,7 +24,13 @@ import {
   Description,
   CultureSelect,
   CultureButton,
+  CultureBody,
+  Culture,
   CultureWrapper,
+  Flag,
+  Currency,
+  BgTailWrapper,
+  BgTail,
 } from './styled-components';
 
 function App() {
@@ -74,13 +80,12 @@ function App() {
                 <SubMenuButton onClick={displaySelectCountry} width="195">
                   <FlexWrapper justify="space-around" align="center">
                     <span className="locale">한국어</span>
-                    <img
-                      className="flag"
+                    <Flag
                       src={`https://images.skyscnr.com/images/country/flag/header/${'kr'}.png`}
                       alt="국기"
                     />
                     <span className="market">{'대한민국'}</span>
-                    <span className="currency">{'₩ KRW'}</span>
+                    <Currency>{'₩ KRW'}</Currency>
                   </FlexWrapper>
                 </SubMenuButton>
               </li>
@@ -136,15 +141,15 @@ function App() {
           <SearchArea direction="column" justify="space-evenly" minHeight="55">
             <HiddenHeader>검색 영역</HiddenHeader>
             <SearchAreaTitle>어디로 떠나볼까요?</SearchAreaTitle>
-            <TravelInfo>정보 입력</TravelInfo>
+            <SearchFormWrapper></SearchFormWrapper>
           </SearchArea>
-          <div className="search-area-arrow-wrapper">
-            <div className="search-area-arrow">
+          <BgTailWrapper>
+            <BgTail>
               <svg viewBox="0 0 14832 55">
                 <path d="M7501.307 8.517l-68.043 39.341c-10.632 6.185-23.795 6.185-34.528 0l-68.144-39.34c-8.91-5.173-18.988-8.215-29.316-8.518H0v55h14832V0H7530.671a63.604 63.604 0 0 0-29.364 8.517z" />
               </svg>
-            </div>
-          </div>
+            </BgTail>
+          </BgTailWrapper>
         </BgWrapper>
       </main>
       <footer className="footer">
@@ -846,15 +851,15 @@ function App() {
         </div>
       </footer>
       {selectCountry && (
-        <div className="select-country-wrapper">
-          <article className="select-country">
+        <CultureWrapper>
+          <Culture>
             <CultureHeader justify="space-between">
               <CultureTitle>국가 설정</CultureTitle>
               <ExitButton onClick={hideSelectCountry}>
                 <Icon type="close" />
               </ExitButton>
             </CultureHeader>
-            <CultureWrapper direction="column" justify="space-around">
+            <CultureBody direction="column" justify="space-around">
               <CultureItem direction="column">
                 <FlexLabel htmlFor="locale" align="center">
                   <svg>
@@ -898,9 +903,9 @@ function App() {
                 <CultureButton onClick={configCulture}>저장</CultureButton>
                 <CultureButton onClick={hideSelectCountry}>취소</CultureButton>
               </CultureItem>
-            </CultureWrapper>
-          </article>
-        </div>
+            </CultureBody>
+          </Culture>
+        </CultureWrapper>
       )}
     </BrowserRouter>
   );

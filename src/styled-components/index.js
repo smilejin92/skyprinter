@@ -135,11 +135,18 @@ export const MainMenuButton = styled.button.attrs(
   }
 `;
 
-// CULTURE SETTING POPUP
-export const CultureWrapper = styled(FlexWrapper)`
-  padding: 12px;
+export const Flag = styled(Image)`
+  width: 16px;
+  margin: 0 3px 0 6px;
+  border: 1px solid #dddde5;
 `;
 
+export const Currency = styled.span`
+  margin-left: 6px;
+  color: #b2b2bf;
+`;
+
+// CULTURE SETTING POPUP
 export const CultureHeader = styled(FlexWrapper)`
   padding: 15px;
   border-bottom: 1px solid #ccc;
@@ -191,10 +198,49 @@ export const CultureButton = styled.button`
   }
 `;
 
+export const CultureBody = styled(FlexWrapper)`
+  padding: 12px;
+`;
+
+export const Culture = styled.article`
+  background: white;
+  width: 384px;
+  position: absolute;
+  top: 27%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 0.5rem;
+`;
+
+export const CultureWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.5);
+  text-align: center;
+`;
+
 // SEARCH AREA
 export const BgWrapper = styled(FlexWrapper)`
   background: 50% 60% / cover no-repeat
     url('https://content.skyscnr.com/m/785bdfcbe683606c/Large-Flights-hero-2.jpg?crop=1800px:1375px&quality=76');
+`;
+
+export const BgTailWrapper = styled.div`
+  position: relative;
+  height: 2.4rem;
+`;
+
+export const BgTail = styled.div`
+  position: absolute;
+  bottom: 1px;
+  width: 700rem;
+  height: 2.4rem;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  fill: #fff;
 `;
 
 export const SearchArea = styled(FlexSection)`
@@ -209,7 +255,7 @@ export const SearchAreaTitle = styled.h3`
   padding-left: 24px;
 `;
 
-export const TravelInfo = styled.div`
+export const SearchFormWrapper = styled.div`
   height: 222px;
   background: #02122c;
   border-radius: 0.3rem;
