@@ -33,6 +33,12 @@ import {
   BgTail,
 } from './styled-components';
 
+import TripIdea from './TripIdea';
+import AprillSpecial from './AprillSpecial';
+import RecommendProduct from './RecommendProduct';
+import Slogan from './Slogan';
+import Tripplan from './Tripplan';
+
 function App() {
   const [selectCountry, setSelectCountry] = useState(false);
 
@@ -151,6 +157,14 @@ function App() {
             </BgTail>
           </BgTailWrapper>
         </BgWrapper>
+        <div className="product-wrapper">
+          <h2 className="a11y-hidden">상품 영역</h2>
+          <RecommendProduct />
+          <TripIdea />
+          <AprillSpecial />
+        </div>
+        <Slogan />
+        <Tripplan />
       </main>
       <footer className="footer">
         <div className="footer-wrapper">
