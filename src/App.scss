@@ -104,6 +104,7 @@
 
             button:hover,
             .active {
+                
                 background: #042759;
             }
         }
@@ -259,5 +260,12 @@
                 margin-bottom: 0;
             }
         }
+    }
+}
+
+.product-wrapper{
+    svg{
+        width:20px;
+        height: 20px;
     }
 }

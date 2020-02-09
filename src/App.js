@@ -4,6 +4,11 @@ import { Icon } from 'antd';
 import logo from './images/sky-pringer-logo.png';
 import './App.scss';
 
+import TripIdea from './TripIdea';
+import AprillSpecial from './AprillSpecial';
+import RecommendProduct from './RecommendProduct';
+import Slogan from './Slogan';
+
 function App() {
   const [selectCountry, setSelectCountry] = useState(false);
 
@@ -118,6 +123,12 @@ function App() {
               </svg>
             </div>
           </div>
+        </div>
+        <div className="product-wrapper">
+          <h2 className="a11y-hidden">상품 영역</h2>
+          <RecommendProduct />
+          <TripIdea />
+          <AprillSpecial />
         </div>
       </main>
       <footer className="footer">
