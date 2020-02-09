@@ -1,0 +1,44 @@
+.date-picker {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2rem;
+  line-height: 2rem;
+
+  .btn-group {
+    margin-bottom: 20px;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+    select {
+      margin: 0 10px;
+    }
+  }
+  .days {
+    background: lime;
+    display: flex;
+    flex-wrap: wrap;
+    width: 560px;
+    height: 80px;
+    margin-bottom: 20px;
+    .day {
+      width: 80px;
+      height: 80px;
+      text-align: center;
+    }
+  }
+  .dates {
+    display: flex;
+    flex-wrap: wrap;  
+    width: 560px;
+    height: 560px;
+    background: tomato;
+    .date {
+      width: 80px;
+      height: 80px;
+      text-align: center;
+    }
+  }
+}
