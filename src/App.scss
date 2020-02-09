@@ -158,6 +158,14 @@
 
 .footer {
     background: lime;
+    .show-more {
+        border: none;
+        background: transparent;
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
 }
 
 .select-country-wrapper {

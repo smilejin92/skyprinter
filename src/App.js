@@ -127,14 +127,20 @@ function App() {
               <h3>탐색</h3>
               <ul className="footer-menu">
                 <li className="footer-menu-list">
-                  <a href="#">도시</a>
-                  <a>
+                  <a
+                    href="https://www.skyscanner.co.kr/flights-to/cheap-flights-to-cities-all.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    도시
+                  </a>
+                  <button className="show-more">
                     <span>
                       <svg>
                         <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
                       </svg>
                     </span>
-                  </a>
+                  </button>
                   <ul className="footer-submenu">
                     <li className="footer-submenu-list">
                       <a href="#">제주</a>
@@ -160,14 +166,20 @@ function App() {
                   </ul>
                 </li>
                 <li className="footer-menu-list">
-                  <a>주말 여행</a>
-                  <a>
+                  <a
+                    href="https://www.skyscanner.co.kr/city-breaks"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    주말 여행
+                  </a>
+                  <button className="show-more">
                     <span>
                       <svg>
                         <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
                       </svg>
                     </span>
-                  </a>
+                  </button>
                   <ul className="footer-sunmenu">
                     <li className="footer-submenu-list">
                       <a href="#">홍콩</a>
@@ -190,17 +202,25 @@ function App() {
                   </ul>
                 </li>
                 <li className="footer-menu-list">
-                  <a href="#">공항</a>
+                  <a
+                    href="https://www.skyscanner.co.kr/airports/airports-of-the-world.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    공항
+                  </a>
                 </li>
                 <li className="footer-menu-list">
-                  <a>국가</a>
-                  <a>
+                  <a href="https://www.skyscanner.co.kr/flights-to/cheap-flights-to-countries-all.html">
+                    국가
+                  </a>
+                  <button className="show-more">
                     <span>
                       <svg>
                         <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
                       </svg>
                     </span>
-                  </a>
+                  </button>
                   <ul className="footer-sunmenu">
                     <li className="footer-submenu-list">
                       <a href="#">대한민국</a>
