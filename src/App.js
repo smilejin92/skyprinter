@@ -34,10 +34,11 @@ import {
 } from './styled-components';
 
 import TripIdea from './TripIdea';
-import AprillSpecial from './AprillSpecial';
+import MonthSpecialProduct from './MonthSpecialProduct';
 import RecommendProduct from './RecommendProduct';
 import Slogan from './Slogan';
 import Tripplan from './Tripplan';
+import Footer from './Footer';
 
 function App() {
   const [selectCountry, setSelectCountry] = useState(false);
@@ -158,712 +159,262 @@ function App() {
           </BgTailWrapper>
         </BgWrapper>
         <div className="product-wrapper">
-          <h2 className="a11y-hidden">상품 영역</h2>
+          <HiddenHeader>상품 영역</HiddenHeader>
           <RecommendProduct />
           <TripIdea />
-          <AprillSpecial />
+          <MonthSpecialProduct />
         </div>
         <Slogan />
         <Tripplan />
       </main>
-      <footer className="footer">
-        <div className="footer-wrapper">
-          <div className="footer-area">
-            <div className="footer-item">
-              <h3>탐색</h3>
-              <ul className="footer-menu">
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/flights-to/cheap-flights-to-cities-all.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    도시
-                  </a>
-                  <button className="show-more">
-                    <span>
-                      <svg>
-                        <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
-                      </svg>
-                    </span>
-                  </button>
-                  <ul className="footer-submenu">
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/flights-to/cju/cheap-flights-to-jeju-airport.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        제주
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/flights-to/osaa/cheap-flights-to-osaka.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        오사카
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/flights-to/sela/cheap-flights-to-seoul.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        서울
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/flights-to/fuk/cheap-flights-to-fukuoka-airport.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        후쿠오카
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/flights-to/tyoa/cheap-flights-to-tokyo.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        도쿄
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/flights-to/hkga/cheap-flights-to-hong-kong.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        홍콩
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/flights-to/bkkt/cheap-flights-to-bangkok.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        방콕
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/city-breaks"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    주말 여행
-                  </a>
-                  <button className="show-more">
-                    <span>
-                      <svg>
-                        <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
-                      </svg>
-                    </span>
-                  </button>
-                  <ul className="footer-sunmenu">
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/city-breaks/hkga/hong-kong-city-breaks.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        홍콩
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/city-breaks/pusa/busan-city-breaks.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        부산
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/city-breaks/taea/daegu-city-breaks.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        대구
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/city-breaks/sela/seoul-city-breaks.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        서울
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/city-breaks/cjua/jeju-city-breaks.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        제주
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/city-breaks/tyoa/tokyo-city-breaks.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        도쿄
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/airports/airports-of-the-world.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    공항
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/flights-to/cheap-flights-to-countries-all.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    국가
-                  </a>
-                  <button className="show-more">
-                    <span>
-                      <svg>
-                        <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
-                      </svg>
-                    </span>
-                  </button>
-                  <ul className="footer-sunmenu">
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/flights-to/kr/cheap-flights-to-south-korea.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        대한민국
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/flights-to/jp/cheap-flights-to-japan.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        일본
-                      </a>
-                    </li>
-                    <li className="footer-submenu-list">
-                      <a
-                        href="https://www.skyscanner.co.kr/flights-to/cn/cheap-flights-to-china.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        중국
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/airlines-all.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    항공사
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    항공권
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/hotels?na=1&sd=2020-02-13&ed=2020-02-20&s-f_iplace=NRT"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    호텔
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/car-hire?pick_up=NRT&pick_up_date=2020-02-13&drop_off=NRT&drop_off_date=2020-02-20"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    렌터카
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/mobile.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    앱
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footer-item">
-              <h3>파트너</h3>
-              <ul className="footer-menu">
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.partners.skyscanner.net/?_mp=16fef6cbbb3822-0b0e76ca879f86-39617b0e-fa000-16fef6cbbb448a_1581227978863&preferences=c2aa3265599648d1889282c958ea3f04&traveller_context=c2aa3265-5996-48d1-8892-82c958ea3f04&_ga=2.141380338.1988065219.1581153801-355577210.1580269878&_gac=1.148014533.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    스카이스캐너와 협력
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.partners.skyscanner.net/advertising/advertise-with-skyscanner?_mp=16fef6cbbb3822-0b0e76ca879f86-39617b0e-fa000-16fef6cbbb448a_1581227988374&preferences=c2aa3265599648d1889282c958ea3f04&traveller_context=c2aa3265-5996-48d1-8892-82c958ea3f04&_ga=2.141380338.1988065219.1581153801-355577210.1580269878&_gac=1.148014533.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    스카이스캐너와 광고하기
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.partners.skyscanner.net/insights/travel-insight?_mp=16fef6cbbb3822-0b0e76ca879f86-39617b0e-fa000-16fef6cbbb448a_1581228002225&preferences=c2aa3265599648d1889282c958ea3f04&traveller_context=c2aa3265-5996-48d1-8892-82c958ea3f04&_ga=2.208432466.1988065219.1581153801-355577210.1580269878&_gac=1.80964965.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    여행인 사이트
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.partners.skyscanner.net/affiliates/affiliate-products?_mp=16fef6cbbb3822-0b0e76ca879f86-39617b0e-fa000-16fef6cbbb448a_1581228014204&preferences=c2aa3265599648d1889282c958ea3f04&traveller_context=c2aa3265-5996-48d1-8892-82c958ea3f04&_ga=2.208432466.1988065219.1581153801-355577210.1580269878&_gac=1.80964965.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    제휴사
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.partners.skyscanner.net/affiliates/travel-apis?_mp=16fef6cbbb3822-0b0e76ca879f86-39617b0e-fa000-16fef6cbbb448a_1581228026554&preferences=c2aa3265599648d1889282c958ea3f04&traveller_context=c2aa3265-5996-48d1-8892-82c958ea3f04&_ga=2.208432466.1988065219.1581153801-355577210.1580269878&_gac=1.80964965.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    여행 API
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footer-item">
-              <h3>회사</h3>
-              <ul className="footer-menu">
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/about-us"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    회사 소개
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/about-us/why-skyscanner"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    스카이스캐너와 함께해야 하는 이유
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/media"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    미디어
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/about-us/our-people"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    스카이스캐너 식구들
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/about-us/sustainability"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    지속가능한 여행
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/about-us/brand"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    브랜드 스토리
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/companydetails.aspx"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    회사 정보
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.net/jobs?_mp=16fef6cbbb3822-0b0e76ca879f86-39617b0e-fa000-16fef6cbbb448a_1581228110461&preferences=c2aa3265599648d1889282c958ea3f04&traveller_context=c2aa3265-5996-48d1-8892-82c958ea3f04&_ga=2.204229200.1988065219.1581153801-355577210.1580269878&_gac=1.124964600.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    채용 정보
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/news"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    여행 특징 및 뉴스
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/media/cookie-policy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    쿠키 정책
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/media/privacy-policy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    개인정보처리방침
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/termsofservice.aspx"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    서비스 약관
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footer-item">
-              <h3>도움말</h3>
-              <ul className="footer-menu">
-                <li className="footer-menu-list">
-                  <a
-                    href="https://help.skyscanner.net/hc/ko?skyCurrency=currency_gbp&skyLanguage=lang_ko&skyMarket=kr_skyscanner&_mp=16fef6cbbb3822-0b0e76ca879f86-39617b0e-fa000-16fef6cbbb448a_1581228190577&preferences=c2aa3265599648d1889282c958ea3f04&traveller_context=c2aa3265-5996-48d1-8892-82c958ea3f04&_ga=2.167051646.1988065219.1581153801-355577210.1580269878&_gac=1.87664106.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    도움말
-                  </a>
-                </li>
-                <li className="footer-menu-list">
-                  <a
-                    href="https://www.skyscanner.co.kr/privacy-settings"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    개인정보 설정
-                  </a>
-                </li>
-              </ul>
-            </div>
+      <Footer />
+      <div className="wrapper">
+        <section className="global-link">
+          <h3 className="global-title">전세계 사이트</h3>
+          <ul>
+            <li>
+              <a
+                href="https://www.skyscanner.net/?market=UK&locale=en-GB&_ga=2.167051646.1988065219.1581153801-355577210.1580269878&_gac=1.87664106.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'uk'}.png`}
+                  alt="국기"
+                />
+                <span>Cheap flight</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.com.au/?market=AU&locale=en-GB&_ga=2.167051646.1988065219.1581153801-355577210.1580269878&_gac=1.87664106.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'au'}.png`}
+                  alt="국기"
+                />
+                <span>Australia - Cheap flights</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.tianxun.com/?market=CN&locale=zh-CN&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'cn'}.png`}
+                  alt="국기"
+                />
+                <span>中国 - 机票</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.com.hk/?market=HK&locale=zh-TW&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'hk'}.png`}
+                  alt="국기"
+                />
+                <span>香港 - 機票</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.co.in/?market=IN&locale=en-GB&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'in'}.png`}
+                  alt="국기"
+                />
+                <span>India - Flight tickets</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.co.id/?market=ID&locale=id-ID&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'id'}.png`}
+                  alt="국기"
+                />
+                <span>Indonesia - Tiket Pesawat</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.jp/?market=JP&locale=ja-JP&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'jp'}.png`}
+                  alt="국기"
+                />
+                <span>日本 - 航空券</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.com.my/?market=MY&locale=en-GB&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'my'}.png`}
+                  alt="국기"
+                />
+                <span>Malaysia - flights</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.espanol.skyscanner.com/?market=MX&locale=es-MX&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'mx'}.png`}
+                  alt="국기"
+                />
+                <span>México - vuelos</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.co.nz/?market=NZ&locale=en-GB&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'nz'}.png`}
+                  alt="국기"
+                />
+                <span>New Zealand - Cheap flights</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.com.ph/?market=PH&locale=en-GB&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'ph'}.png`}
+                  alt="국기"
+                />
+                <span>Philippines - flights</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.ru/?market=RU&locale=ru-RU&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'ru'}.png`}
+                  alt="국기"
+                />
+                <span>Россия - авиабилеты</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.com.sg/?market=SG&locale=en-GB&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'sg'}.png`}
+                  alt="국기"
+                />
+                <span>Singapore - flights</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.co.kr/?market=KR&locale=ko-KR"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'kr'}.png`}
+                  alt="국기"
+                />
+                <span>대한민국 - 항공권</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.com.tw/?market=TW&locale=zh-TW&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwEl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'tw'}.png`}
+                  alt="국기"
+                />
+                <span>台灣 - 機票</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.co.th/?market=TH&locale=th-TH&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'th'}.png`}
+                  alt="국기"
+                />
+                <span>ไทย - ตั๋วเครื่องบิน</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.com/?market=US&locale=en-US&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'us'}.png`}
+                  alt="국기"
+                />
+                <span>USA - flights</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.skyscanner.com.vn/?market=VN&locale=vi-VN&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={`https://images.skyscnr.com/images/country/flag/header/${'vn'}.png`}
+                  alt="국기"
+                />
+                <span>Việt Nam - các chuyến bay</span>
+              </a>
+            </li>
+          </ul>
+          <div>
+            가격비교를 통해 최저가 항공권을 예약하고 즐거운 해외여행을
+            떠나보세요
           </div>
-        </div>
-        <div className="wrapper">
-          <section className="global-link">
-            <h3 className="global-title">전세계 사이트</h3>
-            <ul>
-              <li>
-                <a
-                  href="https://www.skyscanner.net/?market=UK&locale=en-GB&_ga=2.167051646.1988065219.1581153801-355577210.1580269878&_gac=1.87664106.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'uk'}.png`}
-                    alt="국기"
-                  />
-                  <span>Cheap flight</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.com.au/?market=AU&locale=en-GB&_ga=2.167051646.1988065219.1581153801-355577210.1580269878&_gac=1.87664106.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'au'}.png`}
-                    alt="국기"
-                  />
-                  <span>Australia - Cheap flights</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.tianxun.com/?market=CN&locale=zh-CN&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'cn'}.png`}
-                    alt="국기"
-                  />
-                  <span>中国 - 机票</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.com.hk/?market=HK&locale=zh-TW&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'hk'}.png`}
-                    alt="국기"
-                  />
-                  <span>香港 - 機票</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.co.in/?market=IN&locale=en-GB&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'in'}.png`}
-                    alt="국기"
-                  />
-                  <span>India - Flight tickets</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.co.id/?market=ID&locale=id-ID&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'id'}.png`}
-                    alt="국기"
-                  />
-                  <span>Indonesia - Tiket Pesawat</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.jp/?market=JP&locale=ja-JP&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'jp'}.png`}
-                    alt="국기"
-                  />
-                  <span>日本 - 航空券</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.com.my/?market=MY&locale=en-GB&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'my'}.png`}
-                    alt="국기"
-                  />
-                  <span>Malaysia - flights</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.espanol.skyscanner.com/?market=MX&locale=es-MX&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'mx'}.png`}
-                    alt="국기"
-                  />
-                  <span>México - vuelos</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.co.nz/?market=NZ&locale=en-GB&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'nz'}.png`}
-                    alt="국기"
-                  />
-                  <span>New Zealand - Cheap flights</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.com.ph/?market=PH&locale=en-GB&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'ph'}.png`}
-                    alt="국기"
-                  />
-                  <span>Philippines - flights</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.ru/?market=RU&locale=ru-RU&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'ru'}.png`}
-                    alt="국기"
-                  />
-                  <span>Россия - авиабилеты</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.com.sg/?market=SG&locale=en-GB&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'sg'}.png`}
-                    alt="국기"
-                  />
-                  <span>Singapore - flights</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.co.kr/?market=KR&locale=ko-KR"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'kr'}.png`}
-                    alt="국기"
-                  />
-                  <span>대한민국 - 항공권</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.com.tw/?market=TW&locale=zh-TW&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwEl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'tw'}.png`}
-                    alt="국기"
-                  />
-                  <span>台灣 - 機票</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.co.th/?market=TH&locale=th-TH&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'th'}.png`}
-                    alt="국기"
-                  />
-                  <span>ไทย - ตั๋วเครื่องบิน</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.com/?market=US&locale=en-US&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'us'}.png`}
-                    alt="국기"
-                  />
-                  <span>USA - flights</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.skyscanner.com.vn/?market=VN&locale=vi-VN&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={`https://images.skyscnr.com/images/country/flag/header/${'vn'}.png`}
-                    alt="국기"
-                  />
-                  <span>Việt Nam - các chuyến bay</span>
-                </a>
-              </li>
-            </ul>
-            <div>
-              가격비교를 통해 최저가 항공권을 예약하고 즐거운 해외여행을
-              떠나보세요
-            </div>
-            <small> &copy; Skyscanner Ltd 2002-2020</small>
-          </section>
-        </div>
-      </footer>
+          <small> &copy; Skyscanner Ltd 2002-2020</small>
+        </section>
+      </div>
+
       {selectCountry && (
         <CultureWrapper>
           <Culture>
