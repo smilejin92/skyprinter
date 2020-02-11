@@ -8,6 +8,27 @@
   fill: white;
 }
 
+.footer {
+    background: lime;
+
+    .show-more {
+        border: none;
+        background: transparent;
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
+small {
+    width: 1048px;
+    margin: 0 auto;
+    display: flex;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 12px;
+}
 .product-wrapper {
   svg {
     fill: #0770e3;

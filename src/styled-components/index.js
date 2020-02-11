@@ -18,30 +18,10 @@ export const FlexWrapper = styled.div`
       ${property}
     `;
   }}
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 42px;
-    bottom: 0;
-    width: 1px;
-    background: #ccc;
-  }
-
-  &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 42px;
-    bottom: 0;
-    width: 1px;
-    background: #ccc;
-  }
 `;
 
 export const FlexSection = styled.section`
-  width: 1096px;
+  width: 1048px;
   margin: 0 auto;
   display: flex;
   flex-direction: ${props => props.direction || 'row'};
