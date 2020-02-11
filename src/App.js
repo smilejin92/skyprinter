@@ -17,7 +17,6 @@ import {
   SearchFormWrapper,
   Flag,
   Currency,
-  BgTailWrapper,
   BgTail,
 } from './styled-components';
 
