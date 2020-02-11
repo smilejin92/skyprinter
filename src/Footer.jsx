@@ -57,6 +57,10 @@ const FooterAddButton = styled.button`
   padding: 0;
   margin: 0;
   outline: none;
+
+  i {
+    cursor: pointer;
+  }
 `;
 
 const FooterAddSpan = styled.span`

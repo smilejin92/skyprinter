@@ -232,19 +232,24 @@ export const BgWrapper = styled(FlexWrapper)`
     url('https://content.skyscnr.com/m/785bdfcbe683606c/Large-Flights-hero-2.jpg?crop=1800px:1375px&quality=76');
 `;
 
-export const BgTailWrapper = styled.div`
-  position: relative;
-  height: 2.4rem;
-`;
-
 export const BgTail = styled.div`
-  position: absolute;
-  bottom: 1px;
-  width: 700rem;
+  width: 100%;
+  align-items: flex-end;
+  align-self: flex-end;
+  position: relative;
+  min-width: 16rem;
   height: 2.4rem;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  fill: #fff;
+  overflow: hidden;
+
+  svg {
+    position: absolute;
+    bottom: -1px;
+    width: 1120rem;
+    height: 2.4rem;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    fill: #fff;
+  }
 `;
 
 export const SearchArea = styled(FlexSection)`
