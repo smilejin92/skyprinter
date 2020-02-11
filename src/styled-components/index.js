@@ -7,8 +7,6 @@ export const FlexWrapper = styled.div`
   justify-content: ${props => props.justify || 'initial'};
   align-items: ${props => props.align || 'initial'};
 
-  position: relative;
-
   ${props => {
     let property = '';
     if (props.width) property += `width: ${props.width}px;`;
@@ -54,7 +52,7 @@ export const FlexList = styled.ul`
 `;
 
 export const FlexLabel = styled.label.attrs(({ htmlFor }) => ({
-  for: htmlFor,
+  htmlFor,
 }))`
   display: flex;
   flex-direction: ${props => props.direction || 'row'};
@@ -206,7 +204,17 @@ export const CultureBody = styled(FlexWrapper)`
   padding: 12px;
 `;
 
-export const Culture = styled.article`
+export const CultureWrapper = styled.div`
+  position: absolute;
+  top: ${props => props.top}px;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.5);
+  text-align: center;
+`;
+
+export const CultureContent = styled.article`
   background: white;
   width: 384px;
   position: absolute;
@@ -214,16 +222,6 @@ export const Culture = styled.article`
   left: 50%;
   transform: translateX(-50%);
   border-radius: 0.5rem;
-`;
-
-export const CultureWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.5);
-  text-align: center;
 `;
 
 // SEARCH AREA

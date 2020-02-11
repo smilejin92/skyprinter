@@ -86,7 +86,6 @@ function Footer() {
 
   return (
     <BgFooter>
-      {console.log(visible)}
       <HiddenHeader>탐생 영역</HiddenHeader>
       <FooterWrapper>
         <FooterItem>

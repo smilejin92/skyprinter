@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import uuid from 'uuid';
-import { FlexWrapper } from './styled-components';
+import { FlexWrapper } from '../styled-components';
 import {
   BorderedWrapper,
   SearchTypeButton,
@@ -12,7 +12,7 @@ import {
   Days,
   Day,
   DateItem,
-} from './styled-components/datePicker';
+} from '../styled-components/datePicker';
 
 function DatePicker() {
   const [searchType, setSearchType] = useState(true);
