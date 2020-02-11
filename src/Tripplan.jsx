@@ -3,20 +3,28 @@ import styled from 'styled-components';
 import { HeadingTitle } from './GlobalLink';
 import { FlexSection } from './styled-components';
 
-const HeadingName = styled(HeadingTitle)`
-  margin-bottom: 15px;
+const TripPlanSection = styled(FlexSection)`
+  line-height: 1.5;
+  margin-top: 7.2rem;
+  margin-bottom: 9.6rem;
 `;
+
+const HeadingName = styled(HeadingTitle)`
+  margin-bottom: 1.2rem;
+`;
+
 const CityName = styled.h4`
-  font-size: 24px;
+  font-size: 2.4rem;
   font-weight: 700;
-  padding-top: 25px;
-  padding-bottom: 20px;
+  padding-top: 1.6rem;
+  padding-bottom: 0.8rem;
 `;
 
 const PlanP = styled.p`
-  font-size: 16px;
-  margin-bottom: 30px;
+  font-size: 1.6rem;
+  margin-bottom: 2.4rem;
 `;
+
 const PlanWrapper = styled.div`
   display: flex;
   justify-content: column;
@@ -27,23 +35,23 @@ const CityWapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  margin-right: 18px;
-  margin-bottom: 18px;
+  margin-right: ${props => props.right || '1.8rem'};
+  margin-bottom: 1.8rem;
 `;
 
 const CityImg = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 10rem;
+  height: 10rem;
   border: none;
-  border-radius: 0.375rem 0.375rem 0;
+  border-radius: 0.375rem 0 0 0.375rem;
 `;
 
 const CityPlan = styled.div`
-  width: 200px;
-  height: 100px;
+  width: 23.7rem;
+  height: 10rem;
   background: rgb(241, 242, 248);
-  padding-left: 18px;
-  padding-right: 18px;
+  padding-left: 1.8rem;
+  padding-right: 1.8rem;
   border-radius: 0 0.375rem 0.375rem 0;
 
   ul {
@@ -54,14 +62,14 @@ const CityPlan = styled.div`
     li {
       &:nth-child(n + 2):before {
         content: '·';
-        margin: 6px;
-        font-size: 12px;
+        margin: 0.6rem;
+        font-size: 1.2rem;
       }
-      &:hover {
+      a:hover {
         color: #ff7b59;
       }
       span {
-        font-size: 12px;
+        font-size: 1.2rem;
       }
     }
   }
@@ -69,7 +77,7 @@ const CityPlan = styled.div`
 
 function Tripplan() {
   return (
-    <FlexSection direction="column" boxSize="border-box">
+    <TripPlanSection direction="column" boxSize="border-box">
       <div className="plan-header">
         <HeadingName>나만의 완벽한 여행을 계획하세요</HeadingName>
         <PlanP>
@@ -132,7 +140,7 @@ function Tripplan() {
             </ul>
           </CityPlan>
         </CityWapper>
-        <CityWapper>
+        <CityWapper right="0">
           <CityImg
             src="https://content.skyscnr.com/bc42cc80dd1447615ee441e2020cbe2c/GettyImages-126509194.jpg?crop=100px:100px&amp;quality=90"
             alt="후쿠오카"
@@ -217,7 +225,7 @@ function Tripplan() {
             </ul>
           </CityPlan>
         </CityWapper>
-        <CityWapper>
+        <CityWapper right="0">
           <CityImg
             src="https://content.skyscnr.com/246fa4ebad55ce0c252a19705e17514b/hongkong-0304.jpg?crop=100px:100px&amp;quality=90"
             alt="홍콩"
@@ -298,7 +306,7 @@ function Tripplan() {
             </ul>
           </CityPlan>
         </CityWapper>
-        <CityWapper>
+        <CityWapper right="0">
           <CityImg
             src="https://content.skyscnr.com/c10d466e9ded52fcd9d103fa6e7b4e92/stock-photo-shanghai-in-blue-32506683.jpg?crop=100px:100px&amp;quality=90"
             alt="상하이"
@@ -327,7 +335,7 @@ function Tripplan() {
           </CityPlan>
         </CityWapper>
       </PlanWrapper>
-    </FlexSection>
+    </TripPlanSection>
   );
 }
 export default Tripplan;
