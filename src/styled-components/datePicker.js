@@ -49,22 +49,10 @@ export const DatePickerWrapper = styled(FlexWrapper)`
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   border-left: 1px solid #ccc;
-  &:before {
-    display: none;
-  }
-  &:after {
-    display: none;
-  }
 `;
 
 export const DatePickerHeader = styled(FlexWrapper)`
   margin-bottom: 12px;
-  &:before {
-    display: none;
-  }
-  &:after {
-    display: none;
-  }
 `;
 
 export const SelectMonth = styled.select`
@@ -91,12 +79,6 @@ export const SkipButton = styled.button`
 
 export const Days = styled(FlexWrapper)`
   border-bottom: 1px solid #ccc;
-  &:before {
-    display: none;
-  }
-  &:after {
-    display: none;
-  }
 `;
 
 export const Day = styled.div`
@@ -124,12 +106,6 @@ export const DateItem = styled.div`
   cursor: ${({ notAllowed }) => (notAllowed ? 'not-allowed' : 'pointer')};
   color: ${({ available }) => (available ? '#0770e3' : '#b2b2bf')};
 
-  ${({ notAllowed }) =>
-    notAllowed &&
-    css`
-      pointer-events: none;
-    `}
-
   ${({ hover }) =>
     hover &&
     css`
@@ -139,30 +115,20 @@ export const DateItem = styled.div`
         border-radius: 2rem;
       }
     `}
+
+  ${({ border }) =>
+    border &&
+    css`
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 1px;
+        height: 42px;
+        background: #ccc;
+      }
+    `}
 `;
-
-// ${({ border }) => border && css`
-//   position: relative;
-
-//   &::before {
-//     content: '';
-//     position: absolute;
-//     top: 0;
-//     right: 0;
-//     width: 1px;
-//     height: 42px;
-//     background: #ccc;
-//   }
-// `}
-
-// ${({ notAllowed, available }) => {
-//   let style = '';
-//   // if (!past) style += `
-// &:hover {
-//   color: inherit;
-//   background: #eee;
-//   border-radius: 2rem;
-// }
-//   // `;
-//   return css`${style}`;
-// }}

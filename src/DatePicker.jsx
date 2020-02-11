@@ -154,6 +154,7 @@ function SearchDates() {
 
   // 날짜 선택 시 처리할 로직
   const handleClick = useCallback(({ target }) => {
+    if (target.id === 'not-allowed') return;
     console.log(target.id);
   }, []);
 
@@ -200,7 +201,11 @@ function SearchDates() {
           notAllowed={past || future}
           available={available}
           hover={!past && !future}
-          id={`${year}/${month}/${startDate + count}`}
+          id={
+            !past && !future
+              ? `${year}/${month}/${startDate + count}`
+              : 'not-allowed'
+          }
           onClick={handleClick}
         >
           {startDate + count}
