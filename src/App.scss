@@ -1,28 +1,18 @@
 .help {
-    color: #0770e3;
+  color: #0770e3;
 }
 
 .logo {
+  width: 20px;
+  margin-right: 6px;
+  fill: white;
+}
+
+.product-wrapper {
+  svg {
+    fill: #0770e3;
+    vertical-align: middle;
     width: 20px;
-    margin-right: 6px;
-    fill: white;
-}
-
-.footer {
-    background: lime;
-    .show-more {
-        border: none;
-        background: transparent;
-        svg {
-            width: 20px;
-            height: 20px;
-        }
-    }
-}
-
-.product-wrapper{
-    svg{
-        width:20px;
-        height: 20px;
-    }
+    height: 20px;
+  }
 }
