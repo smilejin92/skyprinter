@@ -21,7 +21,7 @@ export const FlexWrapper = styled.div`
 `;
 
 export const FlexSection = styled.section`
-  width: 1096px;
+  width: 1048px;
   margin: 0 auto;
   display: flex;
   flex-direction: ${props => props.direction || 'row'};
