@@ -97,7 +97,7 @@ function TripIdea() {
       <MapArea>
         <a href="https://www.skyscanner.co.kr/inspire/map?outboundDate=2020-05&outboundPlace=HKGA&preferDirects=false">
           <MapContentArea></MapContentArea>
-          <MapPicker top="86.892" left="896.827">
+          <MapPicker top="70.892" left="846.827">
             <MapPickerContent>
               <p>오사카</p>
             </MapPickerContent>
@@ -105,7 +105,7 @@ function TripIdea() {
             <MapPickerMarker></MapPickerMarker>
           </MapPicker>
 
-          <MapPicker top="130.763" left="839.167">
+          <MapPicker top="133.763" left="799.167">
             <MapPickerContent>
               <p>타이페이</p>
             </MapPickerContent>
@@ -113,7 +113,7 @@ function TripIdea() {
             <MapPickerMarker></MapPickerMarker>
           </MapPicker>
 
-          <MapPicker top="173.864" left="789.65">
+          <MapPicker top="147.864" left="749.65">
             <MapPickerContent>
               <p>방콕</p>
             </MapPickerContent>
@@ -121,7 +121,7 @@ function TripIdea() {
             <MapPickerMarker></MapPickerMarker>
           </MapPicker>
 
-          <MapPicker top="36.418" left="494.224">
+          <MapPicker top="21.418" left="466.224">
             <MapPickerContent>
               <p>파리</p>
             </MapPickerContent>
@@ -129,7 +129,7 @@ function TripIdea() {
             <MapPickerMarker></MapPickerMarker>
           </MapPicker>
 
-          <MapPicker top="73.771" left="257.038">
+          <MapPicker top="42.771" left="257.038">
             <MapPickerContent>
               <p>뉴욕</p>
             </MapPickerContent>
@@ -137,7 +137,7 @@ function TripIdea() {
             <MapPickerMarker></MapPickerMarker>
           </MapPicker>
 
-          <MapPicker top="101.153" left="97.185">
+          <MapPicker top="77.153" left="97.185">
             <MapPickerContent>
               <p>로스엔젤레스</p>
             </MapPickerContent>
