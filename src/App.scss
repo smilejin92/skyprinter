@@ -1,11 +1,11 @@
 .help {
-    color: #0770e3;
+  color: #0770e3;
 }
 
 .logo {
-    width: 20px;
-    margin-right: 6px;
-    fill: white;
+  width: 20px;
+  margin-right: 6px;
+  fill: white;
 }
 
 .footer {
@@ -21,14 +21,6 @@
         }
     }
 }
-
-.product-wrapper {
-    svg {
-        width: 20px;
-        height: 20px;
-    }
-}
-
 small {
     width: 1048px;
     margin: 0 auto;
@@ -36,4 +28,12 @@ small {
     padding-top: 12px;
     padding-bottom: 12px;
     font-size: 12px;
+}
+.product-wrapper {
+  svg {
+    fill: #0770e3;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+  }
 }

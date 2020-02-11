@@ -6,10 +6,14 @@ export const FlexWrapper = styled.div`
   flex-direction: ${props => props.direction || 'row'};
   justify-content: ${props => props.justify || 'initial'};
   align-items: ${props => props.align || 'initial'};
+
+  position: relative;
+
   ${props => {
     let property = '';
     if (props.width) property += `width: ${props.width}px;`;
     if (props.height) property += `height: ${props.height}px;`;
+    if (props.wrap) property += 'flex-wrap: wrap;';
     return css`
       ${property}
     `;
