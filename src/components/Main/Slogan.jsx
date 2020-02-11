@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlexWrapper, Image } from './styled-components';
+import { FlexWrapper, Image } from '../../styles';
 import styled from 'styled-components';
 
 const SloganArticle = styled.article`
@@ -7,6 +7,7 @@ const SloganArticle = styled.article`
   height: 47rem;
   margin-top: 6.5rem;
   padding: 3rem 0;
+  min-width: 1096px;
 `;
 
 const SloganWrapper = styled(FlexWrapper)`
@@ -51,7 +52,7 @@ function Slogan() {
       <SloganWrapper>
         <SloganItems direction="column">
           <SloganImage
-            alt=" "
+            alt="산 정상에서 망원경을 보는 남자"
             src="//js.skyscnr.com/sttc/blackbird/static/media/anywhere.992d8e73.svg"
           />
           <b>전세계 어디든지 떠나세요</b>
@@ -63,10 +64,10 @@ function Slogan() {
         </SloganItems>
         <SloganItems direction="column">
           <SloganImage
-            alt=" "
+            alt="소파에 앉아 강아지와 함께 핸드폰을 보는 남자"
             src="//js.skyscnr.com/sttc/blackbird/static/media/simple.ac9139b9.svg"
           />
-          <b> 간단하고 명쾌하게</b>
+          <b>간단하고 명쾌하게</b>
           <p>
             더는 숨은 수수료나 추가 요금, 교묘한 속임수를 걱정하지 마세요.
             스카이스캐너에서 모든 비용을 투명하게 확인하고 편안한 마음으로
@@ -75,7 +76,7 @@ function Slogan() {
         </SloganItems>
         <SloganItems direction="column">
           <SloganImage
-            alt=" "
+            alt="어디로 떠날지 고민하는 여자"
             src="//js.skyscnr.com/sttc/blackbird/static/media/travel.dc26a1ad.svg"
           />
           <b>여행을 내 마음대로</b>

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { FlexWrapper } from './index';
+import { FlexWrapper } from '.';
 
 // DatePicker
 export const ModalWrapper = styled.div`
@@ -11,6 +11,7 @@ export const ModalWrapper = styled.div`
 `;
 
 export const BorderedWrapper = styled(FlexWrapper)`
+  width: 318px;
   border: 1px solid #ccc;
   border-radius: 0.5rem 0.5rem 0 0;
 `;
@@ -49,6 +50,7 @@ export const DatePickerWrapper = styled(FlexWrapper)`
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   border-left: 1px solid #ccc;
+  width: 318px;
 `;
 
 export const DatePickerHeader = styled(FlexWrapper)`

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import uuid from 'uuid';
-import { FlexWrapper } from '../styled-components';
+import { FlexWrapper } from '../styles';
 import {
   BorderedWrapper,
   SearchTypeButton,
@@ -12,7 +12,7 @@ import {
   Days,
   Day,
   DateItem,
-} from '../styled-components/datePicker';
+} from '../styles/datePickerStyle';
 
 function DatePicker() {
   const [searchType, setSearchType] = useState(true);
@@ -28,7 +28,7 @@ function DatePicker() {
 
   return (
     <ModalWrapper>
-      <BorderedWrapper justify="space-evenly" align="center" width="318">
+      <BorderedWrapper justify="space-evenly" align="center">
         <SearchTypeButton onClick={setSearchDates} active={searchType}>
           <FlexWrapper justify="space-between" align="center">
             <svg viewBox="0 0 24 24">
@@ -271,7 +271,7 @@ function SearchDates() {
   );
 
   return (
-    <DatePickerWrapper direction="column" width="318">
+    <DatePickerWrapper direction="column">
       <DatePickerHeader justify="space-evenly">
         <SkipButton
           disabled={monthsIdx === 1}

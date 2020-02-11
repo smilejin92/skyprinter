@@ -5,12 +5,12 @@ import { FlexWrapper } from './styled-components';
 import { Icon } from 'antd';
 
 const BgFooter = styled.footer`
-  background: tomato;
   color: white;
   padding: 3rem 0;
   background-color: #02122c;
   font-size: 1.6rem;
   border: none;
+  min-width: 1048px;
   svg {
     fill: #fff;
     width: 1.8rem;

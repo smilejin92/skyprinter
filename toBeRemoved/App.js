@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, BrowserRouter } from 'react-router-dom';
-import logo from './images/sky-pringer-logo.png';
+import logo from './images/skyprinter-logo.png';
 import './App.scss';
 import {
   Header,
@@ -27,7 +27,7 @@ import Slogan from './Slogan';
 import Tripplan from './Tripplan';
 import GlobalLink from './GlobalLink';
 import Footer from './Footer';
-import Culture from './components/Culture';
+import Culture from '../src/components/Header/Culture';
 
 function App() {
   const [selectCountry, setSelectCountry] = useState(false);
@@ -133,7 +133,7 @@ function App() {
         </nav>
       </Header>
       <main>
-        <BgWrapper direction="column">
+        <BgWrapper direction="column" minWidth="1048">
           <SearchArea direction="column" justify="space-evenly" minHeight="55">
             <HiddenHeader>검색 영역</HiddenHeader>
             <SearchAreaTitle>어디로 떠나볼까요?</SearchAreaTitle>
