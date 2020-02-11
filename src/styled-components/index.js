@@ -6,14 +6,38 @@ export const FlexWrapper = styled.div`
   flex-direction: ${props => props.direction || 'row'};
   justify-content: ${props => props.justify || 'initial'};
   align-items: ${props => props.align || 'initial'};
+
+  position: relative;
+
   ${props => {
     let property = '';
     if (props.width) property += `width: ${props.width}px;`;
     if (props.height) property += `height: ${props.height}px;`;
+    if (props.wrap) property += 'flex-wrap: wrap;';
     return css`
       ${property}
     `;
   }}
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 42px;
+    bottom: 0;
+    width: 1px;
+    background: #ccc;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 42px;
+    bottom: 0;
+    width: 1px;
+    background: #ccc;
+  }
 `;
 
 export const FlexSection = styled.section`

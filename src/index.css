@@ -153,9 +153,9 @@ a:hover {
   cursor: pointer;
   text-decoration: underline;
 }
-button:hover {
+/* button:hover {
 	cursor: pointer;
-}
+} */
 /* .a11y-hidden {
   position: absolute;
   width: 1px;

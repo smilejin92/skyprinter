@@ -1,44 +1,82 @@
-.date-picker {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 2rem;
-  line-height: 2rem;
+// .wrapper {
+  // display: flex;
+  // flex-direction: column;
+  // width: 318px;
+  // padding: 10px 11px;
+  // border-right: 1px solid #ccc;
+  // border-bottom: 1px solid #ccc;
+  // border-left: 1px solid #ccc;
 
-  .btn-group {
-    margin-bottom: 20px;
-  }
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-    select {
-      margin: 0 10px;
-    }
-  }
-  .days {
-    background: lime;
-    display: flex;
-    flex-wrap: wrap;
-    width: 560px;
-    height: 80px;
-    margin-bottom: 20px;
-    .day {
-      width: 80px;
-      height: 80px;
-      text-align: center;
-    }
-  }
-  .dates {
-    display: flex;
-    flex-wrap: wrap;  
-    width: 560px;
-    height: 560px;
-    background: tomato;
-    .date {
-      width: 80px;
-      height: 80px;
-      text-align: center;
-    }
-  }
-}
+  // .header {
+  //   display: flex;
+  //   justify-content: space-evenly;
+  //   margin-bottom: 12px;
+    // select {
+    //   width: 210px;
+    //   height: 36px;
+    //   padding: 6px 30px 6px 12px;
+    //   font-size: 1.5rem;
+    //   border-radius: 0.3rem;
+    // }
+    // button {
+    //   border: none;
+    //   padding: 0;
+    //   background: transparent;
+    //   svg {
+    //     width: 20px;
+    //     fill: #0770e3;
+    //     // margin-right: 5px;
+    //   }
+    //   &:disabled {
+    //     svg {
+    //       fill: #68697f;
+    //     }
+    //   }
+    // }
+  // }
+  // .days {
+    // background: lime;
+    // display: flex;
+    // flex-wrap: wrap;
+    // width: 294px;
+    // height: 42px;
+    // height: 100%;
+    // border-bottom: 1px solid #ccc;
+    // .day {
+    //   font-size: 1.4rem;
+    //   font-weight: 600;
+    //   width: 42px;
+    //   height: 36px;
+    //   padding-top: 12px;
+    //   text-align: center;
+    // }
+    // .border {
+    //   border-right: 1px solid #ccc;
+    // }
+  // }
+  // .dates {
+  //   display: flex;
+  //   flex-wrap: wrap;  
+  //   width: 294px;
+    // .date {
+    //   font-size: 1.4rem;
+    //   line-height: 1.2rem;
+    //   text-align: center;
+    //   width: 42px;
+    //   height: 42px;
+    //   padding-top: 15px;
+    //   cursor: pointer;
+    //   color: #b2b2bf;
+    // }
+    // .border {
+    //   border-right: 1px solid #ccc;
+    // }
+    // .not-allowed {
+    //   color: #dddde5;
+    //   cursor: not-allowed;
+    // }
+    // .dates-in-current-month {
+    //   color: #0770e3;
+    // }
+  // }
+// }
