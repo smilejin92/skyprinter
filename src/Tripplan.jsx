@@ -1,24 +1,90 @@
 import React from 'react';
+import styled from 'styled-components';
+import { HeadingTitle } from './GlobalLink';
+import { FlexSection } from './styled-components';
+
+const HeadingName = styled(HeadingTitle)`
+  margin-bottom: 15px;
+`;
+const CityName = styled.h4`
+  font-size: 24px;
+  font-weight: 700;
+  padding-top: 25px;
+  padding-bottom: 20px;
+`;
+
+const PlanP = styled.p`
+  font-size: 16px;
+  margin-bottom: 30px;
+`;
+const PlanWrapper = styled.div`
+  display: flex;
+  justify-content: column;
+  flex-wrap: wrap;
+`;
+
+const CityWapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin-right: 18px;
+  margin-bottom: 18px;
+`;
+
+const CityImg = styled.img`
+  width: 100px;
+  height: 100px;
+  border: none;
+  border-radius: 0.375rem 0.375rem 0;
+`;
+
+const CityPlan = styled.div`
+  width: 200px;
+  height: 100px;
+  background: rgb(241, 242, 248);
+  padding-left: 18px;
+  padding-right: 18px;
+  border-radius: 0 0.375rem 0.375rem 0;
+
+  ul {
+    display: flex;
+    color: #ff7b59;
+    font-weight: 700;
+
+    li {
+      &:nth-child(n + 2):before {
+        content: '·';
+        margin: 6px;
+        font-size: 12px;
+      }
+      &:hover {
+        color: #ff7b59;
+      }
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+`;
 
 function Tripplan() {
   return (
-    <section>
+    <FlexSection direction="column" boxSize="border-box">
       <div className="plan-header">
-        <h3>나만의 완벽한 여행을 계획하세요</h3>
-        <p>
+        <HeadingName>나만의 완벽한 여행을 계획하세요</HeadingName>
+        <PlanP>
           스카이스캐너에서 가장 인기 있는 여행지의 항공편, 호텔, 렌터카를 검색해
           보세요.
-        </p>
+        </PlanP>
       </div>
-      <div className="content-area">
-        <div className="content-item">
-          <img
+      <PlanWrapper>
+        <CityWapper>
+          <CityImg
             src="https://content.skyscnr.com/17aa2e2dc4eb4bc182a0a65957007fa3/GettyImages-106535239.jpg?crop=100px:100px&amp;quality=90"
             alt="오사카"
           />
-          >
-          <div>
-            <h4>오사카</h4>
+          <CityPlan>
+            <CityName>오사카</CityName>
             <ul>
               <li>
                 <a href="https://www.skyscanner.co.kr/flights-to/osaa/cheap-flights-to-osaka.html">
@@ -36,15 +102,15 @@ function Tripplan() {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-        <div className="content-item">
-          <img
+          </CityPlan>
+        </CityWapper>
+        <CityWapper>
+          <CityImg
             src="https://content.skyscnr.com/99b6d376df86c55006e1ca90a18c5902/GettyImages-479490111.jpg?crop=100px:100px&amp;quality=90"
             alt="도쿄"
           />
-          <div>
-            <h4>도쿄</h4>
+          <CityPlan>
+            <CityName>도쿄</CityName>
             <ul>
               <li>
                 <a href="https://www.skyscanner.co.kr/flights-to/tyoa/cheap-flights-to-tokyo.html">
@@ -64,15 +130,15 @@ function Tripplan() {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-        <div className="content-item">
-          <img
+          </CityPlan>
+        </CityWapper>
+        <CityWapper>
+          <CityImg
             src="https://content.skyscnr.com/bc42cc80dd1447615ee441e2020cbe2c/GettyImages-126509194.jpg?crop=100px:100px&amp;quality=90"
             alt="후쿠오카"
           />
-          <div>
-            <h4>후쿠오카</h4>
+          <CityPlan>
+            <CityName>후쿠오카</CityName>
             <ul>
               <li>
                 <a href="https://www.skyscanner.co.kr/flights-to/fuk/cheap-flights-to-fukuoka-airport.html">
@@ -92,15 +158,16 @@ function Tripplan() {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-        <div className="content-item">
-          <img
+          </CityPlan>
+        </CityWapper>
+
+        <CityWapper>
+          <CityImg
             src="https://content.skyscnr.com/05accaec28ad48ea37b4c5e13bbbfa7b/GettyImages-166140632.jpg?crop=100px:100px&amp;quality=90"
             alt="타이페이"
           />
-          <div>
-            <h4>타이페이</h4>
+          <CityPlan>
+            <CityName>타이페이</CityName>
             <ul>
               <li>
                 <a href="https://www.skyscanner.co.kr/flights-to/tpet/cheap-flights-to-taipei.html">
@@ -120,15 +187,15 @@ function Tripplan() {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-        <div className="content-item">
-          <img
+          </CityPlan>
+        </CityWapper>
+        <CityWapper>
+          <CityImg
             src="https://content.skyscnr.com/48a389f8137372a0eb0394896b8cd140/cjua_488471333.jpg?crop=100px:100px&amp;quality=90"
             alt="제주"
           />
-          <div>
-            <h4>제주</h4>
+          <CityPlan>
+            <CityName>제주</CityName>
             <ul>
               <li>
                 <a href="https://www.skyscanner.co.kr/flights-to/cju/cheap-flights-to-jeju-airport.html">
@@ -148,15 +215,15 @@ function Tripplan() {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-        <div className="content-item">
-          <img
+          </CityPlan>
+        </CityWapper>
+        <CityWapper>
+          <CityImg
             src="https://content.skyscnr.com/246fa4ebad55ce0c252a19705e17514b/hongkong-0304.jpg?crop=100px:100px&amp;quality=90"
             alt="홍콩"
           />
-          <div>
-            <h4>홍콩</h4>
+          <CityPlan>
+            <CityName>홍콩</CityName>
             <ul>
               <li>
                 <a href="https://www.skyscanner.co.kr/flights-to/hkga/cheap-flights-to-hong-kong.html">
@@ -175,15 +242,15 @@ function Tripplan() {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-        <div className="content-item">
-          <img
+          </CityPlan>
+        </CityWapper>
+        <CityWapper>
+          <CityImg
             src="https://content.skyscnr.com/76322ef5ee6ebe445aa45448c323959b/thailand-bangkok-6238.jpg?crop=100px:100px&amp;quality=90"
             alt="방콕"
           />
-          <div>
-            <h4>방콕</h4>
+          <CityPlan>
+            <CityName>방콕</CityName>
             <ul>
               <li>
                 <a href="https://www.skyscanner.co.kr/flights-to/bkkt/cheap-flights-to-bangkok.html">
@@ -203,15 +270,15 @@ function Tripplan() {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-        <div className="content-item">
-          <img
+          </CityPlan>
+        </CityWapper>
+        <CityWapper>
+          <CityImg
             src="https://content.skyscnr.com/9a3f94c9b8309bc333cc948f7296bae4/GettyImages-595946128.jpg?crop=100px:100px&amp;quality=90"
             alt="오키나와"
           />
-          <div>
-            <h4>오키나와</h4>
+          <CityPlan>
+            <CityName>오키나와</CityName>
             <ul>
               <li>
                 <a href="https://www.skyscanner.co.kr/flights-to/oka/cheap-flights-to-okinawa-naha-airport.html">
@@ -229,15 +296,15 @@ function Tripplan() {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-        <div className="content-item">
-          <img
+          </CityPlan>
+        </CityWapper>
+        <CityWapper>
+          <CityImg
             src="https://content.skyscnr.com/c10d466e9ded52fcd9d103fa6e7b4e92/stock-photo-shanghai-in-blue-32506683.jpg?crop=100px:100px&amp;quality=90"
             alt="상하이"
           />
-          <div>
-            <h4>상하이</h4>
+          <CityPlan>
+            <CityName>상하이</CityName>
             <ul>
               <li>
                 <a href="https://www.skyscanner.co.kr/flights-to/csha/cheap-flights-to-shanghai.html">
@@ -257,10 +324,10 @@ function Tripplan() {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+          </CityPlan>
+        </CityWapper>
+      </PlanWrapper>
+    </FlexSection>
   );
 }
 export default Tripplan;
