@@ -7,7 +7,7 @@ const UserMenu = styled(FlexList)`
   font-size: 1.2rem;
 `;
 
-const Help = styled.a`
+export const Help = styled.a`
   color: #0770e3;
 `;
 
