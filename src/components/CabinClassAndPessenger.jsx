@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import InfantandChild, { LabelTitle, CabinClass } from './InfantandChild';
 
 const CabinSection = styled.section`
   display: block;
@@ -7,31 +8,33 @@ const CabinSection = styled.section`
   border-radius: 0.6rem;
   box-shadow: 0 4px 14px 0 rgba(37, 32, 31, 25);
   width: 36.6rem;
-  height: 41.8rem;
+  /* height: 41.8rem; */
+  height: 100%;
 `;
 
-const LabelTitle = styled.label`
-  padding-top: 1.2rem;
-  padding-bottom: 0.8rem;
-  font-size: 1.6rem;
-  font-weight: 700;
-  display: block;
-`;
+// export const LabelTitle = styled.label`
+//   padding-top: 1.2rem;
+//   padding-bottom: 0.8rem;
+//   font-size: 1.6rem;
+//   font-weight: 700;
+//   display: block;
+// `;
 
-const CabinClass = styled.select`
-  padding: 0.6rem 3rem 0.6rem 1.2rem;
-  border: 1px solid #b2b2bf;
-  background: #fff;
-  line-height: 2.2rem;
-  height: 3.6rem;
-  width: 100%;
-  font-size: 1.6rem;
-`;
+// export const CabinClass = styled.select`
+//   padding: 0.6rem 3rem 0.6rem 1.2rem;
+//   border: 1px solid #b2b2bf;
+//   background: #fff;
+//   line-height: 2.2rem;
+//   height: 3.6rem;
+//   width: 100%;
+//   font-size: 1.6rem;
+// `;
 const CainContentWrapper = styled.div`
   display: block;
   padding: 12px;
   width: 100%;
-  height: 38.2rem;
+  /* height: 38.2rem; */
+  height: 100%;
   border-bottom: 1px solid #dddef5;
 `;
 
@@ -135,105 +138,104 @@ function CabinClassAndPessenger() {
   const [adult, setAdult] = useState(1);
   const [child, setChild] = useState(0);
 
-  const a = () => {
-    if (child === 0) return;
-    if (child === 1)
-      return (
-        <>
-          <LabelTitle>유/소아</LabelTitle>
-          <CabinClass>
-            <option>0</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-            <option>9</option>
-            <option>10</option>
-            <option>11</option>
-            <option>12</option>
-            <option>13</option>
-            <option>14</option>
-            <option>15</option>
-          </CabinClass>
-        </>
-      );
-    if (child === 3)
-      return {
-        ...child,
-      };
+  const addInFants = () => {
+    console.log(child);
+
+    const as = [];
+    for (let i = 0; i < child; i++) {
+      as.push(<InfantandChild child={i} />);
+    }
+    return (
+      <>
+        <div>{as}</div>
+      </>
+    );
+    // if (child === 0) return;
+    // if (child === 1)
+    //   return (
+    //     <>
+    //       <InfantandChild/>
+    //     </>
+    //   )
+    //  if(child === 2)return (
+    //    <>
+    //    <InfantandChild/>
+    //    <InfantandChild/>
+    //    </>
+    //  )
+
     //0 return null
     // 1 retyrn add
     // 2
   };
-
+  const selectGrade = e => {
+    console.log(e.target.value);
+  };
   return (
     <CabinSection>
       <CainContentWrapper>
-        <div>
+        <div onChange={selectGrade}>
           <LabelTitle>좌석 등급</LabelTitle>
           <CabinClass>
-            <option>일반석</option>
-            <option>프리미엄 일반석</option>
-            <option>비즈니스석</option>
-            <option>일등석</option>
+            <option value="economy">일반석</option>
+            <option value="premiumeconomy">프리미엄 일반석</option>
+            <option value="business">비즈니스석</option>
+            <option value="first">일등석</option>
           </CabinClass>
-          <LabelTitle>성인</LabelTitle>
-          <ButtonWrapper>
-            <MinusNumberButton
-              onClick={() => setAdult(adult - 1)}
-              disabled={adult === 1}
-            >
-              <span>
-                <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M19 10a2 2 0 1 1 0 4H5a2 2 0 1 1 0-4h14z"></path>
-                </SvgIcon>
-              </span>
-            </MinusNumberButton>
-            <PeopleNumber type="text" value={adult} />
-            <PlusNumberButton
-              onClick={() => setAdult(adult + 1)}
-              disabled={adult === 8}
-            >
-              <span>
-                <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
-                </SvgIcon>
-              </span>
-            </PlusNumberButton>
-          </ButtonWrapper>
-          <PessengerBoundary>만 16세 이상</PessengerBoundary>
-
-          <LabelTitle>유/소아</LabelTitle>
-          <ButtonWrapper>
-            <MinusNumberButton
-              onClick={() => setChild(child - 1)}
-              disabled={child === 0}
-            >
-              <span>
-                <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M19 10a2 2 0 1 1 0 4H5a2 2 0 1 1 0-4h14z"></path>
-                </SvgIcon>
-              </span>
-            </MinusNumberButton>
-            <PeopleNumber type="text" value={child} />
-            <PlusNumberButton
-              onClick={() => setChild(child + 1)}
-              disabled={child === 8}
-            >
-              <span>
-                <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
-                </SvgIcon>
-              </span>
-            </PlusNumberButton>
-          </ButtonWrapper>
-          <PessengerBoundary>만 0 - 15세</PessengerBoundary>
         </div>
-        {a()}
+        <LabelTitle>성인</LabelTitle>
+        <ButtonWrapper>
+          <MinusNumberButton
+            onClick={() => setAdult(adult - 1)}
+            disabled={adult === 1}
+          >
+            <span>
+              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M19 10a2 2 0 1 1 0 4H5a2 2 0 1 1 0-4h14z"></path>
+              </SvgIcon>
+            </span>
+          </MinusNumberButton>
+          <PeopleNumber type="text" value={adult} />
+          <PlusNumberButton
+            onClick={() => setAdult(adult + 1)}
+            disabled={adult === 8}
+          >
+            <span>
+              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
+              </SvgIcon>
+            </span>
+          </PlusNumberButton>
+        </ButtonWrapper>
+        <PessengerBoundary>만 16세 이상</PessengerBoundary>
+
+        <LabelTitle>유/소아</LabelTitle>
+        <ButtonWrapper>
+          <MinusNumberButton
+            onClick={() => setChild(child - 1)}
+            disabled={child === 0}
+          >
+            <span>
+              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M19 10a2 2 0 1 1 0 4H5a2 2 0 1 1 0-4h14z"></path>
+              </SvgIcon>
+            </span>
+          </MinusNumberButton>
+          <PeopleNumber type="text" value={child} />
+          <PlusNumberButton
+            onClick={() => setChild(child + 1)}
+            disabled={child === 8}
+          >
+            <span>
+              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
+              </SvgIcon>
+            </span>
+          </PlusNumberButton>
+        </ButtonWrapper>
+        <PessengerBoundary>만 0 - 15세</PessengerBoundary>
+
+        {addInFants()}
         <WarningDetail>
           <p>
             여행 시 탑승객의 나이는 예약된 연령 범주에 부합해야 합니다. 항공사는
