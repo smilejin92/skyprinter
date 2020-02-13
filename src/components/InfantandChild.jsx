@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { uuid } from 'uuid';
 
 export const LabelTitle = styled.label`
   padding-top: 1.2rem;
@@ -11,9 +10,12 @@ export const LabelTitle = styled.label`
 `;
 
 export const CabinClass = styled.select`
+  background: #fff
+    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4Ij48c3R5bGU+PC9zdHlsZT48cGF0aCBkPSJNMTkuNyAxMC4zTDEyIDE3LjRsLTcuNy03LjFjLS42LS42LS4yLTEuNy43LTEuN2gxNGMuOSAwIDEuMyAxLjEuNyAxLjd6IiBmaWxsPSIjNDQ0NTYwIi8+PC9zdmc+')
+    no-repeat right 1.2rem center;
+  -webkit-appearance: none;
   padding: 0.6rem 3rem 0.6rem 1.2rem;
   border: 1px solid #b2b2bf;
-  background: #fff;
   line-height: 2.2rem;
   height: 3.6rem;
   width: 100%;
@@ -25,16 +27,15 @@ function InfantandChild({ child }) {
   // const hello = e => {
   //   console.log(e);
   // };
-
   const selectAge = e => {
     console.log(e.target.value);
     if (e.target.value === '나이를 선택하세요')
       return alert('모든 유/소아의 나이를 입력하세요');
   };
   return (
-    <div key={uuid.v4()} onChange={selectAge}>
-      <LabelTitle>유/소아 {child + 1} 나이 </LabelTitle>
-      <CabinClass name="age">
+    <div onChange={selectAge}>
+      <LabelTitle htmlFor="childage">유/소아 {child + 1} 나이 </LabelTitle>
+      <CabinClass id="childage">
         <option selected value="나이를 입력해주세요">
           나이를 선택하세요
         </option>

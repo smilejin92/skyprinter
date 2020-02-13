@@ -175,8 +175,8 @@ function CabinClassAndPessenger() {
     <CabinSection>
       <CainContentWrapper>
         <div onChange={selectGrade}>
-          <LabelTitle>좌석 등급</LabelTitle>
-          <CabinClass>
+          <LabelTitle htmlFor="classGrade">좌석 등급</LabelTitle>
+          <CabinClass id="classGrade">
             <option value="economy">일반석</option>
             <option value="premiumeconomy">프리미엄 일반석</option>
             <option value="business">비즈니스석</option>
