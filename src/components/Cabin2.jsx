@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import InfantandChild, { LabelTitle, CabinClass } from './InfantandChild';
 import uuid from 'uuid';
@@ -138,89 +138,82 @@ const PeopleNumber = styled.input`
 function CabinClassAndPessenger() {
   const [completeInput, setCompletedInput] = useState(true);
   const [adult, setAdult] = useState(1);
-  const [child, setChild] = useState(0);
+  const [children, setChildren] = useState(0);
+  const [infant, setInfant] = useState(0);
+  const [array, setArray] = useState([]);
+  const [result, setResult] = useState({
+    class: 'economy',
+    adult: 1,
+    children: 0,
+    infant: 0,
+  });
 
-  // const [state,setState]=useState({
-  //   state:[]
-  // });
-
-  console.log(adult);
-
-  const addInFants = () => {
-    console.log(child);
-
-    const ageDetail = [];
-    for (let i = 0; i < child; i++) {
-      ageDetail.push(<InfantandChild key={uuid.v4()} a={i} child={i} />);
-    }
-
-    return (
-      <>
-        <div>{ageDetail}</div>
-      </>
-    );
-
-    // if (child === 0) return;
-    // if (child === 1)
-    //   return (
-    //     <>
-    //       <InfantandChild/>
-    //     </>
-    //   )
-    //  if(child === 2)return (
-    //    <>
-    //    <InfantandChild/>
-    //    <InfantandChild/>
-    //    </>
-    //  )
+  const selectClass = ({ target }) => {
+    setResult(current => ({
+      ...current,
+      class: target.value,
+    }));
   };
-  // const addChild = ({target,child})=>{
-  //   console.log(target.value);
-  //   if (child === 0 || child === 8) return
-  //   setState({
-  //     ...state,
-  //    state:[...state,{ inFantId:child, age:setState(target.value)}]
-  //   });
-  // };
 
-  // const removeChild =(e)=>{
-  //   console.log(e.target.value);
-  // }
-
-  const selectGrade = e => {
-    console.log(e.target.value);
+  const reduceAdult = () => {
+    if (adult === 1) return;
+    setAdult(adult - 1);
   };
+
+  const increaseAdult = () => {
+    if (adult === 8) return;
+    setAdult(adult + 1);
+  };
+
+  const reduceChild = () => {
+    if (!array.length) return;
+    setArray(current => {
+      const newArray = [];
+      for (let i = 0; i < array.length - 1; i++) {
+        newArray.push(current[i]);
+      }
+      return newArray;
+    });
+  };
+
+  const getMaxId = () => Math.max(0, ...array.map(c => c.id)) + 1;
+
+  const addChild = () => {
+    if (array.length === 8) return;
+    setArray(current => [
+      ...current,
+      {
+        id: getMaxId(),
+        type: undefined,
+      },
+    ]);
+  };
+
   return (
     <CabinSection>
       <CainContentWrapper>
-        <div onChange={selectGrade}>
+        <div>
           <LabelTitle htmlFor="classGrade">좌석 등급</LabelTitle>
-          <CabinClass key={uuid.v4()} id="classGrade">
-            <option value="일반석">일반석</option>
-            <option value="프리미엄 일반석">프리미엄 일반석</option>
-            <option value="비즈니스석">비즈니스석</option>
-            <option value="일등석">일등석</option>
+          <CabinClass onChange={selectClass} key={uuid.v4()} id="classGrade">
+            <option value="economy">일반석</option>
+            <option value="premiumeconomy">프리미엄 일반석</option>
+            <option value="business">비즈니스석</option>
+            <option value="first">일등석</option>
           </CabinClass>
         </div>
         <LabelTitle>성인</LabelTitle>
         <ButtonWrapper>
-          <MinusNumberButton
-            onClick={() => setAdult(adult - 1)}
-            disabled={adult === 1}
-          >
+          <MinusNumberButton onClick={reduceAdult} disabled={adult === 1}>
             <span>
-              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <SvgIcon viewBox="0 0 24 24">
                 <path d="M19 10a2 2 0 1 1 0 4H5a2 2 0 1 1 0-4h14z"></path>
               </SvgIcon>
             </span>
           </MinusNumberButton>
           <PeopleNumber type="text" value={adult} />
-          <PlusNumberButton
-            onClick={() => setAdult(adult + 1)}
-            disabled={adult === 8}
-          >
+          <PlusNumberButton onClick={increaseAdult} disabled={adult === 8}>
             <span>
-              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <SvgIcon viewBox="0 0 24 24">
                 <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
               </SvgIcon>
             </span>
@@ -230,33 +223,27 @@ function CabinClassAndPessenger() {
 
         <LabelTitle>유/소아</LabelTitle>
         <ButtonWrapper>
-          <MinusNumberButton
-            onClick={() => setChild(child - 1)}
-            disabled={child === 0}
-          >
+          <MinusNumberButton onClick={reduceChild} disabled={!array.length}>
             <span>
-              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <SvgIcon viewBox="0 0 24 24">
                 <path d="M19 10a2 2 0 1 1 0 4H5a2 2 0 1 1 0-4h14z"></path>
               </SvgIcon>
             </span>
           </MinusNumberButton>
-          <PeopleNumber type="text" value={child} />
+          <PeopleNumber type="text" value={array.length} />
           <PlusNumberButton
-            onClick={() => setChild(child + 1)}
+            onClick={addChild}
             // onClick={() => addChild(child + 1)}
-            disabled={child === 8}
+            disabled={array.length === 8}
           >
             <span>
-              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <SvgIcon viewBox="0 0 24 24">
                 <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
               </SvgIcon>
             </span>
           </PlusNumberButton>
         </ButtonWrapper>
         <PessengerBoundary>만 0 - 15세</PessengerBoundary>
-
-        {addInFants()}
-        {/* {state.map(child=>(<InfantandChild key={uuid.v4()} child={child}/>))} */}
 
         <WarningDetail>
           <p>

@@ -97,17 +97,29 @@ const TripPlan = () => (
           <CityName>오사카</CityName>
           <ul>
             <li>
-              <a href="https://www.skyscanner.co.kr/flights-to/osaa/cheap-flights-to-osaka.html">
+              <a
+                href="https://www.skyscanner.co.kr/flights-to/osaa/cheap-flights-to-osaka.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>항공권</span>
               </a>
             </li>
             <li>
-              <a href="https://www.skyscanner.co.kr/hotels/japan/osaka-hotels/ci-27542908">
+              <a
+                href="https://www.skyscanner.co.kr/hotels/japan/osaka-hotels/ci-27542908"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>호텔</span>
               </a>
             </li>
             <li>
-              <a href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-osaka/27542908.html">
+              <a
+                href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-osaka/27542908.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>렌터카</span>
               </a>
             </li>
@@ -123,19 +135,31 @@ const TripPlan = () => (
           <CityName>도쿄</CityName>
           <ul>
             <li>
-              <a href="https://www.skyscanner.co.kr/flights-to/tyoa/cheap-flights-to-tokyo.html">
+              <a
+                href="https://www.skyscanner.co.kr/flights-to/tyoa/cheap-flights-to-tokyo.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>항공권</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/hotels/japan/tokyo-hotels/ci-27542089">
+              <a
+                href="https://www.skyscanner.co.kr/hotels/japan/tokyo-hotels/ci-27542089"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>호텔</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-tokyo/27542089.html">
+              <a
+                href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-tokyo/27542089.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>렌터카</span>
               </a>
             </li>
@@ -151,19 +175,31 @@ const TripPlan = () => (
           <CityName>후쿠오카</CityName>
           <ul>
             <li>
-              <a href="https://www.skyscanner.co.kr/flights-to/fuk/cheap-flights-to-fukuoka-airport.html">
+              <a
+                href="https://www.skyscanner.co.kr/flights-to/fuk/cheap-flights-to-fukuoka-airport.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>항공권</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/hotels/japan/fukuoka-hotels/ci-27541740">
+              <a
+                href="https://www.skyscanner.co.kr/hotels/japan/fukuoka-hotels/ci-27541740"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>호텔</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-fukuoka/27541740.html">
+              <a
+                href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-fukuoka/27541740.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>렌터카</span>
               </a>
             </li>
@@ -180,19 +216,31 @@ const TripPlan = () => (
           <CityName>타이페이</CityName>
           <ul>
             <li>
-              <a href="https://www.skyscanner.co.kr/flights-to/tpet/cheap-flights-to-taipei.html">
+              <a
+                href="https://www.skyscanner.co.kr/flights-to/tpet/cheap-flights-to-taipei.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>항공권</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/hotels/taiwan/taipei-hotels/ci-27547236">
+              <a
+                href="https://www.skyscanner.co.kr/hotels/taiwan/taipei-hotels/ci-27547236"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>호텔</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-taipei/27547236.html">
+              <a
+                href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-taipei/27547236.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>렌터카</span>
               </a>
             </li>
@@ -208,19 +256,31 @@ const TripPlan = () => (
           <CityName>제주</CityName>
           <ul>
             <li>
-              <a href="https://www.skyscanner.co.kr/flights-to/cju/cheap-flights-to-jeju-airport.html">
+              <a
+                href="https://www.skyscanner.co.kr/flights-to/cju/cheap-flights-to-jeju-airport.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>항공권</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/hotels/south-korea/jeju-hotels/ci-39499832">
+              <a
+                href="https://www.skyscanner.co.kr/hotels/south-korea/jeju-hotels/ci-39499832"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>호텔</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-jeju/39499832.html">
+              <a
+                href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-jeju/39499832.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>렌터카</span>
               </a>
             </li>
@@ -236,18 +296,30 @@ const TripPlan = () => (
           <CityName>홍콩</CityName>
           <ul>
             <li>
-              <a href="https://www.skyscanner.co.kr/flights-to/hkga/cheap-flights-to-hong-kong.html">
+              <a
+                href="https://www.skyscanner.co.kr/flights-to/hkga/cheap-flights-to-hong-kong.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>항공권</span>
               </a>
             </li>
             <li>
-              <a href="https://www.skyscanner.co.kr/hotels/china/hong-kong-hotels/ci-27542065">
+              <a
+                href="https://www.skyscanner.co.kr/hotels/china/hong-kong-hotels/ci-27542065"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>호텔</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-hong-kong/27542065.html">
+              <a
+                href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-hong-kong/27542065.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>렌터카</span>
               </a>
             </li>
@@ -263,19 +335,31 @@ const TripPlan = () => (
           <CityName>방콕</CityName>
           <ul>
             <li>
-              <a href="https://www.skyscanner.co.kr/flights-to/bkkt/cheap-flights-to-bangkok.html">
+              <a
+                href="https://www.skyscanner.co.kr/flights-to/bkkt/cheap-flights-to-bangkok.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>항공권</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/hotels/thailand/bangkok-hotels/ci-27536671">
+              <a
+                href="https://www.skyscanner.co.kr/hotels/thailand/bangkok-hotels/ci-27536671"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>호텔</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-bangkok/27536671.html">
+              <a
+                href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-bangkok/27536671.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>렌터카</span>
               </a>
             </li>
@@ -291,17 +375,29 @@ const TripPlan = () => (
           <CityName>오키나와</CityName>
           <ul>
             <li>
-              <a href="https://www.skyscanner.co.kr/flights-to/oka/cheap-flights-to-okinawa-naha-airport.html">
+              <a
+                href="https://www.skyscanner.co.kr/flights-to/oka/cheap-flights-to-okinawa-naha-airport.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>항공권</span>
               </a>
             </li>
             <li>
-              <a href="https://www.skyscanner.co.kr/hotels/japan/okinawa-hotels/ci-27540768">
+              <a
+                href="https://www.skyscanner.co.kr/hotels/japan/okinawa-hotels/ci-27540768"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>호텔</span>
               </a>
             </li>
             <li>
-              <a href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-okinawa/27540768.html">
+              <a
+                href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-okinawa/27540768.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>렌터카</span>
               </a>
             </li>
@@ -317,19 +413,31 @@ const TripPlan = () => (
           <CityName>상하이</CityName>
           <ul>
             <li>
-              <a href="https://www.skyscanner.co.kr/flights-to/csha/cheap-flights-to-shanghai.html">
+              <a
+                href="https://www.skyscanner.co.kr/flights-to/csha/cheap-flights-to-shanghai.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>항공권</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/hotels/china/shanghai-hotels/ci-27546079">
+              <a
+                href="https://www.skyscanner.co.kr/hotels/china/shanghai-hotels/ci-27546079"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>호텔</span>
               </a>
             </li>
 
             <li>
-              <a href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-shanghai/27546079.html">
+              <a
+                href="https://www.skyscanner.co.kr/car-hire-in/car-hire-in-shanghai/27546079.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>렌터카</span>
               </a>
             </li>
