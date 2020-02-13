@@ -94,7 +94,11 @@ const TripIdea = () => (
       </div>
     </TripIdeaHeader>
     <MapArea>
-      <a href="https://www.skyscanner.co.kr/inspire/map?outboundDate=2020-05&outboundPlace=HKGA&preferDirects=false">
+      <a
+        href="https://www.skyscanner.co.kr/inspire/map?outboundDate=2020-05&outboundPlace=HKGA&preferDirects=false"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <MapContentArea></MapContentArea>
         <MapPicker top="70.892" left="846.827">
           <MapPickerContent>
