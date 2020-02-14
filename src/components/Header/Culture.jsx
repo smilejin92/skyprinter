@@ -101,8 +101,21 @@ const SaveButton = styled(CancelButton)`
 `;
 
 // set currency, market, locale
-function Culture({ closeModal, configCulture, countries, currencies }) {
+function Culture({
+  closeModal,
+  setDisplayCulture,
+  setSelectedCulture,
+  selectedCulture,
+  countries,
+  currencies,
+}) {
   const [yOffSet] = useState(window.pageYOffset);
+  const [selectedCountry, setSelectedCountry] = useState(
+    selectedCulture.country,
+  );
+  const [selectedCurrency, setSelectedCurrency] = useState(
+    selectedCulture.currency,
+  );
 
   // disable mouse scroll
   useEffect(() => {
@@ -116,6 +129,30 @@ function Culture({ closeModal, configCulture, countries, currencies }) {
       window.removeEventListener('scroll', preventDefault);
     };
   }, [yOffSet]);
+
+  const switchCountry = ({ target }) => {
+    console.log(target.value);
+    setSelectedCountry(target.value);
+  };
+
+  const switchCurrency = ({ target }) => {
+    console.log(target.value);
+    setSelectedCurrency(target.value);
+  };
+
+  const configCulture = () => {
+    // set parameters for api request
+    setDisplayCulture(false);
+    setSelectedCulture(cur => {
+      const newState = {
+        ...cur,
+        country: selectedCountry,
+        currency: selectedCurrency,
+      };
+      console.log(newState);
+      return newState;
+    });
+  };
 
   return (
     <ModalWrapper top={yOffSet}>
@@ -148,7 +185,11 @@ function Culture({ closeModal, configCulture, countries, currencies }) {
             <Description>
               국가를 선택하면 지역별 특가 상품 및 정보를 받아보실 수 있습니다.
             </Description>
-            <Options id="market" value="KR">
+            <Options
+              id="market"
+              value={selectedCountry}
+              onChange={switchCountry}
+            >
               {/* get list of markets */}
               {countries}
             </Options>
@@ -160,7 +201,11 @@ function Culture({ closeModal, configCulture, countries, currencies }) {
               </SvgIcon>
               통화
             </CategoryLabel>
-            <Options id="currency" value="KRW">
+            <Options
+              id="currency"
+              value={selectedCurrency}
+              onChange={switchCurrency}
+            >
               {/* get list of currencies */}
               {currencies}
             </Options>
