@@ -8,7 +8,7 @@ const CabinSection = styled.section`
   display: ${props => (props.visible ? 'block' : 'none')};
   background-color: #fff;
   position: absolute;
-  bottom: 4.3rem;
+  top: 7.8rem;
   border: 1px solid #dddde5;
   border-radius: 0.6rem;
   box-shadow: 0 4px 14px 0 rgba(37, 32, 31, 25);
