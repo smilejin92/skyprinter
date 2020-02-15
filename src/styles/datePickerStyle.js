@@ -4,8 +4,7 @@ import { FlexWrapper } from '.';
 // DatePicker
 export const DatePickerWrapper = styled(FlexWrapper)`
   position: relative;
-  width: 13.1rem;
-  margin-left: 150px;
+  width: 25%;
 `;
 
 export const DatePickerHeader = styled(FlexWrapper)`
@@ -15,7 +14,7 @@ export const DatePickerHeader = styled(FlexWrapper)`
   &::before {
     content: '';
     position: absolute;
-    top: 101%;
+    top: 6.7rem;
     left: 50%;
     transform: translateX(-50%);
     width: 2.5rem;
@@ -28,7 +27,7 @@ export const DatePickerHeader = styled(FlexWrapper)`
   &::after {
     content: '';
     position: absolute;
-    top: 100%;
+    top: 6.6rem;
     left: 50%;
     transform: translateX(-50%);
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
@@ -43,6 +42,7 @@ export const ButtonLabel = styled.label.attrs(({ htmlFor }) => ({
   htmlFor,
 }))`
   font-size: 1.2rem;
+  line-height: 1.5;
   color: white;
 `;
 
@@ -50,6 +50,7 @@ export const DisplayDatePickerBtn = styled.button`
   height: 4.8rem;
   padding: 0.6rem 1.2rem;
   border: 1px solid #ccc;
+  border-right: none;
   background-color: transparent;
   outline: none;
   font-size: 1.6rem;
@@ -59,7 +60,7 @@ export const DisplayDatePickerBtn = styled.button`
 
 export const DatePickerBody = styled.div`
   position: absolute;
-  top: 118%;
+  top: 7.8rem;
   left: 50%;
   transform: translateX(-50%);
   width: 31.8rem;
