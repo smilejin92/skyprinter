@@ -4,8 +4,7 @@ import BoundSearchBox from './BoundSearchBox';
 import BoundChangeBox from './BoundChangeBox';
 
 const SearchBoxWrapper = styled.div`
-  width: 1048px;
-  background-color: #181818;
+  width: 50%;
 `;
 
 const SearchBox = () => {
