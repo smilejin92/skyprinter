@@ -229,7 +229,7 @@ const BoundSearchBox = ({ borderRadius, bound, selectBound, type }) => {
         }}
         highlightFirstSuggestion={true}
       />
-      <CheckBox disabled="true">주변 공항 추가</CheckBox>
+      <CheckBox disabled={true}>주변 공항 추가</CheckBox>
     </SearchWrapper>
   );
 };
