@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import CabinClassAndPessenger from './subCabinClass1';
 
 const GradeButton = styled.button`
-  margin-left: 200px;
   padding: 0 30px 0 12px;
   text-align: left;
   cursor: pointer;
   border-radius: 0 0.4rem 0.4rem 0;
   height: 4.8rem;
-  width: 24.9rem;
+  width: 100%;
   line-height: 2.2rem;
   border: 1px solid rgb(216, 216, 216);
   background: #fff
@@ -18,6 +17,14 @@ const GradeButton = styled.button`
   -webkit-appearance: none;
   display: inline-block;
 `;
+
+const ButtonLabel = styled.label`
+  color: #fff;
+  display: block;
+  font-size: 1.2rem;
+  line-height: 1.5;
+`;
+
 const GradePessenger = styled.span`
   display: block;
   text-align: left;
@@ -64,7 +71,8 @@ function ClassGradeButton() {
 
   return (
     <>
-      <div>
+      <div style={{ width: '50%' }}>
+        <ButtonLabel>좌석 등급 및 승객</ButtonLabel>
         <GradeButton onClick={() => setVisible(!visible)}>
           <GradePessenger>
             {detail.pessenger > 1
@@ -72,12 +80,12 @@ function ClassGradeButton() {
               : `${detail.pessenger}성인, ${detail.class}`}
           </GradePessenger>
         </GradeButton>
+        <CabinClassAndPessenger
+          visible={visible}
+          setVisible={setVisible}
+          selectPeople={selectPeople}
+        />
       </div>
-      <CabinClassAndPessenger
-        visible={visible}
-        setVisible={setVisible}
-        selectPeople={selectPeople}
-      />
     </>
   );
 }

@@ -23,8 +23,8 @@ export const ProductHeader = styled.div`
   }
   a {
     width: 100%;
-    font-weight: 800;
-    font-size: 1.6rem;
+    font-weight: 600;
+    font-size: 1.5rem;
     color: #0770e3;
     text-decoration: none;
   }

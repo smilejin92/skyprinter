@@ -23,7 +23,7 @@ const StyledCheckbox = styled(Checkbox)`
 const CheckBox = props => {
   const [checkbox, setCheckbox] = useState({
     checked: false,
-    disabled: !props.disabled && true,
+    disabled: false || props.disabled,
   });
 
   const onChange = e => {
@@ -40,7 +40,7 @@ const CheckBox = props => {
       disabled={checkbox.disabled}
       onChange={onChange}
     >
-      주변 공항 추가
+      {props.children}
     </StyledCheckbox>
   );
 };

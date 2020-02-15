@@ -4,16 +4,16 @@ import InfantandChild, { LabelTitle, CabinClass } from './subCabinClass2';
 import uuid from 'uuid';
 
 const CabinSection = styled.section`
+  z-index: 99;
   display: ${props => (props.visible ? 'block' : 'none')};
-  position: relative;
-  left: 140px;
-  top: 12px;
+  background-color: #fff;
+  position: absolute;
+  bottom: 4.3rem;
   border: 1px solid #dddde5;
   border-radius: 0.6rem;
   box-shadow: 0 4px 14px 0 rgba(37, 32, 31, 25);
   width: 36.6rem;
   /* height: 41.8rem; */
-  height: 100%;
 `;
 
 const CainContentWrapper = styled.div`
@@ -95,6 +95,7 @@ const WarningDetail = styled.div`
 const CompleteButton = styled.div`
   padding: 0.6rem 1.2rem 0.6rem 1.2rem;
   text-align: right;
+  background-color: #fff;
 
   button {
     font-size: 1.6rem;
@@ -179,7 +180,7 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
       ...current,
       adult: decreaseAdultNumber,
     }));
-    console.log(decreaseAdultNumber);
+    // console.log(decreaseAdultNumber);
   };
 
   const addAdult = () => {
@@ -190,7 +191,7 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
       ...current,
       adult: increaseAdultNumber,
     }));
-    console.log(increaseAdultNumber);
+    // console.log(increaseAdultNumber);
   };
 
   const reduceChild = () => {
@@ -203,7 +204,7 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
       }
       return newArray;
     });
-    console.log(array.length);
+    // console.log(array.length);
   };
 
   const addChild = () => {
@@ -218,8 +219,8 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
   const completeResult = () => {
     const childNumber = array.filter(arr => arr.type === 'child').length;
     const infantNumber = array.filter(arr => arr.type === 'infant').length;
-    console.log(childNumber);
-    console.log(infantNumber);
+    // console.log(childNumber);
+    // console.log(infantNumber);
     setResult(prevResult => {
       const newResult = {
         ...prevResult,
@@ -237,7 +238,6 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
 
   return (
     <CabinSection visible={visible}>
-      {console.log('7', result)}
       <Triangle />
       <CainContentWrapper>
         <div>
@@ -265,7 +265,12 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
               </SvgIcon>
             </span>
           </MinusNumberButton>
-          <PeopleNumber ref={adultRef} type="text" value={adult} />
+          <PeopleNumber
+            ref={adultRef}
+            type="text"
+            value={adult}
+            onChange={() => {}}
+          />
           <PlusNumberButton onClick={addAdult} disabled={adult === 8}>
             <span>
               <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -285,7 +290,12 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
               </SvgIcon>
             </span>
           </MinusNumberButton>
-          <PeopleNumber ref={childRef} type="text" value={children} />
+          <PeopleNumber
+            ref={childRef}
+            type="text"
+            value={children}
+            onChange={() => {}}
+          />
           <PlusNumberButton onClick={addChild} disabled={children === 8}>
             <span>
               <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
