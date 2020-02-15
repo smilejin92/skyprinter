@@ -26,6 +26,7 @@ const CainContentWrapper = styled.div`
 `;
 
 const MinusNumberButton = styled.button`
+  border: 1px solid #ddd;
   border-radius: 50%;
   background-color: ${({ disabled }) => (disabled ? '#ddddef' : 'transparent')};
   span {
@@ -48,6 +49,7 @@ const MinusNumberButton = styled.button`
 `;
 
 const PlusNumberButton = styled.button`
+  border: 1px solid #0770e3;
   border-radius: 50%;
   background-color: ${({ disabled }) => (disabled ? '#ddddef' : 'transparent')};
   span {

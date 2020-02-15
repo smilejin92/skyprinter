@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { HiddenHeader, FlexList, FlexWrapper } from '../../styles';
 
 const SearchMenu = styled(FlexList)`
-  width: 26.6rem;
+  width: 28.3rem;
   height: 3.6rem;
 `;
 

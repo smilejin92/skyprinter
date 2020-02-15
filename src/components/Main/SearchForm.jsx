@@ -36,7 +36,9 @@ const SelectWayToGo = styled(Radio.Group)`
   }
 `;
 
-const SearchWrapper = styled(FlexWrapper)``;
+const SearchWrapper = styled(FlexWrapper)`
+  padding-top: 1.3rem;
+`;
 
 const SearchFormSubmit = styled(FlexWrapper)`
   justify-content: space-between;
