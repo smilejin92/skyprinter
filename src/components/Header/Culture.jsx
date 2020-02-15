@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Icon } from 'antd';
 import { FlexWrapper } from '../../styles';
+import useOutsideRef from '../../hooks/useOutsideRef';
 
 const ModalWrapper = styled.div`
   position: absolute;
@@ -117,16 +118,19 @@ function Culture({
     selectedCulture.currency,
   );
 
+  const outsideRef = useRef(null);
+  useOutsideRef(outsideRef, closeModal);
+
   // disable mouse scroll
   useEffect(() => {
     const preventDefault = () => {
       window.scrollTo(0, yOffSet);
     };
 
-    window.addEventListener('scroll', preventDefault);
+    document.addEventListener('scroll', preventDefault);
 
     return () => {
-      window.removeEventListener('scroll', preventDefault);
+      document.removeEventListener('scroll', preventDefault);
     };
   }, [yOffSet]);
 
@@ -156,7 +160,7 @@ function Culture({
 
   return (
     <ModalWrapper top={yOffSet}>
-      <Modal>
+      <Modal ref={outsideRef}>
         <ModalHeader justify="space-between">
           <ModalTitle>국가 설정</ModalTitle>
           <ExitButton onClick={closeModal}>
