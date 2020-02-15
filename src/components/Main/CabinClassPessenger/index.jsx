@@ -71,7 +71,7 @@ function ClassGradeButton() {
 
   return (
     <>
-      <div style={{ width: '50%' }}>
+      <div style={{ width: '50%', position: 'relative' }}>
         <ButtonLabel>좌석 등급 및 승객</ButtonLabel>
         <GradeButton onClick={() => setVisible(!visible)}>
           <GradePessenger>
