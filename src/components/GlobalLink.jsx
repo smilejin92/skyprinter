@@ -7,6 +7,10 @@ export const HeadingTitle = styled.h3`
   font-weight: 700;
 `;
 
+const Help = styled.a`
+  color: #0770e3;
+`;
+
 const GlobalSection = styled(FlexSection)`
   line-height: 1.5;
   width: 1048px;
@@ -47,7 +51,7 @@ function GlobalLink() {
       <WorldWrapper>
         <FlexUl>
           <GlobalLinkList left="0">
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.net/?market=UK&locale=en-GB&_ga=2.167051646.1988065219.1581153801-355577210.1580269878&_gac=1.87664106.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -58,10 +62,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>Cheap flight</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.com.au/?market=AU&locale=en-GB&_ga=2.167051646.1988065219.1581153801-355577210.1580269878&_gac=1.87664106.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -72,10 +76,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>AustraLIa - Cheap flights</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.tianxun.com/?market=CN&locale=zh-CN&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -86,10 +90,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>中国 - 机票</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.com.hk/?market=HK&locale=zh-TW&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -100,10 +104,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>香港 - 機票</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList left="0">
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.co.in/?market=IN&locale=en-GB&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -114,10 +118,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>India - Flight tickets</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.co.id/?market=ID&locale=id-ID&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -128,10 +132,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>Indonesia - Tiket Pesawat</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.jp/?market=JP&locale=ja-JP&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -142,10 +146,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>日本 - 航空券</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.com.my/?market=MY&locale=en-GB&_ga=2.192824938.1988065219.1581153801-355577210.1580269878&_gac=1.89418345.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -156,10 +160,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>Malaysia - flights</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList left="0">
-            <a
+            <Help
               className="help"
               href="https://www.espanol.skyscanner.com/?market=MX&locale=es-MX&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -170,10 +174,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>México - vuelos</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.co.nz/?market=NZ&locale=en-GB&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -184,10 +188,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>New Zealand - Cheap flights</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.com.ph/?market=PH&locale=en-GB&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -198,10 +202,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>Philippines - flights</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.ru/?market=RU&locale=ru-RU&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -212,10 +216,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>Россия - авиабилеты</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList left="0">
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.com.sg/?market=SG&locale=en-GB&_ga=2.174344674.1988065219.1581153801-355577210.1580269878&_gac=1.158100168.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -226,10 +230,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>Singapore - flights</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.co.kr/?market=KR&locale=ko-KR"
               target="_blank"
@@ -240,10 +244,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>대한민국 - 항공권</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.com.tw/?market=TW&locale=zh-TW&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwEl"
               target="_blank"
@@ -254,10 +258,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>台灣 - 機票</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.co.th/?market=TH&locale=th-TH&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -268,10 +272,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>ไทย - ตั๋วเครื่องบิน</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList left="0">
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.com/?market=US&locale=en-US&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -282,10 +286,10 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>USA - flights</span>
-            </a>
+            </Help>
           </GlobalLinkList>
           <GlobalLinkList>
-            <a
+            <Help
               className="help"
               href="https://www.skyscanner.com.vn/?market=VN&locale=vi-VN&_ga=2.140264819.1988065219.1581153801-355577210.1580269878&_gac=1.159098440.1580290199.CjwKCAiA1L_xBRA2EiwAgcLKA4fZLEZo8DwHXIXFET0po5ngK0sO6agxY75MZeyPqvsnHK3Hj7EbohoCfmkQAvD_BwE"
               target="_blank"
@@ -296,7 +300,7 @@ function GlobalLink() {
                 alt="국기"
               />
               <span>Việt Nam - các chuyến bay</span>
-            </a>
+            </Help>
           </GlobalLinkList>
         </FlexUl>
       </WorldWrapper>

@@ -386,7 +386,7 @@ import axios from 'axios';
 | originplace         | O    | string | 출발 [장소 ID](https://skyscanner.github.io/slate/#list-of-places) (공항, 도시, 국가). URL에 append하여 요청. | 'SFO-sky'    |
 | destinationplace    | O    | string | 도착 [장소 ID](https://skyscanner.github.io/slate/#list-of-places) (공항, 도시, 국가). URL에 append하여 요청. | 'ICN-sky'    |
 | outboundpartialdate | O    | string | 출발 날짜 (YYYY-MM-DD, YYYY-MM, anytime). URL에 append하여 요청. | '2020-02-06' |
-| inboundpartialdate  | X    | string | 입국 날짜 (YYYY-MM-DD, YYYY-MM, anytime, 혹은 빈 문자열(편도)). URL에 append하여 요청. | '2020-02-09' |
+| inboundpartialdate  | O    | string | 입국 날짜 (YYYY-MM-DD, YYYY-MM, anytime, 혹은 빈 문자열(편도)). URL에 append하여 요청. | '2020-02-09' |
 
 <br/>
 

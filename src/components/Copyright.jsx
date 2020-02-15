@@ -12,8 +12,8 @@ const StyledSmall = styled.small`
   letter-spacing: normal;
 `;
 
-function Copyright() {
-  return <StyledSmall>&copy; Skyscanner Ltd 2002-2020</StyledSmall>;
-}
+const Copyright = () => (
+  <StyledSmall>&copy; Skyscanner Ltd 2002-2020</StyledSmall>
+);
 
 export default Copyright;
