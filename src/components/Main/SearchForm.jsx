@@ -142,7 +142,10 @@ function SearchForm() {
         </SearchWrapper>
         <SearchFormSubmit>
           <CheckBox>직항만</CheckBox>
-          <button aria-label="항공권 검색">
+          <button
+            aria-label="항공권 검색"
+            style={{ transform: 'translateY(-16px)' }}
+          >
             항공권 검색
             <span>
               <svg

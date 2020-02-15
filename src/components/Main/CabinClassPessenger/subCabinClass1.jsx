@@ -2,10 +2,11 @@ import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import InfantandChild, { LabelTitle, CabinClass } from './subCabinClass2';
 import uuid from 'uuid';
+import useOutsideRef from '../../../hooks/useOutsideRef';
 
 const CabinSection = styled.section`
   z-index: 99;
-  display: ${props => (props.visible ? 'block' : 'none')};
+  display: block;
   background-color: #fff;
   position: absolute;
   top: 7.8rem;
@@ -13,7 +14,6 @@ const CabinSection = styled.section`
   border-radius: 0.6rem;
   box-shadow: 0 4px 14px 0 rgba(37, 32, 31, 25);
   width: 36.6rem;
-  /* height: 41.8rem; */
 `;
 
 const CainContentWrapper = styled.div`
@@ -26,6 +26,9 @@ const CainContentWrapper = styled.div`
 `;
 
 const MinusNumberButton = styled.button`
+  line-height: 1;
+  width: 3.4rem;
+  height: 3.4rem;
   border: 1px solid #ddd;
   border-radius: 50%;
   background-color: ${({ disabled }) => (disabled ? '#ddddef' : 'transparent')};
@@ -49,6 +52,9 @@ const MinusNumberButton = styled.button`
 `;
 
 const PlusNumberButton = styled.button`
+  line-height: 1;
+  width: 3.4rem;
+  height: 3.4rem;
   border: 1px solid #0770e3;
   border-radius: 50%;
   background-color: ${({ disabled }) => (disabled ? '#ddddef' : 'transparent')};
@@ -167,6 +173,10 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
     infant: 0,
   });
 
+  const closeModal = () => {
+    setVisible(false);
+  };
+
   const selectClass = ({ target }) => {
     setResult(current => ({
       ...current,
@@ -238,8 +248,11 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
     return result;
   };
 
+  const outsideRef = useRef(null);
+  useOutsideRef(outsideRef, closeModal);
+
   return (
-    <CabinSection visible={visible}>
+    <CabinSection ref={outsideRef} visible={visible}>
       <Triangle />
       <CainContentWrapper>
         <div>

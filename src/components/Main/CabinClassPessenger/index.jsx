@@ -73,18 +73,19 @@ function ClassGradeButton() {
     <>
       <div style={{ width: '50%', position: 'relative' }}>
         <ButtonLabel>좌석 등급 및 승객</ButtonLabel>
-        <GradeButton onClick={() => setVisible(!visible)}>
+        <GradeButton onClick={() => setVisible(true)}>
           <GradePessenger>
             {detail.pessenger > 1
               ? `${detail.pessenger}승객, ${detail.class}`
               : `${detail.pessenger}성인, ${detail.class}`}
           </GradePessenger>
         </GradeButton>
-        <CabinClassAndPessenger
-          visible={visible}
-          setVisible={setVisible}
-          selectPeople={selectPeople}
-        />
+        {visible && (
+          <CabinClassAndPessenger
+            setVisible={setVisible}
+            selectPeople={selectPeople}
+          />
+        )}
       </div>
     </>
   );
