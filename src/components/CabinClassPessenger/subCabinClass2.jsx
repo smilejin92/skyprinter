@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-// import uuid from 'uuid';
+import uuid from 'uuid';
 
 export const LabelTitle = styled.label`
   padding-top: 1.2rem;
@@ -23,30 +23,44 @@ export const CabinClass = styled.select`
   font-size: 1.6rem;
 `;
 
-function InfantandChild({ child, a }) {
-  const [state, setState] = useState([]);
-  console.log(state);
-  useEffect(() => {
-    for (let i = 0; i < a; i++) {
-      setState(prevState => [...prevState, { intantId: a, age: 0 }]);
-    }
-  }, [a]);
+function InfantandChild({ infants, array, setArray }) {
+  // console.log(array);
 
-  const selectAge = e => {
-    console.log(e.target.value);
-    console.log(a);
-    // setState( ... , {infantId:a,value:e.target.value})
-    // 1 5 a <- etarget
-    if (e.target.value === '나이를 선택하세요')
+  const selectAge = ({ target }) => {
+    // console.log(target.value);
+    if (target.value === '0') {
+      setArray(
+        array.map(child =>
+          child.infantId === infants
+            ? { ...child, age: +target.value, type: 'infant' }
+            : child,
+        ),
+      );
+    } else {
+      setArray(
+        array.map(child =>
+          child.infantId === infants
+            ? { ...child, age: +target.value, type: 'child' }
+            : child,
+        ),
+      );
+    }
+    if (target.value === '나이를 선택하세요')
       return alert('모든 유/소아의 나이를 입력하세요');
   };
+
   return (
-    <div onChange={selectAge}>
-      <LabelTitle htmlFor="childage">유/소아 {child + 1} 나이 </LabelTitle>
-      <CabinClass id="childage">
-        <option defaultValue value="나이를 선택하세요">
-          나이를 선택하세요
-        </option>
+    <div>
+      <LabelTitle htmlFor="childage">
+        유/소아 {array[infants].infantId + 1} 나이
+      </LabelTitle>
+      <CabinClass
+        value={array[infants].age}
+        onChange={selectAge}
+        id="childage"
+        key={uuid.v4()}
+      >
+        <option value="나이를 선택하세요">나이를 선택하세요</option>
         <option value="0">0</option>
         <option value="1">1</option>
         <option value="2">2</option>

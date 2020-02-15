@@ -1,10 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import InfantandChild, { LabelTitle, CabinClass } from './InfantandChild';
+import InfantandChild, { LabelTitle, CabinClass } from './subCabinClass2';
 import uuid from 'uuid';
 
 const CabinSection = styled.section`
-  display: block;
+  display: ${props => (props.visible ? 'block' : 'none')};
+  position: relative;
+  left: 140px;
+  top: 12px;
   border: 1px solid #dddde5;
   border-radius: 0.6rem;
   box-shadow: 0 4px 14px 0 rgba(37, 32, 31, 25);
@@ -13,23 +16,6 @@ const CabinSection = styled.section`
   height: 100%;
 `;
 
-// export const LabelTitle = styled.label`
-//   padding-top: 1.2rem;
-//   padding-bottom: 0.8rem;
-//   font-size: 1.6rem;
-//   font-weight: 700;
-//   display: block;
-// `;
-
-// export const CabinClass = styled.select`
-//   padding: 0.6rem 3rem 0.6rem 1.2rem;
-//   border: 1px solid #b2b2bf;
-//   background: #fff;
-//   line-height: 2.2rem;
-//   height: 3.6rem;
-//   width: 100%;
-//   font-size: 1.6rem;
-// `;
 const CainContentWrapper = styled.div`
   display: block;
   padding: 12px;
@@ -119,6 +105,7 @@ const CompleteButton = styled.div`
     }
   }
 `;
+
 const PeopleNumber = styled.input`
   cursor: text;
   width: 3.2rem;
@@ -134,15 +121,44 @@ const PeopleNumber = styled.input`
   border: none;
   margin: 0 0.5rem 0 0.5rem;
 `;
+const Triangle = styled.span`
+  &:before {
+    position: absolute;
+    bottom: 100%;
+    content: ' ';
+    display: block;
+    margin-bottom: -0.1rem;
+    border: 1.3rem solid transparent;
+    border-bottom-color: #dddde5;
+    pointer-events: none;
+    left: 45%;
+    box-sizing: inherit;
+  }
+  &:after {
+    position: absolute;
+    bottom: 100%;
+    left: 49%;
+    content: ' ';
+    display: block;
+    margin-bottom: -0.1rem;
+    margin-left: -1.2rem;
+    border: 1.2rem solid transparent;
+    border-bottom-color: #fff;
+    pointer-events: none;
+  }
+`;
 
-function CabinClassAndPessenger() {
-  const [completeInput, setCompletedInput] = useState(true);
+function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
+  const adultRef = useRef();
+  const childRef = useRef();
+
   const [adult, setAdult] = useState(1);
   const [children, setChildren] = useState(0);
-  const [infant, setInfant] = useState(0);
+  // const [infant, setInfant] = useState(0);
   const [array, setArray] = useState([]);
+
   const [result, setResult] = useState({
-    class: 'economy',
+    grade: 'economy',
     adult: 1,
     children: 0,
     infant: 0,
@@ -151,22 +167,35 @@ function CabinClassAndPessenger() {
   const selectClass = ({ target }) => {
     setResult(current => ({
       ...current,
-      class: target.value,
+      grade: target.value,
     }));
+    // console.log(target.value);
   };
-
   const reduceAdult = () => {
     if (adult === 1) return;
     setAdult(adult - 1);
+    const decreaseAdultNumber = +adultRef.current.value - 1;
+    setResult(current => ({
+      ...current,
+      adult: decreaseAdultNumber,
+    }));
+    console.log(decreaseAdultNumber);
   };
 
-  const increaseAdult = () => {
+  const addAdult = () => {
     if (adult === 8) return;
     setAdult(adult + 1);
+    const increaseAdultNumber = +adultRef.current.value + 1;
+    setResult(current => ({
+      ...current,
+      adult: increaseAdultNumber,
+    }));
+    console.log(increaseAdultNumber);
   };
 
   const reduceChild = () => {
     if (!array.length) return;
+    setChildren(prevchildren => prevchildren - 1);
     setArray(current => {
       const newArray = [];
       for (let i = 0; i < array.length - 1; i++) {
@@ -174,27 +203,52 @@ function CabinClassAndPessenger() {
       }
       return newArray;
     });
+    console.log(array.length);
   };
 
-  const getMaxId = () => Math.max(0, ...array.map(c => c.id)) + 1;
-
   const addChild = () => {
-    if (array.length === 8) return;
-    setArray(current => [
-      ...current,
-      {
-        id: getMaxId(),
-        type: undefined,
-      },
+    // console.log(array.length);
+    setChildren(children + 1);
+    setArray(prevArray => [
+      ...prevArray,
+      { infantId: children, age: '나이를 선택하세요', type: undefined },
     ]);
   };
 
+  const completeResult = () => {
+    const childNumber = array.filter(arr => arr.type === 'child').length;
+    const infantNumber = array.filter(arr => arr.type === 'infant').length;
+    console.log(childNumber);
+    console.log(infantNumber);
+    setResult(prevResult => {
+      const newResult = {
+        ...prevResult,
+        infant: infantNumber,
+        children: childNumber,
+      };
+      selectPeople(newResult);
+      return newResult;
+    });
+
+    setVisible(false);
+
+    return result;
+  };
+
   return (
-    <CabinSection>
+    <CabinSection visible={visible}>
+      {console.log('7', result)}
+      <Triangle />
       <CainContentWrapper>
         <div>
           <LabelTitle htmlFor="classGrade">좌석 등급</LabelTitle>
-          <CabinClass onChange={selectClass} key={uuid.v4()} id="classGrade">
+          <CabinClass
+            value={result.grade}
+            onChange={selectClass}
+            key={uuid.v4()}
+            id="classGrade"
+            name="classGrade"
+          >
             <option value="economy">일반석</option>
             <option value="premiumeconomy">프리미엄 일반석</option>
             <option value="business">비즈니스석</option>
@@ -202,18 +256,19 @@ function CabinClassAndPessenger() {
           </CabinClass>
         </div>
         <LabelTitle>성인</LabelTitle>
+
         <ButtonWrapper>
           <MinusNumberButton onClick={reduceAdult} disabled={adult === 1}>
             <span>
-              <SvgIcon viewBox="0 0 24 24">
+              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M19 10a2 2 0 1 1 0 4H5a2 2 0 1 1 0-4h14z"></path>
               </SvgIcon>
             </span>
           </MinusNumberButton>
-          <PeopleNumber type="text" value={adult} />
-          <PlusNumberButton onClick={increaseAdult} disabled={adult === 8}>
+          <PeopleNumber ref={adultRef} type="text" value={adult} />
+          <PlusNumberButton onClick={addAdult} disabled={adult === 8}>
             <span>
-              <SvgIcon viewBox="0 0 24 24">
+              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
               </SvgIcon>
             </span>
@@ -223,27 +278,33 @@ function CabinClassAndPessenger() {
 
         <LabelTitle>유/소아</LabelTitle>
         <ButtonWrapper>
-          <MinusNumberButton onClick={reduceChild} disabled={!array.length}>
+          <MinusNumberButton onClick={reduceChild} disabled={children === 0}>
             <span>
-              <SvgIcon viewBox="0 0 24 24">
+              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M19 10a2 2 0 1 1 0 4H5a2 2 0 1 1 0-4h14z"></path>
               </SvgIcon>
             </span>
           </MinusNumberButton>
-          <PeopleNumber type="text" value={array.length} />
-          <PlusNumberButton
-            onClick={addChild}
-            // onClick={() => addChild(child + 1)}
-            disabled={array.length === 8}
-          >
+          <PeopleNumber ref={childRef} type="text" value={children} />
+          <PlusNumberButton onClick={addChild} disabled={children === 8}>
             <span>
-              <SvgIcon viewBox="0 0 24 24">
+              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
               </SvgIcon>
             </span>
           </PlusNumberButton>
         </ButtonWrapper>
         <PessengerBoundary>만 0 - 15세</PessengerBoundary>
+
+        {array.map(child => (
+          <InfantandChild
+            array={array}
+            setArray={setArray}
+            key={uuid.v4()}
+            infants={child.infantId}
+          />
+        ))}
+        {/* {state.map(child=>(<InfantandChild key={uuid.v4()} child={child}/>))} */}
 
         <WarningDetail>
           <p>
@@ -252,12 +313,12 @@ function CabinClassAndPessenger() {
           </p>
           <p>
             유/소아 동반 여행 시 연령제한과 정책은 항공사 별로 다를 수 있으니
-            예약하기 전에 해당 항공사롸 확인하시기 바랍니다.
+            예약하기 전에 해당 항공사와 확인하시기 바랍니다.
           </p>
         </WarningDetail>
       </CainContentWrapper>
       <CompleteButton>
-        <button onClick={() => setCompletedInput(!completeInput)}>완료</button>
+        <button onClick={() => completeResult()}>완료</button>
       </CompleteButton>
     </CabinSection>
   );
