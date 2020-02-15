@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FlexSection, Flag, FlexList } from '../styles';
-import { Help } from './Header/SubNav';
 
 export const HeadingTitle = styled.h3`
   font-size: 2.4rem;
   font-weight: 700;
+`;
+
+const Help = styled.a`
+  color: #0770e3;
 `;
 
 const GlobalSection = styled(FlexSection)`

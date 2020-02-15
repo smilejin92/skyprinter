@@ -2,21 +2,78 @@ import styled, { css } from 'styled-components';
 import { FlexWrapper } from '.';
 
 // DatePicker
-export const ModalWrapper = styled.div`
-  position: absolute;
-  top: ${props => props.top || 'initial'};
-  left: ${props => props.left || 'initial'};
-  right: ${props => props.right || 'initial'};
-  bottom: ${props => props.bottom || 'initial'};
+export const DatePickerWrapper = styled(FlexWrapper)`
+  position: relative;
+  width: 13.1rem;
+  margin-left: 150px;
 `;
 
-export const BorderedWrapper = styled(FlexWrapper)`
-  width: 318px;
+export const DatePickerHeader = styled(FlexWrapper)`
+  position: relative;
+  width: 100%;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 101%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2.5rem;
+    height: 1.2rem;
+    background: ${({ arrowTip }) => (arrowTip ? 'white' : 'transparent')};
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    z-index: 2;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    width: 2.5rem;
+    height: 1.2rem;
+    background: ${({ arrowTip }) => (arrowTip ? '#ccc' : 'transparent')};
+    z-index: 1;
+  }
+`;
+
+export const ButtonLabel = styled.label.attrs(({ htmlFor }) => ({
+  htmlFor,
+}))`
+  font-size: 1.2rem;
+  color: white;
+`;
+
+export const DisplayDatePickerBtn = styled.button`
+  height: 4.8rem;
+  padding: 0.6rem 1.2rem;
   border: 1px solid #ccc;
-  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: transparent;
+  outline: none;
+  font-size: 1.6rem;
+  text-align: left;
+  background: white;
 `;
 
-export const SearchTypeButton = styled.button`
+export const DatePickerBody = styled.div`
+  position: absolute;
+  top: 118%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 31.8rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  background: white;
+  z-index: 1;
+`;
+
+export const SearchTypes = styled(FlexWrapper)`
+  border-bottom: 1px solid #ccc;
+`;
+
+export const SearchTypeBtn = styled.button`
   border: none;
   border-bottom: 3px solid
     ${({ active }) => (active ? '#0770e3' : 'transparent')};
@@ -45,16 +102,27 @@ export const SearchTypeButton = styled.button`
     `}
 `;
 
-export const DatePickerWrapper = styled(FlexWrapper)`
-  padding: 10px 11px;
-  border-right: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  border-left: 1px solid #ccc;
-  width: 318px;
+export const DatesSelection = styled(FlexWrapper)`
+  padding: 1rem 1.1rem;
 `;
 
-export const DatePickerHeader = styled(FlexWrapper)`
-  margin-bottom: 12px;
+// disabled 왜 안되냐 - index.css에 전역으로 설정돼있었음
+export const SkipButton = styled.button`
+  border: none;
+  padding: 0;
+  background: transparent;
+  width: 36px;
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      cursor: not-allowed !important;
+    `}
+
+  svg {
+    width: 20px;
+    fill: ${({ disabled }) => (disabled ? '#68697f' : '#0770e3')};
+  }
 `;
 
 export const SelectMonth = styled.select`
@@ -65,30 +133,16 @@ export const SelectMonth = styled.select`
   border-radius: 0.3rem;
 `;
 
-// disabled 왜 안되냐 - index.css에 전역으로 설정돼있었음
-export const SkipButton = styled.button`
-  border: none;
-  padding: 0;
-  background: transparent;
-  width: 36px;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-
-  svg {
-    width: 20px;
-    fill: ${({ disabled }) => (disabled ? '#68697f' : '#0770e3')};
-  }
-`;
-
 export const Days = styled(FlexWrapper)`
   border-bottom: 1px solid #ccc;
 `;
 
 export const Day = styled.div`
+  width: 4.2rem;
+  height: 3.6rem;
+  padding-top: 1.2rem;
   font-size: 1.4rem;
   font-weight: 600;
-  width: 42px;
-  height: 36px;
-  padding-top: 12px;
   text-align: center;
 
   ${({ border }) =>
@@ -99,19 +153,32 @@ export const Day = styled.div`
 `;
 
 export const DateItem = styled.div`
-  font-size: 1.4rem;
-  line-height: 1.2rem;
-  text-align: center;
+  position: relative;
   width: 42px;
   height: 42px;
   padding-top: 15px;
+  font-size: 1.4rem;
+  line-height: 1.2rem;
+  text-align: center;
   cursor: ${({ notAllowed }) => (notAllowed ? 'not-allowed' : 'pointer')};
-  color: ${({ available }) => (available ? '#0770e3' : '#b2b2bf')};
+  color: ${({ colorBlue }) => (colorBlue ? '#0770e3' : '#b2b2bf')};
 
   ${({ hover }) =>
     hover &&
     css`
-      &:hover {
+      &::after {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 36px;
+        height: 36px;
+        background: transparent;
+        border-radius: 2rem;
+      }
+      &:hover::after {
         color: inherit;
         background: #eee;
         border-radius: 2rem;
@@ -121,8 +188,6 @@ export const DateItem = styled.div`
   ${({ border }) =>
     border &&
     css`
-      position: relative;
-
       &::before {
         content: '';
         position: absolute;
@@ -133,4 +198,30 @@ export const DateItem = styled.div`
         background: #ccc;
       }
     `}
+
+  ${({ selected }) =>
+    selected &&
+    css`
+      color: white;
+      font-weigth: 600;
+      pointer-events: none;
+      &::after {
+        background: #084eb2;
+      }
+    `}
+`;
+
+export const ButtonBox = styled(FlexWrapper)`
+  border-top: 1px solid #ccc;
+  justify-content: flex-end;
+`;
+
+export const CancelBtn = styled.button`
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  height: 4rem;
+  margin-right: 0.5rem;
+  color: #0770e3;
+  outline: none;
 `;

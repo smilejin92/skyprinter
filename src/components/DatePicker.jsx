@@ -1,64 +1,155 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+} from 'react';
 import uuid from 'uuid';
 import { FlexWrapper } from '../styles';
 import {
-  BorderedWrapper,
-  SearchTypeButton,
-  ModalWrapper,
   DatePickerWrapper,
   DatePickerHeader,
+  ButtonLabel,
+  DisplayDatePickerBtn,
+  DatePickerBody,
+  SearchTypes,
+  SearchTypeBtn,
+  DatesSelection,
   SelectMonth,
   SkipButton,
   Days,
   Day,
   DateItem,
+  ButtonBox,
+  CancelBtn,
 } from '../styles/datePickerStyle';
 
-function DatePicker() {
-  const [searchType, setSearchType] = useState(true);
+function DatePicker({
+  inMain,
+  type,
+  inboundDate,
+  setInboundDate,
+  outboundDate,
+  setOutboundDate,
+  displayModal,
+  hideModal,
+  display,
+}) {
+  const [searchType, setSearchType] = useState(true); // 검색 타입 - 특정 날짜
 
-  // 검색 타입 설정
+  // DatePicker 표시
+  const selectDates = useCallback(() => {
+    displayModal(type);
+  }, [displayModal, type]);
+
+  // 검색 타입 설정 - 특정 날짜
   const setSearchDates = useCallback(() => {
     setSearchType(true);
   }, []);
 
+  // 검색 타입 설정 - 한 달 전체
   const setSearchMonth = useCallback(() => {
-    setSearchType(false);
+    console.log('추후 업데이트 예정');
+    // setSearchType(false);
   }, []);
 
+  // DatePicker 닫기
+  const closeModal = useCallback(() => {
+    hideModal();
+  }, [hideModal]);
+
+  // 선택된 날짜를 'year. month. date.' 형식으로 반환
+  const convertDateToString = useMemo(() => {
+    const travelDate = type === 'inbound' ? inboundDate : outboundDate;
+    const month = travelDate.getMonth() + 1;
+    const date = travelDate.getDate();
+
+    if (inMain) {
+      const year = travelDate.getFullYear();
+      return `${year}. ${month}. ${date}`;
+    } else {
+      const days = ['일', '월', '화', '수', '목', '금', '토'];
+      const day = days.indexOf(travelDate.getDay());
+      return `${month}월 ${date}일 (${day})`;
+    }
+  }, [type, inboundDate, outboundDate, inMain]);
+
   return (
-    <ModalWrapper>
-      <BorderedWrapper justify="space-evenly" align="center">
-        <SearchTypeButton onClick={setSearchDates} active={searchType}>
-          <FlexWrapper justify="space-between" align="center">
-            <svg viewBox="0 0 24 24">
-              <path d="M8 5c-.6 0-1-.4-1-1 0-.5.4-1 1-1 .5 0 1 .4 1 1s-.4 1-1 1zm9-1c0-.6-.4-1-1-1-.5 0-1 .4-1 1 0 .5.4 1 1 1s1-.4 1-1zm4 1v13c0 1.7-1.3 3-3 3H6c-1.7 0-3-1.3-3-3V5c0-.6.4-1 1-1h1c.6 0 1 .4 1 1s.4 1 1 1h2c.5 0 1-.4 1-1s.4-1 1-1h2c.6 0 1 .4 1 1s.4 1 1 1h2c.5 0 1-.4 1-1s.4-1 1-1h1c.6 0 1 .4 1 1zm-2 5H5v8c0 .6.4 1 1 1h12c.6 0 1-.4 1-1v-8zm-8 2H7v4h4v-4z" />
-            </svg>
-            <span>특정 날짜</span>
-          </FlexWrapper>
-        </SearchTypeButton>
-        <SearchTypeButton onClick={setSearchMonth} active={!searchType}>
-          <FlexWrapper justify="space-evenly" align="center">
-            <svg viewBox="0 0 24 24">
-              <path d="M6 7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2s2-.9 2-2V9c0-1.1-.9-2-2-2zm6-5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2s2-.9 2-2V4c0-1.1-.9-2-2-2zm6 11c-1.1 0-2 .9-2 2v5c0 1.1.9 2 2 2s2-.9 2-2v-5c0-1.1-.9-2-2-2z"></path>
-            </svg>
-            <span>한 달 전체</span>
-          </FlexWrapper>
-        </SearchTypeButton>
-      </BorderedWrapper>
-      {searchType && <SearchDates />}
-    </ModalWrapper>
+    <DatePickerWrapper>
+      {inMain ? (
+        <DatePickerHeader direction="column" arrowTip={display}>
+          <ButtonLabel htmlFor="date-button">
+            {type === 'inbound' ? '가는 날' : '오는 날'}
+          </ButtonLabel>
+          <DisplayDatePickerBtn id="date-button" onClick={selectDates}>
+            <span>{convertDateToString}</span>
+          </DisplayDatePickerBtn>
+        </DatePickerHeader>
+      ) : (
+        <DatePickerHeader arrowTip={display}>
+          <button>${'<'}</button>
+          <DisplayDatePickerBtn id="date-button" onClick={selectDates}>
+            <span>{convertDateToString}</span>
+          </DisplayDatePickerBtn>
+          <button>${'<'}</button>
+        </DatePickerHeader>
+      )}
+      {display && (
+        <DatePickerBody>
+          {inMain && (
+            <SearchTypes justify="space-evenly" align="center">
+              <SearchTypeBtn onClick={setSearchDates} active={searchType}>
+                <FlexWrapper justify="space-between" align="center">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M8 5c-.6 0-1-.4-1-1 0-.5.4-1 1-1 .5 0 1 .4 1 1s-.4 1-1 1zm9-1c0-.6-.4-1-1-1-.5 0-1 .4-1 1 0 .5.4 1 1 1s1-.4 1-1zm4 1v13c0 1.7-1.3 3-3 3H6c-1.7 0-3-1.3-3-3V5c0-.6.4-1 1-1h1c.6 0 1 .4 1 1s.4 1 1 1h2c.5 0 1-.4 1-1s.4-1 1-1h2c.6 0 1 .4 1 1s.4 1 1 1h2c.5 0 1-.4 1-1s.4-1 1-1h1c.6 0 1 .4 1 1zm-2 5H5v8c0 .6.4 1 1 1h12c.6 0 1-.4 1-1v-8zm-8 2H7v4h4v-4z" />
+                  </svg>
+                  <span>특정 날짜</span>
+                </FlexWrapper>
+              </SearchTypeBtn>
+              <SearchTypeBtn onClick={setSearchMonth} active={!searchType}>
+                <FlexWrapper justify="space-evenly" align="center">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M6 7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2s2-.9 2-2V9c0-1.1-.9-2-2-2zm6-5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2s2-.9 2-2V4c0-1.1-.9-2-2-2zm6 11c-1.1 0-2 .9-2 2v5c0 1.1.9 2 2 2s2-.9 2-2v-5c0-1.1-.9-2-2-2z"></path>
+                  </svg>
+                  <span>한 달 전체</span>
+                </FlexWrapper>
+              </SearchTypeBtn>
+            </SearchTypes>
+          )}
+
+          <SearchDates
+            type={type}
+            inboundDate={inboundDate}
+            outboundDate={outboundDate}
+            setInboundDate={setInboundDate}
+            setOutboundDate={setOutboundDate}
+            closeModal={closeModal}
+          />
+          <ButtonBox>
+            <CancelBtn onClick={closeModal}>취소</CancelBtn>
+          </ButtonBox>
+        </DatePickerBody>
+      )}
+    </DatePickerWrapper>
   );
 }
 
-function SearchDates() {
-  const [months, setMonths] = useState([]); // Datepicker에 나타낼 15개의 month
-  const [monthsIdx, setMonthsIdx] = useState(1); // Datepicker의 시작 month
+function SearchDates({
+  type,
+  inboundDate,
+  setInboundDate,
+  outboundDate,
+  setOutboundDate,
+  closeModal,
+}) {
+  const [months, setMonths] = useState([]); // DatePicker에 나타낼 15개의 month
+  const [monthsIdx, setMonthsIdx] = useState(null); // Datepicker의 시작 month index
+  const [monthOptions, setMonthOptions] = useState([]); // 선택 가능한 월
   const [selectedYearMonth, setSelectedYearMonth] = useState(null); // 선택된 년월
   const [days, setDays] = useState([]); // Datepicker에 나타낼 요일 (일 ~ 토)
-  const [dates, setDates] = useState([]); // 선택된 년월에 맞게 나타 낼 날짜
+  const [dates, setDates] = useState([]); // 선택된 년월에 맞게 나타 낼 날짜 엘리먼트
   const [today, setToday] = useState(null); // 앱 실행 기준 날짜
-  const [monthOptions, setMonthOptions] = useState([]); // 선택 가능한 월
   const [yearAfterToday, setYearAfterToday] = useState(null); // 앱 실행 기준 날짜 후 1년
 
   // 전달된 년월의 일 수를 반환
@@ -75,7 +166,7 @@ function SearchDates() {
     return 31;
   }, []);
 
-  // Datepicker에 표시할 년월 초기화
+  // Datepicker에 표시할 모든 년월일 초기화
   useEffect(() => {
     const today = new Date();
     const _months = []; // Datepicker에 필요한 년월일 (ex. 2020/1 ~ 2021/3)
@@ -83,14 +174,15 @@ function SearchDates() {
     const curMonth = today.getMonth() + 1; // 2
     const curDate = today.getDate();
 
-    // _months 배열의 각 요소에 들어 갈 정보
+    // _months 배열의 각 요소에 들어갈 정보
     let year = curYear;
     let month = curMonth;
 
     // 현재가 1월이면 이전 년 12월을 처리
+    // 1월이 아니면 이전 달부터
     if (curMonth === 1) {
-      year -= 1;
       month = 12;
+      year -= 1;
     } else {
       month -= 1;
     }
@@ -98,9 +190,9 @@ function SearchDates() {
     // _months 배열의 첫 요소 삽입 { 2020, 1, 31 }
     _months.push({ year, month, days: getTotalDays(year, month) });
 
-    // _months 배열의 첫 요소와 마지막 요소 사이의 13개 요소에 대한 처리
-    // year = 2020, month = 1 시작
-    for (let i = 0; i < 13; i++) {
+    // _months 배열의 첫 요소 이후 14개 요소에 대한 처리
+    // year = 2020, month = 2 시작
+    for (let i = 0; i < 14; i++) {
       month = (month + 1) % 13;
       if (!month) {
         month = 1;
@@ -108,43 +200,51 @@ function SearchDates() {
       }
       _months.push({ year, month, days: getTotalDays(year, month) });
     }
+    // monthsIdx 여기서 설정 based on travelDate
+    let _monthsIdx = -1;
+    const travelDate = type === 'inbound' ? inboundDate : outboundDate;
+    const selectedYear = travelDate.getFullYear();
+    const selectedMonth = travelDate.getMonth() + 1;
 
-    // _months 배열의 마지막 요소 삽입 { 2021, 3, 31 }
-    month = (month + 1) % 13;
-    if (!month) {
-      month = 1;
-      year += 1;
+    for (let i = 0; i < _months.length; i++) {
+      if (
+        _months[i].year === selectedYear &&
+        _months[i].month === selectedMonth
+      ) {
+        _monthsIdx = i;
+        break;
+      }
     }
-    _months.push({ year, month, days: getTotalDays(year, month) });
 
-    const { year: y, month: m } = _months[monthsIdx];
-    setSelectedYearMonth(`${y}/${m}`);
+    const { year: y, month: m } = _months[_monthsIdx];
+    setSelectedYearMonth(`${y}-${m}`);
     setMonths(_months);
+    setMonthsIdx(_monthsIdx);
     setToday(new Date(`${curYear}/${curMonth}/${curDate}`));
     setYearAfterToday(new Date(`${curYear + 1}/${curMonth}/${curDate}`));
-  }, [getTotalDays, monthsIdx]);
+  }, [getTotalDays, inboundDate, outboundDate, type]);
 
   // Datepicker에 표시할 요일 엘리먼트 초기화
-  useEffect(() => {
-    const _days = ['일', '월', '화', '수', '목', '금', '토'];
-    const elements = [];
-    for (let i = 0; i < _days.length; i++) {
-      elements.push(
+  useLayoutEffect(() => {
+    const targets = ['일', '월', '화', '수', '목', '금', '토'];
+    const _days = [];
+    for (let i = 0; i < targets.length; i++) {
+      _days.push(
         <Day key={uuid.v4()} border={i === 0 || i === 5}>
-          {_days[i]}
+          {targets[i]}
         </Day>,
       );
     }
-    setDays(elements);
+    setDays(_days);
   }, []);
 
   // 선택 가능한 월 초기화
-  useEffect(() => {
+  useLayoutEffect(() => {
     const options = [];
     for (let i = 1; i < months.length - 1; i++) {
       const { year, month } = months[i];
       options.push(
-        <option key={i} value={`${year}/${month}`}>
+        <option key={uuid.v4()} value={`${year}-${month}`}>
           {`${year}년 ${month}월`}
         </option>,
       );
@@ -153,36 +253,83 @@ function SearchDates() {
   }, [months]);
 
   // 날짜 선택 시 처리할 로직
-  const handleClick = useCallback(({ target }) => {
-    if (target.id === 'not-allowed') return;
-    console.log(target.id);
-  }, []);
+  const selectDate = useCallback(
+    ({ target }) => {
+      const [year, month, date] = target.id.split('-');
+      const clickedDate = new Date(`${year}/${month}/${date}`);
+      // 1. past와 future는 return 시킨다.
+      if (clickedDate < today || yearAfterToday < clickedDate) return;
+
+      // 2. travelDate을 설정한다.
+      console.log(target.id);
+      // 2.1 inbound > outbound일 때
+      if (type === 'inbound') {
+        const outboundYear = outboundDate.getFullYear();
+        const outboundMonth = outboundDate.getMonth() + 1;
+        const _outboundDate = outboundDate.getDate();
+        if (
+          clickedDate >
+          new Date(`${outboundYear}/${outboundMonth}/${_outboundDate}`)
+        ) {
+          setInboundDate(clickedDate);
+          setOutboundDate(clickedDate);
+        } else {
+          setInboundDate(clickedDate);
+        }
+      } else {
+        // 2.2 outbound < inbound
+        const inboundYear = inboundDate.getFullYear();
+        const inboundMonth = inboundDate.getMonth() + 1;
+        const _inboundDate = inboundDate.getDate();
+        if (
+          clickedDate <
+          new Date(`${inboundYear}/${inboundMonth}/${_inboundDate}`)
+        ) {
+          setInboundDate(clickedDate);
+          setOutboundDate(clickedDate);
+        } else {
+          setOutboundDate(clickedDate);
+        }
+      }
+      closeModal();
+    },
+    [
+      today,
+      yearAfterToday,
+      type,
+      closeModal,
+      outboundDate,
+      setInboundDate,
+      inboundDate,
+      setOutboundDate,
+    ],
+  );
 
   // Datepicker에 표시할 날짜 엘리먼트 변경
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!selectedYearMonth) return;
 
     // current year와 month의 1일이 일요일인지 탐색
     // 일요일이면 firstDayOfMonth는 0이다.
     // ex. 2020/2/1은 토요일이다 (6).
-    const [year, month] = selectedYearMonth.split('/');
+    const [year, month] = selectedYearMonth.split('-');
     const firstDayOfMonth = new Date(`${year}/${month}/1`).getDay();
-    const elements = [];
+    const _dates = [];
 
     // 일요일이면 DatePicker의 시작 날짜는 current month의 1일이다.
     // 일요일이 아니면 DatePicker의 시작 날짜는 이전 달의 x일이다.
     const { days } = months[monthsIdx - 1];
     let startDate = firstDayOfMonth === 0 ? 1 : days - firstDayOfMonth + 1;
-    let incrementIdx = firstDayOfMonth === 0 ? 0 : -1;
+    let incrementMonthIdx = firstDayOfMonth === 0 ? 0 : -1;
 
     // Datepicker에 표시할 날짜를 count를 활용해 1씩 올려준다
     let count = 0;
 
     // 6주 * 7일 = 42
     for (let i = 0; i < 42; i++) {
-      const { year, month, days } = months[monthsIdx + incrementIdx];
+      const { year, month, days } = months[monthsIdx + incrementMonthIdx];
 
-      // 현 시점 기준 과거 / 1년 이후는 click disabled
+      // 현 시점 기준 과거, 1년 이후는 click disabled
       const ithDate = new Date(`${year}/${month}/${startDate + count}`);
       const past = ithDate < today;
       const future = yearAfterToday < ithDate;
@@ -191,22 +338,28 @@ function SearchDates() {
       const border = i % 7 === 0 || i % 7 === 5;
 
       // selectedYearMonth에 해당하는 날짜만 파란색
-      const available =
-        !past && !future && `${year}/${month}` === selectedYearMonth;
+      const colorBlue =
+        !past && !future && `${year}-${month}` === selectedYearMonth;
 
-      elements.push(
+      const travelDate = type === 'inbound' ? inboundDate : outboundDate;
+      const inYear = travelDate.getFullYear();
+      const inMonth = travelDate.getMonth() + 1;
+      const inDate = travelDate.getDate();
+
+      const selected =
+        `${year}-${month}-${startDate + count}` ===
+        `${inYear}-${inMonth}-${inDate}`;
+
+      _dates.push(
         <DateItem
           key={uuid.v4()}
+          id={`${year}-${month}-${startDate + count}`}
           border={border}
           notAllowed={past || future}
-          available={available}
+          colorBlue={colorBlue}
           hover={!past && !future}
-          id={
-            !past && !future
-              ? `${year}/${month}/${startDate + count}`
-              : 'not-allowed'
-          }
-          onClick={handleClick}
+          selected={selected}
+          onClick={selectDate}
         >
           {startDate + count}
         </DateItem>,
@@ -218,24 +371,29 @@ function SearchDates() {
       if (startDate + count > days) {
         startDate = 1;
         count = 0;
-        incrementIdx += 1;
+        incrementMonthIdx += 1;
       }
     }
-    setDates(elements);
+
+    setDates(_dates);
   }, [
     selectedYearMonth,
     months,
     monthsIdx,
     today,
     yearAfterToday,
-    handleClick,
+    selectDate,
+    inboundDate,
+    outboundDate,
+    type,
   ]);
 
   // Dropdown으로 년월을 선택했을 경우
   const selectYearMonth = useCallback(
     ({ target }) => {
       let idx = -1;
-      const [year, month] = target.value.split('/');
+      const [year, month] = target.value.split('-');
+
       months.forEach((m, i) => {
         if (m.year === +year && m.month === +month) {
           idx = i;
@@ -262,7 +420,7 @@ function SearchDates() {
         }
 
         const { year, month } = months[monthsIdx + count];
-        setSelectedYearMonth(`${year}/${month}`);
+        setSelectedYearMonth(`${year}-${month}`);
 
         return curIdx + count;
       });
@@ -270,13 +428,18 @@ function SearchDates() {
     [months, monthsIdx],
   );
 
+  const getPrevMonth = useCallback(() => {
+    skipMonth('prev');
+  }, [skipMonth]);
+
+  const getNextMonth = useCallback(() => {
+    skipMonth('next');
+  }, [skipMonth]);
+
   return (
-    <DatePickerWrapper direction="column">
-      <DatePickerHeader justify="space-evenly">
-        <SkipButton
-          disabled={monthsIdx === 1}
-          onClick={() => skipMonth('prev')}
-        >
+    <DatesSelection direction="column">
+      <FlexWrapper justify="space-evenly">
+        <SkipButton disabled={monthsIdx === 1} onClick={getPrevMonth}>
           <svg viewBox="0 0 24 24">
             <path d="M13.7 19.7L6.6 12l7.1-7.7c.6-.6 1.7-.2 1.7.7v14c0 .9-1.1 1.4-1.7.7z"></path>
           </svg>
@@ -288,18 +451,16 @@ function SearchDates() {
         )}
         <SkipButton
           disabled={monthsIdx >= months.length - 2}
-          onClick={() => skipMonth('next')}
+          onClick={getNextMonth}
         >
           <svg viewBox="0 0 24 24">
             <path d="M9.9 19.7L17 12 9.9 4.4c-.7-.7-1.7-.2-1.7.7v14c0 .8 1 1.3 1.7.6z"></path>
           </svg>
         </SkipButton>
-      </DatePickerHeader>
-      <Days width="294">{days}</Days>
-      <FlexWrapper wrap="true" width="294">
-        {dates}
       </FlexWrapper>
-    </DatePickerWrapper>
+      <Days>{days}</Days>
+      <FlexWrapper wrap="true">{dates}</FlexWrapper>
+    </DatesSelection>
   );
 }
 

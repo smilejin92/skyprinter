@@ -10,7 +10,7 @@ const ModalWrapper = styled.div`
   width: 100%;
   height: 100vh;
   background: rgba(255, 255, 255, 0.5);
-  text-align: center;
+  z-index: 1;
 `;
 
 const Modal = styled.article`
@@ -21,7 +21,7 @@ const Modal = styled.article`
   width: 38.4rem;
   border-radius: 0.5rem;
   background: white;
-  z-index: 1;
+  z-index: 2;
 `;
 
 const ModalHeader = styled(FlexWrapper)`
@@ -100,9 +100,24 @@ const SaveButton = styled(CancelButton)`
   background: #00a698;
 `;
 
-function Culture({ closeModal, configCulture }) {
+// set currency, market, locale
+function Culture({
+  closeModal,
+  setDisplayCulture,
+  setSelectedCulture,
+  selectedCulture,
+  countries,
+  currencies,
+}) {
   const [yOffSet] = useState(window.pageYOffset);
+  const [selectedCountry, setSelectedCountry] = useState(
+    selectedCulture.country,
+  );
+  const [selectedCurrency, setSelectedCurrency] = useState(
+    selectedCulture.currency,
+  );
 
+  // disable mouse scroll
   useEffect(() => {
     const preventDefault = () => {
       window.scrollTo(0, yOffSet);
@@ -114,6 +129,30 @@ function Culture({ closeModal, configCulture }) {
       window.removeEventListener('scroll', preventDefault);
     };
   }, [yOffSet]);
+
+  const switchCountry = ({ target }) => {
+    console.log(target.value);
+    setSelectedCountry(target.value);
+  };
+
+  const switchCurrency = ({ target }) => {
+    console.log(target.value);
+    setSelectedCurrency(target.value);
+  };
+
+  const configCulture = () => {
+    // set parameters for api request
+    setDisplayCulture(false);
+    setSelectedCulture(cur => {
+      const newState = {
+        ...cur,
+        country: selectedCountry,
+        currency: selectedCurrency,
+      };
+      console.log(newState);
+      return newState;
+    });
+  };
 
   return (
     <ModalWrapper top={yOffSet}>
@@ -146,9 +185,13 @@ function Culture({ closeModal, configCulture }) {
             <Description>
               국가를 선택하면 지역별 특가 상품 및 정보를 받아보실 수 있습니다.
             </Description>
-            <Options id="market">
+            <Options
+              id="market"
+              value={selectedCountry}
+              onChange={switchCountry}
+            >
               {/* get list of markets */}
-              <option>대한민국</option>
+              {countries}
             </Options>
           </Category>
           <Category direction="column">
@@ -158,9 +201,13 @@ function Culture({ closeModal, configCulture }) {
               </SvgIcon>
               통화
             </CategoryLabel>
-            <Options id="currency">
+            <Options
+              id="currency"
+              value={selectedCurrency}
+              onChange={switchCurrency}
+            >
               {/* get list of currencies */}
-              <option>KRW - ₩</option>
+              {currencies}
             </Options>
           </Category>
           <Category direction="column">
