@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { FlexWrapper } from '../../styles';
+import SearchBox from '../Main/SearchBox';
+import CabinClassPessenger from '../Main/CabinClassPessenger';
 import DatePicker from '../DatePicker';
 import CheckBox from './SearchBox/CheckBox';
 import { Radio } from 'antd';
@@ -23,6 +25,19 @@ const SearchFormOption = styled(FlexWrapper)`
   }
 `;
 
+const SelectWayToGo = styled(Radio.Group)`
+  color: #fff;
+  label {
+    font-size: 1.6rem;
+    color: #fff;
+  }
+  .ant-radio {
+    margin: 0 0 2px 0;
+  }
+`;
+
+const SearchWrapper = styled(FlexWrapper)``;
+
 const SearchFormSubmit = styled(FlexWrapper)`
   justify-content: space-between;
   color: #fff;
@@ -39,17 +54,6 @@ const SearchFormSubmit = styled(FlexWrapper)`
       vertical-align: middle;
       padding-left: 6px;
     }
-  }
-`;
-
-const SelectWayToGo = styled(Radio.Group)`
-  color: #fff;
-  label {
-    font-size: 1.6rem;
-    color: #fff;
-  }
-  .ant-radio {
-    margin: 0 0 2px 0;
   }
 `;
 
@@ -84,7 +88,11 @@ function SearchForm() {
 
   return (
     <SearchFormWrapper direction="column">
-      <form>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+        }}
+      >
         <SearchFormOption>
           <SelectWayToGo onChange={selectWayToGo} value={wayType}>
             <Radio value={'왕복'}>왕복</Radio>
@@ -101,36 +109,40 @@ function SearchForm() {
             </a>
           </div>
         </SearchFormOption>
-        <div>
-          <DatePicker
-            type="inbound"
-            displayModal={openDatePicker}
-            hideModal={closeDatePicker}
-            inboundDate={inboundDate}
-            outboundDate={outboundDate}
-            setInboundDate={setInboundDate}
-            setOutboundDate={setOutboundDate}
-            display={inboundDatePicker}
-            inMain={true}
-          />
-          <DatePicker
-            type="outbound"
-            displayModal={openDatePicker}
-            hideModal={closeDatePicker}
-            inboundDate={inboundDate}
-            outboundDate={outboundDate}
-            setInboundDate={setInboundDate}
-            setOutboundDate={setOutboundDate}
-            display={outboundDatePicker}
-            inMain={true}
-          />
-        </div>
+        <SearchWrapper>
+          <SearchBox />
+          {/*  */}
+          <div style={{ display: 'flex', width: '50%' }}>
+            <DatePicker
+              type="inbound"
+              displayModal={openDatePicker}
+              hideModal={closeDatePicker}
+              inboundDate={inboundDate}
+              outboundDate={outboundDate}
+              setInboundDate={setInboundDate}
+              setOutboundDate={setOutboundDate}
+              display={inboundDatePicker}
+              inMain={true}
+            />
+            <DatePicker
+              type="outbound"
+              displayModal={openDatePicker}
+              hideModal={closeDatePicker}
+              inboundDate={inboundDate}
+              outboundDate={outboundDate}
+              setInboundDate={setInboundDate}
+              setOutboundDate={setOutboundDate}
+              display={outboundDatePicker}
+              inMain={true}
+            />
+            <CabinClassPessenger />
+          </div>
+        </SearchWrapper>
         <SearchFormSubmit>
           <CheckBox>직항만</CheckBox>
-          <button type="submit" aria-label="항공권 검색">
+          <button aria-label="항공권 검색">
             항공권 검색
             <span>
-              {/*  style="width:1.5rem;height:1.5rem" */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
