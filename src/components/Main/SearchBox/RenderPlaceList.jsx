@@ -33,6 +33,9 @@ const ListSection = styled.section`
     font-weight: 400;
     letter-spacing: normal;
   }
+  strong {
+    font-weight: 700;
+  }
 `;
 
 const RenderPlaceList = React.memo(({ place, suggestion, hasCountry }) => {
