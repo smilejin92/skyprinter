@@ -174,6 +174,7 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
   });
 
   const closeModal = () => {
+    console.log('closeModal');
     setVisible(false);
   };
 

@@ -79,8 +79,8 @@ function ClassGradeButton() {
         <GradeButton onClick={() => setVisible(true)}>
           <GradePessenger>
             {detail.pessenger > 1
-              ? `${detail.pessenger}승객, ${detail.class}`
-              : `${detail.pessenger}성인, ${detail.class}`}
+              ? `${detail.pessenger} 승객, ${detail.class}`
+              : `${detail.pessenger} 성인, ${detail.class}`}
           </GradePessenger>
         </GradeButton>
         {visible && (
