@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useLayoutEffect,
   useMemo,
+  useRef,
 } from 'react';
 import uuid from 'uuid';
 import { FlexWrapper } from '../styles';
@@ -24,6 +25,7 @@ import {
   ButtonBox,
   CancelBtn,
 } from '../styles/datePickerStyle';
+import useOutsideRef from '../hooks/useOutsideRef';
 
 function DatePicker({
   inMain,
@@ -75,8 +77,11 @@ function DatePicker({
     }
   }, [type, inboundDate, outboundDate, inMain]);
 
+  const outsideRef = useRef(null);
+  useOutsideRef(outsideRef, closeModal);
+
   return (
-    <DatePickerWrapper>
+    <DatePickerWrapper ref={outsideRef}>
       {inMain ? (
         <DatePickerHeader direction="column" arrowTip={display}>
           <ButtonLabel htmlFor="date-button">

@@ -18,7 +18,7 @@ const SearchWrapper = styled.div`
     margin: 0;
     border-right: none;
     display: inline-block;
-    width: 100%;
+    width: 101%;
     height: 4.8rem;
     padding: 0.6rem 1.2rem;
     background: #fff;

@@ -31,7 +31,7 @@ function InfantandChild({ infants, array, setArray }) {
     if (target.value === '0') {
       setArray(
         array.map(child =>
-          child.infantId === infants
+          child.childId === infants
             ? { ...child, age: +target.value, type: 'infant' }
             : child,
         ),
@@ -39,7 +39,7 @@ function InfantandChild({ infants, array, setArray }) {
     } else {
       setArray(
         array.map(child =>
-          child.infantId === infants
+          child.childId === infants
             ? { ...child, age: +target.value, type: 'child' }
             : child,
         ),
@@ -52,7 +52,7 @@ function InfantandChild({ infants, array, setArray }) {
   return (
     <div>
       <LabelTitle htmlFor="childage">
-        유/소아 {array[infants].infantId + 1} 나이
+        유/소아 {array[infants].childId + 1} 나이
       </LabelTitle>
       <CabinClass
         value={array[infants].age}

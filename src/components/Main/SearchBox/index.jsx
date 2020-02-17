@@ -4,6 +4,8 @@ import BoundSearchBox from './BoundSearchBox';
 import BoundChangeBox from './BoundChangeBox';
 
 const SearchBoxWrapper = styled.div`
+  /* width: calc(50%+1px); */
+  /* width:51%; */
   width: 50%;
 `;
 

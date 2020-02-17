@@ -36,7 +36,9 @@ const SelectWayToGo = styled(Radio.Group)`
   }
 `;
 
-const SearchWrapper = styled(FlexWrapper)``;
+const SearchWrapper = styled(FlexWrapper)`
+  padding-top: 1.3rem;
+`;
 
 const SearchFormSubmit = styled(FlexWrapper)`
   justify-content: space-between;
@@ -140,7 +142,10 @@ function SearchForm() {
         </SearchWrapper>
         <SearchFormSubmit>
           <CheckBox>직항만</CheckBox>
-          <button aria-label="항공권 검색">
+          <button
+            aria-label="항공권 검색"
+            style={{ transform: 'translateY(-16px)' }}
+          >
             항공권 검색
             <span>
               <svg
