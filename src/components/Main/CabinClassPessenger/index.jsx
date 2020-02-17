@@ -39,6 +39,12 @@ const GradePessenger = styled.span`
   overflow: hidden;
   font-size: 1.6rem;
 `;
+
+const GradeWrapper = styled.div`
+  width: 50%;
+  position: relative;
+`;
+
 function ClassGradeButton() {
   const [visible, setVisible] = useState(false);
   const [detail, setDetail] = useState({
@@ -47,17 +53,17 @@ function ClassGradeButton() {
   });
 
   const selectPeople = res => {
-    if (res.grade === 'economy') {
+    if (res.cabinClass === 'economy') {
       setDetail({
         pessenger: res.adult + res.children + res.infant,
         class: '일반석',
       });
-    } else if (res.grade === 'premiumeconomy') {
+    } else if (res.cabinClass === 'premiumeconomy') {
       setDetail({
         pessenger: res.adult + res.children + res.infant,
         class: '프리미엄 일반석',
       });
-    } else if (res.grade === 'business') {
+    } else if (res.cabinClass === 'business') {
       setDetail({
         pessenger: res.adult + res.children + res.infant,
         class: '비즈니스',
@@ -69,27 +75,30 @@ function ClassGradeButton() {
       });
     }
   };
-
-  useEffect(() => {}, []);
-
   return (
     <>
-      <div style={{ width: '50%', position: 'relative' }}>
+      <GradeWrapper>
         <ButtonLabel>좌석 등급 및 승객</ButtonLabel>
-        <GradeButton onClick={() => setVisible(true)}>
+        {/* <GradeButton onClick={() => setVisible(true)}> */}
+        <GradeButton onClick={() => setVisible(!visible)}>
           <GradePessenger>
             {detail.pessenger > 1
               ? `${detail.pessenger} 승객, ${detail.class}`
               : `${detail.pessenger} 성인, ${detail.class}`}
           </GradePessenger>
         </GradeButton>
-        {visible && (
+        <CabinClassAndPessenger
+          visible={visible}
+          setVisible={setVisible}
+          selectPeople={selectPeople}
+        />
+        {/* {visible && (
           <CabinClassAndPessenger
             setVisible={setVisible}
             selectPeople={selectPeople}
           />
-        )}
-      </div>
+        )} */}
+      </GradeWrapper>
     </>
   );
 }

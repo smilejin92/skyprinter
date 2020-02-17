@@ -6,7 +6,8 @@ import useOutsideRef from '../../../hooks/useOutsideRef';
 
 const CabinSection = styled.section`
   z-index: 99;
-  display: block;
+  display: ${props => (props.visible ? 'block' : 'none')};
+  /* display:block; */
   background-color: #fff;
   position: absolute;
   top: 7.8rem;
@@ -163,25 +164,22 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
 
   const [adult, setAdult] = useState(1);
   const [children, setChildren] = useState(0);
-  // const [infant, setInfant] = useState(0);
   const [array, setArray] = useState([]);
-
   const [result, setResult] = useState({
-    grade: 'economy',
+    cabinClass: 'economy',
     adult: 1,
     children: 0,
     infant: 0,
   });
 
-  const closeModal = () => {
-    console.log('closeModal');
-    setVisible(false);
-  };
+  // const closeModal = () => {
+  //   setVisible(false);
+  // };
 
   const selectClass = ({ target }) => {
     setResult(current => ({
       ...current,
-      grade: target.value,
+      cabinClass: target.value,
     }));
     // console.log(target.value);
   };
@@ -207,6 +205,15 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
     // console.log(increaseAdultNumber);
   };
 
+  const addChild = () => {
+    // console.log(array.length);
+    setChildren(children + 1);
+    setArray(prevArray => [
+      ...prevArray,
+      { childId: children, age: '나이를 선택하세요', type: undefined },
+    ]);
+  };
+
   const reduceChild = () => {
     if (!array.length) return;
     setChildren(prevchildren => prevchildren - 1);
@@ -220,20 +227,11 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
     // console.log(array.length);
   };
 
-  const addChild = () => {
-    // console.log(array.length);
-    setChildren(children + 1);
-    setArray(prevArray => [
-      ...prevArray,
-      { infantId: children, age: '나이를 선택하세요', type: undefined },
-    ]);
-  };
-
   const completeResult = () => {
     const childNumber = array.filter(arr => arr.type === 'child').length;
     const infantNumber = array.filter(arr => arr.type === 'infant').length;
-    // console.log(childNumber);
-    // console.log(infantNumber);
+    console.log(childNumber);
+    console.log(infantNumber);
     setResult(prevResult => {
       const newResult = {
         ...prevResult,
@@ -249,17 +247,19 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
     return result;
   };
 
-  const outsideRef = useRef(null);
-  useOutsideRef(outsideRef, closeModal);
+  // const outsideRef = useRef(null);
+  // useOutsideRef(outsideRef, closeModal);
 
   return (
-    <CabinSection ref={outsideRef} visible={visible}>
+    //  <CabinSection ref={outsideRef} visible={visible}>
+    <CabinSection visible={visible}>
+      {console.log(result)}
       <Triangle />
       <CainContentWrapper>
         <div>
           <LabelTitle htmlFor="classGrade">좌석 등급</LabelTitle>
           <CabinClass
-            value={result.grade}
+            value={result.cabinClass}
             onChange={selectClass}
             key={uuid.v4()}
             id="classGrade"
@@ -327,11 +327,9 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
             array={array}
             setArray={setArray}
             key={uuid.v4()}
-            infants={child.infantId}
+            infants={child.childId}
           />
         ))}
-        {/* {state.map(child=>(<InfantandChild key={uuid.v4()} child={child}/>))} */}
-
         <WarningDetail>
           <p>
             여행 시 탑승객의 나이는 예약된 연령 범주에 부합해야 합니다. 항공사는
