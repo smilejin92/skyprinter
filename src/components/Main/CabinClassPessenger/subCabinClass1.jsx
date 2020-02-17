@@ -164,9 +164,7 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
 
   const [adult, setAdult] = useState(1);
   const [children, setChildren] = useState(0);
-  // const [infant, setInfant] = useState(0);
   const [array, setArray] = useState([]);
-
   const [result, setResult] = useState({
     cabinClass: 'economy',
     adult: 1,

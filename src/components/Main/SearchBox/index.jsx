@@ -52,9 +52,15 @@ const SearchBox = () => {
   return (
     <SearchBoxWrapper>
       {console.log(bound)}
-      <BoundSearchBox bound={bound} selectBound={selectBound} type="inBound" />
+      <BoundSearchBox
+        header={'출발지'}
+        bound={bound}
+        selectBound={selectBound}
+        type="inBound"
+      />
       <BoundChangeBox changeBound={changeBound} />
       <BoundSearchBox
+        header={'도착지'}
         bound={bound}
         selectBound={selectBound}
         type="outBound"

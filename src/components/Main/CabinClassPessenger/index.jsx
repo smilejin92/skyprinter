@@ -22,7 +22,10 @@ const ButtonLabel = styled.label`
   color: #fff;
   display: block;
   font-size: 1.2rem;
-  line-height: 1.5;
+  /* line-height: 1.5; */
+  display: block;
+  font-weight: 700;
+  line-height: 1.8rem;
 `;
 
 const GradePessenger = styled.span`
@@ -41,6 +44,7 @@ const GradeWrapper = styled.div`
   width: 50%;
   position: relative;
 `;
+
 function ClassGradeButton() {
   const [visible, setVisible] = useState(false);
   const [detail, setDetail] = useState({
@@ -73,14 +77,14 @@ function ClassGradeButton() {
   };
   return (
     <>
-      <GradeWrapper style={{ width: '50%', position: 'relative' }}>
+      <GradeWrapper>
         <ButtonLabel>좌석 등급 및 승객</ButtonLabel>
         {/* <GradeButton onClick={() => setVisible(true)}> */}
         <GradeButton onClick={() => setVisible(!visible)}>
           <GradePessenger>
             {detail.pessenger > 1
-              ? `${detail.pessenger}승객, ${detail.class}`
-              : `${detail.pessenger}성인, ${detail.class}`}
+              ? `${detail.pessenger} 승객, ${detail.class}`
+              : `${detail.pessenger} 성인, ${detail.class}`}
           </GradePessenger>
         </GradeButton>
         <CabinClassAndPessenger

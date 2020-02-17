@@ -2,9 +2,18 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { HiddenHeader, FlexList, FlexWrapper } from '../../styles';
 
+// const SearchMenu = styled(FlexList)`
+//   width: 28.3rem;
+//   height: 3.6rem;
+// `;
+
 const SearchMenu = styled(FlexList)`
-  width: 28.3rem;
+  justify-content: flex-start;
   height: 3.6rem;
+
+  li {
+    margin-right: 0.6rem;
+  }
 `;
 
 const SearchMenuBtn = styled.button`

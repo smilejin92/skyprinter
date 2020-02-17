@@ -81,8 +81,8 @@ function DatePicker({
   useOutsideRef(outsideRef, closeModal);
 
   return (
-    <DatePickerWrapper ref={outsideRef}>
-      {inMain ? (
+    <DatePickerWrapper>
+      {inMain && (
         <DatePickerHeader direction="column" arrowTip={display}>
           <ButtonLabel htmlFor="date-button">
             {type === 'inbound' ? '가는 날' : '오는 날'}
@@ -91,17 +91,9 @@ function DatePicker({
             <span>{convertDateToString}</span>
           </DisplayDatePickerBtn>
         </DatePickerHeader>
-      ) : (
-        <DatePickerHeader arrowTip={display}>
-          <button>${'<'}</button>
-          <DisplayDatePickerBtn id="date-button" onClick={selectDates}>
-            <span>{convertDateToString}</span>
-          </DisplayDatePickerBtn>
-          <button>${'<'}</button>
-        </DatePickerHeader>
       )}
       {display && (
-        <DatePickerBody>
+        <DatePickerBody ref={outsideRef}>
           {inMain && (
             <SearchTypes justify="space-evenly" align="center">
               <SearchTypeBtn onClick={setSearchDates} active={searchType}>
