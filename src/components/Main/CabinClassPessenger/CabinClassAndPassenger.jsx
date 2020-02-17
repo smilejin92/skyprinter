@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import InfantandChild, { LabelTitle, CabinClass } from './subCabinClass2';
+import InfantChild, { LabelTitle, CabinClass } from './InfantChild';
 import uuid from 'uuid';
-import useOutsideRef from '../../../hooks/useOutsideRef';
 
 const CabinSection = styled.section`
   z-index: 99;
@@ -20,7 +19,6 @@ const CainContentWrapper = styled.div`
   display: block;
   padding: 12px;
   width: 100%;
-  /* height: 38.2rem; */
   height: 100%;
   border-bottom: 1px solid #dddef5;
 `;
@@ -55,7 +53,7 @@ const PlusNumberButton = styled.button`
   line-height: 1;
   width: 3.4rem;
   height: 3.4rem;
-  border: 1px solid #0770e3;
+  border: 1px solid #ddddef;
   border-radius: 50%;
   background-color: ${({ disabled }) => (disabled ? '#ddddef' : 'transparent')};
   span {
@@ -157,109 +155,70 @@ const Triangle = styled.span`
   }
 `;
 
-function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
-  const adultRef = useRef();
-  const childRef = useRef();
-
-  const [adult, setAdult] = useState(1);
-  const [children, setChildren] = useState(0);
-  // const [infant, setInfant] = useState(0);
-  const [array, setArray] = useState([]);
-
-  const [result, setResult] = useState({
-    grade: 'economy',
-    adult: 1,
-    children: 0,
-    infant: 0,
-  });
-
-  const closeModal = () => {
-    console.log('closeModal');
-    setVisible(false);
-  };
-
+function CabinClassAndPassenger({
+  setVisible,
+  setPassengerInfo,
+  passengerInfo,
+}) {
   const selectClass = ({ target }) => {
-    setResult(current => ({
-      ...current,
-      grade: target.value,
+    setPassengerInfo(cur => ({
+      ...cur,
+      cabinClass: target.value,
     }));
-    // console.log(target.value);
   };
+
   const reduceAdult = () => {
-    if (adult === 1) return;
-    setAdult(adult - 1);
-    const decreaseAdultNumber = +adultRef.current.value - 1;
-    setResult(current => ({
-      ...current,
-      adult: decreaseAdultNumber,
+    setPassengerInfo(cur => ({
+      ...cur,
+      adults: cur.adults - 1,
     }));
-    // console.log(decreaseAdultNumber);
   };
 
   const addAdult = () => {
-    if (adult === 8) return;
-    setAdult(adult + 1);
-    const increaseAdultNumber = +adultRef.current.value + 1;
-    setResult(current => ({
-      ...current,
-      adult: increaseAdultNumber,
+    setPassengerInfo(cur => ({
+      ...cur,
+      adults: cur.adults + 1,
     }));
-    // console.log(increaseAdultNumber);
+  };
+
+  const getNextId = () =>
+    Math.max(0, ...passengerInfo.children.map(c => c.id)) + 1;
+
+  const addChild = () => {
+    setPassengerInfo(cur => ({
+      ...cur,
+      children: [
+        ...cur.children,
+        { id: getNextId(), age: '나이를 선택하세요', type: undefined },
+      ],
+    }));
   };
 
   const reduceChild = () => {
-    if (!array.length) return;
-    setChildren(prevchildren => prevchildren - 1);
-    setArray(current => {
-      const newArray = [];
-      for (let i = 0; i < array.length - 1; i++) {
-        newArray.push(current[i]);
-      }
-      return newArray;
-    });
-    // console.log(array.length);
-  };
+    setPassengerInfo(cur => {
+      const newChildren = [...cur.children];
+      newChildren.pop();
 
-  const addChild = () => {
-    // console.log(array.length);
-    setChildren(children + 1);
-    setArray(prevArray => [
-      ...prevArray,
-      { infantId: children, age: '나이를 선택하세요', type: undefined },
-    ]);
-  };
-
-  const completeResult = () => {
-    const childNumber = array.filter(arr => arr.type === 'child').length;
-    const infantNumber = array.filter(arr => arr.type === 'infant').length;
-    // console.log(childNumber);
-    // console.log(infantNumber);
-    setResult(prevResult => {
-      const newResult = {
-        ...prevResult,
-        infant: infantNumber,
-        children: childNumber,
+      return {
+        ...cur,
+        children: newChildren,
       };
-      selectPeople(newResult);
-      return newResult;
     });
-
-    setVisible(false);
-
-    return result;
   };
 
-  const outsideRef = useRef(null);
-  useOutsideRef(outsideRef, closeModal);
+  const hideModal = () => {
+    console.log(passengerInfo);
+    setVisible(false);
+  };
 
   return (
-    <CabinSection ref={outsideRef} visible={visible}>
+    <CabinSection>
       <Triangle />
       <CainContentWrapper>
         <div>
           <LabelTitle htmlFor="classGrade">좌석 등급</LabelTitle>
           <CabinClass
-            value={result.grade}
+            value={passengerInfo.cabinClass}
             onChange={selectClass}
             key={uuid.v4()}
             id="classGrade"
@@ -274,22 +233,27 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
         <LabelTitle>성인</LabelTitle>
 
         <ButtonWrapper>
-          <MinusNumberButton onClick={reduceAdult} disabled={adult === 1}>
+          <MinusNumberButton
+            onClick={reduceAdult}
+            disabled={passengerInfo.adults === 1}
+          >
             <span>
-              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <SvgIcon viewBox="0 0 24 24">
                 <path d="M19 10a2 2 0 1 1 0 4H5a2 2 0 1 1 0-4h14z"></path>
               </SvgIcon>
             </span>
           </MinusNumberButton>
           <PeopleNumber
-            ref={adultRef}
             type="text"
-            value={adult}
+            value={passengerInfo.adults}
             onChange={() => {}}
           />
-          <PlusNumberButton onClick={addAdult} disabled={adult === 8}>
+          <PlusNumberButton
+            onClick={addAdult}
+            disabled={passengerInfo.adults === 8}
+          >
             <span>
-              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <SvgIcon viewBox="0 0 24 24">
                 <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
               </SvgIcon>
             </span>
@@ -299,22 +263,27 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
 
         <LabelTitle>유/소아</LabelTitle>
         <ButtonWrapper>
-          <MinusNumberButton onClick={reduceChild} disabled={children === 0}>
+          <MinusNumberButton
+            onClick={reduceChild}
+            disabled={passengerInfo.children === 0}
+          >
             <span>
-              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <SvgIcon viewBox="0 0 24 24">
                 <path d="M19 10a2 2 0 1 1 0 4H5a2 2 0 1 1 0-4h14z"></path>
               </SvgIcon>
             </span>
           </MinusNumberButton>
           <PeopleNumber
-            ref={childRef}
             type="text"
-            value={children}
+            value={passengerInfo.children.length}
             onChange={() => {}}
           />
-          <PlusNumberButton onClick={addChild} disabled={children === 8}>
+          <PlusNumberButton
+            onClick={addChild}
+            disabled={passengerInfo.children === 8}
+          >
             <span>
-              <SvgIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <SvgIcon viewBox="0 0 24 24">
                 <path d="M10 10V5a2 2 0 1 1 4 0v5h5a2 2 0 1 1 0 4h-5v5a2 2 0 1 1-4 0v-5H5a2 2 0 1 1 0-4h5z"></path>
               </SvgIcon>
             </span>
@@ -322,16 +291,13 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
         </ButtonWrapper>
         <PessengerBoundary>만 0 - 15세</PessengerBoundary>
 
-        {array.map(child => (
-          <InfantandChild
-            array={array}
-            setArray={setArray}
+        {passengerInfo.children.map(child => (
+          <InfantChild
+            setPassengerInfo={setPassengerInfo}
             key={uuid.v4()}
-            infants={child.infantId}
+            child={child}
           />
         ))}
-        {/* {state.map(child=>(<InfantandChild key={uuid.v4()} child={child}/>))} */}
-
         <WarningDetail>
           <p>
             여행 시 탑승객의 나이는 예약된 연령 범주에 부합해야 합니다. 항공사는
@@ -344,9 +310,9 @@ function CabinClassAndPessenger({ visible, setVisible, selectPeople }) {
         </WarningDetail>
       </CainContentWrapper>
       <CompleteButton>
-        <button onClick={() => completeResult()}>완료</button>
+        <button onClick={hideModal}>완료</button>
       </CompleteButton>
     </CabinSection>
   );
 }
-export default CabinClassAndPessenger;
+export default CabinClassAndPassenger;

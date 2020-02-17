@@ -23,27 +23,30 @@ export const CabinClass = styled.select`
   font-size: 1.6rem;
 `;
 
-function InfantandChild({ infants, array, setArray }) {
-  // console.log(array);
-
+function InfantChild({ setPassengerInfo, child }) {
   const selectAge = ({ target }) => {
-    // console.log(target.value);
-    if (target.value === '0') {
-      setArray(
-        array.map(child =>
-          child.infantId === infants
-            ? { ...child, age: +target.value, type: 'infant' }
-            : child,
-        ),
-      );
+    if (target.value === '0' || target.value === '1') {
+      setPassengerInfo(cur => {
+        const newChildren = cur.children.map(c =>
+          c.id === child.id ? { ...c, type: 'infant', age: +target.value } : c,
+        );
+
+        return {
+          ...cur,
+          children: newChildren,
+        };
+      });
     } else {
-      setArray(
-        array.map(child =>
-          child.infantId === infants
-            ? { ...child, age: +target.value, type: 'child' }
-            : child,
-        ),
-      );
+      setPassengerInfo(cur => {
+        const newChildren = cur.children.map(c =>
+          c.id === child.id ? { ...c, type: 'child', age: +target.value } : c,
+        );
+
+        return {
+          ...cur,
+          children: newChildren,
+        };
+      });
     }
     if (target.value === '나이를 선택하세요')
       return alert('모든 유/소아의 나이를 입력하세요');
@@ -51,13 +54,13 @@ function InfantandChild({ infants, array, setArray }) {
 
   return (
     <div>
-      <LabelTitle htmlFor="childage">
-        유/소아 {array[infants].infantId + 1} 나이
+      <LabelTitle htmlFor={`childage-${child.id}`}>
+        유/소아 {child.id} 나이
       </LabelTitle>
       <CabinClass
-        value={array[infants].age}
+        value={child.age}
         onChange={selectAge}
-        id="childage"
+        id={`childage-${child.id}`}
         key={uuid.v4()}
       >
         <option value="나이를 선택하세요">나이를 선택하세요</option>
@@ -81,4 +84,4 @@ function InfantandChild({ infants, array, setArray }) {
     </div>
   );
 }
-export default InfantandChild;
+export default InfantChild;
