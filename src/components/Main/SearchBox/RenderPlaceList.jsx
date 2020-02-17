@@ -8,7 +8,7 @@ const ListSection = styled.section`
   flex-direction: row;
   color: #111236;
   padding: 1.2rem 1.8rem;
-  padding-left: ${props => (props.hasCountry ? '30px' : '18px')};
+  padding-left: ${props => (props.hasCity ? '30px' : '18px')};
   svg {
     fill: #b2b2bf;
     overflow: hidden;
@@ -38,32 +38,46 @@ const ListSection = styled.section`
   }
 `;
 
-const RenderPlaceList = React.memo(({ place, suggestion, hasCountry }) => {
-  const result = {};
-  const array = suggestion.ResultingPhrase.split('');
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < suggestion.Highlighting.length; j++) {
+const RenderPlaceList = React.memo(({ place, suggestion, hasCity }) => {
+  const HighlightingLength = suggestion.Highlighting.length;
+  // let HighlightingLoop = 0;
+  const Result = {};
+  const WordArray = suggestion.ResultingPhrase.split('');
+  for (let i = 0; i < WordArray.length; i++) {
+    for (let j = 0; j < HighlightingLength; j++) {
       if (i === suggestion.Highlighting[j][0]) {
-        array[i] = '#' + array[i];
+        WordArray[i] = '#' + WordArray[i];
       }
       if (i === suggestion.Highlighting[j][1] - 1) {
-        array[i] = array[i] + '#$';
+        WordArray[i] = WordArray[i] + '#$';
       }
     }
   }
 
+  // for (let i = 0; i < WordArray.length; i++) {
+  //   if (i === suggestion.Highlighting[HighlightingLoop][0]) {
+  //     WordArray[i] = '#' + WordArray[i];
+  //   }
+  //   if (i === suggestion.Highlighting[HighlightingLoop][1] - 1) {
+  //     WordArray[i] = WordArray[i] + '#$';
+  //     HighlightingLoop = HighlightingLoop + 1;
+  //   }
+  //   if (HighlightingLoop === HighlightingLength) {
+  //     break;
+  //   }
+  // }
+
   if (place === 'Country') {
-    result.CountryName = array.join('').split('$');
-    // console.log('국가명1: ', result.CountryName);
+    Result.CountryName = WordArray.join('').split('$');
   } else {
-    const ResultingArray = array.join('').split('|');
-    result.PlaceName = ResultingArray[0].includes(',')
+    const ResultingArray = WordArray.join('').split('|');
+    Result.PlaceName = ResultingArray[0].includes(',')
       ? ResultingArray[0]
           .split(',')[0]
-          .split(' ')[0]
+          .split('(')[0]
           .split('$')
       : ResultingArray[0].split('$');
-    result.CountryName = ResultingArray[ResultingArray.length - 1].includes('$')
+    Result.CountryName = ResultingArray[ResultingArray.length - 1].includes('$')
       ? ResultingArray[ResultingArray.length - 1].split('$')
       : [ResultingArray[ResultingArray.length - 1]];
   }
@@ -77,14 +91,14 @@ const RenderPlaceList = React.memo(({ place, suggestion, hasCountry }) => {
           </svg>
           <div>
             <span>
-              {result.CountryName.map(word => {
+              {Result.CountryName.map(word => {
                 return <ParseWord key={uuid.v4()} word={word} />;
               })}
             </span>
             <span>{suggestion.RegionId && `${suggestion.RegionId}`}</span>{' '}
             <span>({suggestion.PlaceId})</span>
             <small>
-              {result.CountryName.map(word => {
+              {Result.CountryName.map(word => {
                 return <ParseWord key={uuid.v4()} word={word} />;
               })}
             </small>
@@ -101,7 +115,7 @@ const RenderPlaceList = React.memo(({ place, suggestion, hasCountry }) => {
           <div>
             <span>
               {' '}
-              {result.PlaceName.map(word => {
+              {Result.PlaceName.map(word => {
                 return <ParseWord key={uuid.v4()} word={word} />;
               })}
             </span>{' '}
@@ -109,7 +123,7 @@ const RenderPlaceList = React.memo(({ place, suggestion, hasCountry }) => {
             <span>({suggestion.PlaceId})</span>
             <small>
               {' '}
-              {result.CountryName.map(word => {
+              {Result.CountryName.map(word => {
                 return <ParseWord key={uuid.v4()} word={word} />;
               })}
             </small>
@@ -119,14 +133,14 @@ const RenderPlaceList = React.memo(({ place, suggestion, hasCountry }) => {
     }
     default: {
       return (
-        <ListSection hasCountry={hasCountry}>
+        <ListSection hasCity={hasCity}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
             <path d="M3.455 8.78a.775.775 0 0 1 .952.224l1.472 1.91 1.816-.267a2.852 2.852 0 0 1 .536-.051h9.862a5.099 5.099 0 0 1 2.438.62.944.944 0 0 1-.072 1.67l-.046.021a5.1 5.1 0 0 1-2.194.497h-4.314l-3.663 5.867A1.546 1.546 0 0 1 8.93 20H7.78l2.007-5.858v-.738h-1.53a2.865 2.865 0 0 1-.589-.062l-1.765-.288-1.509 1.958a.775.775 0 0 1-.929.237.786.786 0 0 1-.419-.984L3.862 12 3.06 9.749a.785.785 0 0 1 .395-.97zM8.929 4a1.545 1.545 0 0 1 1.312.729l3.19 4.985H9.749L7.778 4z"></path>
           </svg>
           <div>
             <span>
               {' '}
-              {result.PlaceName.map(word => {
+              {Result.PlaceName.map(word => {
                 return <ParseWord key={uuid.v4()} word={word} />;
               })}
             </span>{' '}
@@ -134,7 +148,7 @@ const RenderPlaceList = React.memo(({ place, suggestion, hasCountry }) => {
             <span>({suggestion.PlaceId})</span>
             <small>
               {' '}
-              {result.CountryName.map(word => {
+              {Result.CountryName.map(word => {
                 return <ParseWord key={uuid.v4()} word={word} />;
               })}
             </small>
