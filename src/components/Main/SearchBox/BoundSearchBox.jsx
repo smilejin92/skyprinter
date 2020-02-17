@@ -109,7 +109,7 @@ const SearchWrapper = styled.div`
 `;
 
 const SearchLabel = styled.label.attrs(props => ({
-  htmlFor: 'search-input',
+  htmlFor: `search-input-${props.type}`,
 }))`
   display: block;
   color: #fff;
@@ -118,18 +118,30 @@ const SearchLabel = styled.label.attrs(props => ({
   line-height: 1.8rem;
 `;
 
+const pressEnter = (e, type) => {
+  if (e.keyCode === 13 && e.target.nodeName === 'INPUT') {
+    const form = e.target.form;
+    const index = Array.prototype.indexOf.call(form, e.target);
+    // console.log('form- ', form.elements[index + 2]);
+    type === 'inBound'
+      ? form.elements[index + 3].focus()
+      : form.elements[index + 2].focus();
+    e.preventDefault();
+  }
+};
+
 const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
   // const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const CityName = useRef(null);
 
-  const searchPlace = async value => {
+  const searchPlace = async (value, isDestination) => {
     try {
       const { data } = await SearchService.SelectArea(
         'KR',
         'ko-KR',
         value,
-        true,
+        isDestination,
       );
       setSuggestions(data);
     } catch (e) {
@@ -139,22 +151,24 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
 
   return (
     <SearchWrapper borderRadius={borderRadius}>
-      <SearchLabel>{header}</SearchLabel>
+      <SearchLabel type={type}>{header}</SearchLabel>
       <AutoSuggest
+        id={`search-input-${type}`}
         suggestions={suggestions}
         onSuggestionsClearRequested={() => setSuggestions([])}
         onSuggestionsFetchRequested={({ value }) => {
           // console.log(value);
           // setValue(value);
-          selectBound(
-            type === 'inBound' ? bound.inBoundId : bound.outBoundId,
-            value,
-            type,
-          );
-          searchPlace(value);
+          // selectBound(
+          //   type === 'inBound' ? bound.inBoundId : bound.outBoundId,
+          //   value,
+          //   type,
+          // );
+          searchPlace(value, type === 'inBound' ? true : false);
         }}
-        onSuggestionSelected={(__, { suggestion, method }) => {
-          selectBound(suggestion.PlaceId, type);
+        onSuggestionSelected={(e, { suggestion }) => {
+          selectBound(suggestion.PlaceId, suggestion.PlaceName, type);
+          pressEnter(e, type);
           return console.log(`Selected: ${suggestion.PlaceId}-sky`);
         }}
         getSuggestionValue={suggestion => suggestion.PlaceName}
@@ -169,17 +183,18 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
               <RenderPlaceList
                 place="AirStation"
                 suggestion={suggestion}
-                hasCountry={suggestion.CityId === CityName.current}
+                hasCity={suggestion.CityId === CityName.current}
               />
             );
           }
         }}
         inputProps={{
-          id: 'search-input',
+          id: `search-input-${type}`,
           placeholder: '국가, 도시 또는 공항',
           value: type === 'inBound' ? bound.inBoundName : bound.outBoundName,
-          onChange: (_, { newValue }) => {
+          onChange: (_, { newValue, method }) => {
             // setValue(newValue);
+            console.log('방법2', method);
             selectBound('', newValue, type);
           },
           onBlur: (_, highlightFirstSuggestion) => {
