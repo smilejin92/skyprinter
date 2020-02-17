@@ -22,7 +22,10 @@ const ButtonLabel = styled.label`
   color: #fff;
   display: block;
   font-size: 1.2rem;
-  line-height: 1.5;
+  /* line-height: 1.5; */
+  display: block;
+  font-weight: 700;
+  line-height: 1.8rem;
 `;
 
 const GradePessenger = styled.span`

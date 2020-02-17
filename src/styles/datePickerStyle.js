@@ -42,7 +42,10 @@ export const ButtonLabel = styled.label.attrs(({ htmlFor }) => ({
   htmlFor,
 }))`
   font-size: 1.2rem;
-  line-height: 1.5;
+  /* line-height: 1.5; */
+  display: block;
+  font-weight: 700;
+  line-height: 1.8rem;
   color: white;
 `;
 

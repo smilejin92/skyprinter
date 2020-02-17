@@ -59,6 +59,16 @@ const SearchFormSubmit = styled(FlexWrapper)`
   }
 `;
 
+const SelectSeatDateBox = styled(FlexWrapper)`
+  width: 50%;
+`;
+
+const SearchSubmitButton = styled.button.attrs(props => ({
+  ariaLabel: '항공권 검색',
+}))`
+  transform: translateY(-16px);
+`;
+
 function SearchForm() {
   const [inboundDate, setInboundDate] = useState(new Date()); // 출발 날짜 (오늘)
   const [outboundDate, setOutboundDate] = useState(
@@ -114,7 +124,7 @@ function SearchForm() {
         <SearchWrapper>
           <SearchBox />
           {/*  */}
-          <div style={{ display: 'flex', width: '50%' }}>
+          <SelectSeatDateBox>
             <DatePicker
               type="inbound"
               displayModal={openDatePicker}
@@ -138,14 +148,11 @@ function SearchForm() {
               inMain={true}
             />
             <CabinClassPessenger />
-          </div>
+          </SelectSeatDateBox>
         </SearchWrapper>
         <SearchFormSubmit>
           <CheckBox>직항만</CheckBox>
-          <button
-            aria-label="항공권 검색"
-            style={{ transform: 'translateY(-16px)' }}
-          >
+          <SearchSubmitButton>
             항공권 검색
             <span>
               <svg
@@ -157,7 +164,7 @@ function SearchForm() {
                 <path d="M14.4 19.5l5.7-5.3c.4-.4.7-.9.8-1.5.1-.3.1-.5.1-.7s0-.4-.1-.6c-.1-.6-.4-1.1-.8-1.5l-5.7-5.3c-.8-.8-2.1-.7-2.8.1-.8.8-.7 2.1.1 2.8l2.7 2.5H5c-1.1 0-2 .9-2 2s.9 2 2 2h9.4l-2.7 2.5c-.5.4-.7 1-.7 1.5s.2 1 .5 1.4c.8.8 2.1.8 2.9.1z"></path>
               </svg>
             </span>
-          </button>
+          </SearchSubmitButton>
         </SearchFormSubmit>
       </form>
     </SearchFormWrapper>
