@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import CabinClassAndPessenger from './subCabinClass1';
+import CabinClassAndPassenger from './CabinClassAndPassenger';
 
 const GradeButton = styled.button`
   padding: 0 30px 0 12px;
@@ -22,7 +22,6 @@ const ButtonLabel = styled.label`
   color: #fff;
   display: block;
   font-size: 1.2rem;
-  /* line-height: 1.5; */
   display: block;
   font-weight: 700;
   line-height: 1.8rem;
@@ -47,59 +46,56 @@ const GradeWrapper = styled.div`
 
 function ClassGradeButton() {
   const [visible, setVisible] = useState(false);
-  const [detail, setDetail] = useState({
-    pessenger: 1,
-    class: '일반석',
+  const [passengerInfo, setPassengerInfo] = useState({
+    adults: 1,
+    children: [],
+    cabinClass: 'economy',
   });
 
-  const selectPeople = res => {
-    if (res.cabinClass === 'economy') {
-      setDetail({
-        pessenger: res.adult + res.children + res.infant,
-        class: '일반석',
-      });
-    } else if (res.cabinClass === 'premiumeconomy') {
-      setDetail({
-        pessenger: res.adult + res.children + res.infant,
-        class: '프리미엄 일반석',
-      });
-    } else if (res.cabinClass === 'business') {
-      setDetail({
-        pessenger: res.adult + res.children + res.infant,
-        class: '비즈니스',
-      });
-    } else {
-      setDetail({
-        pessenger: res.adult + res.children + res.infant,
-        class: '일등석',
-      });
-    }
+  const displayModal = () => {
+    setVisible(true);
   };
+
+  const convertClass = useCallback(type => {
+    const seatTypes = [
+      { cabinClass: 'economy', name: '일반석' },
+      { cabinClass: 'premiumeconomy', name: '프리미엄 일반석' },
+      { cabinClass: 'business', name: '비지니스석' },
+      { cabinClass: 'first', name: '일등석' },
+    ];
+
+    const [selectedSeat] = seatTypes.filter(s => type === s.cabinClass);
+
+    return selectedSeat.name;
+  }, []);
+
+  const getTotalPassengers = () => {
+    const { adults, children } = passengerInfo;
+    return adults + children.length;
+  };
+
   return (
-    <>
-      <GradeWrapper>
-        <ButtonLabel>좌석 등급 및 승객</ButtonLabel>
-        {/* <GradeButton onClick={() => setVisible(true)}> */}
-        <GradeButton onClick={() => setVisible(!visible)}>
-          <GradePessenger>
-            {detail.pessenger > 1
-              ? `${detail.pessenger} 승객, ${detail.class}`
-              : `${detail.pessenger} 성인, ${detail.class}`}
-          </GradePessenger>
-        </GradeButton>
-        <CabinClassAndPessenger
-          visible={visible}
+    <GradeWrapper>
+      <ButtonLabel>좌석 등급 및 승객</ButtonLabel>
+      <GradeButton onClick={displayModal}>
+        <GradePessenger>
+          {getTotalPassengers() > 1
+            ? `${getTotalPassengers()} 승객, ${convertClass(
+                passengerInfo.cabinClass,
+              )}`
+            : `${getTotalPassengers()} 성인, ${convertClass(
+                passengerInfo.cabinClass,
+              )}`}
+        </GradePessenger>
+      </GradeButton>
+      {visible && (
+        <CabinClassAndPassenger
+          passengerInfo={passengerInfo}
           setVisible={setVisible}
-          selectPeople={selectPeople}
+          setPassengerInfo={setPassengerInfo}
         />
-        {/* {visible && (
-          <CabinClassAndPessenger
-            setVisible={setVisible}
-            selectPeople={selectPeople}
-          />
-        )} */}
-      </GradeWrapper>
-    </>
+      )}
+    </GradeWrapper>
   );
 }
 export default ClassGradeButton;

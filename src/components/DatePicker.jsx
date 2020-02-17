@@ -84,10 +84,13 @@ function DatePicker({
     <DatePickerWrapper>
       {inMain && (
         <DatePickerHeader direction="column" arrowTip={display}>
-          <ButtonLabel htmlFor="date-button">
+          <ButtonLabel htmlFor={`date-button-${type}`}>
             {type === 'inbound' ? '가는 날' : '오는 날'}
           </ButtonLabel>
-          <DisplayDatePickerBtn id="date-button" onClick={selectDates}>
+          <DisplayDatePickerBtn
+            id={`date-button-${type}`}
+            onClick={selectDates}
+          >
             <span>{convertDateToString}</span>
           </DisplayDatePickerBtn>
         </DatePickerHeader>
