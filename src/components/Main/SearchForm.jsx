@@ -4,7 +4,7 @@ import { FlexWrapper } from '../../styles';
 import SearchBox from '../Main/SearchBox';
 import CabinClassPessenger from '../Main/CabinClassPessenger';
 import DatePicker from '../DatePicker';
-import CheckBox from './SearchBox/CheckBox';
+import CheckBox from './CheckBox';
 import { Radio } from 'antd';
 import { connect } from 'react-redux';
 
