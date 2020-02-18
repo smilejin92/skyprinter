@@ -8,10 +8,9 @@ function useOutsideRef(ref, close) {
   }
 
   useEffect(() => {
-    // Bind the event listener
     document.addEventListener('click', handleClickOutside);
+
     return () => {
-      // Unbind the event listener on clean up
       document.removeEventListener('click', handleClickOutside);
     };
   });
