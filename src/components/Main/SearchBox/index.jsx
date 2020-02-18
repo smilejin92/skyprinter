@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import BoundSearchBox from './BoundSearchBox';
 import BoundChangeBox from './BoundChangeBox';
-import { connect } from 'react-redux';
-import { setPlace, switchPlaces } from '../../../redux/modules/places';
+// import { connect } from 'react-redux';
+// import { setPlace, switchPlaces } from '../../../redux/modules/places';
 
 const SearchBoxWrapper = styled.div`
   width: 50%;
@@ -35,19 +35,21 @@ const SearchBox = React.memo(({ places, setPlace, switchPlaces }) => {
   );
 });
 
-const mapStateToProps = state => {
-  return {
-    places: state.places,
-  };
-};
+export default SearchBox;
 
-const mapDispatchToProps = dispatch => ({
-  setPlace: places => {
-    dispatch(setPlace(places));
-  },
-  switchPlaces: () => {
-    dispatch(switchPlaces());
-  },
-});
+// const mapStateToProps = state => {
+//   return {
+//     places: state.places,
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBox);
+// const mapDispatchToProps = dispatch => ({
+//   setPlace: places => {
+//     dispatch(setPlace(places));
+//   },
+//   switchPlaces: () => {
+//     dispatch(switchPlaces());
+//   },
+// });
+
+// export default connect(mapStateToProps, mapDispatchToProps)(SearchBox);
