@@ -1,67 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import BoundSearchBox from './BoundSearchBox';
 import BoundChangeBox from './BoundChangeBox';
+import { connect } from 'react-redux';
+import { setPlace, switchPlaces } from '../../../redux/modules/places';
 
 const SearchBoxWrapper = styled.div`
-  /* width: calc(50%+1px); */
-  /* width:51%; */
   width: 50%;
 `;
 
-const SearchBox = React.memo(() => {
-  const [bound, setBound] = useState({
-    inBoundId: '',
-    inBoundName: '',
-    outBoundId: '',
-    outBoundName: '',
-  });
-
-  const selectBound = (PlaceId, PlaceName, boundType) => {
-    if (boundType === 'inBound') {
-      setBound({
-        ...bound,
-        inBoundId: PlaceId,
-        inBoundName: PlaceName,
-      });
-    } else {
-      setBound({
-        ...bound,
-        outBoundId: PlaceId,
-        outBoundName: PlaceName,
-      });
-    }
-  };
-
-  const changeBound = () => {
-    if (!(bound.inBoundName || bound.outBoundName)) return;
-    // const tempBound = {
-    //   inBoundId: bound.outBoundId,
-    //   outBoundId: bound.inBoundId,
-    //   inBoundName: bound.outBoundName,
-    //   outBoundName: bound.inBoundName
-    // }
-    setBound({
-      inBoundId: bound.outBoundId,
-      outBoundId: bound.inBoundId,
-      inBoundName: bound.outBoundName,
-      outBoundName: bound.inBoundName,
-    });
+const SearchBox = React.memo(({ places, setPlace, switchPlaces }) => {
+  const selectBound = (PlaceId, PlaceName, type) => {
+    setPlace({ PlaceId, PlaceName, type });
   };
 
   return (
     <SearchBoxWrapper>
-      {/* {console.log(bound)} */}
+      {/* {console.log('bound는 : ', places)} */}
       <BoundSearchBox
         header={'출발지'}
-        bound={bound}
+        bound={places}
         selectBound={selectBound}
         type="inBound"
       />
-      <BoundChangeBox changeBound={changeBound} />
+      <BoundChangeBox changeBound={switchPlaces} />
       <BoundSearchBox
         header={'도착지'}
-        bound={bound}
+        bound={places}
         selectBound={selectBound}
         type="outBound"
         borderRadius="none"
@@ -70,4 +35,19 @@ const SearchBox = React.memo(() => {
   );
 });
 
-export default SearchBox;
+const mapStateToProps = state => {
+  return {
+    places: state.places,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  setPlace: places => {
+    dispatch(setPlace(places));
+  },
+  switchPlaces: () => {
+    dispatch(switchPlaces());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBox);
