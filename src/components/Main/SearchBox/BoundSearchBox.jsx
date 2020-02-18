@@ -123,9 +123,10 @@ const pressEnter = (e, type) => {
     const form = e.target.form;
     const index = Array.prototype.indexOf.call(form, e.target);
     // console.log('form- ', form.elements[index + 2]);
-    type === 'inBound'
-      ? form.elements[index + 3].focus()
-      : form.elements[index + 2].focus();
+    if (type === 'inBound') {
+      form.elements[index + 3].focus();
+    }
+
     e.preventDefault();
   }
 };
