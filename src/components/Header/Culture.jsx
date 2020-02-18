@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Icon } from 'antd';
 import { FlexWrapper } from '../../styles';
 import useOutsideRef from '../../hooks/useOutsideRef';
+import { connect } from 'react-redux';
+import { hideModal } from '../../redux/modules/display';
 
 const ModalWrapper = styled.div`
   position: absolute;
@@ -103,12 +105,11 @@ const SaveButton = styled(CancelButton)`
 
 // set currency, market, locale
 function Culture({
-  closeModal,
-  setDisplayCulture,
   setSelectedCulture,
   selectedCulture,
   countries,
   currencies,
+  hideModal,
 }) {
   const [yOffSet] = useState(window.pageYOffset);
   const [selectedCountry, setSelectedCountry] = useState(
@@ -119,7 +120,7 @@ function Culture({
   );
 
   const outsideRef = useRef(null);
-  useOutsideRef(outsideRef, closeModal);
+  useOutsideRef(outsideRef, hideModal);
 
   // disable mouse scroll
   useEffect(() => {
@@ -146,7 +147,6 @@ function Culture({
 
   const configCulture = () => {
     // set parameters for api request
-    setDisplayCulture(false);
     setSelectedCulture(cur => {
       const newState = {
         ...cur,
@@ -156,6 +156,7 @@ function Culture({
       console.log(newState);
       return newState;
     });
+    hideModal();
   };
 
   return (
@@ -163,7 +164,7 @@ function Culture({
       <Modal ref={outsideRef}>
         <ModalHeader justify="space-between">
           <ModalTitle>국가 설정</ModalTitle>
-          <ExitButton onClick={closeModal}>
+          <ExitButton onClick={hideModal}>
             <Icon type="close" />
           </ExitButton>
         </ModalHeader>
@@ -216,7 +217,7 @@ function Culture({
           </Category>
           <Category direction="column">
             <SaveButton onClick={configCulture}>저장</SaveButton>
-            <CancelButton onClick={closeModal}>취소</CancelButton>
+            <CancelButton onClick={hideModal}>취소</CancelButton>
           </Category>
         </ModalBody>
       </Modal>
@@ -224,4 +225,10 @@ function Culture({
   );
 }
 
-export default Culture;
+const mapDispatchToProps = dispatch => ({
+  hideModal: () => {
+    dispatch(hideModal());
+  },
+});
+
+export default connect(null, mapDispatchToProps)(Culture);

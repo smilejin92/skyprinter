@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import InfantChild, { LabelTitle, CabinClass } from './InfantChild';
 import uuid from 'uuid';
+import useOutsideRef from '../../../hooks/useOutsideRef';
+import { hideModal } from '../../../redux/modules/display';
+import { connect } from 'react-redux';
 
 const CabinSection = styled.section`
   z-index: 99;
@@ -156,9 +159,9 @@ const Triangle = styled.span`
 `;
 
 function CabinClassAndPassenger({
-  setVisible,
   setPassengerInfo,
   passengerInfo,
+  hideModal,
 }) {
   const selectClass = ({ target }) => {
     setPassengerInfo(cur => ({
@@ -206,13 +209,11 @@ function CabinClassAndPassenger({
     });
   };
 
-  const hideModal = () => {
-    console.log(passengerInfo);
-    setVisible(false);
-  };
+  const outsideRef = useRef(null);
+  useOutsideRef(outsideRef, hideModal);
 
   return (
-    <CabinSection>
+    <CabinSection ref={outsideRef}>
       <Triangle />
       <CainContentWrapper>
         <div>
@@ -315,4 +316,11 @@ function CabinClassAndPassenger({
     </CabinSection>
   );
 }
-export default CabinClassAndPassenger;
+
+const mapDispatchToProps = dispatch => ({
+  hideModal: () => {
+    dispatch(hideModal());
+  },
+});
+
+export default connect(null, mapDispatchToProps)(CabinClassAndPassenger);

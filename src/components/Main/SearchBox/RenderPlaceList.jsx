@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import ParseWord from './ParseWord';
 import styled from 'styled-components';
 import uuid from 'uuid';
@@ -41,6 +41,8 @@ const ListSection = styled.section`
 const RenderPlaceList = React.memo(({ place, suggestion, hasCity }) => {
   const HighlightingLength = suggestion.Highlighting.length;
   // let HighlightingLoop = 0;
+  // const HighlightingLoop = useRef(0);
+  // console.log(HighlightingLoop);
   const Result = {};
   const WordArray = suggestion.ResultingPhrase.split('');
   for (let i = 0; i < WordArray.length; i++) {
@@ -55,14 +57,14 @@ const RenderPlaceList = React.memo(({ place, suggestion, hasCity }) => {
   }
 
   // for (let i = 0; i < WordArray.length; i++) {
-  //   if (i === suggestion.Highlighting[HighlightingLoop][0]) {
+  //   if (i === suggestion.Highlighting[HighlightingLoop.current][0]) {
   //     WordArray[i] = '#' + WordArray[i];
   //   }
-  //   if (i === suggestion.Highlighting[HighlightingLoop][1] - 1) {
+  //   if (i === suggestion.Highlighting[HighlightingLoop.current][1] - 1) {
   //     WordArray[i] = WordArray[i] + '#$';
-  //     HighlightingLoop = HighlightingLoop + 1;
+  //     HighlightingLoop.current += 1;
   //   }
-  //   if (HighlightingLoop === HighlightingLength) {
+  //   if (HighlightingLoop.current === HighlightingLength) {
   //     break;
   //   }
   // }
