@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { FlexWrapper } from '../../styles';
 import SearchBox from '../Main/SearchBox';
+import PlacesContainer from '../../container/PlacesContainer';
 import CabinClassPessenger from '../Main/CabinClassPessenger';
 import DatePicker from '../DatePicker';
 import CheckBox from './CheckBox';
@@ -108,7 +109,7 @@ function SearchForm({ inboundDatePicker, outboundDatePicker }) {
           </div>
         </SearchFormOption>
         <SearchWrapper>
-          <SearchBox />
+          <PlacesContainer />
           <SelectSeatDateBox>
             <DatePicker
               type="inboundDatePicker"
