@@ -265,7 +265,7 @@ function CabinClassAndPassenger({
         <ButtonWrapper>
           <MinusNumberButton
             onClick={reduceChild}
-            disabled={passengerInfo.children === 0}
+            disabled={passengerInfo.children.length === 0}
           >
             <span>
               <SvgIcon viewBox="0 0 24 24">
@@ -280,7 +280,7 @@ function CabinClassAndPassenger({
           />
           <PlusNumberButton
             onClick={addChild}
-            disabled={passengerInfo.children === 8}
+            disabled={passengerInfo.children.length === 8}
           >
             <span>
               <SvgIcon viewBox="0 0 24 24">
