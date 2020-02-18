@@ -9,7 +9,7 @@ const SearchBoxWrapper = styled.div`
   width: 50%;
 `;
 
-const SearchBox = () => {
+const SearchBox = React.memo(() => {
   const [bound, setBound] = useState({
     inBoundId: '',
     inBoundName: '',
@@ -51,7 +51,7 @@ const SearchBox = () => {
 
   return (
     <SearchBoxWrapper>
-      {console.log(bound)}
+      {/* {console.log(bound)} */}
       <BoundSearchBox
         header={'출발지'}
         bound={bound}
@@ -68,6 +68,6 @@ const SearchBox = () => {
       />
     </SearchBoxWrapper>
   );
-};
+});
 
 export default SearchBox;
