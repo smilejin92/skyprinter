@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { HiddenHeader, FlexList, FlexWrapper } from '../../styles';
+import { connect } from 'react-redux';
+import { displayModal } from '../../redux/modules/display';
 
 const UserMenu = styled(FlexList)`
   width: 35.3rem;
@@ -77,4 +79,10 @@ const SubNav = ({ displayModal }) => (
   </nav>
 );
 
-export default SubNav;
+const mapDispatchToProps = dispatch => ({
+  displayModal: () => {
+    dispatch(displayModal('culture'));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(SubNav);

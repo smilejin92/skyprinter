@@ -7,6 +7,7 @@ import SubNav from './SubNav';
 import MainNav from './MainNav';
 import Culture from './Culture';
 import { FlexWrapper } from '../../styles';
+import { connect } from 'react-redux';
 
 const StyledHeader = styled.header`
   width: 104.8rem;
@@ -21,10 +22,8 @@ const GET_COUNTRY_URL =
   'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/reference/v1.0/countries/ko-KR';
 const GET_CURRENCY_URL =
   'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/reference/v1.0/currencies';
-// const API_KEY = process.env.REACT_APP_RAPID_API_KEY;
 
-function Header() {
-  const [displayCulture, setDisplayCulture] = useState(false); // 국가 및 화폐 설정 팝업
+function Header({ culture }) {
   const [countries, setCountries] = useState([]); // 설정할 수 있는 국가 목록
   const [currencies, setCurrencies] = useState([]); // 설정할 수 있는 화폐 목록
   const [selectedCulture, setSelectedCulture] = useState({
@@ -107,27 +106,17 @@ function Header() {
     })();
   }, []);
 
-  function displayCultureModal() {
-    setDisplayCulture(true);
-  }
-
-  function closeCultureModal() {
-    setDisplayCulture(false);
-  }
-
   return (
     <>
       <StyledHeader>
         <HeaderWrapper justify="space-between" align="center">
           <MainLogo />
-          <SubNav displayModal={displayCultureModal} />
+          <SubNav />
         </HeaderWrapper>
         <MainNav />
       </StyledHeader>
-      {displayCulture && (
+      {culture && (
         <Culture
-          closeModal={closeCultureModal}
-          setDisplayCulture={setDisplayCulture}
           selectedCulture={selectedCulture}
           setSelectedCulture={setSelectedCulture}
           countries={countries}
@@ -138,4 +127,8 @@ function Header() {
   );
 }
 
-export default Header;
+const mapStateToProps = state => ({
+  culture: state.display.culture,
+});
+
+export default connect(mapStateToProps)(Header);
