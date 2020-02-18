@@ -4,7 +4,7 @@ import AutoSuggest from 'react-autosuggest';
 import styled from 'styled-components';
 import SearchService from '../../../services/SearchService';
 import RenderPlaceList from './RenderPlaceList';
-import CheckBox from './CheckBox';
+import CheckBox from '../CheckBox';
 
 const SearchWrapper = styled.div`
   font-size: 1.6rem;
@@ -45,7 +45,6 @@ const SearchWrapper = styled.div`
   .react-autosuggest__suggestions-container--open {
     position: absolute;
     top: 100%;
-    /* bottom: 15px; */
     display: block;
     z-index: 900;
     margin-top: 1.3rem;
@@ -122,7 +121,6 @@ const pressEnter = (e, type) => {
   if (e.keyCode === 13 && e.target.nodeName === 'INPUT') {
     const form = e.target.form;
     const index = Array.prototype.indexOf.call(form, e.target);
-    // console.log('form- ', form.elements[index + 2]);
     type === 'inBound'
       ? form.elements[index + 3].focus()
       : form.elements[index + 2].focus();
@@ -131,7 +129,6 @@ const pressEnter = (e, type) => {
 };
 
 const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
-  // const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const CityName = useRef(null);
 
@@ -157,13 +154,6 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
         suggestions={suggestions}
         onSuggestionsClearRequested={() => setSuggestions([])}
         onSuggestionsFetchRequested={({ value }) => {
-          // console.log(value);
-          // setValue(value);
-          // selectBound(
-          //   type === 'inBound' ? bound.inBoundId : bound.outBoundId,
-          //   value,
-          //   type,
-          // );
           searchPlace(value, type === 'inBound' ? true : false);
         }}
         onSuggestionSelected={(e, { suggestion }) => {
@@ -200,9 +190,7 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
             selectBound('', newValue, type);
           },
           onBlur: (_, { highlightedSuggestion }) => {
-            // console.dir(highlightFirstSuggestion.highlightedSuggestion.PlaceName);
             if (highlightedSuggestion && highlightedSuggestion.PlaceName) {
-              // setValue(highlightFirstSuggestion.highlightedSuggestion.PlaceName);
               selectBound(
                 highlightedSuggestion.PlaceId,
                 `${highlightedSuggestion.PlaceName} (${highlightedSuggestion.PlaceId})`,
