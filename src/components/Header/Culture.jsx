@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { Icon } from 'antd';
 import { FlexWrapper } from '../../styles';
 import useOutsideRef from '../../hooks/useOutsideRef';
-import { connect } from 'react-redux';
-import { hideModal } from '../../redux/modules/display';
 
 const ModalWrapper = styled.div`
   position: absolute;
@@ -105,19 +103,16 @@ const SaveButton = styled(CancelButton)`
 
 // set currency, market, locale
 function Culture({
-  setSelectedCulture,
-  selectedCulture,
-  countries,
-  currencies,
+  country,
+  currency,
+  setCulture,
+  countriesDOM,
+  currenciesDOM,
   hideModal,
 }) {
   const [yOffSet] = useState(window.pageYOffset);
-  const [selectedCountry, setSelectedCountry] = useState(
-    selectedCulture.country,
-  );
-  const [selectedCurrency, setSelectedCurrency] = useState(
-    selectedCulture.currency,
-  );
+  const [selectedCountry, setSelectedCountry] = useState(country);
+  const [selectedCurrency, setSelectedCurrency] = useState(currency);
 
   const outsideRef = useRef(null);
   useOutsideRef(outsideRef, hideModal);
@@ -135,27 +130,17 @@ function Culture({
     };
   }, [yOffSet]);
 
-  const switchCountry = ({ target }) => {
-    console.log(target.value);
+  const switchCountry = useCallback(({ target }) => {
     setSelectedCountry(target.value);
-  };
+  }, []);
 
-  const switchCurrency = ({ target }) => {
-    console.log(target.value);
+  const switchCurrency = useCallback(({ target }) => {
     setSelectedCurrency(target.value);
-  };
+  }, []);
 
+  // set parameters for api request
   const configCulture = () => {
-    // set parameters for api request
-    setSelectedCulture(cur => {
-      const newState = {
-        ...cur,
-        country: selectedCountry,
-        currency: selectedCurrency,
-      };
-      console.log(newState);
-      return newState;
-    });
+    setCulture(selectedCountry, selectedCurrency);
     hideModal();
   };
 
@@ -195,8 +180,7 @@ function Culture({
               value={selectedCountry}
               onChange={switchCountry}
             >
-              {/* get list of markets */}
-              {countries}
+              {countriesDOM}
             </Options>
           </Category>
           <Category direction="column">
@@ -211,8 +195,7 @@ function Culture({
               value={selectedCurrency}
               onChange={switchCurrency}
             >
-              {/* get list of currencies */}
-              {currencies}
+              {currenciesDOM}
             </Options>
           </Category>
           <Category direction="column">
@@ -225,10 +208,4 @@ function Culture({
   );
 }
 
-const mapDispatchToProps = dispatch => ({
-  hideModal: () => {
-    dispatch(hideModal());
-  },
-});
-
-export default connect(null, mapDispatchToProps)(Culture);
+export default Culture;
