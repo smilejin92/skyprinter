@@ -1,10 +1,9 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import InfantChild, { LabelTitle, CabinClass } from './InfantChild';
+import { LabelTitle, CabinClass } from './InfantChild';
 import uuid from 'uuid';
 import useOutsideRef from '../../../hooks/useOutsideRef';
-import { hideModal } from '../../../redux/modules/display';
-import { connect } from 'react-redux';
+import InfantChildContainer from './InfantChildContainer';
 
 const CabinSection = styled.section`
   z-index: 99;
@@ -159,61 +158,36 @@ const Triangle = styled.span`
 `;
 
 function CabinClassAndPassenger({
-  setPassengerInfo,
   passengerInfo,
   hideModal,
+  setCabinGrade,
+  setAdult,
+  setChild,
 }) {
   const selectClass = ({ target }) => {
-    setPassengerInfo(cur => ({
-      ...cur,
-      cabinClass: target.value,
-    }));
+    setCabinGrade(target.value);
+  };
+  const addAdult = () => {
+    setAdult('add');
   };
 
   const reduceAdult = () => {
-    setPassengerInfo(cur => ({
-      ...cur,
-      adults: cur.adults - 1,
-    }));
+    setAdult('subtract');
   };
-
-  const addAdult = () => {
-    setPassengerInfo(cur => ({
-      ...cur,
-      adults: cur.adults + 1,
-    }));
-  };
-
-  const getNextId = () =>
-    Math.max(0, ...passengerInfo.children.map(c => c.id)) + 1;
 
   const addChild = () => {
-    setPassengerInfo(cur => ({
-      ...cur,
-      children: [
-        ...cur.children,
-        { id: getNextId(), age: '나이를 선택하세요', type: undefined },
-      ],
-    }));
+    setChild('add');
   };
 
   const reduceChild = () => {
-    setPassengerInfo(cur => {
-      const newChildren = [...cur.children];
-      newChildren.pop();
-
-      return {
-        ...cur,
-        children: newChildren,
-      };
-    });
+    setChild('remove');
   };
-
   const outsideRef = useRef(null);
   useOutsideRef(outsideRef, hideModal);
 
   return (
     <CabinSection ref={outsideRef}>
+      {console.log(passengerInfo)}
       <Triangle />
       <CainContentWrapper>
         <div>
@@ -293,8 +267,8 @@ function CabinClassAndPassenger({
         <PessengerBoundary>만 0 - 15세</PessengerBoundary>
 
         {passengerInfo.children.map(child => (
-          <InfantChild
-            setPassengerInfo={setPassengerInfo}
+          <InfantChildContainer
+            // setPassengerInfo={setPassengerInfo}
             key={uuid.v4()}
             child={child}
           />
@@ -317,10 +291,4 @@ function CabinClassAndPassenger({
   );
 }
 
-const mapDispatchToProps = dispatch => ({
-  hideModal: () => {
-    dispatch(hideModal());
-  },
-});
-
-export default connect(null, mapDispatchToProps)(CabinClassAndPassenger);
+export default CabinClassAndPassenger;

@@ -6,6 +6,7 @@ import CabinClassPessenger from '../Main/CabinClassPessenger';
 import CheckBox from './CheckBox';
 import DatePickerContainer from '../../containers/DatePickerContainer';
 import { Radio } from 'antd';
+import CabinClassPessenger from './CabinClassPessenger/CabinPassengerContainer';
 
 const SearchFormWrapper = styled(FlexWrapper)`
   height: 22.2rem;
