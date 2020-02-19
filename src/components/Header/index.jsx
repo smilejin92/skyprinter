@@ -7,7 +7,7 @@ import Culture from './Culture';
 import { FlexWrapper } from '../styles';
 
 const StyledHeader = styled.header`
-  width: 104.8rem;
+  width: ${props => props.width || '104.8rem'};
   margin: 0 auto;
 `;
 
@@ -28,6 +28,7 @@ function Header({
   displayModal,
   hideModal,
   setCulture,
+  width,
 }) {
   // get country & currency lists as mounted
   useEffect(() => {
@@ -37,7 +38,7 @@ function Header({
 
   return (
     <>
-      <StyledHeader>
+      <StyledHeader width={width}>
         <HeaderWrapper justify="space-between" align="center">
           <MainLogo />
           <SubNav
