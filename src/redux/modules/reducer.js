@@ -10,7 +10,7 @@ const reducer = combineReducers({
   culture,
   passenger,
   places,
-  datepicker
+  datepicker,
 });
 
 export default reducer;
