@@ -17,6 +17,7 @@ import {
 
 function SearchDates({
   type,
+  tripType,
   selectedDate,
   closeModal,
   setInboundDate,
@@ -145,7 +146,9 @@ function SearchDates({
       // 2. travelDate을 설정한다.
       if (type === 'inbound') {
         if (clickedDate > outboundDate) {
-          setOutboundDate(clickedDate);
+          if (tripType === 'round') {
+            setOutboundDate(clickedDate);
+          }
         }
         setInboundDate(clickedDate);
       } else {
@@ -166,6 +169,7 @@ function SearchDates({
       setInboundDate,
       setOutboundDate,
       inboundDate,
+      tripType,
     ],
   );
 

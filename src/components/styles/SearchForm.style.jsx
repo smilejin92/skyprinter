@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Radio } from 'antd';
 import { FlexWrapper } from '.';
 
 export const SearchFormWrapper = styled(FlexWrapper)`
@@ -17,20 +16,6 @@ export const SearchFormOption = styled(FlexWrapper)`
 
   a {
     color: inherit;
-  }
-`;
-
-export const SelectWayToGo = styled(Radio.Group)`
-  color: #fff;
-  label {
-    font-size: 1.6rem;
-    color: #fff;
-  }
-  span {
-    color: #fff;
-  }
-  .ant-radio {
-    margin: 0 0 2px 0;
   }
 `;
 

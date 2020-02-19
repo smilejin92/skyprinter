@@ -1,13 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PlacesContainer from '../../containers/PlacesContainer';
 import CheckBox from './CheckBox';
 import DatePickerContainer from '../../containers/DatePickerContainer';
-import { Radio } from 'antd';
+import TripTypes from './TripTypes';
 import CabinClassPassengerContainer from '../../containers/CabinPassengerContainer';
 import {
   SearchFormWrapper,
   SearchFormOption,
-  SelectWayToGo,
   SearchWrapper,
   SearchFormSubmit,
   SelectSeatDateBox,
@@ -15,30 +14,15 @@ import {
 } from '../styles/SearchForm.style';
 
 function SearchForm() {
-  const [wayType, setWayType] = useState('왕복');
-
-  const selectWayToGo = useCallback(
-    e => {
-      setWayType(e.target.value);
-    },
-    [setWayType],
-  );
+  const handleSubmit = useCallback(e => {
+    e.preventDefault();
+  }, []);
 
   return (
     <SearchFormWrapper direction="column">
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <SearchFormOption>
-          <SelectWayToGo onChange={selectWayToGo} value={wayType}>
-            <Radio value={'왕복'}>왕복</Radio>
-            <Radio value={'편도'}>편도</Radio>
-            <Radio value={'다구간'} disabled>
-              다구간
-            </Radio>
-          </SelectWayToGo>
+          <TripTypes />
           <div>
             <a
               href="https://www.skyscanner.co.kr/inspire/map?outboundDate=2020-11-11&outboundPlace=&preferDirects=false"
