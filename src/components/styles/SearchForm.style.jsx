@@ -3,9 +3,9 @@ import { Radio } from 'antd';
 import { FlexWrapper } from '.';
 
 export const SearchFormWrapper = styled(FlexWrapper)`
-  height: 22.2rem;
+  height: ${props => props.height || '22.2rem'};
   background: #02122c;
-  padding: 2.4rem;
+  padding: ${props => props.padding || '2.4rem'};
   border-radius: 0.4rem;
   font-size: 1.6rem;
 `;
