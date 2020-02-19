@@ -1,11 +1,12 @@
 import React from 'react';
 import dompurify from 'dompurify';
 import ParsePlaceList from './ParsePlaceList';
-import { ListSection } from './RenderPlaceList.style';
+import { ListSection } from '../../styles/RenderPlaceList.style';
 
 const RenderPlaceList = React.memo(({ place, suggestion, hasCity }) => {
   const sanitizer = dompurify.sanitize;
   const Result = ParsePlaceList(place, suggestion);
+
   switch (place) {
     case 'Country': {
       return (

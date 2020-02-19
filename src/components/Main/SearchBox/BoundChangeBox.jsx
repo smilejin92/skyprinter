@@ -3,7 +3,7 @@ import {
   BoundChangeWrapper,
   SpaceWrapper,
   BoundChangeButton,
-} from './BoundChnageBox.style';
+} from '../../styles/BoundChnageBox.style';
 
 const BoundChangeBox = ({ changeBound }) => {
   return (

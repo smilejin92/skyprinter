@@ -3,7 +3,7 @@ import AutoSuggest from 'react-autosuggest';
 import SearchService from '../../../services/SearchService';
 import RenderPlaceList from './RenderPlaceList';
 import CheckBox from '../CheckBox';
-import { SearchWrapper, SearchLabel } from './BoundSearchBox.style';
+import { SearchWrapper, SearchLabel } from '../../styles/BoundSearchBox.style';
 
 const pressEnter = (e, type) => {
   if (e.keyCode === 13 && e.target.nodeName === 'INPUT') {
