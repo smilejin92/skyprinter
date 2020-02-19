@@ -3,7 +3,7 @@ import Recommended from './Recommended';
 import TripIdea from './TripIdea';
 import ProductsOfMonth from './ProductsOfMonth';
 import styled from 'styled-components';
-import { HiddenHeader } from '../styles';
+import { HiddenHeader } from '../../styles';
 
 const ProductsWrapper = styled.div`
   svg {
