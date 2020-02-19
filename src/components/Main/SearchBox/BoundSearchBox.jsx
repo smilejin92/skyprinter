@@ -163,7 +163,6 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
             type,
           );
           pressEnter(e, type);
-          return console.log(`Selected: ${suggestion.PlaceId}-sky`);
         }}
         getSuggestionValue={suggestion => suggestion.PlaceName}
         renderSuggestion={suggestion => {

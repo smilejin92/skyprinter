@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { FlexWrapper } from '../../styles';
-import PlacesContainer from '../../container/PlacesContainer';
+import PlacesContainer from '../../containers/PlacesContainer';
 import CabinClassPessenger from '../Main/CabinClassPessenger';
 import CheckBox from './CheckBox';
 import DatePickerContainer from '../../containers/DatePickerContainer';
