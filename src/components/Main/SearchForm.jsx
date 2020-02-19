@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { FlexWrapper } from '../../styles';
-import SearchBox from '../Main/SearchBox';
-import DatePicker from '../DatePicker';
-import CheckBox from './SearchBox/CheckBox';
+import PlacesContainer from '../../container/PlacesContainer';
+import CabinClassPessenger from '../Main/CabinClassPessenger';
+import CheckBox from './CheckBox';
+import DatePickerContainer from '../../containers/DatePickerContainer';
 import { Radio } from 'antd';
-import { connect } from 'react-redux';
 import CabinClassPessenger from './CabinClassPessenger/CabinPassengerContainer';
 
 const SearchFormWrapper = styled(FlexWrapper)`
@@ -70,11 +70,7 @@ const SearchSubmitButton = styled.button.attrs(props => ({
   transform: translateY(-16px);
 `;
 
-function SearchForm({ inboundDatePicker, outboundDatePicker }) {
-  const [inboundDate, setInboundDate] = useState(new Date()); // 출발 날짜 (오늘)
-  const [outboundDate, setOutboundDate] = useState(
-    new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
-  ); // 귀국 날짜 (inboundDate으로부터 일주일 후)
+function SearchForm() {
   const [wayType, setWayType] = useState('왕복');
 
   const selectWayToGo = useCallback(
@@ -108,26 +104,10 @@ function SearchForm({ inboundDatePicker, outboundDatePicker }) {
           </div>
         </SearchFormOption>
         <SearchWrapper>
-          <SearchBox />
+          <PlacesContainer />
           <SelectSeatDateBox>
-            <DatePicker
-              type="inboundDatePicker"
-              inboundDate={inboundDate}
-              outboundDate={outboundDate}
-              setInboundDate={setInboundDate}
-              setOutboundDate={setOutboundDate}
-              display={inboundDatePicker}
-              inMain={true}
-            />
-            <DatePicker
-              type="outboundDatePicker"
-              inboundDate={inboundDate}
-              outboundDate={outboundDate}
-              setInboundDate={setInboundDate}
-              setOutboundDate={setOutboundDate}
-              display={outboundDatePicker}
-              inMain={true}
-            />
+            <DatePickerContainer type="inbound" inMain={true} />
+            <DatePickerContainer type="outbound" inMain={true} />
             <CabinClassPessenger />
           </SelectSeatDateBox>
         </SearchWrapper>
@@ -136,12 +116,7 @@ function SearchForm({ inboundDatePicker, outboundDatePicker }) {
           <SearchSubmitButton>
             항공권 검색
             <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="rgb(255, 255, 255)"
-              >
+              <svg width="24" height="24" fill="rgb(255, 255, 255)">
                 <path d="M14.4 19.5l5.7-5.3c.4-.4.7-.9.8-1.5.1-.3.1-.5.1-.7s0-.4-.1-.6c-.1-.6-.4-1.1-.8-1.5l-5.7-5.3c-.8-.8-2.1-.7-2.8.1-.8.8-.7 2.1.1 2.8l2.7 2.5H5c-1.1 0-2 .9-2 2s.9 2 2 2h9.4l-2.7 2.5c-.5.4-.7 1-.7 1.5s.2 1 .5 1.4c.8.8 2.1.8 2.9.1z"></path>
               </svg>
             </span>
@@ -152,9 +127,4 @@ function SearchForm({ inboundDatePicker, outboundDatePicker }) {
   );
 }
 
-const mapStateToProps = state => ({
-  inboundDatePicker: state.display.inboundDatePicker,
-  outboundDatePicker: state.display.outboundDatePicker,
-});
-
-export default connect(mapStateToProps)(SearchForm);
+export default SearchForm;

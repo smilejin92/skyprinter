@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { HiddenHeader, FlexList, FlexWrapper } from '../../styles';
-import { connect } from 'react-redux';
-import { displayModal } from '../../redux/modules/display';
 
 const UserMenu = styled(FlexList)`
   width: 35.3rem;
@@ -46,7 +44,13 @@ export const Currency = styled.span`
   color: #b2b2bf;
 `;
 
-const SubNav = ({ displayModal }) => (
+const SubNav = ({
+  country,
+  countryName,
+  currency,
+  currencySymbol,
+  displayModal,
+}) => (
   <nav>
     <HiddenHeader>언어 설정 및 로그인 메뉴</HiddenHeader>
     <UserMenu justify="space-around" align="center">
@@ -64,11 +68,11 @@ const SubNav = ({ displayModal }) => (
           <FlexWrapper justify="space-around" align="center">
             <span>한국어</span>
             <Flag
-              src={`https://images.skyscnr.com/images/country/flag/header/${'kr'}.png`}
+              src={`https://images.skyscnr.com/images/country/flag/header/${country.toLowerCase()}.png`}
               alt="국기"
             />
-            <span>{'대한민국'}</span>
-            <Currency>{'₩ KRW'}</Currency>
+            <span>{countryName}</span>
+            <Currency>{`${currencySymbol} ${currency}`}</Currency>
           </FlexWrapper>
         </SwitchCultureBtn>
       </li>
@@ -79,10 +83,4 @@ const SubNav = ({ displayModal }) => (
   </nav>
 );
 
-const mapDispatchToProps = dispatch => ({
-  displayModal: () => {
-    dispatch(displayModal('culture'));
-  },
-});
-
-export default connect(null, mapDispatchToProps)(SubNav);
+export default SubNav;

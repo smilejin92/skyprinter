@@ -19,6 +19,7 @@ export default function display(state = initialState, action) {
   switch (action.type) {
     case DISPLAY_MODAL:
       const { modal } = action;
+
       return {
         culture: modal === 'culture' ? true : false,
         passengerInfo: modal === 'passengerInfo' ? true : false,
