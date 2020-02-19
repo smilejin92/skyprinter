@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { FlexWrapper } from '../../../styles';
+import { FlexWrapper } from '.';
 
 export const DatePickerWrapper = styled(FlexWrapper)`
   position: relative;

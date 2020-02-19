@@ -1,11 +1,11 @@
-import { hideModal } from '../../../redux/modules/display';
+import { hideModal } from '../redux/modules/display';
 import { connect } from 'react-redux';
 import {
   setCabinClass,
   setAdults,
   setChildren,
-} from '../../../redux/modules/passenger';
-import CabinClassAndPassenger from './CabinClassAndPassenger';
+} from '../redux/modules/passenger';
+import CabinClassAndPassenger from '../components/Main/CabinClassPassenger/CabinClassAndPassenger';
 
 const mapStateToProps = state => ({
   passengerInfo: state.passenger,

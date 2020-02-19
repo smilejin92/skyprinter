@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { HiddenHeader, FlexList, FlexWrapper } from '../../styles';
+import { HiddenHeader, FlexList, FlexWrapper } from '../styles';
 
 const UserMenu = styled(FlexList)`
   width: 35.3rem;

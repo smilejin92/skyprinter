@@ -16,7 +16,6 @@ const SearchBox = React.memo(({ places, setPlace, switchPlaces }) => {
 
   return (
     <SearchBoxWrapper>
-      {/* {console.log('bound는 : ', places)} */}
       <BoundSearchBox
         header={'출발지'}
         bound={places}

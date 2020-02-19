@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlexWrapper, Image } from '../../styles';
+import { FlexWrapper, Image } from '../styles';
 import styled from 'styled-components';
 
 const SloganArticle = styled.article`

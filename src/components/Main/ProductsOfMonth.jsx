@@ -8,7 +8,7 @@ import {
   ProductGetPrice,
   ProductContentDescription,
   ProductText,
-} from './Recommended';
+} from '../styles/Recommended.style';
 
 const ProductsOfMonth = () => (
   <ProductSectionWrapper direction="column">

@@ -5,7 +5,7 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import uuid from 'uuid';
-import { FlexWrapper } from '../../../styles';
+import { FlexWrapper } from '../../styles';
 import {
   DatesSelection,
   SelectMonth,
@@ -13,7 +13,7 @@ import {
   Days,
   Day,
   DateItem,
-} from './SearchDates.style';
+} from '../../styles/SearchDates.style';
 
 function SearchDates({
   type,

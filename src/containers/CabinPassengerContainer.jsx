@@ -1,7 +1,7 @@
 // import React from 'react';
-import { displayModal } from '../../../redux/modules/display';
+import { displayModal } from '../redux/modules/display';
 import { connect } from 'react-redux';
-import ClassGradeButton from './index';
+import ClassGradeButton from '../components/Main/CabinClassPassenger/index';
 
 const mapStateToProps = state => ({
   visible: state.display.passengerInfo,

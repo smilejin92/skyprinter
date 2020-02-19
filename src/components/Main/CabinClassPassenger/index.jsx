@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-// import CabinClassAndPassenger from './CabinClassAndPassenger';
-import CabinClassPassengerContainer from './CabinClassPassengerContainer';
+import CabinClassPassengerContainer from '../../../containers/CabinClassPassengerContainer';
 
 const GradeButton = styled.button`
   padding: 0 30px 0 12px;

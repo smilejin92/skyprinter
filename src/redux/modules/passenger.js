@@ -1,8 +1,8 @@
 //Action
-const SET_CABIN_CLASS = 'SET_CABIN_CLASS';
-const SET_ADULTS = 'SET_ADULTS';
-const SET_CHILDREN = 'SET_CHILDREN';
-const SET_CHILD_AGE = 'SET_CHILD_AGE';
+const SET_CABIN_CLASS = 'skyprinter/passenger/SET_CABIN_CLASS';
+const SET_ADULTS = 'skyprinter/passenger/SET_ADULTS';
+const SET_CHILDREN = 'skyprinter/passenger/SET_CHILDREN';
+const SET_CHILD_AGE = 'skyprinter/passenger/SET_CHILD_AGE';
 
 //Action creater
 
