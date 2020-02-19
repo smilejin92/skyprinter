@@ -20,7 +20,6 @@ function SearchForm() {
   }, []);
 
   const { pathname } = useLocation();
-  console.log(pathname);
 
   return (
     <SearchFormWrapper direction="column" page={pathname}>
@@ -62,13 +61,3 @@ function SearchForm() {
 }
 
 export default SearchForm;
-
-// export default connect(
-//   state => ({
-//     page: state.style.page
-//   }),
-//   dispatch => ({
-//     setStyle: () => {
-//       dispatch(setStyle('result'));
-//     }
-//   }))(SearchForm);
