@@ -11,6 +11,7 @@ export const SearchFormWrapper = styled(FlexWrapper)`
   ${({ page }) =>
     page === '/transport/flights' &&
     css`
+      background: #042759;
       padding: 1.2rem;
       height: 29.5rem;
     `}
@@ -60,7 +61,7 @@ export const SelectSeatDateBox = styled(FlexWrapper)`
     page === '/transport/flights' &&
     css`
       width: 100%;
-      padding-top: 2rem;
+      padding-top: 1.5rem;
     `}
 `;
 
@@ -68,4 +69,10 @@ export const SearchSubmitButton = styled.button.attrs(props => ({
   ariaLabel: '항공권 검색',
 }))`
   transform: translateY(-16px);
+
+  ${({ page }) =>
+    page === '/transport/flights' &&
+    css`
+      transform: translateY(12px);
+    `}
 `;
