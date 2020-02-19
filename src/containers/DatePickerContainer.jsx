@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import { displayModal, hideModal } from '../redux/modules/display';
-import { setInboundDate, setOutboundDate } from '../redux/modules/datepicker';
+import {
+  setInboundDate,
+  setOutboundDate,
+  setRoundTrip,
+} from '../redux/modules/datepicker';
 import DatePicker from '../components/Main/DatePicker';
 
 const mapStateToProps = (state, ownProps) => {
@@ -8,6 +12,7 @@ const mapStateToProps = (state, ownProps) => {
   const isInbound = type === 'inbound';
 
   return {
+    tripType: state.datepicker.tripType,
     inboundDate: state.datepicker.inboundDate,
     outboundDate: state.datepicker.outboundDate,
     selectedDate: isInbound
@@ -36,6 +41,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setOutboundDate: outboundDate => {
       dispatch(setOutboundDate(outboundDate));
+    },
+    setRoundTrip: () => {
+      dispatch(setRoundTrip());
     },
   };
 };

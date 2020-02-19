@@ -25,14 +25,17 @@ function DatePicker({
   setOutboundDate,
   inboundDate,
   outboundDate,
+  tripType,
+  setRoundTrip,
 }) {
   const [searchType, setSearchType] = useState(true); // 검색 타입 - 특정 날짜
 
   // DatePicker 표시
   const selectDates = useCallback(() => {
     if (visible) return;
+    if (tripType === 'oneway' && type === 'outbound') setRoundTrip();
     displayModal();
-  }, [displayModal, visible]);
+  }, [displayModal, setRoundTrip, tripType, visible, type]);
 
   // 검색 타입 설정 - 특정 날짜
   const setSearchDates = useCallback(() => {
@@ -52,6 +55,7 @@ function DatePicker({
 
   // 선택된 날짜를 'year. month. date.' 형식으로 반환
   const convertDateToString = useMemo(() => {
+    if (!selectedDate) return '(편도)';
     const month = selectedDate.getMonth() + 1;
     const date = selectedDate.getDate();
 
@@ -83,7 +87,7 @@ function DatePicker({
           </DisplayDatePickerBtn>
         </DatePickerHeader>
       )}
-      {visible && (
+      {visible && selectedDate && (
         <DatePickerBody ref={outsideRef}>
           {inMain && (
             <SearchTypes justify="space-evenly" align="center">
@@ -107,6 +111,7 @@ function DatePicker({
           )}
           <SearchDates
             type={type}
+            tripType={tripType}
             selectedDate={selectedDate}
             inboundDate={inboundDate}
             outboundDate={outboundDate}

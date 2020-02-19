@@ -1,11 +1,10 @@
 import styled from 'styled-components';
-import { Radio } from 'antd';
 import { FlexWrapper } from '.';
 
 export const SearchFormWrapper = styled(FlexWrapper)`
-  height: 22.2rem;
+  height: ${props => props.height || '22.2rem'};
   background: #02122c;
-  padding: 2.4rem;
+  padding: ${props => props.padding || '2.4rem'};
   border-radius: 0.4rem;
   font-size: 1.6rem;
 `;
@@ -17,20 +16,6 @@ export const SearchFormOption = styled(FlexWrapper)`
 
   a {
     color: inherit;
-  }
-`;
-
-export const SelectWayToGo = styled(Radio.Group)`
-  color: #fff;
-  label {
-    font-size: 1.6rem;
-    color: #fff;
-  }
-  span {
-    color: #fff;
-  }
-  .ant-radio {
-    margin: 0 0 2px 0;
   }
 `;
 
