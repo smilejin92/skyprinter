@@ -4,7 +4,8 @@ export const SearchWrapper = styled.div`
   font-size: 1.6rem;
   line-height: 1.5;
   display: inline-block;
-  width: 46%;
+  // width: 46%;
+  width: ${({ page }) => (page === '/transport/flights' ? '48%' : '46%')};
   text-align: left;
   position: relative;
 
@@ -12,7 +13,8 @@ export const SearchWrapper = styled.div`
     margin: 0;
     border-right: none;
     display: inline-block;
-    width: 101%;
+    // width: 101%;
+    width: ${({ page }) => (page === '/transport/flights' ? '100%' : '101%')};
     height: 4.8rem;
     padding: 0.6rem 1.2rem;
     background: #fff;
@@ -20,7 +22,12 @@ export const SearchWrapper = styled.div`
     appearance: none;
     border: 0.1rem solid #b2b2bf;
     border-right-width: 0;
-    border-radius: ${props => props.borderRadius || '0.4rem 0 0 0.4rem'};
+    border-radius: ${props =>
+      props.borderRadius
+        ? props.page === '/transport/flights'
+          ? '0 0.4rem 0.4rem 0'
+          : 'none'
+        : '0.4rem 0 0 0.4rem'};
 
     &::placeholder {
       font-style: italic;
@@ -42,7 +49,8 @@ export const SearchWrapper = styled.div`
     display: block;
     z-index: 900;
     margin-top: 1.3rem;
-    width: 180%;
+    // width: 180%;
+    width: ${({ page }) => (page === '/transport/flights' ? '100%' : '180%')};
     background-color: initial;
     &:before {
       position: absolute;

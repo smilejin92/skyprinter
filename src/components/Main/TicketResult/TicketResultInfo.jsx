@@ -7,12 +7,12 @@ import { Icon } from 'antd';
 
 const TicketResultInfoWrapper = styled.div`
   width: calc(100% - 49.7rem);
-  color: #fff;
   font-size: 1.6rem;
   line-height: 2.4rem;
 `;
 
 const TicketInfoWrapper = styled.div``;
+
 const SearchArea = styled.section`
   position: relative;
   min-height: 7.6rem;
@@ -23,6 +23,7 @@ const SearchArea = styled.section`
 
 const SearchSummary = styled.div`
   padding: 0.6rem 1.2rem 1.2rem 0;
+  color: #fff;
 `;
 
 const SearchButtonDiv = styled.div`
@@ -122,7 +123,7 @@ const TicketResultInfo = props => {
         </SearchSummary>
         {visible && <SearchForm />}
       </SearchArea>
-      <div>
+      {/* <div>
         <div>
           <span>
             <a
@@ -376,7 +377,7 @@ const TicketResultInfo = props => {
             </p>
           </LuggageMoreDetail>
         </div>
-      </div>
+      </div> */}
     </TicketResultInfoWrapper>
   );
 };

@@ -13,6 +13,7 @@ import {
 } from '../../styles/DatePicker.style';
 import SearchDates from './SearchDates';
 import useOutsideRef from '../../../hooks/useOutsideRef';
+import { useLocation } from 'react-router-dom';
 
 function DatePicker({
   type,
@@ -71,9 +72,10 @@ function DatePicker({
 
   const outsideRef = useRef(null);
   useOutsideRef(outsideRef, hideModal);
+  const { pathname } = useLocation();
 
   return (
-    <DatePickerWrapper>
+    <DatePickerWrapper page={pathname}>
       {inMain && (
         <DatePickerHeader direction="column" arrowTip={visible}>
           <ButtonLabel htmlFor={`date-button-${type}`}>
@@ -82,6 +84,7 @@ function DatePicker({
           <DisplayDatePickerBtn
             id={`date-button-${type}`}
             onClick={selectDates}
+            page={pathname}
           >
             <span>{convertDateToString}</span>
           </DisplayDatePickerBtn>

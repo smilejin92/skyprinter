@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const BoundChangeWrapper = styled.div`
-  width: 8%;
+  // width: 8%;
+  width: ${({ page }) => (page === '/transport/flights' ? '4%' : '8%')};
   vertical-align: top;
   display: inline-block;
 `;
