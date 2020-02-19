@@ -2,9 +2,9 @@ import React from 'react';
 import {
   ProductHeader,
   ProductSectionWrapper,
-} from '../styles/Recommended.style';
+} from '../../styles/Recommended.style';
 import styled from 'styled-components';
-import map from '../../images/map.svg';
+import map from '../../../images/map.svg';
 
 const MapContentArea = styled.div`
   background-position: ${props => props.position || '-38.6205px -250.003px'};

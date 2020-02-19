@@ -24,7 +24,7 @@ function Footer() {
 
   return (
     <BgFooter>
-      <HiddenHeader>탐생 영역</HiddenHeader>
+      <HiddenHeader>탐색 영역</HiddenHeader>
       <FooterWrapper>
         <FooterItem>
           <FooterItemHeader>탐색</FooterItemHeader>

@@ -8,7 +8,7 @@ import {
   CityWapper,
   CityImg,
   CityPlan,
-} from '../styles/TripPlan.style';
+} from '../../styles/TripPlan.style';
 
 const TripPlan = () => (
   <TripPlanSection direction="column" boxSize="border-box">

@@ -47,7 +47,9 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
         onSuggestionSelected={(e, { suggestion }) => {
           selectBound(
             suggestion.PlaceId,
-            `${suggestion.PlaceName} (${suggestion.PlaceId})`,
+            suggestion.PlaceName === suggestion.CityName
+              ? `${suggestion.PlaceName} (모두)`
+              : `${suggestion.PlaceName} (${suggestion.PlaceId})`,
             type,
           );
           pressEnter(e, type);
@@ -80,7 +82,10 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
             if (highlightedSuggestion && highlightedSuggestion.PlaceName) {
               selectBound(
                 highlightedSuggestion.PlaceId,
-                `${highlightedSuggestion.PlaceName} (${highlightedSuggestion.PlaceId})`,
+                highlightedSuggestion.PlaceName ===
+                  highlightedSuggestion.CityName
+                  ? `${highlightedSuggestion.PlaceName} (모두)`
+                  : `${highlightedSuggestion.PlaceName} (${highlightedSuggestion.PlaceId})`,
                 type,
               );
             }
