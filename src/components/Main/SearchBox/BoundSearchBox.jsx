@@ -168,7 +168,11 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
           searchPlace(value, type === 'inBound' ? true : false);
         }}
         onSuggestionSelected={(e, { suggestion }) => {
-          selectBound(suggestion.PlaceId, suggestion.PlaceName, type);
+          selectBound(
+            suggestion.PlaceId,
+            `${suggestion.PlaceName} (${suggestion.PlaceId})`,
+            type,
+          );
           pressEnter(e, type);
           return console.log(`Selected: ${suggestion.PlaceId}-sky`);
         }}
@@ -193,21 +197,16 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
           id: `search-input-${type}`,
           placeholder: '국가, 도시 또는 공항',
           value: type === 'inBound' ? bound.inBoundName : bound.outBoundName,
-          onChange: (_, { newValue, method }) => {
-            // setValue(newValue);
-            console.log('방법2', method);
+          onChange: (_, { newValue }) => {
             selectBound('', newValue, type);
           },
-          onBlur: (_, highlightFirstSuggestion) => {
+          onBlur: (_, { highlightedSuggestion }) => {
             // console.dir(highlightFirstSuggestion.highlightedSuggestion.PlaceName);
-            if (
-              highlightFirstSuggestion.highlightedSuggestion &&
-              highlightFirstSuggestion.highlightedSuggestion.PlaceName
-            ) {
+            if (highlightedSuggestion && highlightedSuggestion.PlaceName) {
               // setValue(highlightFirstSuggestion.highlightedSuggestion.PlaceName);
               selectBound(
-                highlightFirstSuggestion.highlightedSuggestion.PlaceId,
-                highlightFirstSuggestion.highlightedSuggestion.PlaceName,
+                highlightedSuggestion.PlaceId,
+                `${highlightedSuggestion.PlaceName} (${highlightedSuggestion.PlaceId})`,
                 type,
               );
             }

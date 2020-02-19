@@ -26,6 +26,8 @@ import {
   CancelBtn,
 } from '../styles/datePickerStyle';
 import useOutsideRef from '../hooks/useOutsideRef';
+import { connect } from 'react-redux';
+import { displayModal, hideModal } from '../redux/modules/display';
 
 function DatePicker({
   inMain,
@@ -42,8 +44,9 @@ function DatePicker({
 
   // DatePicker 표시
   const selectDates = useCallback(() => {
+    if (display) return;
     displayModal(type);
-  }, [displayModal, type]);
+  }, [displayModal, type, display]);
 
   // 검색 타입 설정 - 특정 날짜
   const setSearchDates = useCallback(() => {
@@ -78,14 +81,14 @@ function DatePicker({
   }, [type, inboundDate, outboundDate, inMain]);
 
   const outsideRef = useRef(null);
-  useOutsideRef(outsideRef, closeModal);
+  useOutsideRef(outsideRef, hideModal);
 
   return (
     <DatePickerWrapper>
       {inMain && (
         <DatePickerHeader direction="column" arrowTip={display}>
           <ButtonLabel htmlFor={`date-button-${type}`}>
-            {type === 'inbound' ? '가는 날' : '오는 날'}
+            {type === 'inboundDatePicker' ? '가는 날' : '오는 날'}
           </ButtonLabel>
           <DisplayDatePickerBtn
             id={`date-button-${type}`}
@@ -464,4 +467,14 @@ function SearchDates({
   );
 }
 
-export default DatePicker;
+const mapDispatchToProps = dispatch => ({
+  displayModal: type => {
+    dispatch(displayModal(type));
+  },
+  hideModal: () => {
+    dispatch(hideModal());
+  },
+});
+
+// export default DatePicker;
+export default connect(null, mapDispatchToProps)(DatePicker);

@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import CabinClassAndPassenger from './CabinClassAndPassenger';
+// import CabinClassAndPassenger from './CabinClassAndPassenger';
+import CabinClassPassengerContainer from './CabinClassPassengerContainer';
 
 const GradeButton = styled.button`
   padding: 0 30px 0 12px;
@@ -44,18 +45,7 @@ const GradeWrapper = styled.div`
   position: relative;
 `;
 
-function ClassGradeButton() {
-  const [visible, setVisible] = useState(false);
-  const [passengerInfo, setPassengerInfo] = useState({
-    adults: 1,
-    children: [],
-    cabinClass: 'economy',
-  });
-
-  const displayModal = () => {
-    setVisible(true);
-  };
-
+function ClassGradeButton({ visible, displayModal, passengerInfo }) {
   const convertClass = useCallback(type => {
     const seatTypes = [
       { cabinClass: 'economy', name: '일반석' },
@@ -74,10 +64,14 @@ function ClassGradeButton() {
     return adults + children.length;
   };
 
+  const openModal = () => {
+    if (visible) return;
+    displayModal();
+  };
   return (
     <GradeWrapper>
       <ButtonLabel>좌석 등급 및 승객</ButtonLabel>
-      <GradeButton onClick={displayModal}>
+      <GradeButton onClick={openModal}>
         <GradePessenger>
           {getTotalPassengers() > 1
             ? `${getTotalPassengers()} 승객, ${convertClass(
@@ -88,13 +82,7 @@ function ClassGradeButton() {
               )}`}
         </GradePessenger>
       </GradeButton>
-      {visible && (
-        <CabinClassAndPassenger
-          passengerInfo={passengerInfo}
-          setVisible={setVisible}
-          setPassengerInfo={setPassengerInfo}
-        />
-      )}
+      {visible && <CabinClassPassengerContainer />}
     </GradeWrapper>
   );
 }

@@ -2,10 +2,11 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { FlexWrapper } from '../../styles';
 import SearchBox from '../Main/SearchBox';
-import CabinClassPessenger from '../Main/CabinClassPessenger';
 import DatePicker from '../DatePicker';
 import CheckBox from './SearchBox/CheckBox';
 import { Radio } from 'antd';
+import { connect } from 'react-redux';
+import CabinClassPessenger from './CabinClassPessenger/CabinPassengerContainer';
 
 const SearchFormWrapper = styled(FlexWrapper)`
   height: 22.2rem;
@@ -69,13 +70,11 @@ const SearchSubmitButton = styled.button.attrs(props => ({
   transform: translateY(-16px);
 `;
 
-function SearchForm() {
+function SearchForm({ inboundDatePicker, outboundDatePicker }) {
   const [inboundDate, setInboundDate] = useState(new Date()); // 출발 날짜 (오늘)
   const [outboundDate, setOutboundDate] = useState(
     new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
   ); // 귀국 날짜 (inboundDate으로부터 일주일 후)
-  const [inboundDatePicker, setInboundDatePicker] = useState(false); // DatePicker 표시 여부 - 출발
-  const [outboundDatePicker, setOutboundDatePicker] = useState(false); // DatePicker 표시 여부 - 귀국
   const [wayType, setWayType] = useState('왕복');
 
   const selectWayToGo = useCallback(
@@ -84,19 +83,6 @@ function SearchForm() {
     },
     [setWayType],
   );
-
-  const openDatePicker = useCallback(
-    type => {
-      setInboundDatePicker(type === 'inbound');
-      setOutboundDatePicker(type === 'outbound');
-    },
-    [setInboundDatePicker, setOutboundDatePicker],
-  );
-
-  const closeDatePicker = useCallback(() => {
-    setInboundDatePicker(false);
-    setOutboundDatePicker(false);
-  }, [setInboundDatePicker, setOutboundDatePicker]);
 
   return (
     <SearchFormWrapper direction="column">
@@ -123,12 +109,9 @@ function SearchForm() {
         </SearchFormOption>
         <SearchWrapper>
           <SearchBox />
-          {/*  */}
           <SelectSeatDateBox>
             <DatePicker
-              type="inbound"
-              displayModal={openDatePicker}
-              hideModal={closeDatePicker}
+              type="inboundDatePicker"
               inboundDate={inboundDate}
               outboundDate={outboundDate}
               setInboundDate={setInboundDate}
@@ -137,9 +120,7 @@ function SearchForm() {
               inMain={true}
             />
             <DatePicker
-              type="outbound"
-              displayModal={openDatePicker}
-              hideModal={closeDatePicker}
+              type="outboundDatePicker"
               inboundDate={inboundDate}
               outboundDate={outboundDate}
               setInboundDate={setInboundDate}
@@ -171,4 +152,9 @@ function SearchForm() {
   );
 }
 
-export default SearchForm;
+const mapStateToProps = state => ({
+  inboundDatePicker: state.display.inboundDatePicker,
+  outboundDatePicker: state.display.outboundDatePicker,
+});
+
+export default connect(mapStateToProps)(SearchForm);
