@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FlexSection, Flag, FlexList } from '../styles';
+import { FlexSection, Flag, FlexList } from './styles';
 
 export const HeadingTitle = styled.h3`
   font-size: 2.4rem;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SearchForm from './SearchForm';
-import { FlexWrapper, HiddenHeader, FlexSection } from '../../styles';
+import { FlexWrapper, HiddenHeader, FlexSection } from '../styles';
 
 const Background = styled(FlexWrapper)`
   min-width: 109.6rem;

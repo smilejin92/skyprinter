@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { FlexWrapper } from '../../../styles';
+import { FlexWrapper } from '.';
 
 export const DatesSelection = styled(FlexWrapper)`
   padding: 1rem 1.1rem;

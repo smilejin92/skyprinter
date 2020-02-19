@@ -23,35 +23,13 @@ export const CabinClass = styled.select`
   font-size: 1.6rem;
 `;
 
-function InfantChild({ setPassengerInfo, child }) {
+function InfantChild({ child, setAge }) {
   const selectAge = ({ target }) => {
-    if (target.value === '0' || target.value === '1') {
-      setPassengerInfo(cur => {
-        const newChildren = cur.children.map(c =>
-          c.id === child.id ? { ...c, type: 'infant', age: +target.value } : c,
-        );
+    setAge(child.id, target.value);
 
-        return {
-          ...cur,
-          children: newChildren,
-        };
-      });
-    } else {
-      setPassengerInfo(cur => {
-        const newChildren = cur.children.map(c =>
-          c.id === child.id ? { ...c, type: 'child', age: +target.value } : c,
-        );
-
-        return {
-          ...cur,
-          children: newChildren,
-        };
-      });
-    }
     if (target.value === '나이를 선택하세요')
       return alert('모든 유/소아의 나이를 입력하세요');
   };
-
   return (
     <div>
       <LabelTitle htmlFor={`childage-${child.id}`}>

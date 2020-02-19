@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useRef } from 'react';
-import { FlexWrapper } from '../../../styles';
+import { FlexWrapper } from '../../styles';
 import {
   DatePickerWrapper,
   DatePickerHeader,
@@ -10,7 +10,7 @@ import {
   SearchTypeBtn,
   ButtonBox,
   CancelBtn,
-} from './index.style';
+} from '../../styles/DatePicker.style';
 import SearchDates from './SearchDates';
 import useOutsideRef from '../../../hooks/useOutsideRef';
 

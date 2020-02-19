@@ -4,7 +4,7 @@ import MainLogo from './MainLogo';
 import SubNav from './SubNav';
 import MainNav from './MainNav';
 import Culture from './Culture';
-import { FlexWrapper } from '../../styles';
+import { FlexWrapper } from '../styles';
 
 const StyledHeader = styled.header`
   width: 104.8rem;

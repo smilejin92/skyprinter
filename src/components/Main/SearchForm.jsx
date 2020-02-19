@@ -1,73 +1,18 @@
 import React, { useState, useCallback } from 'react';
-import styled from 'styled-components';
-import { FlexWrapper } from '../../styles';
-import PlacesContainer from '../../container/PlacesContainer';
-import CabinClassPessenger from '../Main/CabinClassPessenger';
+import PlacesContainer from '../../containers/PlacesContainer';
 import CheckBox from './CheckBox';
 import DatePickerContainer from '../../containers/DatePickerContainer';
 import { Radio } from 'antd';
-
-const SearchFormWrapper = styled(FlexWrapper)`
-  height: 22.2rem;
-  background: #02122c;
-  padding: 2.4rem;
-  border-radius: 0.4rem;
-  font-size: 1.6rem;
-`;
-
-const SearchFormOption = styled(FlexWrapper)`
-  justify-content: space-between;
-  color: #fff;
-  line-height: 1.5;
-
-  a {
-    color: inherit;
-  }
-`;
-
-const SelectWayToGo = styled(Radio.Group)`
-  color: #fff;
-  label {
-    font-size: 1.6rem;
-    color: #fff;
-  }
-  .ant-radio {
-    margin: 0 0 2px 0;
-  }
-`;
-
-const SearchWrapper = styled(FlexWrapper)`
-  padding-top: 1.3rem;
-`;
-
-const SearchFormSubmit = styled(FlexWrapper)`
-  justify-content: space-between;
-  color: #fff;
-  button {
-    padding: 0.6rem 2.4rem 0.3rem 2.4rem;
-    font-size: 2.4rem;
-    font-weight: 600;
-    line-height: 3rem;
-    vertical-align: middle;
-    background-color: rgb(0, 166, 152);
-    border: none;
-    border-radius: 0.4rem;
-    span {
-      vertical-align: middle;
-      padding-left: 6px;
-    }
-  }
-`;
-
-const SelectSeatDateBox = styled(FlexWrapper)`
-  width: 50%;
-`;
-
-const SearchSubmitButton = styled.button.attrs(props => ({
-  ariaLabel: '항공권 검색',
-}))`
-  transform: translateY(-16px);
-`;
+import CabinClassPassengerContainer from '../../containers/CabinPassengerContainer';
+import {
+  SearchFormWrapper,
+  SearchFormOption,
+  SelectWayToGo,
+  SearchWrapper,
+  SearchFormSubmit,
+  SelectSeatDateBox,
+  SearchSubmitButton,
+} from '../styles/SearchForm.style';
 
 function SearchForm() {
   const [wayType, setWayType] = useState('왕복');
@@ -90,7 +35,9 @@ function SearchForm() {
           <SelectWayToGo onChange={selectWayToGo} value={wayType}>
             <Radio value={'왕복'}>왕복</Radio>
             <Radio value={'편도'}>편도</Radio>
-            <Radio value={'다구간'}>다구간</Radio>
+            <Radio value={'다구간'} disabled>
+              다구간
+            </Radio>
           </SelectWayToGo>
           <div>
             <a
@@ -107,7 +54,7 @@ function SearchForm() {
           <SelectSeatDateBox>
             <DatePickerContainer type="inbound" inMain={true} />
             <DatePickerContainer type="outbound" inMain={true} />
-            <CabinClassPessenger />
+            <CabinClassPassengerContainer />
           </SelectSeatDateBox>
         </SearchWrapper>
         <SearchFormSubmit>

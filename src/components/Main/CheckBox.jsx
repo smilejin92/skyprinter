@@ -27,7 +27,6 @@ const CheckBox = props => {
   });
 
   const onChange = e => {
-    console.log('checked = ', e.target.checked);
     setCheckbox({
       checked: e.target.checked,
       disabled: checkbox.disabled,
