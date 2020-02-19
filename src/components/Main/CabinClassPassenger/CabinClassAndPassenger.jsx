@@ -3,6 +3,7 @@ import { LabelTitle, CabinClass } from './InfantChild';
 import uuid from 'uuid';
 import useOutsideRef from '../../../hooks/useOutsideRef';
 import InfantChildContainer from '../../../containers/InfantChildContainer';
+import { useLocation } from 'react-router-dom';
 import {
   CabinSection,
   CainContentWrapper,
@@ -27,6 +28,9 @@ function CabinClassAndPassenger({
   const selectClass = ({ target }) => {
     setCabinGrade(target.value);
   };
+
+  const { pathname } = useLocation();
+
   const addAdult = () => {
     setAdult('add');
   };
@@ -46,7 +50,7 @@ function CabinClassAndPassenger({
   useOutsideRef(outsideRef, hideModal);
 
   return (
-    <CabinSection ref={outsideRef}>
+    <CabinSection ref={outsideRef} page={pathname}>
       <Triangle />
       <CainContentWrapper>
         <div>
