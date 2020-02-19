@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { FlexWrapper } from '../../styles';
-import SearchBox from '../Main/SearchBox';
+import PlacesContainer from '../../container/PlacesContainer';
 import CabinClassPessenger from '../Main/CabinClassPessenger';
+import CheckBox from './CheckBox';
 import DatePickerContainer from '../../containers/DatePickerContainer';
-import CheckBox from './SearchBox/CheckBox';
 import { Radio } from 'antd';
 
 const SearchFormWrapper = styled(FlexWrapper)`
@@ -103,7 +103,7 @@ function SearchForm() {
           </div>
         </SearchFormOption>
         <SearchWrapper>
-          <SearchBox />
+          <PlacesContainer />
           <SelectSeatDateBox>
             <DatePickerContainer type="inbound" inMain={true} />
             <DatePickerContainer type="outbound" inMain={true} />
