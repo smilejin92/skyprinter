@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const CabinSection = styled.section`
   z-index: 99;
@@ -10,6 +10,11 @@ export const CabinSection = styled.section`
   border-radius: 0.6rem;
   box-shadow: 0 4px 14px 0 rgba(37, 32, 31, 25);
   width: 36.6rem;
+  ${({ page }) =>
+    page === '/transport/flights' &&
+    css`
+      left: 4rem;
+    `}
 `;
 
 export const CainContentWrapper = styled.div`

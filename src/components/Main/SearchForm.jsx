@@ -46,7 +46,7 @@ function SearchForm() {
         </SearchWrapper>
         <SearchFormSubmit>
           <CheckBox>직항만</CheckBox>
-          <SearchSubmitButton>
+          <SearchSubmitButton page={pathname}>
             항공권 검색
             <span>
               <svg width="24" height="24" fill="rgb(255, 255, 255)">
