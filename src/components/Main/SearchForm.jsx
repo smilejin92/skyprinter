@@ -16,6 +16,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import SearchButton from './SearchButton';
 import { useSelector } from 'react-redux';
+import uuid from 'uuid';
 
 function SearchForm() {
   const handleSubmit = useCallback(e => {
@@ -23,13 +24,13 @@ function SearchForm() {
   }, []);
 
   const { pathname } = useLocation();
-  const error = useSelector(state => state.error);
+  const errors = useSelector(state => state.error.errors);
 
   return (
     <SearchFormWrapper
       direction="column"
       page={pathname}
-      error={error ? true : false}
+      error={errors ? true : false}
     >
       <form onSubmit={handleSubmit}>
         <SearchFormOption>
@@ -44,11 +45,11 @@ function SearchForm() {
             </a>
           </div>
         </SearchFormOption>
-        {error && (
+        {errors && (
           <ErrorMessageWrapper>
             <ul>
-              {error.map(err => (
-                <li>{err.message}</li>
+              {errors.map(err => (
+                <li key={uuid.v4()}>{err.message}</li>
               ))}
             </ul>
           </ErrorMessageWrapper>
