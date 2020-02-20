@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setError } from '../../redux/modules/error';
-import { clearError } from '../../redux/modules/error';
+import { setError, clearError } from '../../redux/modules/error';
+import { push } from 'connected-react-router';
 
 const SearchButton = ({ children, allInfo, createSession, setError }) => {
   const generatedId = errorLists => {
@@ -14,7 +14,7 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
       console.log('출발지 혹은 도착지를 입력해주세요.');
       errorLists.push({
         id: generatedId(errorLists),
-        type: 'ValidationError',
+        type: 'Incorrect places',
         message: '출발지 혹은 도착지를 입력해주세요.',
       });
     }
@@ -23,7 +23,7 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
       console.log('출발지와 도착지가 같으면 검색이 불가능합니다.');
       errorLists.push({
         id: generatedId(errorLists),
-        type: 'ValidationError',
+        type: 'PlaceId is same',
         message: '출발지와 도착지가 같으면 검색이 불가능합니다.',
       });
     }
@@ -34,29 +34,42 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
     ) {
       errorLists.push({
         id: generatedId(errorLists),
-        type: 'ValidationError',
+        type: 'Age not selected',
         message: '모든 유/소아의 나이를 입력해주세요.',
       });
     }
 
-    if (allInfo.passenger.children.filter(child => child.age < 3).length >= 1) {
+    if (allInfo.passenger.children.filter(child => child.age < 2).length >= 1) {
       if (
         allInfo.passenger.adult <
-        allInfo.passenger.children.filter(child => child.age < 3).length
+        allInfo.passenger.children.filter(child => child.age < 2).length
       ) {
         console.log('성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.');
         errorLists.push({
           id: generatedId(errorLists),
-          type: 'ValidationError',
-          message: '성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.',
+          type: 'No matching adult',
+          mesage: '성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.',
         });
       }
+    }
+
+    if (
+      allInfo.places.inBoundId.length === 2 ||
+      allInfo.places.outBoundId.length === 2
+    ) {
+      // 나중에 비워내고 브라우저로 변경
+      errorLists.push({
+        id: generatedId(errorLists),
+        type: 'No Country',
+        message: '실시간 항공권 검색은 도시 단위까지만 가능합니다.',
+      });
     }
 
     if (errorLists.length >= 1) {
       setError(errorLists);
     } else {
-      createSession(allInfo);
+      clearError();
+      createSession();
     }
   };
 
@@ -78,7 +91,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   createSession: () => {
     console.log('세션생성');
-    dispatch(clearError);
+    dispatch(clearError());
+    dispatch(push('/transport/flights'));
   },
   setError: errors => {
     console.log('에러');
