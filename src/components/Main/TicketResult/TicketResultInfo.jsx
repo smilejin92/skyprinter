@@ -12,7 +12,7 @@ const TicketResultInfoWrapper = styled.div`
   line-height: 2.4rem;
 `;
 
-const TicketInfoWrapper = styled.div``;
+const TicketInfoWrapper = styled(FlexWrapper)``;
 const SearchArea = styled.section`
   position: relative;
   min-height: 7.6rem;
@@ -145,7 +145,7 @@ const TicketResultInfo = props => {
         </div>
 
         <div>
-          <section className="검색 옵션">
+          {/* <section className="검색 옵션">
             <button>
               <svg></svg>
               가격 변동 알림 받기
@@ -299,7 +299,7 @@ const TicketResultInfo = props => {
                 </dd>
               </div>
             </dl>
-          </section>
+          </section> */}
 
           <section className="검색 결과">
             <div>
