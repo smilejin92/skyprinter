@@ -4,22 +4,43 @@ import { FlexWrapper } from '.';
 export const DatePickerWrapper = styled(FlexWrapper)`
   position: relative;
   width: 25%;
-  ${({ page }) =>
-    page === '/transport/flights' &&
-    css`
-      width: 23.5%;
-      margin-right: 1%;
-    `}
+  color: rgb(17, 18, 54);
+  ${({ page, inMain, tripType }) => {
+    if (page === '/transport/flights') {
+      if (inMain) {
+        return css`
+          width: 23.5%;
+          margin-right: 1%;
+        `;
+      } else {
+        let style = '';
+        if (tripType === 'oneway') {
+          style += 'margin-right: 19.2rem;';
+        }
+        return css`
+          width: 19.2rem;
+          height: 3.6rem;
+          ${style}
+        `;
+      }
+    }
+  }}
 `;
 
 export const DatePickerHeader = styled(FlexWrapper)`
   position: relative;
   width: 100%;
 
+  ${({ inMain }) =>
+    !inMain &&
+    css`
+      justify-content: space-between;
+    `}
+
   &::before {
     content: '';
     position: absolute;
-    top: 6.7rem;
+    top: ${({ inMain }) => (inMain ? '6.7rem' : '3.6rem')};
     left: 50%;
     transform: translateX(-50%);
     width: 2.5rem;
@@ -32,7 +53,7 @@ export const DatePickerHeader = styled(FlexWrapper)`
   &::after {
     content: '';
     position: absolute;
-    top: 6.6rem;
+    top: ${({ inMain }) => (inMain ? '6.6rem' : '3.5rem')};
     left: 50%;
     transform: translateX(-50%);
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
@@ -64,8 +85,9 @@ export const DisplayDatePickerBtn = styled.button`
   font-size: 1.6rem;
   text-align: left;
   background: white;
-  ${({ page }) =>
+  ${({ page, inMain }) =>
     page === '/transport/flights' &&
+    inMain &&
     css`
       border-radius: 0.4rem;
     `}
@@ -74,6 +96,7 @@ export const DisplayDatePickerBtn = styled.button`
 export const DatePickerBody = styled.div`
   position: absolute;
   top: 7.8rem;
+  top: ${({ inMain }) => (inMain ? '7.8rem' : '4.7rem')};
   left: 50%;
   transform: translateX(-50%);
   width: 31.8rem;

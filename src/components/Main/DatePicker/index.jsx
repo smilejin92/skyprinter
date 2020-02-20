@@ -34,7 +34,11 @@ function DatePicker({
   // DatePicker 표시
   const selectDates = useCallback(() => {
     if (visible) return;
-    if (tripType === 'oneway' && type === 'outbound') setRoundTrip();
+    if (
+      tripType === 'oneway' &&
+      (type === 'outbound' || type === 'inline-outbound')
+    )
+      setRoundTrip();
     displayModal();
   }, [displayModal, setRoundTrip, tripType, visible, type]);
 
@@ -65,7 +69,7 @@ function DatePicker({
       return `${year}. ${month}. ${date}`;
     } else {
       const days = ['일', '월', '화', '수', '목', '금', '토'];
-      const day = days.indexOf(selectedDate.getDay());
+      const day = days[selectedDate.getDay()];
       return `${month}월 ${date}일 (${day})`;
     }
   }, [selectedDate, inMain]);
@@ -75,9 +79,9 @@ function DatePicker({
   const { pathname } = useLocation();
 
   return (
-    <DatePickerWrapper page={pathname}>
-      {inMain && (
-        <DatePickerHeader direction="column" arrowTip={visible}>
+    <DatePickerWrapper page={pathname} inMain={inMain} tripType={tripType}>
+      {inMain ? (
+        <DatePickerHeader direction="column" inMain={inMain} arrowTip={visible}>
           <ButtonLabel htmlFor={`date-button-${type}`}>
             {type === 'inbound' ? '가는 날' : '오는 날'}
           </ButtonLabel>
@@ -85,13 +89,46 @@ function DatePicker({
             id={`date-button-${type}`}
             onClick={selectDates}
             page={pathname}
+            inMain={inMain}
           >
             <span>{convertDateToString}</span>
           </DisplayDatePickerBtn>
         </DatePickerHeader>
+      ) : (
+        <DatePickerHeader
+          onClick={e => {
+            e.stopPropagation();
+          }}
+          inMain={inMain}
+          arrowTip={visible}
+        >
+          <button
+            onClick={() => {
+              console.log('실시간 항공 검색');
+            }}
+            style={{ width: '3rem', lineHeight: '1rem' }}
+          >
+            <svg style={{ fill: 'white' }} viewBox="0 0 24 24">
+              <path d="M13.7 19.7L6.6 12l7.1-7.7c.6-.6 1.7-.2 1.7.7v14c0 .9-1.1 1.4-1.7.7z"></path>
+            </svg>
+          </button>
+          <button onClick={() => displayModal()}>
+            <span style={{ color: 'white' }}>{convertDateToString}</span>
+          </button>
+          <button
+            onClick={() => {
+              console.log('실시간 항공 검색');
+            }}
+            style={{ width: '3rem', lineHeight: '1rem' }}
+          >
+            <svg style={{ fill: 'white' }} viewBox="0 0 24 24">
+              <path d="M9.9 19.7L17 12 9.9 4.4c-.7-.7-1.7-.2-1.7.7v14c0 .8 1 1.3 1.7.6z"></path>
+            </svg>
+          </button>
+        </DatePickerHeader>
       )}
       {visible && selectedDate && (
-        <DatePickerBody ref={outsideRef}>
+        <DatePickerBody inMain={inMain} ref={outsideRef}>
           {inMain && (
             <SearchTypes justify="space-evenly" align="center">
               <SearchTypeBtn onClick={setSearchDates} active={searchType}>

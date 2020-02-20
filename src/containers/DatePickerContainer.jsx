@@ -9,7 +9,20 @@ import DatePicker from '../components/Main/DatePicker';
 
 const mapStateToProps = (state, ownProps) => {
   const { type } = ownProps;
-  const isInbound = type === 'inbound';
+  const isInbound = type === 'inbound' || type === 'inline-inbound';
+
+  let visible;
+  const {
+    inboundDatePicker,
+    outboundDatePicker,
+    inlineInboundDatePicker,
+    inlineOutboundDatePicker,
+  } = state.display;
+
+  if (type === 'inbound') visible = inboundDatePicker;
+  else if (type === 'outbound') visible = outboundDatePicker;
+  else if (type === 'inline-inbound') visible = inlineInboundDatePicker;
+  else visible = inlineOutboundDatePicker;
 
   return {
     tripType: state.datepicker.tripType,
@@ -18,16 +31,21 @@ const mapStateToProps = (state, ownProps) => {
     selectedDate: isInbound
       ? state.datepicker.inboundDate
       : state.datepicker.outboundDate,
-    visible: isInbound
-      ? state.display.inboundDatePicker
-      : state.display.outboundDatePicker,
+    visible,
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { type } = ownProps;
-  const modalType =
-    type === 'inbound' ? 'inboundDatePicker' : 'outboundDatePicker';
+
+  let modalType;
+  if (type === 'inbound') modalType = 'inboundDatePicker';
+  else if (type === 'outbound') modalType = 'outboundDatePicker';
+  else if (type === 'inline-inbound') modalType = 'inline-inboundDatePicker';
+  else modalType = 'inline-outboundDatePicker';
+
+  // const modalType =
+  //   type === 'inbound' ? 'inboundDatePicker' : 'outboundDatePicker';
 
   return {
     displayModal: () => {

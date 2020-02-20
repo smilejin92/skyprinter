@@ -13,6 +13,8 @@ const initialState = {
   passengerInfo: false,
   inboundDatePicker: false,
   outboundDatePicker: false,
+  inlineInboundDatePicker: false,
+  inlineOutboundDatePicker: false,
 };
 
 // REDUCER
@@ -27,6 +29,10 @@ export default function display(state = initialState, action) {
         passengerInfo: modal === 'passengerInfo' ? true : false,
         inboundDatePicker: modal === 'inboundDatePicker' ? true : false,
         outboundDatePicker: modal === 'outboundDatePicker' ? true : false,
+        inlineInboundDatePicker:
+          modal === 'inline-inboundDatePicker' ? true : false,
+        inlineOutboundDatePicker:
+          modal === 'inline-outboundDatePicker' ? true : false,
       };
 
     case HIDE_MODAL:
@@ -36,6 +42,8 @@ export default function display(state = initialState, action) {
         passengerInfo: false,
         inboundDatePicker: false,
         outboundDatePicker: false,
+        inlineInboundDatePicker: false,
+        inlineOutboundDatePicker: false,
       };
 
     default:

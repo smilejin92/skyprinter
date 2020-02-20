@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import SearchForm from '../SearchForm';
 import { FlexWrapper } from '../../styles';
 import { HiddenHeader } from '../../styles';
 import { Icon } from 'antd';
+import DatePickerContainer from '../../../containers/DatePickerContainer';
+import { connect } from 'react-redux';
 
 const TicketResultInfoWrapper = styled.div`
   width: calc(100% - 49.7rem);
   font-size: 1.6rem;
   line-height: 2.4rem;
 `;
-
-const TicketInfoWrapper = styled.div``;
 
 const SearchArea = styled.section`
   position: relative;
@@ -68,16 +68,15 @@ const SearchTitle = styled.div`
   height: 3.4rem;
 `;
 
-const SearchDatePickerGroup = styled.div`
+const SearchDatePickerGroup = styled.nav`
+  display: flex;
+  ${({ tripType }) =>
+    tripType === 'round' &&
+    css`
+      align-items: flex-end;
+    `}
   height: 100%;
   font-size: 1.2rem;
-`;
-
-const SearchDatePicker = styled.div`
-  display: inline-block;
-  width: 19.2rem;
-  height: 100%;
-  background-color: tomato;
 `;
 
 const SearchPassenger = styled.div`
@@ -96,7 +95,7 @@ const LuggageMoreDetail = styled.div`
   }
 `;
 
-const TicketResultInfo = props => {
+const TicketResultInfo = ({ tripType }) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -114,9 +113,11 @@ const TicketResultInfo = props => {
           </SearchButtonDiv>
           <SearchHeaderWrapper>
             <SearchTitle>도쿄 (모두) - 서울 (모두)</SearchTitle>
-            <SearchDatePickerGroup>
-              <SearchDatePicker>1</SearchDatePicker>
-              <SearchDatePicker>2</SearchDatePicker>
+            <SearchDatePickerGroup tripType={tripType}>
+              <DatePickerContainer type="inline-inbound" inMain={false} />
+              {tripType === 'round' && (
+                <DatePickerContainer type="inline-outbound" inMain={false} />
+              )}
             </SearchDatePickerGroup>
           </SearchHeaderWrapper>
           <SearchPassenger>1 성인 | 일반석</SearchPassenger>{' '}
@@ -382,4 +383,10 @@ const TicketResultInfo = props => {
   );
 };
 
-export default TicketResultInfo;
+const mapStateToProps = state => ({
+  tripType: state.datepicker.tripType,
+});
+
+export default connect(mapStateToProps)(TicketResultInfo);
+
+// export default TicketResultInfo;

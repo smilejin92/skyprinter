@@ -27,8 +27,8 @@ function InfantChild({ child, setAge }) {
   const selectAge = ({ target }) => {
     setAge(child.id, target.value);
 
-    if (target.value === '나이를 선택하세요')
-      return alert('모든 유/소아의 나이를 입력하세요');
+    // if (target.value === '나이를 선택하세요')
+    //   return alert('모든 유/소아의 나이를 입력하세요');
   };
   return (
     <div>
