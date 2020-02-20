@@ -13,15 +13,24 @@ export const clearError = () => ({
 });
 
 // INITIAL STATE
-const initialState = null;
+const initialState = {
+  errorOccurred: false,
+  errors: null,
+};
 
 // REDUCER
 export default function error(state = initialState, action) {
   switch (action.type) {
     case SET_ERROR:
-      return action.errors;
+      return {
+        errorOccurred: true,
+        errors: action.errors,
+      };
     case CLEAR_ERROR:
-      return null;
+      return {
+        errorOccurred: false,
+        errors: null,
+      };
     default:
       return state;
   }

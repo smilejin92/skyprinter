@@ -1,21 +1,23 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import TicketResult from './pages/TicketResult';
 import { Provider } from 'react-redux';
 import create from './redux/create';
-import TicketResult from './pages/TicketResult';
+import { ConnectedRouter } from 'connected-react-router';
+import { history } from './redux/create';
 
 const store = create();
 
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <ConnectedRouter history={history}>
         <Switch>
-          <Route exact path="/" component={Home} />
           <Route path="/transport/flights" component={TicketResult} />
+          <Route exact path="/" component={Home} />
         </Switch>
-      </BrowserRouter>
+      </ConnectedRouter>
     </Provider>
   );
 }
