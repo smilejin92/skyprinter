@@ -14,31 +14,50 @@ const SearchBoxWrapper = styled.div`
     `}
 `;
 
-const SearchBox = React.memo(({ places, setPlace, switchPlaces }) => {
-  const selectBound = (PlaceId, PlaceName, type) => {
-    setPlace({ PlaceId, PlaceName, type });
-  };
+const SearchBox = React.memo(
+  ({ places, setPlace, switchPlaces, errors, errorOccurred, setError }) => {
+    const selectBound = (PlaceId, PlaceName, type) => {
+      setPlace({ PlaceId, PlaceName, type });
+      // if (errorOccurred) {
+      //   let newErrors = [...errors];
+      //   if (places.inBoundId && places.outBoundId) {
+      //     console.log(
+      //       'test',
+      //       places.inBoundId.length,
+      //       places.outBoundId.length,
+      //     );
+      //     // setError(errors.filter(e => e.type !== 'Incorrect places'));
+      //     // const newErrors = ;
+      //     newErrors = newErrors.filter(e => e.type !== 'Incorrect places');
+      //   }
+      //   if (places.inBoundId !== places.outBoundId) {
+      //     newErrors = newErrors.filter(e => e.type !== 'PlaceId is same');
+      //   }
+      //   setError(newErrors);
+      // }
+    };
 
-  const { pathname } = useLocation();
+    const { pathname } = useLocation();
 
-  return (
-    <SearchBoxWrapper page={pathname}>
-      <BoundSearchBox
-        header={'출발지'}
-        bound={places}
-        selectBound={selectBound}
-        type="inBound"
-      />
-      <BoundChangeBox changeBound={switchPlaces} />
-      <BoundSearchBox
-        header={'도착지'}
-        bound={places}
-        selectBound={selectBound}
-        type="outBound"
-        borderRadius="none"
-      />
-    </SearchBoxWrapper>
-  );
-});
+    return (
+      <SearchBoxWrapper page={pathname}>
+        <BoundSearchBox
+          header={'출발지'}
+          bound={places}
+          selectBound={selectBound}
+          type="inBound"
+        />
+        <BoundChangeBox changeBound={switchPlaces} />
+        <BoundSearchBox
+          header={'도착지'}
+          bound={places}
+          selectBound={selectBound}
+          type="outBound"
+          borderRadius="none"
+        />
+      </SearchBoxWrapper>
+    );
+  },
+);
 
 export default SearchBox;
