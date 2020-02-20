@@ -85,6 +85,104 @@ const SearchPassenger = styled.div`
   font-size: 1.2rem;
 `;
 
+const AddOns = styled.div`
+  width: 100%;
+  margin: 1.2rem 0 0 0;
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  span {
+    color: #0770e3;
+    font-size: 1.2rem;
+  }
+`;
+const CalenderAndChart = styled.span`
+  float: left;
+`;
+const AddLuggage = styled.span`
+  float: right;
+`;
+
+const TicketFilterSection = styled.section`
+  width: 26%;
+`;
+
+const TicketResultSection = styled.section`
+  width: 72%;
+`;
+const ResultAndArrangeStandard = styled(FlexWrapper)`
+  width: 100%;
+  height: 3.6rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+  span {
+    font-size: 1.2rem;
+  }
+  label {
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  select {
+    height: 3.6rem;
+    border: 1px solid gray;
+    padding: 0.6rem 3rem 0.6rem 1.2rem;
+    background: #fff
+      url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4Ij48c3R5bGU+PC9zdHlsZT48cGF0aCBkPSJNMTkuNyAxMC4zTDEyIDE3LjRsLTcuNy03LjFjLS42LS42LS4yLTEuNy43LTEuN2gxNGMuOSAwIDEuMyAxLjEuNyAxLjd6IiBmaWxsPSIjNDQ0NTYwIi8+PC9zdmc+')
+      no-repeat right 1.2rem center;
+    -webkit-appearance: none;
+  }
+`;
+const ArrangeFilter = styled.div`
+  margin-bottom: 1.2rem;
+  height: 10rem;
+  width: 100%;
+  background: #fff;
+  border-radius: 0.3rem 0.3rem;
+  button {
+    padding: 1.2rem 1.8rem;
+    width: 33%;
+    span {
+      font-size: 2.4rem;
+      color: #0770e3;
+      font-weight: 700;
+    }
+    p {
+      font-size: 1.2rem;
+    }
+    &:nth-child(2n) {
+      border-right: 0.5px solid gray;
+      border-left: 0.5px solid gray;
+    }
+  }
+`;
+const TicketInfoDetail = styled.div`
+  margin-bottom: 1.2rem;
+  height: 10rem;
+  width: 100%;
+  background: #fff;
+  border-radius: 0.3rem 0.3rem;
+`;
+
+const MoreResultButton = styled.button`
+  color: #0770e3;
+  font-size: 1.9rem;
+  width: 16.7rem;
+  height: 3.6rem;
+  padding: 0.6rem 1.8rem;
+  border: 1px solid gray;
+  background: #fff;
+  font-weight: 700;
+
+  &:hover {
+    border: 2px solid #0770e3;
+    width: 16.8rem;
+    height: 3.7rem;
+  }
+`;
+
 const LuggageMoreDetail = styled.div`
   line-height: 2.4rem;
   display: block;
@@ -124,9 +222,9 @@ const TicketResultInfo = ({ tripType }) => {
         </SearchSummary>
         {visible && <SearchForm />}
       </SearchArea>
-      {/* <div>
-        <div>
-          <span>
+      <div>
+        <AddOns>
+          <CalenderAndChart>
             <a
               href="https://www.skyscanner.co.kr/transport/flights/icn/nyca?adultsv2=1&childrenv2=&cabinclass=economy&rtn=1&preferdirects=false&oym=2002&iym=2003&outboundaltsenabled=false&inboundaltsenabled=false"
               target="_blank"
@@ -134,8 +232,8 @@ const TicketResultInfo = ({ tripType }) => {
             >
               달력/차트 보기
             </a>
-          </span>
-          <span>
+          </CalenderAndChart>
+          <AddLuggage>
             <a
               href="https://www.skyscanner.co.kr/airlinefees"
               target="_blank"
@@ -143,11 +241,11 @@ const TicketResultInfo = ({ tripType }) => {
             >
               추가 수화물 요금이 부과될 수 있음
             </a>
-          </span>
-        </div>
+          </AddLuggage>
+        </AddOns>
 
         <div>
-          <section className="검색 옵션">
+          {/* <TicketFilterSection>
             <button>
               <svg></svg>
               가격 변동 알림 받기
@@ -301,11 +399,11 @@ const TicketResultInfo = ({ tripType }) => {
                 </dd>
               </div>
             </dl>
-          </section>
+          </TicketFilterSection>  */}
 
-          <section className="검색 결과">
-            <div>
-              <span>결과</span>
+          <TicketResultSection>
+            <ResultAndArrangeStandard>
+              <span>{123}결과</span>
               <div>
                 <label>정렬기준</label>
                 <select>
@@ -315,9 +413,9 @@ const TicketResultInfo = ({ tripType }) => {
                   <option>귀국: 출발시간</option>
                 </select>
               </div>
-            </div>
+            </ResultAndArrangeStandard>
 
-            <div>
+            <ArrangeFilter>
               <button>
                 <p>추천순</p>
                 <span>₩가격</span>
@@ -330,37 +428,77 @@ const TicketResultInfo = ({ tripType }) => {
               </button>
               <button>
                 <p>추천순</p>
-                <span>₩가격</span>
+                <span>₩ 가격</span>
                 <p> 14시간 13분(평군)</p>
               </button>
-            </div>
+            </ArrangeFilter>
 
-            <div role="button">
+            <TicketInfoDetail>
               <div>
                 <div>
-                  <img />
                   <div>
-                    <div>
-                      <p>오후 8:25</p>
-                      <span>ICN</span>
-                    </div>
-                    <div>
-                      <p>13시간 55분</p>
-                      <div></div>
-                      <svg></svg>
-                      <p>직항</p>
-                    </div>
-                    <div>
-                      <p>오후 8:20</p>
-                      <span>JFK</span>
-                    </div>
+                    <img />
+                  </div>
+
+                  <div>
+                    <p>오후 8:25</p>
+                    <span>ICN</span>
+                  </div>
+                  <div>
+                    <p>13시간 55분</p>
+                    <div></div>
+                    <svg></svg>
+                    <p>직항</p>
+                  </div>
+                  <div>
+                    <p>오후 8:20</p>
+                    <span>JFK</span>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <button>더 많은 결과 표시</button>
-          </section>
+              <div>
+                <div>
+                  <div>
+                    <img />
+                  </div>
+
+                  <div>
+                    <p>오후 8:25</p>
+                    <span>ICN</span>
+                  </div>
+                  <div>
+                    <p>13시간 55분</p>
+                    <div></div>
+                    <svg></svg>
+                    <p>직항</p>
+                  </div>
+                  <div>
+                    <p>오후 8:20</p>
+                    <span>JFK</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <p>총 7건중 최저가</p>
+                  <span>₩ 1177800</span>
+                  <p>총 가격</p>
+                  <button>
+                    선택
+                    <span>
+                      <svg width="24" height="24" fill="rgb(255, 255, 255)">
+                        <path d="M14.4 19.5l5.7-5.3c.4-.4.7-.9.8-1.5.1-.3.1-.5.1-.7s0-.4-.1-.6c-.1-.6-.4-1.1-.8-1.5l-5.7-5.3c-.8-.8-2.1-.7-2.8.1-.8.8-.7 2.1.1 2.8l2.7 2.5H5c-1.1 0-2 .9-2 2s.9 2 2 2h9.4l-2.7 2.5c-.5.4-.7 1-.7 1.5s.2 1 .5 1.4c.8.8 2.1.8 2.9.1z"></path>
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </TicketInfoDetail>
+
+            <MoreResultButton>더 많은 결과 표시</MoreResultButton>
+          </TicketResultSection>
+
           <LuggageMoreDetail>
             <p>
               <b>요금은 매일 갱신됩니다.</b> 예약 시기의 이용 가능 여부에 따라
@@ -378,7 +516,7 @@ const TicketResultInfo = ({ tripType }) => {
             </p>
           </LuggageMoreDetail>
         </div>
-      </div> */}
+      </div>
     </TicketResultInfoWrapper>
   );
 };
