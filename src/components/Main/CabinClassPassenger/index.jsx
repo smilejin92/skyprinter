@@ -1,12 +1,18 @@
 import React, { useCallback } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import CabinClassPassengerContainer from '../../../containers/CabinClassPassengerContainer';
+import { useLocation } from 'react-router-dom';
 
 const GradeButton = styled.button`
   padding: 0 30px 0 12px;
   text-align: left;
   cursor: pointer;
   border-radius: 0 0.4rem 0.4rem 0;
+  ${({ page }) =>
+    page === '/transport/flights' &&
+    css`
+      border-radius: 0.4rem 0.4rem;
+    `}
   height: 4.8rem;
   width: 100%;
   line-height: 2.2rem;
@@ -41,10 +47,17 @@ const GradePessenger = styled.span`
 
 const GradeWrapper = styled.div`
   width: 50%;
+  ${({ page }) =>
+    page === '/transport/flights' &&
+    css`
+      width: 48%;
+      margin-left: 3%;
+    `}
   position: relative;
 `;
 
 function ClassGradeButton({ visible, displayModal, passengerInfo }) {
+  const { pathname } = useLocation();
   const convertClass = useCallback(type => {
     const seatTypes = [
       { cabinClass: 'economy', name: '일반석' },
@@ -68,9 +81,9 @@ function ClassGradeButton({ visible, displayModal, passengerInfo }) {
     displayModal();
   };
   return (
-    <GradeWrapper>
+    <GradeWrapper page={pathname}>
       <ButtonLabel>좌석 등급 및 승객</ButtonLabel>
-      <GradeButton onClick={openModal}>
+      <GradeButton onClick={openModal} page={pathname}>
         <GradePessenger>
           {getTotalPassengers() > 1
             ? `${getTotalPassengers()} 승객, ${convertClass(

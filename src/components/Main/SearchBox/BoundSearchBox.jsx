@@ -4,6 +4,7 @@ import SearchService from '../../../services/SearchService';
 import RenderPlaceList from './RenderPlaceList';
 import CheckBox from '../CheckBox';
 import { SearchWrapper, SearchLabel } from '../../styles/BoundSearchBox.style';
+import { useLocation } from 'react-router-dom';
 
 const pressEnter = (e, type) => {
   if (e.keyCode === 13 && e.target.nodeName === 'INPUT') {
@@ -19,6 +20,7 @@ const pressEnter = (e, type) => {
 const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
   const [suggestions, setSuggestions] = useState([]);
   const CityName = useRef(null);
+  const { pathname } = useLocation();
 
   const searchPlace = async (value, isDestination) => {
     try {
@@ -35,7 +37,7 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
   };
 
   return (
-    <SearchWrapper borderRadius={borderRadius}>
+    <SearchWrapper borderRadius={borderRadius} page={pathname}>
       <SearchLabel type={type}>{header}</SearchLabel>
       <AutoSuggest
         id={`search-input-${type}`}

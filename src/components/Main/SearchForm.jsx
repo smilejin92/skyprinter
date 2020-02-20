@@ -12,14 +12,18 @@ import {
   SelectSeatDateBox,
   SearchSubmitButton,
 } from '../styles/SearchForm.style';
+import { useLocation } from 'react-router-dom';
 
 function SearchForm() {
   const handleSubmit = useCallback(e => {
     e.preventDefault();
   }, []);
 
+  const { pathname } = useLocation();
+  console.log(pathname);
+
   return (
-    <SearchFormWrapper direction="column">
+    <SearchFormWrapper direction="column" page={pathname}>
       <form onSubmit={handleSubmit}>
         <SearchFormOption>
           <TripTypes />
@@ -33,9 +37,9 @@ function SearchForm() {
             </a>
           </div>
         </SearchFormOption>
-        <SearchWrapper>
+        <SearchWrapper page={pathname}>
           <PlacesContainer />
-          <SelectSeatDateBox>
+          <SelectSeatDateBox page={pathname}>
             <DatePickerContainer type="inbound" inMain={true} />
             <DatePickerContainer type="outbound" inMain={true} />
             <CabinClassPassengerContainer />
@@ -43,7 +47,7 @@ function SearchForm() {
         </SearchWrapper>
         <SearchFormSubmit>
           <CheckBox>직항만</CheckBox>
-          <SearchSubmitButton>
+          <SearchSubmitButton page={pathname}>
             항공권 검색
             <span>
               <svg width="24" height="24" fill="rgb(255, 255, 255)">
@@ -58,3 +62,13 @@ function SearchForm() {
 }
 
 export default SearchForm;
+
+// export default connect(
+//   state => ({
+//     page: state.style.page
+//   }),
+//   dispatch => ({
+//     setStyle: () => {
+//       dispatch(setStyle('result'));
+//     }
+//   }))(SearchForm);

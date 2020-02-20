@@ -4,6 +4,12 @@ import { FlexWrapper } from '.';
 export const DatePickerWrapper = styled(FlexWrapper)`
   position: relative;
   width: 25%;
+  ${({ page }) =>
+    page === '/transport/flights' &&
+    css`
+      width: 23.5%;
+      margin-right: 1%;
+    `}
 `;
 
 export const DatePickerHeader = styled(FlexWrapper)`
@@ -58,6 +64,11 @@ export const DisplayDatePickerBtn = styled.button`
   font-size: 1.6rem;
   text-align: left;
   background: white;
+  ${({ page }) =>
+    page === '/transport/flights' &&
+    css`
+      border-radius: 0.4rem;
+    `}
 `;
 
 export const DatePickerBody = styled.div`
