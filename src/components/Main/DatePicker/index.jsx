@@ -1,5 +1,8 @@
 import React, { useState, useCallback, useMemo, useRef } from 'react';
+import SearchDates from './SearchDates';
+import useOutsideRef from '../../../hooks/useOutsideRef';
 import { FlexWrapper } from '../../styles';
+import { useLocation } from 'react-router-dom';
 import {
   DatePickerWrapper,
   DatePickerHeader,
@@ -11,9 +14,6 @@ import {
   ButtonBox,
   CancelBtn,
 } from '../../styles/DatePicker.style';
-import SearchDates from './SearchDates';
-import useOutsideRef from '../../../hooks/useOutsideRef';
-import { useLocation } from 'react-router-dom';
 
 function DatePicker({
   type,
