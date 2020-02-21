@@ -39,16 +39,16 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
       });
     }
 
-    if (allInfo.passenger.children.filter(child => child.age < 2).length >= 1) {
+    if (allInfo.passenger.children.filter(child => child.age < 2).length >= 2) {
       if (
-        allInfo.passenger.adult <
+        allInfo.passenger.adults <
         allInfo.passenger.children.filter(child => child.age < 2).length
       ) {
         console.log('성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.');
         errorLists.push({
           id: generatedId(errorLists),
           type: 'No matching adult',
-          mesage: '성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.',
+          message: '성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.',
         });
       }
     }
