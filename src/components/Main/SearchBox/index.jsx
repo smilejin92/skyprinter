@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import BoundSearchBox from './BoundSearchBox';
 import BoundChangeBox from './BoundChangeBox';
@@ -21,24 +21,39 @@ const SearchBox = React.memo(
       outBoundName: places.outBoundName,
     });
 
+    useEffect(() => {
+      let newErrors = errors;
+      if (errorOccurred) {
+        if (places.inBoundId && places.outBoundId) {
+          newErrors = newErrors.filter(e => e.type !== 'Incorrect places');
+        }
+        if (places.inBoundId !== places.outBoundId) {
+          newErrors = newErrors.filter(e => e.type !== 'PlaceId is same');
+        }
+        if (places.inBoundId.length !== 2 && places.outBoundId.length !== 2) {
+          // 나중에 비워내고 브라우저로 변경
+          newErrors = newErrors.filter(e => e.type !== 'No Country');
+        }
+        newErrors.length === 0 ? setError(null) : setError(newErrors);
+      }
+    }, [setError, errorOccurred, places, errors]);
+
     const selectBound = (PlaceId, PlaceName, type) => {
       setPlace({ PlaceId, PlaceName, type });
+      // let newErrors = errors;
+      // console.log('장소는 :', places);
       // if (errorOccurred) {
-      //   let newErrors = [...errors];
       //   if (places.inBoundId && places.outBoundId) {
-      //     console.log(
-      //       'test',
-      //       places.inBoundId.length,
-      //       places.outBoundId.length,
-      //     );
-      //     // setError(errors.filter(e => e.type !== 'Incorrect places'));
-      //     // const newErrors = ;
       //     newErrors = newErrors.filter(e => e.type !== 'Incorrect places');
       //   }
       //   if (places.inBoundId !== places.outBoundId) {
       //     newErrors = newErrors.filter(e => e.type !== 'PlaceId is same');
       //   }
-      //   setError(newErrors);
+      //   if (places.inBoundId.length !== 2 && places.outBoundId.length !== 2) {
+      //     // 나중에 비워내고 브라우저로 변경
+      //     newErrors = newErrors.filter(e => e.type !== 'No Country');
+      //   }
+      //   newErrors.length === 0 ? setError(null) : setError(newErrors);
       // }
     };
 
