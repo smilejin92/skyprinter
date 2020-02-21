@@ -6,7 +6,7 @@ export const DatePickerWrapper = styled(FlexWrapper)`
   width: 25%;
   color: rgb(17, 18, 54);
   ${({ page, inMain, tripType }) => {
-    if (page === '/transport/flights') {
+    if (page.includes('transport/flights')) {
       if (inMain) {
         return css`
           width: 23.5%;
@@ -86,7 +86,7 @@ export const DisplayDatePickerBtn = styled.button`
   text-align: left;
   background: white;
   ${({ page, inMain }) =>
-    page === '/transport/flights' &&
+    page.includes('transport/flights') &&
     inMain &&
     css`
       border-radius: 0.4rem;

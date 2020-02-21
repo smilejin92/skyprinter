@@ -24,6 +24,7 @@ function SearchForm() {
   }, []);
 
   const { pathname } = useLocation();
+  console.log(pathname);
   const errors = useSelector(state => state.error.errors);
 
   return (

@@ -11,7 +11,7 @@ export const CabinSection = styled.section`
   box-shadow: 0 4px 14px 0 rgba(37, 32, 31, 25);
   width: 36.6rem;
   ${({ page }) =>
-    page === '/transport/flights' &&
+    page.includes('transport/flights') &&
     css`
       left: 4rem;
     `}

@@ -9,7 +9,7 @@ const GradeButton = styled.button`
   cursor: pointer;
   border-radius: 0 0.4rem 0.4rem 0;
   ${({ page }) =>
-    page === '/transport/flights' &&
+    page.includes('transport/flights') &&
     css`
       border-radius: 0.4rem 0.4rem;
     `}
@@ -48,7 +48,7 @@ const GradePessenger = styled.span`
 const GradeWrapper = styled.div`
   width: 50%;
   ${({ page }) =>
-    page === '/transport/flights' &&
+    page.includes('transport/flights') &&
     css`
       width: 48%;
       margin-left: 3%;
