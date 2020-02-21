@@ -212,6 +212,7 @@ const TicketResultInfo = ({ tripType, places }) => {
           <SearchHeaderWrapper>
             <SearchTitle>
               {places.inBoundName} - {places.outBoundName}
+              {/* 서울 - 도쿄 */}
             </SearchTitle>
             <SearchDatePickerGroup tripType={tripType}>
               <DatePickerContainer type="inline-inbound" inMain={false} />
