@@ -2,10 +2,16 @@ import { takeEvery, put, call, select } from 'redux-saga/effects';
 import SessionService from '../../services/SessionService';
 // ACTIONS
 export const CREATE_SESSION = 'skyprinter/session/CREATE_SESSION';
+export const SET_SESSION_KEY = 'skyprinter/session/SET_SESSION_KEY';
 
 // ACTION CREATORS
 export const createSession = () => ({
   type: CREATE_SESSION,
+});
+
+export const setSessionKey = sessionKey => ({
+  type: SET_SESSION_KEY,
+  sessionKey,
 });
 
 // INITIAL STATE
@@ -45,8 +51,10 @@ export function* postSession() {
     adults,
   };
   try {
-    const response = yield call(SessionService.createSession, params);
-    console.log(response);
+    const { headers } = yield call(SessionService.createSession, params);
+    const locationToArr = headers.location.split('/');
+    const sessionKey = locationToArr[locationToArr.length - 1];
+    yield put(setSessionKey(sessionKey));
   } catch (error) {
     console.log(error);
   }
@@ -60,7 +68,7 @@ export function* sessionSaga() {
 // REDUCER
 export default function session(state = initialState, action) {
   switch (action.type) {
-    case CREATE_SESSION:
+    case SET_SESSION_KEY:
       return {
         ...state,
         sessionKey: action.sessionKey,
