@@ -69,7 +69,7 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
       setError(errorLists);
     } else {
       clearError();
-      createSession();
+      createSession(allInfo);
     }
   };
 
@@ -89,10 +89,17 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createSession: () => {
+  createSession: allInfo => {
     console.log('세션생성');
     dispatch(clearError());
-    dispatch(push('/transport/flights'));
+    // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{inboundDate}/{outboundDate}/?query
+    dispatch(
+      push(
+        `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${
+          allInfo.datepicker.inboundDate
+        }/${allInfo.datepicker.outboundDate}`,
+      ),
+    );
   },
   setError: errors => {
     console.log('에러');
