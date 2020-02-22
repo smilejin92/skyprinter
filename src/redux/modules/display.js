@@ -45,7 +45,6 @@ export default function display(state = initialState, action) {
         inlineInboundDatePicker: false,
         inlineOutboundDatePicker: false,
       };
-
     default:
       return state;
   }

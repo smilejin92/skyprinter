@@ -12,7 +12,6 @@ const TicketResultWrapper = styled(FlexWrapper)`
   width: 144rem;
   margin: 0 auto;
   min-height: 110vh;
-  background-color: #ddddef;
 `;
 
 const index = props => {
