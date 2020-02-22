@@ -40,16 +40,16 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
       });
     }
 
-    if (allInfo.passenger.children.filter(child => child.age < 2).length >= 1) {
+    if (allInfo.passenger.children.filter(child => child.age < 2).length >= 2) {
       if (
-        allInfo.passenger.adult <
+        allInfo.passenger.adults <
         allInfo.passenger.children.filter(child => child.age < 2).length
       ) {
         console.log('성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.');
         errorLists.push({
           id: generatedId(errorLists),
           type: 'No matching adult',
-          mesage: '성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.',
+          message: '성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.',
         });
       }
     }
@@ -70,7 +70,7 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
       setError(errorLists);
     } else {
       clearError();
-      createSession();
+      createSession(allInfo);
     }
   };
 
@@ -90,11 +90,18 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createSession: () => {
+  createSession: allInfo => {
     console.log('세션생성');
     dispatch(createSession());
     dispatch(clearError());
-    dispatch(push('/transport/flights'));
+    // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{inboundDate}/{outboundDate}/?query
+    dispatch(
+      push(
+        `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${
+          allInfo.datepicker.inboundDate
+        }/${allInfo.datepicker.outboundDate}`,
+      ),
+    );
   },
   setError: errors => {
     console.log('에러');

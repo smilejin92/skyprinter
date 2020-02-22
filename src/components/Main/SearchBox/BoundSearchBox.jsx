@@ -17,7 +17,14 @@ const pressEnter = (e, type) => {
   }
 };
 
-const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
+const BoundSearchBox = ({
+  header,
+  borderRadius,
+  bound,
+  setBound,
+  selectBound,
+  type,
+}) => {
   const [suggestions, setSuggestions] = useState([]);
   const CityName = useRef(null);
   const { pathname } = useLocation();
@@ -47,6 +54,25 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
           searchPlace(value, type === 'inBound' ? true : false);
         }}
         onSuggestionSelected={(e, { suggestion }) => {
+          // 지역 state 업데이트
+          if (type === 'inBound') {
+            setBound({
+              inBoundName:
+                suggestion.PlaceName === suggestion.CityName
+                  ? `${suggestion.PlaceName} (모두)`
+                  : `${suggestion.PlaceName} (${suggestion.PlaceId})`,
+              outBoundName: bound.outBoundName,
+            });
+          } else {
+            setBound({
+              inBoundName: bound.inBoundName,
+              outBoundName:
+                suggestion.PlaceName === suggestion.CityName
+                  ? `${suggestion.PlaceName} (모두)`
+                  : `${suggestion.PlaceName} (${suggestion.PlaceId})`,
+            });
+          }
+          // 리덕스 state 업데이트
           selectBound(
             suggestion.PlaceId,
             suggestion.PlaceName === suggestion.CityName
@@ -78,10 +104,42 @@ const BoundSearchBox = ({ header, borderRadius, bound, selectBound, type }) => {
           placeholder: '국가, 도시 또는 공항',
           value: type === 'inBound' ? bound.inBoundName : bound.outBoundName,
           onChange: (_, { newValue }) => {
-            selectBound('', newValue, type);
+            // 지역 state 업데이트
+            if (type === 'inBound') {
+              setBound({
+                inBoundName: newValue,
+                outBoundName: bound.outBoundName,
+              });
+            } else {
+              setBound({
+                inBoundName: bound.inBoundName,
+                outBoundName: newValue,
+              });
+            }
           },
           onBlur: (_, { highlightedSuggestion }) => {
             if (highlightedSuggestion && highlightedSuggestion.PlaceName) {
+              // 지역 state 업데이트
+              if (type === 'inBound') {
+                setBound({
+                  inBoundName:
+                    highlightedSuggestion.PlaceName ===
+                    highlightedSuggestion.CityName
+                      ? `${highlightedSuggestion.PlaceName} (모두)`
+                      : `${highlightedSuggestion.PlaceName} (${highlightedSuggestion.PlaceId})`,
+                  outBoundName: bound.outBoundName,
+                });
+              } else {
+                setBound({
+                  inBoundName: bound.inBoundName,
+                  outBoundName:
+                    highlightedSuggestion.PlaceName ===
+                    highlightedSuggestion.CityName
+                      ? `${highlightedSuggestion.PlaceName} (모두)`
+                      : `${highlightedSuggestion.PlaceName} (${highlightedSuggestion.PlaceId})`,
+                });
+              }
+              // 리덕스 state 업데이트
               selectBound(
                 highlightedSuggestion.PlaceId,
                 highlightedSuggestion.PlaceName ===
