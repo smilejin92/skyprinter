@@ -8,15 +8,17 @@ const Tickets = styled(FlexWrapper)`
   width: 100%;
   background: #fff;
   border-radius: 0.6rem 0.6rem;
-  border: 1px solid #ccc;
+  box-shadow: 0 1px 3px 0 rgba(37, 32, 31, 0.3);
+  transition: box-shadow 0.2s ease-in-out;
+
   &:hover {
-    box-shadow: 0px 0px 10px 0px rgba(37, 32, 31, 25);
+    box-shadow: 0 4px 14px 0 rgba(37, 32, 31, 0.25);
     cursor: pointer;
   }
 `;
 const TicketWrapper = styled(FlexWrapper)`
   flex-direction: column;
-  width: 70%;
+  width: 66.6%;
   /* background:yellow; */
   padding: 1.2rem;
 `;
@@ -94,7 +96,7 @@ const TicketInfos = styled(FlexWrapper)`
 const SelectTicketDetails = styled.div`
   border-left: 2px solid #ddddef;
   /* background:pink; */
-  width: 30%;
+  width: 33.3%;
   padding: 1.8rem;
   text-align: center;
   p {
@@ -132,15 +134,17 @@ const SelectTicketDetails = styled.div`
 
 const SemiCircle = styled.div`
   position: absolute;
-  width: 0.75rem;
-  height: 0.375rem;
+  top: 0;
+  right: -500px;
+  width: 1rem;
+  height: 1rem;
   overflow: hidden;
   display: block;
   text-align: center;
   cursor: pointer;
   background: #ddddef;
 
-  &::after {
+  /* &::after {
     right: -10%;
     bottom: 200%;
     left: -50%;
@@ -153,7 +157,7 @@ const SemiCircle = styled.div`
     border: 0.375rem solid #fff;
     border-radius: 0.75rem;
     box-shadow: inset 0 1px 3px 0 rgba(37, 32, 31, 0.3);
-  }
+  } */
 `;
 
 function TicketInfoDetail() {
@@ -240,9 +244,7 @@ function TicketInfoDetail() {
           </div>
         </TicketInfos>
       </TicketWrapper>
-
       <SemiCircle />
-      <div></div>
 
       <SelectTicketDetails>
         <div>
