@@ -8,7 +8,7 @@ const SearchBoxWrapper = styled.div`
   width: 50%;
 
   ${({ page }) =>
-    page === '/transport/flights' &&
+    page.includes('transport/flights') &&
     css`
       width: 100%;
     `}
