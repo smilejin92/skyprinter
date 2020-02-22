@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import styled, { css } from 'styled-components';
 import CabinClassPassengerContainer from '../../../containers/CabinClassPassengerContainer';
 import { useLocation } from 'react-router-dom';
@@ -82,29 +82,6 @@ function ClassGradeButton({
     const { adults, children } = passengerInfo;
     return adults + children.length;
   };
-
-  useEffect(() => {
-    let newErrors = errors;
-    if (errorOccurred) {
-      if (
-        passengerInfo.children.filter(child => child.type === undefined)
-          .length === 0
-      ) {
-        newErrors = newErrors.filter(e => e.type !== 'Age not selected');
-      }
-      console.log('aa', passengerInfo.adults);
-      console.log('bb', passengerInfo.children);
-      if (
-        passengerInfo.adults >=
-        passengerInfo.children.filter(child => child.age < 2).length
-      ) {
-        newErrors = newErrors.filter(e => e.type !== 'No matching adult');
-      }
-
-      newErrors.length === 0 ? setError(null) : setError(newErrors);
-    }
-  }, [setError, errorOccurred, passengerInfo, errors]);
-
   const openModal = () => {
     if (visible) return;
     displayModal();
