@@ -8,7 +8,6 @@ import DatePickerContainer from '../../../containers/DatePickerContainer';
 import { connect } from 'react-redux';
 import TicketInfoDetail from './TicketInfoDetail';
 import { Popover, Button } from 'antd';
-import Slider from './Slider';
 
 const TicketResultInfoWrapper = styled.div`
   width: calc(100% - 49.7rem);
@@ -246,7 +245,6 @@ const TicketResultInfo = ({ tripType, passengerInfo }) => {
 
   return (
     <TicketResultInfoWrapper>
-      {console.log(color)};
       <SearchArea>
         <HiddenHeader>검색 영역</HiddenHeader>
         <SearchSummary onClick={() => setVisible(!visible)}>

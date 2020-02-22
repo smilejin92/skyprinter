@@ -60,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "bpk-component-slider": "^2.0.35",
     "eslint-config-prettier": "^6.9.0",
     "husky": "^4.0.10",
     "lint-staged": "^9.5.0",
