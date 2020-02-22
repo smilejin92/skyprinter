@@ -89,7 +89,9 @@ const SearchPassenger = styled.div`
 
 const AddOns = styled.div`
   width: 100%;
-  margin: 1.2rem 0 0 0;
+  margin: 1rem 0 1rem 0;
+  line-height: 2.4rem;
+
   &::after {
     content: '';
     display: block;
@@ -139,16 +141,23 @@ const ResultAndArrangeStandard = styled(FlexWrapper)`
   label {
     font-weight: 700;
     font-size: 1.2rem;
+    margin-right: 0.5rem;
   }
   select {
+    display: flex;
+    align-items: flex-end;
     height: 3.6rem;
-    border: 1px solid gray;
+    border: 1px solid rgb(169, 169, 182);
     padding: 0.6rem 3rem 0.6rem 1.2rem;
     background: #fff
       url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4Ij48c3R5bGU+PC9zdHlsZT48cGF0aCBkPSJNMTkuNyAxMC4zTDEyIDE3LjRsLTcuNy03LjFjLS42LS42LS4yLTEuNy43LTEuN2gxNGMuOSAwIDEuMyAxLjEuNyAxLjd6IiBmaWxsPSIjNDQ0NTYwIi8+PC9zdmc+')
       no-repeat right 1.2rem center;
     -webkit-appearance: none;
   }
+`;
+
+const SelectArrageStandard = styled(FlexWrapper)`
+  align-items: center;
 `;
 const ArrangeFilterButtonWapper = styled.div`
   margin-bottom: 1.2rem;
@@ -177,6 +186,7 @@ const FilterPriceButton = styled.button`
 `;
 
 const MoreResultButton = styled.button`
+  border-radius: 0.4rem;
   margin: 0 auto;
   color: #0770e3;
   font-size: 1.9rem;
@@ -207,12 +217,16 @@ const PriceAlarm = styled.button`
   color: #0770e3;
   padding: 0.6rem 1.8rem;
   width: 24rem;
-  height: 3.6rem;
   border: 2px solid #ccc;
+  border-radius: 0.4rem;
   line-height: 1.9rem;
-  vertical-align: center;
+  vertical-align: middle;
   font-size: 1.9rem;
   font-weight: 700;
+  svg {
+    transform: translateY(2px);
+    margin-right: 5px;
+  }
 `;
 
 const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
@@ -304,14 +318,11 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
         <SectionWrapper>
           <TicketFilterSection>
             <PriceAlarm>
-              <svg
-                viewBox="0 0 24 24 "
-                background="#0770e3"
-                width="18"
-                height="18"
-                style={{ width: '18', height: '18' }}
-              >
-                <path d="M18 13.2c.2 2.3 2 1.7 2 4 0 1.7-3.5 3.8-8 3.8s-8-2.1-8-3.8c0-2.3 1.8-1.7 2-4 .5-5.5 1-7.7 4.4-8.9C11.6 3.8 11 3 12 3s.4.8 1.6 1.3c3.5 1.2 3.9 3.4 4.4 8.9zM12 20c3.9 0 6.5-1.7 6.5-2.1 0-.7-2-2-6.5-1.9-4.5 0-6.5 1.4-6.5 2 0 .3 2.6 2 6.5 2zm-2.5-2.8c.7-.1 1.6-.2 2.5-.2s1.8.1 2.5.2c-.6 1.2-1.4 1.8-2.5 1.8s-2-.6-2.5-1.8z"></path>
+              <svg viewBox="0 0 24 24 " width="18" height="18">
+                <path
+                  fill="#0770e3"
+                  d="M18 13.2c.2 2.3 2 1.7 2 4 0 1.7-3.5 3.8-8 3.8s-8-2.1-8-3.8c0-2.3 1.8-1.7 2-4 .5-5.5 1-7.7 4.4-8.9C11.6 3.8 11 3 12 3s.4.8 1.6 1.3c3.5 1.2 3.9 3.4 4.4 8.9zM12 20c3.9 0 6.5-1.7 6.5-2.1 0-.7-2-2-6.5-1.9-4.5 0-6.5 1.4-6.5 2 0 .3 2.6 2 6.5 2zm-2.5-2.8c.7-.1 1.6-.2 2.5-.2s1.8.1 2.5.2c-.6 1.2-1.4 1.8-2.5 1.8s-2-.6-2.5-1.8z"
+                ></path>
               </svg>
               가격 변동 알림 받기
             </PriceAlarm>
@@ -468,7 +479,7 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
           <TicketResultSection>
             <ResultAndArrangeStandard>
               <span>{123}결과</span>
-              <div>
+              <SelectArrageStandard>
                 <label htmlFor="arrangedStandard">정렬기준</label>
                 <select id="arrangedStandard" onChange={() => {}}>
                   <option value="최저가순">최저가순</option>
@@ -476,7 +487,7 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
                   <option value="출국">출국: 출발시간</option>
                   <option value="귀국">귀국: 출발시간</option>
                 </select>
-              </div>
+              </SelectArrageStandard>
             </ResultAndArrangeStandard>
 
             <ArrangeFilterButtonWapper>
