@@ -6,6 +6,8 @@ import ClassGradeButton from '../components/Main/CabinClassPassenger/index';
 const mapStateToProps = state => ({
   visible: state.display.passengerInfo,
   passengerInfo: state.passenger,
+  errors: state.error.errors,
+  errorOccurred: state.error.errorOccurred,
 });
 
 const mapDispatchToProps = dispatch => ({

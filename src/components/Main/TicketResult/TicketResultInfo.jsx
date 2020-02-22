@@ -193,7 +193,7 @@ const LuggageMoreDetail = styled.div`
   }
 `;
 
-const TicketResultInfo = ({ tripType }) => {
+const TicketResultInfo = ({ tripType, places }) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -210,7 +210,10 @@ const TicketResultInfo = ({ tripType }) => {
             </button>
           </SearchButtonDiv>
           <SearchHeaderWrapper>
-            <SearchTitle>도쿄 (모두) - 서울 (모두)</SearchTitle>
+            <SearchTitle>
+              {places.inBoundName} - {places.outBoundName}
+              {/* 서울 - 도쿄 */}
+            </SearchTitle>
             <SearchDatePickerGroup tripType={tripType}>
               <DatePickerContainer type="inline-inbound" inMain={false} />
               {tripType === 'round' && (
@@ -522,6 +525,7 @@ const TicketResultInfo = ({ tripType }) => {
 };
 
 const mapStateToProps = state => ({
+  places: state.places,
   tripType: state.datepicker.tripType,
 });
 
