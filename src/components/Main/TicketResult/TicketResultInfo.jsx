@@ -216,7 +216,7 @@ const PriceAlarm = styled.button`
   font-weight: 700;
 `;
 
-const TicketResultInfo = ({ tripType, passengerInfo }) => {
+const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
   const [visible, setVisible] = useState(false);
   const [color, setColor] = useState();
 
@@ -259,7 +259,10 @@ const TicketResultInfo = ({ tripType, passengerInfo }) => {
             </button>
           </SearchButtonDiv>
           <SearchHeaderWrapper>
-            <SearchTitle>도쿄 (모두) - 서울 (모두)</SearchTitle>
+            <SearchTitle>
+              {places.inBoundName} - {places.outBoundName}
+              {/* 서울 - 도쿄 */}
+            </SearchTitle>
             <SearchDatePickerGroup tripType={tripType}>
               <DatePickerContainer type="inline-inbound" inMain={false} />
               {tripType === 'round' && (
@@ -530,6 +533,7 @@ const TicketResultInfo = ({ tripType, passengerInfo }) => {
 };
 
 const mapStateToProps = state => ({
+  places: state.places,
   tripType: state.datepicker.tripType,
   passengerInfo: state.passenger,
 });

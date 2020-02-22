@@ -56,7 +56,14 @@ const GradeWrapper = styled.div`
   position: relative;
 `;
 
-function ClassGradeButton({ visible, displayModal, passengerInfo }) {
+function ClassGradeButton({
+  visible,
+  displayModal,
+  passengerInfo,
+  errors,
+  errorOccurred,
+  setError,
+}) {
   const { pathname } = useLocation();
   const convertClass = useCallback(type => {
     const seatTypes = [
@@ -75,7 +82,6 @@ function ClassGradeButton({ visible, displayModal, passengerInfo }) {
     const { adults, children } = passengerInfo;
     return adults + children.length;
   };
-
   const openModal = () => {
     if (visible) return;
     displayModal();

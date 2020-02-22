@@ -20,8 +20,12 @@ const RenderPlaceList = React.memo(({ place, suggestion, hasCity }) => {
                 __html: sanitizer(Result.CountryName),
               }}
             />{' '}
-            <span>{suggestion.RegionId && `${suggestion.RegionId}`}</span>{' '}
-            <span>({suggestion.PlaceId})</span>
+            <span>{suggestion.RegionId && `, ${suggestion.RegionId}`}</span>{' '}
+            <span>
+              {Result.CountryName[0].includes('(')
+                ? null
+                : `(${suggestion.PlaceId})`}
+            </span>
             <small
               dangerouslySetInnerHTML={{
                 __html: sanitizer(Result.CountryName),
@@ -40,8 +44,8 @@ const RenderPlaceList = React.memo(({ place, suggestion, hasCity }) => {
           <div>
             <span
               dangerouslySetInnerHTML={{ __html: sanitizer(Result.PlaceName) }}
-            />{' '}
-            <span>{suggestion.RegionId && `(${suggestion.RegionId})`}</span>{' '}
+            />
+            <span>{suggestion.RegionId && ` , ${suggestion.RegionId}`}</span>{' '}
             <span>({suggestion.PlaceId})</span>
             <small
               dangerouslySetInnerHTML={{
@@ -61,8 +65,8 @@ const RenderPlaceList = React.memo(({ place, suggestion, hasCity }) => {
           <div>
             <span
               dangerouslySetInnerHTML={{ __html: sanitizer(Result.PlaceName) }}
-            />{' '}
-            <span>{suggestion.RegionId && `(${suggestion.RegionId})`}</span>{' '}
+            />
+            <span>{suggestion.RegionId && `, ${suggestion.RegionId}`}</span>{' '}
             <span>({suggestion.PlaceId})</span>
             <small
               dangerouslySetInnerHTML={{
