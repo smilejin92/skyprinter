@@ -246,7 +246,7 @@ const TicketResultInfo = ({ tripType, passengerInfo }) => {
 
   return (
     <TicketResultInfoWrapper>
-      {console.log(color)};
+      {console.log(color)}
       <SearchArea>
         <HiddenHeader>검색 영역</HiddenHeader>
         <SearchSummary onClick={() => setVisible(!visible)}>

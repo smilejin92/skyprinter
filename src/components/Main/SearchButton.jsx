@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setError, clearError } from '../../redux/modules/error';
+import { createSession } from '../../redux/modules/session';
 import { push } from 'connected-react-router';
 
 const SearchButton = ({ children, allInfo, createSession, setError }) => {
@@ -91,6 +92,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   createSession: () => {
     console.log('세션생성');
+    dispatch(createSession());
     dispatch(clearError());
     dispatch(push('/transport/flights'));
   },
