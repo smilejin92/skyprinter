@@ -1,11 +1,14 @@
+import { takeEvery, put, select } from 'redux-saga/effects';
+import { SET_ERROR } from './error';
+
 //Action
 const SET_CABIN_CLASS = 'skyprinter/passenger/SET_CABIN_CLASS';
 const SET_ADULTS = 'skyprinter/passenger/SET_ADULTS';
 const SET_CHILDREN = 'skyprinter/passenger/SET_CHILDREN';
 const SET_CHILD_AGE = 'skyprinter/passenger/SET_CHILD_AGE';
+const FETCH_CHILD_AGE = 'skyprinter/passenger/FETCH_CHILD_AGE';
 
 //Action creater
-
 export const setCabinClass = cabinClass => ({
   type: SET_CABIN_CLASS,
   cabinClass,
@@ -20,6 +23,49 @@ const intialState = {
   adults: 1,
   children: [],
 };
+
+export function* fetchChildAge(action) {
+  const error = yield select(state => state.error);
+
+  try {
+    yield put({
+      type: FETCH_CHILD_AGE,
+      id: action.id,
+      age: action.age,
+    });
+
+    if (error.errorOccurred) {
+      const passengerInfo = yield select(state => state.passenger);
+      let newErrors = error.errors;
+      if (newErrors !== null) {
+        if (
+          passengerInfo.children.filter(child => child.type === undefined)
+            .length === 0
+        ) {
+          newErrors = newErrors.filter(e => e.type !== 'Age not selected');
+        }
+
+        if (
+          passengerInfo.adults >=
+          passengerInfo.children.filter(child => child.age < 2).length
+        ) {
+          newErrors = newErrors.filter(e => e.type !== 'No matching adult');
+        }
+
+        newErrors.length === 0 || newErrors === null
+          ? yield put({ type: SET_ERROR, errors: null })
+          : yield put({ type: SET_ERROR, errors: newErrors });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// ROOT SAGA
+export function* passengerSaga() {
+  yield takeEvery(SET_CHILD_AGE, fetchChildAge);
+}
 
 //reducer
 export default function passenger(state = intialState, action) {
@@ -62,7 +108,7 @@ export default function passenger(state = intialState, action) {
         };
       }
       break;
-    case SET_CHILD_AGE:
+    case FETCH_CHILD_AGE:
       if (action.age === '0' || action.age === '1') {
         const newChildren = state.children.map(c =>
           c.id === action.id ? { ...c, type: 'infant', age: action.age } : c,

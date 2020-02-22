@@ -11,7 +11,7 @@ export const SearchFormWrapper = styled(FlexWrapper)`
     props.page !== '/transport/flights' && props.error ? '35px' : 'none'};
 
   ${({ page }) =>
-    page === '/transport/flights' &&
+    page.includes('transport/flights') &&
     css`
       background: #042759;
       padding: 1.2rem;
@@ -33,7 +33,7 @@ export const SearchFormOption = styled(FlexWrapper)`
 export const SearchWrapper = styled(FlexWrapper)`
   padding-top: 1.3rem;
   ${({ page }) =>
-    page === '/transport/flights' &&
+    page.includes('transport/flights') &&
     css`
       flex-direction: column;
     `};
@@ -61,7 +61,7 @@ export const SearchFormSubmit = styled(FlexWrapper)`
 export const SelectSeatDateBox = styled(FlexWrapper)`
   width: 50%;
   ${({ page }) =>
-    page === '/transport/flights' &&
+    page.includes('transport/flights') &&
     css`
       width: 100%;
       padding-top: 1.5rem;
@@ -74,7 +74,7 @@ export const SearchSubmitButton = styled.div`
   }
   button {
     ${({ page }) =>
-      page === '/transport/flights' &&
+      page.includes('transport/flights') &&
       css`
         margin-bottom: 12px;
         transform: translateY(12px);

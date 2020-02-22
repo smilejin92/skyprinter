@@ -6,6 +6,7 @@ import passenger from './passenger';
 import places from './places';
 import datepicker from './datepicker';
 import error from './error';
+import session from './session';
 
 const reducer = history =>
   combineReducers({
@@ -15,6 +16,7 @@ const reducer = history =>
     places,
     datepicker,
     error,
+    session,
     router: connectRouter(history),
   });
 

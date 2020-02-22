@@ -9,7 +9,7 @@ const GradeButton = styled.button`
   cursor: pointer;
   border-radius: 0 0.4rem 0.4rem 0;
   ${({ page }) =>
-    page === '/transport/flights' &&
+    page.includes('transport/flights') &&
     css`
       border-radius: 0.4rem 0.4rem;
     `}
@@ -48,7 +48,7 @@ const GradePessenger = styled.span`
 const GradeWrapper = styled.div`
   width: 50%;
   ${({ page }) =>
-    page === '/transport/flights' &&
+    page.includes('transport/flights') &&
     css`
       width: 48%;
       margin-left: 3%;
@@ -56,7 +56,14 @@ const GradeWrapper = styled.div`
   position: relative;
 `;
 
-function ClassGradeButton({ visible, displayModal, passengerInfo }) {
+function ClassGradeButton({
+  visible,
+  displayModal,
+  passengerInfo,
+  errors,
+  errorOccurred,
+  setError,
+}) {
   const { pathname } = useLocation();
   const convertClass = useCallback(type => {
     const seatTypes = [
@@ -75,7 +82,6 @@ function ClassGradeButton({ visible, displayModal, passengerInfo }) {
     const { adults, children } = passengerInfo;
     return adults + children.length;
   };
-
   const openModal = () => {
     if (visible) return;
     displayModal();
