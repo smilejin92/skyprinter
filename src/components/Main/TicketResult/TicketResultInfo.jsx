@@ -8,6 +8,11 @@ import DatePickerContainer from '../../../containers/DatePickerContainer';
 import { connect } from 'react-redux';
 import TicketInfoDetail from './TicketInfoDetail';
 import { Popover, Button } from 'antd';
+import StopFilter from './filter/StopFilter';
+import TimeFilter from './filter/TimeFilter';
+import DurationFilter from './filter/DurationFilter';
+import CarrierFilter from './filter/CarrierFilter';
+import AirportFilter from './filter/AirportFilter';
 
 const TicketResultInfoWrapper = styled.div`
   width: calc(100% - 49.7rem);
@@ -118,8 +123,6 @@ const TicketFilterSection = styled.section`
   display: flex;
   flex-direction: column;
   width: 26%;
-  height: 100vh;
-  background: #fff;
 `;
 
 const TicketResultSection = styled.section`
@@ -187,13 +190,13 @@ const FilterPriceButton = styled.button`
 
 const MoreResultButton = styled.button`
   border-radius: 0.4rem;
+  line-height: 2.4rem;
   margin: 0 auto;
   color: #0770e3;
   font-size: 1.9rem;
   width: 16.9rem;
-  height: 3.6rem;
-  padding: 0.6rem 1.8rem;
-  border: 2px solid #ccc;
+  padding: 0.4rem 1.8rem;
+  border: 2px solid rgb(216, 216, 225);
   background: #fff;
   font-weight: 700;
   &:hover {
@@ -201,12 +204,16 @@ const MoreResultButton = styled.button`
   }
 `;
 const LuggageMoreDetail = styled.div`
+  font-size: 1.2rem;
   line-height: 2.4rem;
   display: block;
   text-align: left;
   padding-top: 1.2rem;
+  b {
+    font-weight: 700;
+  }
   p {
-    padding-bottom: 1.8rem;
+    padding-bottom: 1.2rem;
   }
   a {
     color: #0770e3;
@@ -217,7 +224,7 @@ const PriceAlarm = styled.button`
   color: #0770e3;
   padding: 0.6rem 1.8rem;
   width: 24rem;
-  border: 2px solid #ccc;
+  border: 2px solid rgb(216, 216, 225);
   border-radius: 0.4rem;
   line-height: 1.9rem;
   vertical-align: middle;
@@ -226,6 +233,9 @@ const PriceAlarm = styled.button`
   svg {
     transform: translateY(2px);
     margin-right: 5px;
+  }
+  &:hover {
+    border: 2px solid #0770e3;
   }
 `;
 
@@ -332,154 +342,11 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
               </svg>
               가격 변동 알림 받기
             </PriceAlarm>
-
-            <FilterArea>
-              <div>
-                <dt>
-                  <button>
-                    <span>경유</span>
-                    <svg></svg>
-                  </button>
-                </dt>
-                <dd>
-                  <div>
-                    <div>
-                      <label>
-                        <input type="checkbox" />
-                        직항
-                      </label>
-                      <span> ₩ 1177800</span>
-                    </div>
-                    <div>
-                      <label>
-                        <input type="checkbox" />
-                        1회 경유
-                      </label>
-                      <span> ₩ 1177800</span>
-                    </div>
-                    <div>
-                      <label>
-                        <input type="checkbox" />
-                        2회 경유
-                      </label>
-                      <span> ₩ 1177800</span>
-                    </div>
-                  </div>
-                </dd>
-              </div>
-            </FilterArea>
-
-            <FilterArea>
-              <div>
-                <dt>
-                  <button>
-                    <span>출발 시간대 설정</span>
-                    <svg></svg>
-                  </button>
-                </dt>
-                <dd>
-                  <div>
-                    <div>
-                      <b>가는날 출발 시간</b>
-                      <p>오전 12:00 - 오후 11:59</p>
-                      <div>슬라이더</div>
-                    </div>
-                    <div>
-                      <b>오는날 출발 시간</b>
-                      <p>오전 12:00 - 오후 11:59</p>
-                      <div>슬라이더</div>
-                    </div>
-                  </div>
-                </dd>
-              </div>
-            </FilterArea>
-
-            <FilterArea>
-              <div>
-                <dt>
-                  <button>
-                    <span>총 소요시간</span>
-                    <svg></svg>
-                  </button>
-                </dt>
-                <dd>
-                  <div>
-                    <div>
-                      <p>14.5시간 - 61.5시간</p>
-                    </div>
-                    <div>슬라이더</div>
-                  </div>
-                </dd>
-              </div>
-            </FilterArea>
-
-            <FilterArea>
-              <div>
-                <dt>
-                  <button>
-                    <span>항공사</span>
-                    <svg></svg>
-                  </button>
-                </dt>
-                <dd>
-                  <div>
-                    <button>모두선택</button>|<button>모두 지우기</button>
-                  </div>
-
-                  <div>
-                    <label>
-                      <input type="checkbox" />
-                      대한항공
-                    </label>
-                    <span>₩1177800</span>
-                  </div>
-                </dd>
-              </div>
-            </FilterArea>
-
-            <FilterArea>
-              <div>
-                <dt>
-                  <button>
-                    <span>공항</span>
-                    <svg></svg>
-                  </button>
-                </dt>
-                <dd>
-                  <div>
-                    <label>
-                      <input type="checkbox" />
-                      출국 및 입국 시 <b>같은 공항</b>이용
-                    </label>
-                  </div>
-
-                  <div>
-                    <p>도착지</p>
-                    <div>
-                      <label>
-                        <input type="checkbox" />
-                        출국 및 입국 시 <b>같은 공항</b>이용
-                      </label>
-                      <p>뉴욕 뉴왁</p>
-                    </div>
-                    <div>
-                      <label>
-                        <input type="checkbox" />
-                        출국 및 입국 시 <b>같은 공항</b>이용
-                      </label>
-                      <p>뉴욕 존에프케네디</p>
-                    </div>
-                    <div>
-                      <label>
-                        <input type="checkbox" />
-                        출국 및 입국 시 <b>같은 공항</b>이용
-                      </label>
-                      <p>뉴욕 라과디아</p>
-                    </div>
-                  </div>
-                </dd>
-              </div>
-            </FilterArea>
+            <StopFilter></StopFilter>
+            <TimeFilter></TimeFilter>
+            <DurationFilter></DurationFilter>
+            <CarrierFilter></CarrierFilter>
+            <AirportFilter></AirportFilter>
           </TicketFilterSection>
 
           <TicketResultSection>
