@@ -134,17 +134,15 @@ const SelectTicketDetails = styled.div`
 
 const SemiCircle = styled.div`
   position: absolute;
-  top: 0;
-  right: -500px;
-  width: 1rem;
-  height: 1rem;
+  width: 0.4rem;
+  height: 0.4rem;
   overflow: hidden;
   display: block;
   text-align: center;
   cursor: pointer;
   background: #ddddef;
 
-  /* &::after {
+  &::after {
     right: -10%;
     bottom: 200%;
     left: -50%;
@@ -157,7 +155,7 @@ const SemiCircle = styled.div`
     border: 0.375rem solid #fff;
     border-radius: 0.75rem;
     box-shadow: inset 0 1px 3px 0 rgba(37, 32, 31, 0.3);
-  } */
+  }
 `;
 
 function TicketInfoDetail() {
@@ -244,7 +242,6 @@ function TicketInfoDetail() {
           </div>
         </TicketInfos>
       </TicketWrapper>
-      <SemiCircle />
 
       <SelectTicketDetails>
         <div>

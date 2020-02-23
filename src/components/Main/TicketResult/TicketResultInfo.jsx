@@ -190,14 +190,14 @@ const MoreResultButton = styled.button`
   margin: 0 auto;
   color: #0770e3;
   font-size: 1.9rem;
-  width: 16.7rem;
+  width: 16.9rem;
   height: 3.6rem;
   padding: 0.6rem 1.8rem;
-  border: 1px solid #68697f;
+  border: 2px solid #ccc;
   background: #fff;
   font-weight: 700;
   &:hover {
-    border: 1px solid #0770e3;
+    border: 2px solid #0770e3;
   }
 `;
 const LuggageMoreDetail = styled.div`
@@ -229,6 +229,12 @@ const PriceAlarm = styled.button`
   }
 `;
 
+const FilterArea = styled.dl`
+  button {
+    width: 24rem;
+    height: 3.6rem;
+  }
+`;
 const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
   const [visible, setVisible] = useState(false);
   const [color, setColor] = useState();
@@ -327,7 +333,7 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
               가격 변동 알림 받기
             </PriceAlarm>
 
-            <dl>
+            <FilterArea>
               <div>
                 <dt>
                   <button>
@@ -361,9 +367,9 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
                   </div>
                 </dd>
               </div>
-            </dl>
+            </FilterArea>
 
-            <dl>
+            <FilterArea>
               <div>
                 <dt>
                   <button>
@@ -386,9 +392,9 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
                   </div>
                 </dd>
               </div>
-            </dl>
+            </FilterArea>
 
-            <dl>
+            <FilterArea>
               <div>
                 <dt>
                   <button>
@@ -405,9 +411,9 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
                   </div>
                 </dd>
               </div>
-            </dl>
+            </FilterArea>
 
-            <dl>
+            <FilterArea>
               <div>
                 <dt>
                   <button>
@@ -429,9 +435,9 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
                   </div>
                 </dd>
               </div>
-            </dl>
+            </FilterArea>
 
-            <dl>
+            <FilterArea>
               <div>
                 <dt>
                   <button>
@@ -473,7 +479,7 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
                   </div>
                 </dd>
               </div>
-            </dl>
+            </FilterArea>
           </TicketFilterSection>
 
           <TicketResultSection>
