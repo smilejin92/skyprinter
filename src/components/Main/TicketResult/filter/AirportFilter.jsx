@@ -1,49 +1,42 @@
 import React from 'react';
+import {
+  FilterWrapperButton,
+  FilterWrapperDl,
+  OptionContent,
+  OptionHeader,
+  StyleCheckBox,
+  AirportSubTitle,
+} from '../../../styles/Filter.style';
 
 const AirportFilter = props => {
+  const onChange = e => {
+    console.log(`checked = ${e.target.checked}`);
+  };
   return (
-    <dl>
+    <FilterWrapperDl>
       <div>
         <dt>
-          <button>
+          <FilterWrapperButton>
             <span>공항</span>
-            <svg></svg>
-          </button>
+            <svg viewBox="0 0 24 24" width="18" height="18">
+              <path d="M12 17.5l-7.2-6.4c-.6-.5-.7-1.5-.1-2.1.5-.6 1.5-.7 2.1-.1l5.2 4.6 5.2-4.6c.6-.6 1.6-.5 2.1.1s.5 1.6-.1 2.1L12 17.5z"></path>
+            </svg>
+          </FilterWrapperButton>
         </dt>
         <dd>
-          <div>
-            <label>
-              <input type="checkbox" />
+          <OptionHeader>
+            <StyleCheckBox>
               출국 및 입국 시 <b>같은 공항</b>이용
-            </label>
-          </div>
-          <div>
-            <p>도착지</p>
-            <div>
-              <label>
-                <input type="checkbox" />
-                출국 및 입국 시 <b>같은 공항</b>이용
-              </label>
-              <p>뉴욕 뉴왁</p>
-            </div>
-            <div>
-              <label>
-                <input type="checkbox" />
-                출국 및 입국 시 <b>같은 공항</b>이용
-              </label>
-              <p>뉴욕 존에프케네디</p>
-            </div>
-            <div>
-              <label>
-                <input type="checkbox" />
-                출국 및 입국 시 <b>같은 공항</b>이용
-              </label>
-              <p>뉴욕 라과디아</p>
-            </div>
-          </div>
+            </StyleCheckBox>
+          </OptionHeader>
+          <AirportSubTitle>도착지</AirportSubTitle>
+          <OptionHeader>
+            <StyleCheckBox onChange={onChange}>HND</StyleCheckBox>
+            <OptionContent>도쿄 하네다</OptionContent>
+          </OptionHeader>
         </dd>
       </div>
-    </dl>
+    </FilterWrapperDl>
   );
 };
 
