@@ -13,6 +13,7 @@ import TimeFilter from './filter/TimeFilter';
 import DurationFilter from './filter/DurationFilter';
 import CarrierFilter from './filter/CarrierFilter';
 import AirportFilter from './filter/AirportFilter';
+import uuid from 'uuid';
 
 const TicketResultInfoWrapper = styled.div`
   width: calc(100% - 49.7rem);
@@ -167,21 +168,45 @@ const ArrangeFilterButtonWapper = styled.div`
   height: 10rem;
   width: 100%;
   background: #fff;
-  border-radius: 0.3rem 0.3rem;
+  border-radius: 0.6rem 0.6rem;
 `;
 
 const FilterPriceButton = styled.button`
   padding: 1.2rem 1.8rem;
-  width: 33%;
+  width: 33.3%;
+  text-align: left;
 
-  span {
-    font-size: 2.4rem;
-    color: #0770e3;
-    font-weight: 700;
-  }
+  ${({ toggle, id }) =>
+    toggle
+      ? css`
+          border-radius: ${id === 'mostCheapest'
+            ? '0.4rem 0 0 0.4rem'
+            : id === 'departure'
+            ? '0 0.4rem 0.4rem 0'
+            : 'none'};
+          background: #042759;
+
+          span {
+            color: #fff;
+          }
+          p {
+            color: #fff;
+          }
+        `
+      : css`
+          span {
+            color: #0770e3;
+          }
+        `}
   p {
     font-size: 1.2rem;
   }
+
+  span {
+    font-weight: 700;
+    font-size: 2.4rem;
+  }
+
   &:nth-child(2n) {
     border-right: 0.5px solid #ddddef;
     border-left: 0.5px solid #ddddef;
@@ -241,7 +266,29 @@ const PriceAlarm = styled.button`
 
 const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
   const [visible, setVisible] = useState(false);
-  const [color, setColor] = useState();
+  const [filter, setFilter] = useState([
+    {
+      id: 'mostCheapest',
+      name: '최저가',
+      price: null,
+      time: null,
+      toggle: true,
+    },
+    {
+      id: 'shortTrip',
+      name: '최단여행 시간',
+      price: null,
+      time: null,
+      toggle: false,
+    },
+    {
+      id: 'departure',
+      name: '출국:출발시간',
+      price: null,
+      time: null,
+      toggle: false,
+    },
+  ]);
 
   const convertClass = useCallback(type => {
     const seatTypes = [
@@ -261,11 +308,20 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
     return adults + children.length;
   };
 
-  const content = (
-    <div>
-      <p>최저가 순 정렬</p>
-    </div>
-  );
+  const changeFilter = id => {
+    setFilter(
+      filter.map(filterItem =>
+        filterItem.id === id
+          ? { ...filterItem, toggle: true }
+          : { ...filterItem, toggle: false },
+      ),
+    );
+    console.log(id);
+  };
+
+  // const selectFilterOption=({target})=>{
+
+  // }
 
   return (
     <TicketResultInfoWrapper>
@@ -358,27 +414,20 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
             </ResultAndArrangeStandard>
 
             <ArrangeFilterButtonWapper>
-              <Popover content={content}>
-                <FilterPriceButton>
-                  <p>최저가순</p>
-                  <span>₩가격</span>
-                  <p> 14시간 13분(평군)</p>
-                </FilterPriceButton>
-              </Popover>
-              <Popover content={content}>
-                <FilterPriceButton>
-                  <p>최저가순</p>
-                  <span>₩가격</span>
-                  <p> 14시간 13분(평군)</p>
-                </FilterPriceButton>
-              </Popover>
-              <Popover content={content}>
-                <FilterPriceButton>
-                  <p>최저가순</p>
-                  <span>₩ 가격</span>
-                  <p> 14시간 13분(평군)</p>
-                </FilterPriceButton>
-              </Popover>
+              {filter.map(filterItem => (
+                <Popover key={uuid.v4()} content={`${filterItem.name} 순 정렬`}>
+                  <FilterPriceButton
+                    id={filterItem.id}
+                    toggle={filterItem.toggle}
+                    onClick={() => changeFilter(filterItem.id)}
+                    className={filterItem.toggle ? 'active' : null}
+                  >
+                    <p>{filterItem.name}</p>
+                    <span>₩533,800</span>
+                    <p>{`${filterItem.time}`}</p>
+                  </FilterPriceButton>
+                </Popover>
+              ))}
             </ArrangeFilterButtonWapper>
 
             <TicketInfoDetail />
