@@ -8,7 +8,7 @@ export const ModalWrapper = styled.div`
   width: 100%;
   height: 100vh;
   background: rgba(255, 255, 255, 0.5);
-  z-index: 1;
+  z-index: 98;
 `;
 
 export const Modal = styled.article`
@@ -19,7 +19,7 @@ export const Modal = styled.article`
   width: 38.4rem;
   border-radius: 0.5rem;
   background: white;
-  z-index: 2;
+  z-index: 99;
 `;
 
 export const ModalHeader = styled(FlexWrapper)`
