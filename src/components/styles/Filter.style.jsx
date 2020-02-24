@@ -1,8 +1,41 @@
-import styled from 'styled-components';
-import { Checkbox, Slider } from 'antd';
+import styled, { css } from 'styled-components';
+import { Checkbox, Slider, Button } from 'antd';
 
 export const FilterWrapperDl = styled.dl`
   margin-bottom: 1.8rem;
+`;
+
+export const FilterWrapperDd = styled.dd`
+  height: auto;
+  overflow: hidden;
+`;
+
+export const FilterDropDiv = styled.div`
+  ${({ drop, allView }) =>
+    drop
+      ? css`
+          animation: open 0.75s forwards;
+
+          @keyframes open {
+            0% {
+              max-height: 0;
+            }
+            100% {
+              max-height: ${allView ? '100vh' : '28rem'};
+            }
+          }
+        `
+      : css`
+          animation: close 0.75s forwards;
+
+          @keyframes close {
+            0% {
+              max-height: ${allView ? '100vh' : '28rem'};
+            }
+            100% {
+              max-height: 0;
+            }
+        `}
 `;
 
 export const FilterWrapperButton = styled.button`
@@ -16,21 +49,27 @@ export const FilterWrapperButton = styled.button`
   border-bottom: 1px solid rgb(216, 216, 225);
   font-size: 1.6rem;
   padding: 0.6rem 0;
-
   svg {
-    transform: scaleY(-1);
+    ${({ drop }) => (drop ? 'transform: scaleY(-1)' : '')};
   }
 `;
 
 export const OutBoundTimeDiv = styled.div``;
 export const InBoundTimeDiv = styled.div`
-  margin-top: 3.7rem;
+  margin-top: 1.8rem;
 `;
 
 export const OptionHeader = styled.div`
   margin-top: 0.4rem;
   span {
     font-size: 1.2rem;
+  }
+
+  &:hover {
+    label,
+    span {
+      color: #0770e3;
+    }
   }
 `;
 
@@ -47,6 +86,7 @@ export const OptionContent = styled.span`
 
 export const StyleCheckBox = styled(Checkbox)`
   color: #111236;
+  pointer: none;
 
   b {
     font-weight: 700;
@@ -82,7 +122,16 @@ export const TimeContent = styled.span`
   font-size: 1.2rem;
 `;
 
+export const StyleSliderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+
+  padding-bottom: 10px;
+`;
+
 export const StyleSlider = styled(Slider)`
+  width: 20rem;
+
   .ant-slider-handle {
     width: 30px;
     height: 30px;
@@ -105,19 +154,23 @@ export const StyleSlider = styled(Slider)`
     &:hover::after {
       box-shadow: inset 0 0 0 0.1rem #cdcdd7;
     }
+
+    &:active {
+      /* transform-origin: initial; */
+      transform: scale(1.2) translateX(-50%) !important;
+    }
   }
 
-  .ant-slider {
-    &:hover {
-      .ant-slider-track {
-        background-color: #02122c;
-      }
-    }
-    &:hover {
-      .ant-slider-handle:not(.ant-tooltip-open) {
-        border-color: #eeeff6;
-      }
-    }
+  &:hover .ant-slider-track {
+    background-color: #02122c;
+  }
+
+  &:hover .ant-slider-handle:not(.ant-tooltip-open) {
+    border-color: #eeeff6;
+  }
+
+  .ant-tooltip-open {
+    border-color: #eeeff6;
   }
 
   .ant-tooltip-open {
@@ -128,9 +181,11 @@ export const StyleSlider = styled(Slider)`
     height: 0.6rem;
     background: rgb(221, 221, 229);
   }
+
   .ant-slider-step {
     height: 0.6rem;
   }
+
   .ant-slider-track {
     height: 0.6rem;
     background-color: #02122c;
@@ -141,11 +196,10 @@ export const StyleSlider = styled(Slider)`
   }
 `;
 
-export const AllSelectOrRemove = styled.div`
-  margin-top: 1.2rem;
+export const AllSelectOrRemoveDiv = styled.div`
   margin-bottom: 1.2rem;
-
   color: #b2b2bf;
+
   button {
     font-size: 1.2rem;
     line-height: 1.8rem;
@@ -154,6 +208,41 @@ export const AllSelectOrRemove = styled.div`
     color: #b2b2bf;
     text-decoration: none;
     outline: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+    color: rgb(37, 124, 222);
+  }
+
+  .ant-btn[disabled] {
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+  }
+
+  .ant-btn:hover,
+  .ant-btn:focus,
+  .ant-btn:active,
+  .ant-btn.active {
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+  }
+`;
+
+export const AllSelectBtn = styled(Button)`
+  margin-right: 1.4rem !important;
+  &:after {
+    display: none;
+  }
+`;
+
+export const AllRemoveBtn = styled(Button)`
+  margin-left: 1.4rem !important;
+  &:after {
+    display: none;
   }
 `;
 

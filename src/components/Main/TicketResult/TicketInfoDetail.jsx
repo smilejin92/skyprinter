@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Spinner from './Spinner';
 import { FlexWrapper } from '../../styles';
 
 const Tickets = styled(FlexWrapper)`
@@ -273,6 +274,7 @@ function TicketInfoDetail() {
       <SelectTicketDetails>
         <div>
           <p className="mostCheap">총 7건중 최저가</p>
+          <Spinner white={true} />
           <span>₩ 1177800</span>
           <p className="totalPrice">총 가격</p>
           <a

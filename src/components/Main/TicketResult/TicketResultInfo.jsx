@@ -8,6 +8,7 @@ import DatePickerContainer from '../../../containers/DatePickerContainer';
 import { connect } from 'react-redux';
 import TicketInfoDetail from './TicketInfoDetail';
 import { Popover, Button } from 'antd';
+import Spinner from './Spinner';
 import StopFilter from './filter/StopFilter';
 import TimeFilter from './filter/TimeFilter';
 import DurationFilter from './filter/DurationFilter';
@@ -401,7 +402,10 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
 
           <TicketResultSection>
             <ResultAndArrangeStandard>
-              <span>{123}결과</span>
+              <div>
+                <Spinner />
+                <span>{123}결과</span>
+              </div>
               <SelectArrageStandard>
                 <label htmlFor="arrangedStandard">정렬기준</label>
                 <select id="arrangedStandard" onChange={() => {}}>
