@@ -175,6 +175,7 @@ const FilterPriceButton = styled.button`
   padding: 1.2rem 1.8rem;
   width: 33.3%;
   text-align: left;
+
   ${({ toggle, id }) =>
     toggle
       ? css`
@@ -197,7 +198,6 @@ const FilterPriceButton = styled.button`
             color: #0770e3;
           }
         `}
-
   p {
     font-size: 1.2rem;
   }
@@ -319,6 +319,10 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
     console.log(id);
   };
 
+  // const selectFilterOption=({target})=>{
+
+  // }
+
   return (
     <TicketResultInfoWrapper>
       <SearchArea>
@@ -411,7 +415,7 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
 
             <ArrangeFilterButtonWapper>
               {filter.map(filterItem => (
-                <Popover key={uuid.v4()} content={filterItem.name}>
+                <Popover key={uuid.v4()} content={`${filterItem.name} 순 정렬`}>
                   <FilterPriceButton
                     id={filterItem.id}
                     toggle={filterItem.toggle}
@@ -424,27 +428,6 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
                   </FilterPriceButton>
                 </Popover>
               ))}
-              {/* <Popover content={content}>
-                <FilterPriceButton>
-                  <p>최저가순</p>
-                  <span>₩가격</span>
-                  <p> 14시간 13분(평군)</p>
-                </FilterPriceButton>
-              </Popover>
-              <Popover content={content}>
-                <FilterPriceButton>
-                  <p>최저가순</p>
-                  <span>₩가격</span>
-                  <p> 14시간 13분(평군)</p>
-                </FilterPriceButton>
-              </Popover>
-              <Popover content={content}>
-                <FilterPriceButton>
-                  <p>최저가순</p>
-                  <span>₩ 가격</span>
-                  <p> 14시간 13분(평군)</p>
-                </FilterPriceButton>
-              </Popover> */}
             </ArrangeFilterButtonWapper>
 
             <TicketInfoDetail />
