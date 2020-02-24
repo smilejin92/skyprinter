@@ -188,10 +188,9 @@ const SelectTicketDetails = styled.div`
     font-weight: 700;
     background: #00a698;
     margin-top: 0.6rem;
-    padding: 0.6rem 1.8rem;
+    padding: 0.6rem 1.4rem;
     border-radius: 4px;
     cursor: pointer;
-    line-height: 1.5;
     vertical-align: middle;
     align-items: center;
   }
