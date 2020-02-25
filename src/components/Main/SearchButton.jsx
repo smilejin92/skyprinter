@@ -115,8 +115,8 @@ const mapDispatchToProps = dispatch => ({
       ),
     );
     dispatch(createSession());
-    dispatch(pollSession());
-    dispatch(pollTempResult());
+    // dispatch(pollSession());
+    // dispatch(pollTempResult());
   },
   setError: errors => {
     console.log('에러');

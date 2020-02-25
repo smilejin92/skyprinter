@@ -30,8 +30,9 @@ export const pollSession = () => ({
   type: POLL_SESSION,
 });
 
-export const pollTempResult = () => ({
+export const pollTempResult = sessionKey => ({
   type: POLL_TEMP_RESULTS,
+  sessionKey,
 });
 
 export const toggleStop = () => ({
@@ -49,10 +50,6 @@ const initialState = {
   filterOption: {
     sortType: 'price',
     sortOrder: 'asc',
-    stops: 1,
-    outboundDepartStartTime: '15:00',
-    // pageIndex: 1,
-    // pageSize: 10
   },
 };
 
@@ -89,43 +86,25 @@ export function* postSession() {
 
   try {
     // 1. Session 생성
+    const { headers } = yield call(SessionService.createSession, params);
+    const locationToArr = headers.location.split('/');
+    const sessionKey = locationToArr[locationToArr.length - 1];
+    console.log(sessionKey);
 
-    // const { headers } = yield call(SessionService.createSession, params);
-    // const locationToArr = headers.location.split('/');
-    // const sessionKey = locationToArr[locationToArr.length - 1];
-    const sessionKey = 'd29b9e48-c8f8-41f3-9eeb-d33b1080cfde';
     yield put(setSessionKey(sessionKey));
 
-    // while (true) {
-    //   const { data } = yield call(SessionService.pollSession, sessionKey);
-    //   yield put(setPollResult(data));
+    // 2. UI용 데이터 가져와
+    yield put({ type: POLL_TEMP_RESULTS, sessionKey });
 
-    //   const { Agents } = data;
-    //   const AllAgents = Agents.length;
-    //   const PendingAgents = Agents.filter(
-    //     Agent => Agent.Status === 'UpdatesComplete',
-    //   ).length;
+    // 3. UpdateComplete까지 얘는 알아서 돈다
+    const filterOption = yield select(state => state.session.filterOption);
 
-    //   const progressNum = (PendingAgents / AllAgents) * 100;
-    //   yield put({
-    //     type: SET_PROGRESS_RESULT,
-    //     progress: Math.floor(progressNum),
-    //   });
-
-    //   if (data.Status === 'UpdatesComplete') break;
-    // }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export function* getSession() {
-  const sessionKey = yield select(state => state.session.sessionKey);
-  // console.log(sessionKey);
-
-  while (true) {
-    try {
-      const { data } = yield call(SessionService.pollSession, sessionKey);
+    while (true) {
+      const { data } = yield call(
+        SessionService.pollSession,
+        sessionKey,
+        filterOption,
+      );
       yield put(setPollResult(data));
 
       const { Agents } = data;
@@ -141,30 +120,75 @@ export function* getSession() {
       });
 
       if (data.Status === 'UpdatesComplete') break;
-    } catch (error) {
-      console.error(error);
-      break;
     }
+  } catch (error) {
+    console.log(error);
   }
 }
 
-export function* getTempResults() {
+export function* getSession() {
   const sessionKey = yield select(state => state.session.sessionKey);
-  const filterOption = yield select(state => state.session.filterOption);
-  const params = {
-    ...filterOption,
-  };
+  // console.log(sessionKey);
 
-  let response;
-  while (true) {
-    response = yield call(SessionService.pollSession, sessionKey, params);
-    if (response.data.Itineraries.length) {
-      console.dir(response.data);
-      break;
+  try {
+    const params = {
+      sortType: 'price',
+      sortOrder: 'asc',
+    };
+
+    while (true) {
+      const { data } = yield call(
+        SessionService.pollSession,
+        sessionKey,
+        params,
+      );
+      yield put(setPollResult(data));
+
+      const { Agents } = data;
+      const AllAgents = Agents.length;
+      const PendingAgents = Agents.filter(
+        Agent => Agent.Status === 'UpdatesComplete',
+      ).length;
+
+      const progressNum = (PendingAgents / AllAgents) * 100;
+      yield put({
+        type: SET_PROGRESS_RESULT,
+        progress: Math.floor(progressNum),
+      });
+
+      if (data.Status === 'UpdatesComplete') {
+        console.log('UpdateComplete');
+        break;
+      }
     }
+  } catch (error) {
+    console.error(error);
   }
+}
 
-  yield put({ type: SET_TEMP_RESULTS, tempResults: response.data });
+export function* getTempResults({ sessionKey }) {
+  // const sessionKey = yield select(state => state.session.sessionKey);
+  const filterOption = yield select(state => state.session.filterOption);
+
+  try {
+    const params = {
+      ...filterOption,
+    };
+
+    let response;
+    while (true) {
+      response = yield call(SessionService.pollSession, sessionKey, params);
+      if (response.data.Itineraries.length) {
+        console.log('TempResult');
+        console.dir(response.data);
+        break;
+      }
+    }
+
+    yield put({ type: SET_TEMP_RESULTS, tempResults: response.data });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // ROOT SAGA

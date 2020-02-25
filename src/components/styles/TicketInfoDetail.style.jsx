@@ -225,7 +225,8 @@ export const SelectTicketDetails = styled.div`
   div {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     p {
       font-size: 1.2rem;
     }
@@ -238,23 +239,27 @@ export const SelectTicketDetails = styled.div`
     span {
       font-size: 2.4rem;
       font-weight: 700;
+      white-space: nowrap;
     }
     svg {
       line-height: 1.5;
     }
-    button {
-      width: 91px;
-      height: 36px;
-      font-size: 1.9rem;
-      color: #fff;
-      font-weight: 700;
-      background: #00a698;
-      margin-top: 0.6rem;
-      padding: 0.6rem 1.4rem;
-      border-radius: 4px;
-      cursor: pointer;
-      vertical-align: middle;
-      align-items: center;
+    a {
+      display: block;
+      button {
+        width: 91px;
+        height: 36px;
+        font-size: 1.9rem;
+        color: #fff;
+        font-weight: 700;
+        background: #00a698;
+        margin-top: 0.6rem;
+        padding: 0.6rem 1.4rem;
+        border-radius: 4px;
+        cursor: pointer;
+        vertical-align: middle;
+        align-items: center;
+      }
     }
   }
 `;

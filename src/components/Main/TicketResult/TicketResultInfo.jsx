@@ -563,51 +563,53 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
     // }, [ticket]);
   }, []);
 
-  const getTempResults = useCallback(() => {
-    // if (session.tempResults.Itineraries)
-    const lists = [];
-    for (let i = 80; i < session.tempResults.Itineraries.length; i++) {
-      if (i === 100) break;
-      lists.push(
-        <TicketInfoDetail
-          key={uuid.v4()}
-          data={session.tempResults}
-          itinerary={session.tempResults.Itineraries[i]}
-          progress={session.progress}
-          formatDateString={formatDateString}
-          formatDuration={formatDuration}
-          getAirlineLogo={getAirlineLogo}
-          getOperatingAirline={getOperatingAirline}
-          getTimeDifference={getTimeDifference}
-          isSameDay={isSameDay}
-          getPlaceCode={getPlaceCode}
-          getParentPlaceCode={getParentPlaceCode}
-          getNumberOfStops={getNumberOfStops}
-          getStopsList={getStopsList}
-          getStopDots={getStopDots}
-          priceToString={priceToString}
-          isSamePlace={isSamePlace}
-        />,
-      );
-    }
-    return lists;
-  }, [
-    formatDateString,
-    formatDuration,
-    getAirlineLogo,
-    getNumberOfStops,
-    getOperatingAirline,
-    getParentPlaceCode,
-    getPlaceCode,
-    getStopDots,
-    getStopsList,
-    getTimeDifference,
-    isSameDay,
-    isSamePlace,
-    priceToString,
-    session.progress,
-    session.tempResults,
-  ]);
+  const getResults = useCallback(
+    results => {
+      if (!results) return [];
+      const lists = [];
+      for (let i = 0; i < results.Itineraries.length; i++) {
+        if (i === 10) break;
+        lists.push(
+          <TicketInfoDetail
+            key={uuid.v4()}
+            data={results}
+            itinerary={results.Itineraries[i]}
+            progress={session.progress}
+            formatDateString={formatDateString}
+            formatDuration={formatDuration}
+            getAirlineLogo={getAirlineLogo}
+            getOperatingAirline={getOperatingAirline}
+            getTimeDifference={getTimeDifference}
+            isSameDay={isSameDay}
+            getPlaceCode={getPlaceCode}
+            getParentPlaceCode={getParentPlaceCode}
+            getNumberOfStops={getNumberOfStops}
+            getStopsList={getStopsList}
+            getStopDots={getStopDots}
+            priceToString={priceToString}
+            isSamePlace={isSamePlace}
+          />,
+        );
+      }
+      return lists;
+    },
+    [
+      formatDateString,
+      formatDuration,
+      getAirlineLogo,
+      getNumberOfStops,
+      getOperatingAirline,
+      getParentPlaceCode,
+      getPlaceCode,
+      getStopDots,
+      getStopsList,
+      getTimeDifference,
+      isSameDay,
+      isSamePlace,
+      priceToString,
+      session.progress,
+    ],
+  );
 
   return (
     <TicketResultInfoWrapper>
@@ -730,11 +732,9 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
                   </Popover>
                 ))}
               </ArrangeFilterButtonWapper>
-              {session.sessionKey && session.progress === 100 ? (
-                getTempResults()
-              ) : (
-                <div>아직</div>
-              )}
+              {session.sessionKey && session.progress < 100
+                ? getResults(session.tempResults)
+                : getResults(session.pollResults)}
               <MoreResultButton>더 많은 결과 표시</MoreResultButton>
               <LuggageMoreDetail>
                 <p>
