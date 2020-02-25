@@ -24,9 +24,9 @@ const convertDateToString = date => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const _date = date.getDate();
-  return `${year}-${
-    Math.floor(month / 10) === 0 ? `0${month}` : month
-  }-${_date}`;
+  return `${year}-${Math.floor(month / 10) === 0 ? `0${month}` : month}-${
+    Math.floor(_date / 10) === 0 ? `0${_date}` : _date
+  }`;
 };
 
 // SAGA GENERATOR
