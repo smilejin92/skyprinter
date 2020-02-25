@@ -1,20 +1,20 @@
 import React, { useState, useCallback } from 'react';
 import styled, { css } from 'styled-components';
-import SearchForm from '../SearchForm';
-import { FlexWrapper } from '../../styles';
-import { HiddenHeader } from '../../styles';
-import { Icon } from 'antd';
-import DatePickerContainer from '../../../containers/DatePickerContainer';
+import uuid from 'uuid';
 import { connect } from 'react-redux';
-import TicketInfoDetail from './TicketInfoDetail';
-import { Popover, Button } from 'antd';
+import { Popover, Icon, Progress } from 'antd';
+import DatePickerContainer from '../../../containers/DatePickerContainer';
 import Spinner from './Spinner';
+import TicketInfoDetail from './TicketInfoDetail';
+import SearchForm from '../SearchForm';
 import StopFilter from './filter/StopFilter';
 import TimeFilter from './filter/TimeFilter';
 import DurationFilter from './filter/DurationFilter';
 import CarrierFilter from './filter/CarrierFilter';
 import AirportFilter from './filter/AirportFilter';
-import uuid from 'uuid';
+import earth from '../../../images/earth.gif';
+import { FlexWrapper } from '../../styles';
+import { HiddenHeader } from '../../styles';
 
 const TicketResultInfoWrapper = styled.div`
   width: calc(100% - 49.7rem);
@@ -132,6 +132,7 @@ const TicketResultSection = styled.section`
   flex-direction: column;
   width: 72%;
   margin-left: 1.5rem;
+  position: relative;
 `;
 
 const ResultAndArrangeStandard = styled(FlexWrapper)`
@@ -265,7 +266,41 @@ const PriceAlarm = styled.button`
   }
 `;
 
-const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
+const ProgressDiv = styled.div.attrs({})`
+  position: absolute;
+  top: 3rem;
+  width: 680px;
+
+  .ant-progress-inner {
+    background-color: rgb(215, 215, 225);
+  }
+
+  .ant-progress-bg {
+    background-color: rgb(1, 102, 218);
+    height: 6px !important;
+  }
+`;
+
+const MainLoading = styled.div`
+  height: 72rem;
+  position: relative;
+
+  div {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    span {
+      display: block;
+      text-align: center;
+      font-size: 32px;
+      line-height: 1.5;
+    }
+  }
+`;
+
+const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
+  // const [progressNum, setProgressNum] = useState(0);
   const [visible, setVisible] = useState(false);
   const [filter, setFilter] = useState([
     {
@@ -320,10 +355,6 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
     console.log(id);
   };
 
-  // const selectFilterOption=({target})=>{
-
-  // }
-
   return (
     <TicketResultInfoWrapper>
       <SearchArea>
@@ -361,107 +392,125 @@ const TicketResultInfo = ({ tripType, passengerInfo, places }) => {
         </SearchSummary>
         {visible && <SearchForm />}
       </SearchArea>
-      <div>
-        <AddOns>
-          <CalenderAndChart>
-            <a
-              href="https://www.skyscanner.co.kr/transport/flights/icn/nyca?adultsv2=1&childrenv2=&cabinclass=economy&rtn=1&preferdirects=false&oym=2002&iym=2003&outboundaltsenabled=false&inboundaltsenabled=false"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              달력/차트 보기
-            </a>
-          </CalenderAndChart>
-          <AddLuggage>
-            <a
-              href="https://www.skyscanner.co.kr/airlinefees"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              추가 수화물 요금이 부과될 수 있음
-            </a>
-          </AddLuggage>
-        </AddOns>
-        <SectionWrapper>
-          <TicketFilterSection>
-            <PriceAlarm>
-              <svg viewBox="0 0 24 24 " width="18" height="18">
-                <path
-                  fill="#0770e3"
-                  d="M18 13.2c.2 2.3 2 1.7 2 4 0 1.7-3.5 3.8-8 3.8s-8-2.1-8-3.8c0-2.3 1.8-1.7 2-4 .5-5.5 1-7.7 4.4-8.9C11.6 3.8 11 3 12 3s.4.8 1.6 1.3c3.5 1.2 3.9 3.4 4.4 8.9zM12 20c3.9 0 6.5-1.7 6.5-2.1 0-.7-2-2-6.5-1.9-4.5 0-6.5 1.4-6.5 2 0 .3 2.6 2 6.5 2zm-2.5-2.8c.7-.1 1.6-.2 2.5-.2s1.8.1 2.5.2c-.6 1.2-1.4 1.8-2.5 1.8s-2-.6-2.5-1.8z"
-                ></path>
-              </svg>
-              가격 변동 알림 받기
-            </PriceAlarm>
-            <StopFilter></StopFilter>
-            <TimeFilter></TimeFilter>
-            <DurationFilter></DurationFilter>
-            <CarrierFilter></CarrierFilter>
-            <AirportFilter></AirportFilter>
-          </TicketFilterSection>
-
-          <TicketResultSection>
-            <ResultAndArrangeStandard>
-              <div>
-                <Spinner />
-                <span>{123}결과</span>
-              </div>
-              <SelectArrageStandard>
-                <label htmlFor="arrangedStandard">정렬기준</label>
-                <select id="arrangedStandard" onChange={() => {}}>
-                  <option value="최저가순">최저가순</option>
-                  <option value="최단여행시간순">최단여행시간순</option>
-                  <option value="출국">출국: 출발시간</option>
-                  <option value="귀국">귀국: 출발시간</option>
-                </select>
-              </SelectArrageStandard>
-            </ResultAndArrangeStandard>
-
-            <ArrangeFilterButtonWapper>
-              {filter.map(filterItem => (
-                <Popover key={uuid.v4()} content={`${filterItem.name} 순 정렬`}>
-                  <FilterPriceButton
-                    id={filterItem.id}
-                    toggle={filterItem.toggle}
-                    onClick={() => changeFilter(filterItem.id)}
-                    className={filterItem.toggle ? 'active' : null}
+      {session.pollResults && session.pollResults.Itineraries.length !== 0 ? (
+        <div>
+          <AddOns>
+            <CalenderAndChart>
+              <a
+                href="https://www.skyscanner.co.kr/transport/flights/icn/nyca?adultsv2=1&childrenv2=&cabinclass=economy&rtn=1&preferdirects=false&oym=2002&iym=2003&outboundaltsenabled=false&inboundaltsenabled=false"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                달력/차트 보기
+              </a>
+            </CalenderAndChart>
+            <AddLuggage>
+              <a
+                href="https://www.skyscanner.co.kr/airlinefees"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                추가 수화물 요금이 부과될 수 있음
+              </a>
+            </AddLuggage>
+          </AddOns>
+          <SectionWrapper>
+            <TicketFilterSection>
+              <PriceAlarm>
+                <svg viewBox="0 0 24 24 " width="18" height="18">
+                  <path
+                    fill="#0770e3"
+                    d="M18 13.2c.2 2.3 2 1.7 2 4 0 1.7-3.5 3.8-8 3.8s-8-2.1-8-3.8c0-2.3 1.8-1.7 2-4 .5-5.5 1-7.7 4.4-8.9C11.6 3.8 11 3 12 3s.4.8 1.6 1.3c3.5 1.2 3.9 3.4 4.4 8.9zM12 20c3.9 0 6.5-1.7 6.5-2.1 0-.7-2-2-6.5-1.9-4.5 0-6.5 1.4-6.5 2 0 .3 2.6 2 6.5 2zm-2.5-2.8c.7-.1 1.6-.2 2.5-.2s1.8.1 2.5.2c-.6 1.2-1.4 1.8-2.5 1.8s-2-.6-2.5-1.8z"
+                  ></path>
+                </svg>
+                가격 변동 알림 받기
+              </PriceAlarm>
+              <StopFilter />
+              <TimeFilter />
+              <DurationFilter />
+              <CarrierFilter />
+              <AirportFilter />
+            </TicketFilterSection>
+            <TicketResultSection>
+              <ResultAndArrangeStandard>
+                <div>
+                  {session.pollResults &&
+                    session.pollResults.Status !== 'UpdatesComplete' && (
+                      <Spinner />
+                    )}
+                  <span>{123}결과</span>
+                </div>
+                <SelectArrageStandard>
+                  <label htmlFor="arrangedStandard">정렬기준</label>
+                  <select id="arrangedStandard" onChange={() => {}}>
+                    <option value="최저가렬">최저가순</option>
+                    <option value="최단여행시간순">최단여행시간순</option>
+                    <option value="출국">출국: 출발시간</option>
+                    <option value="귀국">귀국: 출발시간</option>
+                  </select>
+                </SelectArrageStandard>
+              </ResultAndArrangeStandard>
+              {/* 프로그레스바 */}
+              {session.pollResults &&
+                session.pollResults.Status !== 'UpdatesComplete' && (
+                  <ProgressDiv>
+                    <Progress percent={session.progress} showInfo={false} />
+                  </ProgressDiv>
+                )}
+              <ArrangeFilterButtonWapper>
+                {filter.map(filterItem => (
+                  <Popover
+                    key={uuid.v4()}
+                    content={`${filterItem.name} 순 정렬`}
                   >
-                    <p>{filterItem.name}</p>
-                    <span>₩533,800</span>
-                    <p>{`${filterItem.time}`}</p>
-                  </FilterPriceButton>
-                </Popover>
-              ))}
-            </ArrangeFilterButtonWapper>
-
-            <TicketInfoDetail />
-
-            <MoreResultButton>더 많은 결과 표시</MoreResultButton>
-
-            <LuggageMoreDetail>
-              <p>
-                <b>요금은 매일 갱신됩니다.</b> 예약 시기의 이용 가능 여부에 따라
-                요금이 달라질 수 있습니다.
-              </p>
-              <p>
-                <b>체크인 수화물이 있습니까?</b>
-                <a
-                  href="https://www.skyscanner.co.kr/airlinefees"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  추가 수화물 요금이 부과될 수 있음
-                </a>
-              </p>
-            </LuggageMoreDetail>
-          </TicketResultSection>
-        </SectionWrapper>
-      </div>
+                    <FilterPriceButton
+                      id={filterItem.id}
+                      toggle={filterItem.toggle}
+                      onClick={() => changeFilter(filterItem.id)}
+                      className={filterItem.toggle ? 'active' : null}
+                    >
+                      <p>{filterItem.name}</p>
+                      <span>₩533,800</span>
+                      <p>{`${filterItem.time}`}</p>
+                    </FilterPriceButton>
+                  </Popover>
+                ))}
+              </ArrangeFilterButtonWapper>
+              <TicketInfoDetail />
+              <MoreResultButton>더 많은 결과 표시</MoreResultButton>
+              <LuggageMoreDetail>
+                <p>
+                  <b>요금은 매일 갱신됩니다.</b> 예약 시기의 이용 가능 여부에
+                  따라 요금이 달라질 수 있습니다.
+                </p>
+                <p>
+                  <b>체크인 수화물이 있습니까?</b>
+                  <a
+                    href="https://www.skyscanner.co.kr/airlinefees"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    추가 수화물 요금이 부과될 수 있음
+                  </a>
+                </p>
+              </LuggageMoreDetail>
+            </TicketResultSection>
+          </SectionWrapper>
+        </div>
+      ) : (
+        <MainLoading>
+          <div>
+            <img src={earth} alt="검색 중" />
+            <span>검색 중</span>
+          </div>
+        </MainLoading>
+      )}
     </TicketResultInfoWrapper>
   );
 };
 
 const mapStateToProps = state => ({
+  session: state.session,
   places: state.places,
   tripType: state.datepicker.tripType,
   passengerInfo: state.passenger,
