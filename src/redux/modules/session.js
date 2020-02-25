@@ -1,8 +1,11 @@
 import { takeEvery, put, call, select } from 'redux-saga/effects';
 import SessionService from '../../services/SessionService';
+import { withTheme } from 'styled-components';
 // ACTIONS
 export const CREATE_SESSION = 'skyprinter/session/CREATE_SESSION';
 export const SET_SESSION_KEY = 'skyprinter/session/SET_SESSION_KEY';
+export const SET_POLL_RESULT = 'skyprinter/session/SET_POLL_RESULT';
+export const SET_PROGRESS_RESULT = 'skyprinter/session/SET_PROGRESS_RESULT';
 
 // ACTION CREATORS
 export const createSession = () => ({
@@ -14,10 +17,16 @@ export const setSessionKey = sessionKey => ({
   sessionKey,
 });
 
+export const setPollResult = data => ({
+  type: SET_POLL_RESULT,
+  pollResults: data,
+});
+
 // INITIAL STATE
 const initialState = {
   sessionKey: null,
   pollResults: null,
+  progress: 0,
 };
 
 const convertDateToString = date => {
@@ -55,6 +64,23 @@ export function* postSession() {
     const locationToArr = headers.location.split('/');
     const sessionKey = locationToArr[locationToArr.length - 1];
     yield put(setSessionKey(sessionKey));
+    while (true) {
+      const { data } = yield call(SessionService.pollSession, sessionKey);
+      yield put(setPollResult(data));
+
+      const { Agents } = data;
+      const AllAgents = Agents.length;
+      const PendingAgents = Agents.filter(
+        Agent => Agent.Status === 'UpdatesComplete',
+      ).length;
+      // setProgressNum((PendingAgents / AllAgents) * 100);
+      const progressNum = (PendingAgents / AllAgents) * 100;
+      yield put({
+        type: SET_PROGRESS_RESULT,
+        progress: Math.floor(progressNum),
+      });
+      if (data.Status === 'UpdatesComplete') break;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -72,6 +98,18 @@ export default function session(state = initialState, action) {
       return {
         ...state,
         sessionKey: action.sessionKey,
+      };
+
+    case SET_POLL_RESULT:
+      return {
+        ...state,
+        pollResults: action.pollResults,
+      };
+
+    case SET_PROGRESS_RESULT:
+      return {
+        ...state,
+        progress: action.progress,
       };
 
     default:
