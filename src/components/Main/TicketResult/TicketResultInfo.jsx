@@ -221,7 +221,7 @@ const MoreResultButton = styled.button`
   margin: 0 auto;
   color: #0770e3;
   font-size: 1.9rem;
-  width: 16.9rem;
+  width: 18.6rem;
   padding: 0.4rem 1.8rem;
   border: 2px solid rgb(216, 216, 225);
   background: #fff;
@@ -355,6 +355,260 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
     console.log(id);
   };
 
+  const formatDateString = useCallback(dateString => {
+    const [date, time] = dateString.split('T');
+    const [militaryHours, minutes] = time.split(':');
+    const timePeriod = +militaryHours < 12 ? '오전' : '오후';
+    const hours = +militaryHours <= 12 ? +militaryHours : +militaryHours - 12;
+    return `${timePeriod} ${hours}:${minutes}`;
+  }, []);
+
+  const formatDuration = useCallback(duration => {
+    const hours = Math.floor(duration / 60);
+    if (!hours) return `${duration}분`;
+
+    const minutes = duration % 60;
+    if (!minutes) return `${hours}시간`;
+
+    return `${hours}시간 ${minutes}분`;
+  }, []);
+
+  const getAirlineLogo = useCallback(
+    leg => {
+      const { Carriers } = leg;
+      if (Carriers.length < 2) {
+        const [carrierId] = Carriers;
+        const { ImageUrl, Name } = session.tempResults.Carriers.filter(
+          c => c.Id === carrierId,
+        )[0];
+        return <img src={ImageUrl} alt={Name} />;
+      } else {
+        let altText = '';
+        for (let i = 0; i < Carriers.length - 1; i++) {
+          const { Name } = session.tempResults.Carriers.filter(
+            c => c.Id === Carriers[i],
+          )[0];
+          altText += `${Name} + `;
+        }
+        const { Name } = session.tempResults.Carriers.filter(
+          c => c.Id === Carriers[Carriers.length - 1],
+        )[0];
+        altText += Name;
+        return <div>{altText}</div>;
+      }
+    },
+    [session.tempResults],
+  );
+
+  const getOperatingAirline = useCallback(
+    (leg, type) => {
+      console.log(leg);
+      const { Carriers, OperatingCarriers } = leg;
+      const operatorIds = OperatingCarriers.filter(
+        oc => !Carriers.includes(oc),
+      ); // 실질적 운행사
+
+      if (!operatorIds.length) {
+        return <div></div>;
+      } else {
+        const operatorNames = [];
+        operatorIds.forEach(id => {
+          const { Name } = session.tempResults.Carriers.filter(
+            c => c.Id === id,
+          )[0];
+          operatorNames.push(Name);
+        });
+
+        let text = '';
+        for (let i = 0; i < operatorNames.length - 1; i++) {
+          text += `${operatorNames[i]}, `;
+        }
+
+        // operators에 Carriers의 요소가 없는 경우 = operators에서 운항
+        if (operatorIds.length === OperatingCarriers.length) {
+          text += `${operatorNames[operatorNames.length - 1]}에서 운항`;
+        } else {
+          // operators에 Carriers의 요소가 있는 경우 = ~에서 부분 운항
+          text += `${operatorNames[operatorNames.length - 1]}에서 부분 운항`;
+        }
+        return <div className={`operators ${type}`}>{text}</div>;
+      }
+    },
+    [session.tempResults],
+  );
+
+  const getTimeDifference = useCallback(leg => {
+    const { Departure, Arrival } = leg;
+    const [departureDate] = Departure.split('T');
+    const [arrivalDate] = Arrival.split('T');
+    const departureDateObj = new Date(departureDate);
+    const arrivalDateObj = new Date(arrivalDate);
+    return (arrivalDateObj - departureDateObj) / 1000 / 60 / 60 / 24;
+  }, []);
+
+  const isSameDay = useCallback(leg => {
+    const { Departure, Arrival } = leg;
+    const [departureDate] = Departure.split('T');
+    const [arrivalDate] = Arrival.split('T');
+    return departureDate === arrivalDate;
+  }, []);
+
+  const getPlaceCode = useCallback(
+    placeId => {
+      const [targetPlace] = session.tempResults.Places.filter(
+        p => p.Id === placeId,
+      );
+      return targetPlace.Code;
+    },
+    [session.tempResults],
+  );
+
+  const getParentPlaceCode = useCallback(
+    placeId => {
+      const [targetPlace] = session.tempResults.Places.filter(
+        p => p.Id === placeId,
+      );
+      return getPlaceCode(targetPlace.ParentId);
+    },
+    [session.tempResults, getPlaceCode],
+  );
+
+  const getNumberOfStops = useCallback(leg => {
+    const { Stops, Segments } = leg;
+    if (!Stops.length) {
+      return 0;
+    } else {
+      if (Stops.length === Segments.length) {
+        return Segments.length - 1;
+      } else {
+        return Stops.length;
+      }
+    }
+  }, []);
+
+  const getStopsList = useCallback(
+    leg => {
+      const { Stops, Segments } = leg;
+      const textElements = [];
+      if (Stops.length === Segments.length) {
+        for (let i = 1; i < Segments.length; i++) {
+          const prevDest = Segments[i - 1].DestinationStation;
+          const curOrigin = Segments[i].OriginStation;
+          let text = '';
+          const placeCode =
+            prevDest === curOrigin
+              ? getPlaceCode(prevDest)
+              : getParentPlaceCode(prevDest);
+          text += placeCode;
+          if (i + 1 < Stops.length) text += ', ';
+
+          if (prevDest !== curOrigin) {
+            textElements.push(
+              <span id={placeCode} warning={true}>
+                {text}
+              </span>,
+            );
+          } else {
+            textElements.push(<span id={placeCode}>{text}</span>);
+          }
+        }
+      } else {
+        for (let i = 0; i < Stops.length; i++) {
+          let text = '';
+          const placeCode = getPlaceCode(Stops[i]);
+          text += placeCode;
+          if (i + 1 < Stops.length) text += ', ';
+          textElements.push(<span id={placeCode}>{text}</span>);
+        }
+      }
+      return textElements;
+    },
+    [getPlaceCode, getParentPlaceCode],
+  );
+
+  const getStopDots = useCallback(
+    leg => {
+      const $lis = [];
+      const stops = getNumberOfStops(leg);
+      for (let i = 0; i < stops; i++) {
+        $lis.push(<li></li>);
+      }
+
+      return $lis;
+    },
+    [getNumberOfStops],
+  );
+
+  const priceToString = useCallback(price => {
+    let result = '';
+    let _price = price + '';
+    _price = _price.split('.')[0];
+
+    let count = 0;
+    for (let i = _price.length - 1; i >= 0; i--) {
+      result = _price[i] + result;
+      count += 1;
+      if (i > 0 && count === 3) {
+        result = ',' + result;
+        count = 0;
+      }
+    }
+    return result;
+  }, []);
+
+  const isSamePlace = useCallback(ticket => {
+    if (!ticket.InboundLeg) return true;
+    const { OutboundLeg, InboundLeg } = ticket;
+    return OutboundLeg.DestinationStation === InboundLeg.OriginStation;
+    // }, [ticket]);
+  }, []);
+
+  const getTempResults = useCallback(() => {
+    // if (session.tempResults.Itineraries)
+    const lists = [];
+    for (let i = 80; i < session.tempResults.Itineraries.length; i++) {
+      if (i === 100) break;
+      lists.push(
+        <TicketInfoDetail
+          key={uuid.v4()}
+          data={session.tempResults}
+          itinerary={session.tempResults.Itineraries[i]}
+          progress={session.progress}
+          formatDateString={formatDateString}
+          formatDuration={formatDuration}
+          getAirlineLogo={getAirlineLogo}
+          getOperatingAirline={getOperatingAirline}
+          getTimeDifference={getTimeDifference}
+          isSameDay={isSameDay}
+          getPlaceCode={getPlaceCode}
+          getParentPlaceCode={getParentPlaceCode}
+          getNumberOfStops={getNumberOfStops}
+          getStopsList={getStopsList}
+          getStopDots={getStopDots}
+          priceToString={priceToString}
+          isSamePlace={isSamePlace}
+        />,
+      );
+    }
+    return lists;
+  }, [
+    formatDateString,
+    formatDuration,
+    getAirlineLogo,
+    getNumberOfStops,
+    getOperatingAirline,
+    getParentPlaceCode,
+    getPlaceCode,
+    getStopDots,
+    getStopsList,
+    getTimeDifference,
+    isSameDay,
+    isSamePlace,
+    priceToString,
+    session.progress,
+    session.tempResults,
+  ]);
+
   return (
     <TicketResultInfoWrapper>
       <SearchArea>
@@ -476,7 +730,11 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
                   </Popover>
                 ))}
               </ArrangeFilterButtonWapper>
-              <TicketInfoDetail />
+              {session.sessionKey && session.progress === 100 ? (
+                getTempResults()
+              ) : (
+                <div>아직</div>
+              )}
               <MoreResultButton>더 많은 결과 표시</MoreResultButton>
               <LuggageMoreDetail>
                 <p>

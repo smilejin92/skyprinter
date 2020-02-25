@@ -31,6 +31,7 @@ const CheckBox = props => {
       checked: e.target.checked,
       disabled: checkbox.disabled,
     });
+    props.toggleStop();
   };
 
   return (

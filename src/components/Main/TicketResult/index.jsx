@@ -14,7 +14,7 @@ const TicketResultWrapper = styled(FlexWrapper)`
   min-height: 110vh;
 `;
 
-const index = props => {
+const index = () => {
   return (
     <TicketResultBackground>
       <TicketResultWrapper>

@@ -15,8 +15,9 @@ import {
 } from '../styles/SearchForm.style';
 import { useLocation } from 'react-router-dom';
 import SearchButton from './SearchButton';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import uuid from 'uuid';
+import { toggleStop } from '../../redux/modules/session';
 
 function SearchForm() {
   const handleSubmit = useCallback(e => {
@@ -25,6 +26,7 @@ function SearchForm() {
 
   const { pathname } = useLocation();
   const errors = useSelector(state => state.error.errors);
+  const dispatch = useDispatch();
 
   return (
     <SearchFormWrapper
@@ -63,7 +65,13 @@ function SearchForm() {
           </SelectSeatDateBox>
         </SearchWrapper>
         <SearchFormSubmit>
-          <CheckBox>직항만</CheckBox>
+          <CheckBox
+            toggleStop={() => {
+              dispatch(toggleStop());
+            }}
+          >
+            직항만
+          </CheckBox>
           <SearchSubmitButton page={pathname}>
             <SearchButton ariaLabel="항공권 검색">
               항공권 검색

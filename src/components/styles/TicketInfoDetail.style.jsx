@@ -1,10 +1,19 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FlexWrapper } from './index';
+
+export const PlaceCode = styled.span`
+  ${({ same }) =>
+    !same &&
+    css`
+      padding: 0 0.375rem;
+      border-radius: 0.375rem;
+      background: rgba(209, 67, 91, 0.2);
+    `}
+`;
 
 export const Tickets = styled(FlexWrapper)`
   position: relative;
   margin-bottom: 1.2rem;
-  height: 16rem;
   width: 100%;
   background: #fff;
   border-radius: 0.6rem 0.6rem;
@@ -27,6 +36,7 @@ export const TicketInfos = styled(FlexWrapper)`
   position: relative;
   height: 50%;
   margin-bottom: 1.2rem;
+
   .carrier {
     margin-top: 0.6rem;
     width: 21%;
@@ -34,6 +44,23 @@ export const TicketInfos = styled(FlexWrapper)`
       display: block;
       width: 6rem;
       height: 3rem;
+    }
+    div {
+      font-size: 1.2rem;
+      color: #68697f;
+      font-weight: 400;
+      text-align: center;
+    }
+    .operators {
+      font-weight: normal;
+      white-space: nowrap;
+      color: #bbb;
+      text-align: left;
+      margin-top: 2.7rem;
+    }
+    .inbound {
+      transform: translateY(60%);
+      margin-top: 1.5rem;
     }
   }
   .departTime {
@@ -55,7 +82,7 @@ export const TicketInfos = styled(FlexWrapper)`
     width: 29%;
     text-align: center;
 
-    div {
+    ul {
       position: relative;
       display: block;
       width: 85%;
@@ -66,6 +93,21 @@ export const TicketInfos = styled(FlexWrapper)`
       background-color: #68697f;
       line-height: 0;
       text-align: center;
+
+      li {
+        position: relative;
+        top: -0.35rem;
+        display: inline-block;
+        width: 0.375rem;
+        height: 0.375rem;
+        margin: 0 4%;
+        border-radius: 0.375rem;
+        background-color: #d1435b;
+        background-image: none;
+        line-height: 0;
+        box-shadow: 0 0 0 0.125rem #fff;
+        zoom: 1;
+      }
     }
     svg {
       position: absolute;
@@ -76,7 +118,13 @@ export const TicketInfos = styled(FlexWrapper)`
       font-size: 1.2rem;
     }
     .stops {
-      color: #00a698;
+      .direct {
+        color: #00a698;
+      }
+      .transfer {
+        color: #d1435b;
+        margin-right: 0.4rem;
+      }
     }
   }
   .arriveTime {
@@ -84,13 +132,23 @@ export const TicketInfos = styled(FlexWrapper)`
     width: 25%;
     text-align: left;
     padding-top: 0.6rem;
-    p {
-      font-size: 1.6rem;
-      font-weight: 700;
-    }
+
     span {
       font-size: 1.6rem;
       color: #68697f;
+    }
+
+    p {
+      font-size: 1.6rem;
+      font-weight: 700;
+      position: relative;
+
+      span {
+        position: absolute;
+        top: -0.8rem;
+        font-size: 1rem;
+        color: #68697f;
+      }
     }
   }
 `;
@@ -161,38 +219,42 @@ export const SemiCircle = styled.div`
 `;
 
 export const SelectTicketDetails = styled.div`
-  /* background:pink; */
+  position: relative;
   width: 33.3%;
-  padding: 1.8rem;
   text-align: center;
-  p {
-    font-size: 1.2rem;
-  }
-  .mostCheap {
-    color: #8f90a0;
-  }
-  .totalPrice {
-    color: #68697f;
-  }
-  span {
-    font-size: 2.4rem;
-    font-weight: 700;
-  }
-  svg {
-    line-height: 1.5;
-  }
-  button {
-    width: 91px;
-    height: 36px;
-    font-size: 1.9rem;
-    color: #fff;
-    font-weight: 700;
-    background: #00a698;
-    margin-top: 0.6rem;
-    padding: 0.6rem 1.4rem;
-    border-radius: 4px;
-    cursor: pointer;
-    vertical-align: middle;
-    align-items: center;
+  div {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    p {
+      font-size: 1.2rem;
+    }
+    .mostCheap {
+      color: #8f90a0;
+    }
+    .totalPrice {
+      color: #68697f;
+    }
+    span {
+      font-size: 2.4rem;
+      font-weight: 700;
+    }
+    svg {
+      line-height: 1.5;
+    }
+    button {
+      width: 91px;
+      height: 36px;
+      font-size: 1.9rem;
+      color: #fff;
+      font-weight: 700;
+      background: #00a698;
+      margin-top: 0.6rem;
+      padding: 0.6rem 1.4rem;
+      border-radius: 4px;
+      cursor: pointer;
+      vertical-align: middle;
+      align-items: center;
+    }
   }
 `;

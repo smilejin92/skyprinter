@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setError, clearError } from '../../redux/modules/error';
-import { createSession } from '../../redux/modules/session';
+import {
+  createSession,
+  pollSession,
+  pollTempResult,
+} from '../../redux/modules/session';
 import { push } from 'connected-react-router';
 
 const SearchButton = ({ children, allInfo, createSession, setError }) => {
@@ -101,7 +105,6 @@ const convertDateToString = date => {
 const mapDispatchToProps = dispatch => ({
   createSession: allInfo => {
     console.log('세션생성');
-    dispatch(createSession());
     dispatch(clearError());
     // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{inboundDate}/{outboundDate}/?query
     dispatch(
@@ -111,6 +114,9 @@ const mapDispatchToProps = dispatch => ({
         )}/${convertDateToString(allInfo.datepicker.outboundDate)}`,
       ),
     );
+    dispatch(createSession());
+    dispatch(pollSession());
+    dispatch(pollTempResult());
   },
   setError: errors => {
     console.log('에러');

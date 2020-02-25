@@ -18,14 +18,10 @@ export default class SessionService {
     });
   }
 
-  static pollSession(sessionKey) {
+  static pollSession(sessionKey, params) {
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
       'X-RapidAPI-Key': RAPID_API_KEY,
-    };
-
-    const params = {
-      sortType: 'price',
     };
 
     return axios.get(`${POLL_URL}/${sessionKey}`, {
