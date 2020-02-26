@@ -13,6 +13,7 @@ export const SET_STOP_RESULT = 'skyprinter/session/SET_STOP_RESULT';
 export const RESET_RESULT = 'skyprinter/session/RESET_RESULT';
 export const SET_ALL_RESULT = 'skyprinter/session/SET_ALL_RESULT';
 export const TOGGLE_FILTER_LOADER = 'skyprinter/session/TOGGLE_FILTER_LOADER';
+export const SET_INFINITE_SCROLL = 'skyprinter/session/SET_INFINITE_SCROLL';
 
 // ACTION CREATORS
 export const createSession = allInfo => ({
@@ -56,6 +57,10 @@ export const setAllResult = allResult => ({
 export const toggleFliterLoader = () => ({
   type: TOGGLE_FILTER_LOADER,
 });
+  
+export const setInfiniteScroll = () => ({
+  type: SET_INFINITE_SCROLL;
+});
 
 // INITIAL STATE
 const initialState = {
@@ -69,6 +74,7 @@ const initialState = {
   },
   infiniteScroll: false,
   filterLoader: false,
+  lastIndex: 0,
 };
 
 const convertDateToString = date => {
@@ -105,13 +111,9 @@ export function* postSession({ allInfo }) {
     yield put(resetResult());
 
     // 2. 세션 생성
-    // const { headers } = yield call(SessionService.createSession, params);
-    // const locationToArr = headers.location.split('/');
-    // const sessionKey = locationToArr[locationToArr.length - 1];
-    // yield put(setSessionKey(sessionKey));
-
-    // 2. 더미데이터
-    const sessionKey = '872de3c0-f55e-4e70-8458-5c682cb1b019';
+    const { headers } = yield call(SessionService.createSession, params);
+    const locationToArr = headers.location.split('/');
+    const sessionKey = locationToArr[locationToArr.length - 1];
     yield put(setSessionKey(sessionKey));
 
     // 3. 2에서 생성한 Session의 상태가 complete될 때까지 poll
@@ -236,11 +238,19 @@ export default function session(state = initialState, action) {
         ...state,
         allResult: null,
         pollResult: null,
+        infiniteScroll: false,
         progress: 0,
         filterOption: {
           sortType: 'price',
           sortOrder: 'asc',
         },
+        lastIndex: 0,
+      };
+
+    case SET_INFINITE_SCROLL:
+      return {
+        ...state,
+        infiniteScroll: true,
       };
 
     case TOGGLE_FILTER_LOADER:
