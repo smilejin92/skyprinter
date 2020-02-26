@@ -41,7 +41,6 @@ const SearchButtonDiv = styled.div`
   width: 3.6rem;
   padding-top: 6px;
   height: 5.8rem;
-
   button {
     width: 3.6rem;
     height: 3.6rem;
@@ -52,7 +51,6 @@ const SearchButtonDiv = styled.div`
     user-select: none;
     color: #fff;
     background-color: #00a698;
-
     &:hover {
       background-color: #00887d;
     }
@@ -98,7 +96,6 @@ const AddOns = styled.div`
   width: 100%;
   margin: 1rem 0 1rem 0;
   line-height: 2.4rem;
-
   &::after {
     content: '';
     display: block;
@@ -177,7 +174,6 @@ const FilterPriceButton = styled.button`
   padding: 1.2rem 1.8rem;
   width: 33.3%;
   text-align: left;
-
   ${({ toggle, id }) =>
     toggle
       ? css`
@@ -257,6 +253,7 @@ const PriceAlarm = styled.button`
   vertical-align: middle;
   font-size: 1.9rem;
   font-weight: 700;
+  background: #fff;
   svg {
     transform: translateY(2px);
     margin-right: 5px;
@@ -284,7 +281,6 @@ const ProgressDiv = styled.div.attrs({})`
 const MainLoading = styled.div`
   height: 72rem;
   position: relative;
-
   div {
     position: absolute;
     top: 30%;
