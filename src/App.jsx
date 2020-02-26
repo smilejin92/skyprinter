@@ -19,7 +19,7 @@ function App() {
         <ConnectedRouter history={history}>
           <Switch>
             {/* <Route
-              path="/transport/flights/:originId/:destId/:inboundDate/:outboundDate"
+              path="/transport/flights/:originId/:destId/:outbounDate/:inboundDate"
               component={TicketResult}
             /> */}
             <Route path="/transport/flights" component={TicketResult} />

@@ -373,172 +373,6 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
     return `${hours}시간 ${minutes}분`;
   }, []);
 
-  const getAirlineLogo = useCallback(
-    leg => {
-      const { Carriers } = leg;
-      if (Carriers.length < 2) {
-        const [carrierId] = Carriers;
-        const { ImageUrl, Name } = session.tempResults.Carriers.filter(
-          c => c.Id === carrierId,
-        )[0];
-        return <img src={ImageUrl} alt={Name} />;
-      } else {
-        let altText = '';
-        for (let i = 0; i < Carriers.length - 1; i++) {
-          const { Name } = session.tempResults.Carriers.filter(
-            c => c.Id === Carriers[i],
-          )[0];
-          altText += `${Name} + `;
-        }
-        const { Name } = session.tempResults.Carriers.filter(
-          c => c.Id === Carriers[Carriers.length - 1],
-        )[0];
-        altText += Name;
-        return <div>{altText}</div>;
-      }
-    },
-    [session.tempResults],
-  );
-
-  const getOperatingAirline = useCallback(
-    (leg, type) => {
-      console.log(leg);
-      const { Carriers, OperatingCarriers } = leg;
-      const operatorIds = OperatingCarriers.filter(
-        oc => !Carriers.includes(oc),
-      ); // 실질적 운행사
-
-      if (!operatorIds.length) {
-        return <div></div>;
-      } else {
-        const operatorNames = [];
-        operatorIds.forEach(id => {
-          const { Name } = session.tempResults.Carriers.filter(
-            c => c.Id === id,
-          )[0];
-          operatorNames.push(Name);
-        });
-
-        let text = '';
-        for (let i = 0; i < operatorNames.length - 1; i++) {
-          text += `${operatorNames[i]}, `;
-        }
-
-        // operators에 Carriers의 요소가 없는 경우 = operators에서 운항
-        if (operatorIds.length === OperatingCarriers.length) {
-          text += `${operatorNames[operatorNames.length - 1]}에서 운항`;
-        } else {
-          // operators에 Carriers의 요소가 있는 경우 = ~에서 부분 운항
-          text += `${operatorNames[operatorNames.length - 1]}에서 부분 운항`;
-        }
-        return <div className={`operators ${type}`}>{text}</div>;
-      }
-    },
-    [session.tempResults],
-  );
-
-  const getTimeDifference = useCallback(leg => {
-    const { Departure, Arrival } = leg;
-    const [departureDate] = Departure.split('T');
-    const [arrivalDate] = Arrival.split('T');
-    const departureDateObj = new Date(departureDate);
-    const arrivalDateObj = new Date(arrivalDate);
-    return (arrivalDateObj - departureDateObj) / 1000 / 60 / 60 / 24;
-  }, []);
-
-  const isSameDay = useCallback(leg => {
-    const { Departure, Arrival } = leg;
-    const [departureDate] = Departure.split('T');
-    const [arrivalDate] = Arrival.split('T');
-    return departureDate === arrivalDate;
-  }, []);
-
-  const getPlaceCode = useCallback(
-    placeId => {
-      const [targetPlace] = session.tempResults.Places.filter(
-        p => p.Id === placeId,
-      );
-      return targetPlace.Code;
-    },
-    [session.tempResults],
-  );
-
-  const getParentPlaceCode = useCallback(
-    placeId => {
-      const [targetPlace] = session.tempResults.Places.filter(
-        p => p.Id === placeId,
-      );
-      return getPlaceCode(targetPlace.ParentId);
-    },
-    [session.tempResults, getPlaceCode],
-  );
-
-  const getNumberOfStops = useCallback(leg => {
-    const { Stops, Segments } = leg;
-    if (!Stops.length) {
-      return 0;
-    } else {
-      if (Stops.length === Segments.length) {
-        return Segments.length - 1;
-      } else {
-        return Stops.length;
-      }
-    }
-  }, []);
-
-  const getStopsList = useCallback(
-    leg => {
-      const { Stops, Segments } = leg;
-      const textElements = [];
-      if (Stops.length === Segments.length) {
-        for (let i = 1; i < Segments.length; i++) {
-          const prevDest = Segments[i - 1].DestinationStation;
-          const curOrigin = Segments[i].OriginStation;
-          let text = '';
-          const placeCode =
-            prevDest === curOrigin
-              ? getPlaceCode(prevDest)
-              : getParentPlaceCode(prevDest);
-          text += placeCode;
-          if (i + 1 < Stops.length) text += ', ';
-
-          if (prevDest !== curOrigin) {
-            textElements.push(
-              <span id={placeCode} warning={true}>
-                {text}
-              </span>,
-            );
-          } else {
-            textElements.push(<span id={placeCode}>{text}</span>);
-          }
-        }
-      } else {
-        for (let i = 0; i < Stops.length; i++) {
-          let text = '';
-          const placeCode = getPlaceCode(Stops[i]);
-          text += placeCode;
-          if (i + 1 < Stops.length) text += ', ';
-          textElements.push(<span id={placeCode}>{text}</span>);
-        }
-      }
-      return textElements;
-    },
-    [getPlaceCode, getParentPlaceCode],
-  );
-
-  const getStopDots = useCallback(
-    leg => {
-      const $lis = [];
-      const stops = getNumberOfStops(leg);
-      for (let i = 0; i < stops; i++) {
-        $lis.push(<li></li>);
-      }
-
-      return $lis;
-    },
-    [getNumberOfStops],
-  );
-
   const priceToString = useCallback(price => {
     let result = '';
     let _price = price + '';
@@ -563,8 +397,178 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
     // }, [ticket]);
   }, []);
 
+  const getAirlineLogo = useCallback(
+    (leg, data) => {
+      // leg => {
+      const { Carriers } = leg;
+      if (Carriers.length < 2) {
+        const [carrierId] = Carriers;
+        const { ImageUrl, Name } = data.Carriers.filter(
+          c => c.Id === carrierId,
+        )[0];
+        return <img src={ImageUrl} alt={Name} />;
+      } else {
+        let altText = '';
+        for (let i = 0; i < Carriers.length - 1; i++) {
+          const { Name } = data.Carriers.filter(c => c.Id === Carriers[i])[0];
+          altText += `${Name} + `;
+        }
+        const { Name } = data.Carriers.filter(
+          c => c.Id === Carriers[Carriers.length - 1],
+        )[0];
+        altText += Name;
+        return <div>{altText}</div>;
+      }
+    },
+    // [session.tempResults],
+    [],
+  );
+
+  const getOperatingAirline = useCallback(
+    (leg, data, type) => {
+      // (leg, type) => {
+      console.log(leg);
+      const { Carriers, OperatingCarriers } = leg;
+      const operatorIds = OperatingCarriers.filter(
+        oc => !Carriers.includes(oc),
+      ); // 실질적 운행사
+
+      if (!operatorIds.length) {
+        return <div></div>;
+      } else {
+        const operatorNames = [];
+        operatorIds.forEach(id => {
+          const { Name } = data.Carriers.filter(c => c.Id === id)[0];
+          operatorNames.push(Name);
+        });
+
+        let text = '';
+        for (let i = 0; i < operatorNames.length - 1; i++) {
+          text += `${operatorNames[i]}, `;
+        }
+
+        // operators에 Carriers의 요소가 없는 경우 = operators에서 운항
+        if (operatorIds.length === OperatingCarriers.length) {
+          text += `${operatorNames[operatorNames.length - 1]}에서 운항`;
+        } else {
+          // operators에 Carriers의 요소가 있는 경우 = ~에서 부분 운항
+          text += `${operatorNames[operatorNames.length - 1]}에서 부분 운항`;
+        }
+        return <div className={`operators ${type}`}>{text}</div>;
+      }
+    },
+    // [session.tempResults],
+    [],
+  );
+
+  const getTimeDifference = useCallback(leg => {
+    const { Departure, Arrival } = leg;
+    const [departureDate] = Departure.split('T');
+    const [arrivalDate] = Arrival.split('T');
+    const departureDateObj = new Date(departureDate);
+    const arrivalDateObj = new Date(arrivalDate);
+    return (arrivalDateObj - departureDateObj) / 1000 / 60 / 60 / 24;
+  }, []);
+
+  const isSameDay = useCallback(leg => {
+    const { Departure, Arrival } = leg;
+    const [departureDate] = Departure.split('T');
+    const [arrivalDate] = Arrival.split('T');
+    return departureDate === arrivalDate;
+  }, []);
+
+  const getPlaceCode = useCallback(
+    (placeId, data) => {
+      // placeId => {
+      // const [targetPlace] = session.tempResults.Places.filter(
+      console.log();
+      const [targetPlace] = data.Places.filter(p => p.Id === placeId);
+      return targetPlace.Code;
+    },
+    // [session.tempResults],
+    [],
+  );
+
+  const getParentPlaceCode = useCallback(
+    (placeId, data) => {
+      // placeId => {
+      const [targetPlace] = data.Places.filter(p => p.Id === placeId);
+      return getPlaceCode(targetPlace.ParentId);
+    },
+    // [session.tempResults, getPlaceCode],
+    [getPlaceCode],
+  );
+
+  const getNumberOfStops = useCallback(leg => {
+    const { Stops, Segments } = leg;
+    if (!Stops.length) {
+      return 0;
+    } else {
+      if (Stops.length === Segments.length) {
+        return Segments.length - 1;
+      } else {
+        return Stops.length;
+      }
+    }
+  }, []);
+
+  const getStopsList = useCallback(
+    (leg, data) => {
+      console.log(leg);
+      const { Stops, Segments } = leg;
+      const textElements = [];
+      if (Stops.length === Segments.length) {
+        for (let i = 1; i < Segments.length; i++) {
+          const prevDest = Segments[i - 1].DestinationStation;
+          const curOrigin = Segments[i].OriginStation;
+          let text = '';
+          const placeCode =
+            prevDest === curOrigin
+              ? getPlaceCode(prevDest, data)
+              : getParentPlaceCode(prevDest, data);
+          text += placeCode;
+          if (i + 1 < Stops.length) text += ', ';
+
+          if (prevDest !== curOrigin) {
+            textElements.push(
+              <span id={placeCode} warning={true}>
+                {text}
+              </span>,
+            );
+          } else {
+            textElements.push(<span id={placeCode}>{text}</span>);
+          }
+        }
+      } else {
+        for (let i = 0; i < Stops.length; i++) {
+          let text = '';
+          const placeCode = getPlaceCode(Stops[i], data);
+          text += placeCode;
+          if (i + 1 < Stops.length) text += ', ';
+          textElements.push(<span id={placeCode}>{text}</span>);
+        }
+      }
+      return textElements;
+    },
+    [getPlaceCode, getParentPlaceCode],
+  );
+
+  const getStopDots = useCallback(
+    leg => {
+      const $lis = [];
+      const stops = getNumberOfStops(leg);
+      for (let i = 0; i < stops; i++) {
+        $lis.push(<li></li>);
+      }
+
+      return $lis;
+    },
+    [getNumberOfStops],
+  );
+
   const getResults = useCallback(
     results => {
+      console.log('results = ' + results);
       if (!results) return [];
       const lists = [];
       for (let i = 0; i < results.Itineraries.length; i++) {
@@ -732,7 +736,9 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
                   </Popover>
                 ))}
               </ArrangeFilterButtonWapper>
-              {session.sessionKey && session.progress < 100
+              {session.tempResults &&
+              session.pollResults &&
+              session.progress < 100
                 ? getResults(session.tempResults)
                 : getResults(session.pollResults)}
               <MoreResultButton>더 많은 결과 표시</MoreResultButton>

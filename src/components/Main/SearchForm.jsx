@@ -4,6 +4,11 @@ import CheckBox from './CheckBox';
 import DatePickerContainer from '../../containers/DatePickerContainer';
 import TripTypes from './TripTypes';
 import CabinClassPassengerContainer from '../../containers/CabinPassengerContainer';
+import { useLocation } from 'react-router-dom';
+import SearchButton from './SearchButton';
+import { useSelector, useDispatch } from 'react-redux';
+import uuid from 'uuid';
+import { toggleStop } from '../../redux/modules/session';
 import {
   SearchFormWrapper,
   SearchFormOption,
@@ -13,11 +18,6 @@ import {
   SearchSubmitButton,
   ErrorMessageWrapper,
 } from '../styles/SearchForm.style';
-import { useLocation } from 'react-router-dom';
-import SearchButton from './SearchButton';
-import { useSelector, useDispatch } from 'react-redux';
-import uuid from 'uuid';
-import { toggleStop } from '../../redux/modules/session';
 
 function SearchForm() {
   const handleSubmit = useCallback(e => {
@@ -59,8 +59,8 @@ function SearchForm() {
         <SearchWrapper page={pathname}>
           <PlacesContainer />
           <SelectSeatDateBox page={pathname}>
-            <DatePickerContainer type="inbound" inMain={true} />
             <DatePickerContainer type="outbound" inMain={true} />
+            <DatePickerContainer type="inbound" inMain={true} />
             <CabinClassPassengerContainer />
           </SelectSeatDateBox>
         </SearchWrapper>

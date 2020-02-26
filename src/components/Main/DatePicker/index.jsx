@@ -36,7 +36,7 @@ function DatePicker({
     if (visible) return;
     if (
       tripType === 'oneway' &&
-      (type === 'outbound' || type === 'inline-outbound')
+      (type === 'inbound' || type === 'inline-inbound')
     )
       setRoundTrip();
     displayModal();
@@ -74,16 +74,16 @@ function DatePicker({
     }
   }, [selectedDate, inMain]);
 
+  const { pathname } = useLocation();
   const outsideRef = useRef(null);
   useOutsideRef(outsideRef, hideModal);
-  const { pathname } = useLocation();
 
   return (
     <DatePickerWrapper page={pathname} inMain={inMain} tripType={tripType}>
       {inMain ? (
         <DatePickerHeader direction="column" inMain={inMain} arrowTip={visible}>
           <ButtonLabel htmlFor={`date-button-${type}`}>
-            {type === 'inbound' ? '가는 날' : '오는 날'}
+            {type === 'outbound' ? '가는 날' : '오는 날'}
           </ButtonLabel>
           <DisplayDatePickerBtn
             id={`date-button-${type}`}
@@ -153,10 +153,10 @@ function DatePicker({
             type={type}
             tripType={tripType}
             selectedDate={selectedDate}
-            inboundDate={inboundDate}
             outboundDate={outboundDate}
-            setInboundDate={setInboundDate}
+            inboundDate={inboundDate}
             setOutboundDate={setOutboundDate}
+            setInboundDate={setInboundDate}
             closeModal={closeModal}
           />
           <ButtonBox>

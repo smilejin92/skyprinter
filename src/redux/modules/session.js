@@ -10,6 +10,7 @@ export const POLL_SESSION = 'skyprinter/session/POLL_SESSION';
 export const POLL_TEMP_RESULTS = 'skyprinter/session/POLL_TEMP_RESULTS';
 export const SET_TEMP_RESULTS = 'skyprinter/session/SET_TEMP_RESULTS';
 export const TOGGLE_STOP = 'skyprinter/session/TOGGLE_STOP';
+export const RESET_PROGRESS = 'skyprinter/session/RESET_PROGRESS';
 
 // ACTION CREATORS
 export const createSession = () => ({
@@ -69,7 +70,7 @@ export function* postSession() {
   const culture = yield select(state => state.culture);
   const { country, currency, locale } = culture;
   const dates = yield select(state => state.datepicker);
-  const { inboundDate, outboundDate } = dates;
+  const { outboundDate, inboundDate } = dates;
   const passengerInfo = yield select(state => state.passenger);
   const { adults, children, cabinClass } = passengerInfo;
 
@@ -79,10 +80,11 @@ export function* postSession() {
     locale,
     originPlace: inBoundId + '-sky',
     destinationPlace: outBoundId + '-sky',
-    outboundDate: convertDateToString(inboundDate),
-    inboundDate: convertDateToString(outboundDate),
+    outboundDate: convertDateToString(outboundDate),
     adults,
   };
+
+  if (inboundDate) params.inboundDate = convertDateToString(inboundDate);
 
   try {
     // 1. Session 생성
@@ -94,6 +96,8 @@ export function* postSession() {
     yield put(setSessionKey(sessionKey));
 
     // 2. UI용 데이터 가져와
+    yield put({ type: RESET_PROGRESS });
+    yield put({ type: SET_TEMP_RESULTS, tempResults: null });
     yield put({ type: POLL_TEMP_RESULTS, sessionKey });
 
     // 3. UpdateComplete까지 얘는 알아서 돈다
@@ -106,44 +110,6 @@ export function* postSession() {
         filterOption,
       );
       yield put(setPollResult(data));
-
-      const { Agents } = data;
-      const AllAgents = Agents.length;
-      const PendingAgents = Agents.filter(
-        Agent => Agent.Status === 'UpdatesComplete',
-      ).length;
-
-      const progressNum = (PendingAgents / AllAgents) * 100;
-      yield put({
-        type: SET_PROGRESS_RESULT,
-        progress: Math.floor(progressNum),
-      });
-
-      if (data.Status === 'UpdatesComplete') break;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export function* getSession() {
-  const sessionKey = yield select(state => state.session.sessionKey);
-  // console.log(sessionKey);
-
-  try {
-    const params = {
-      sortType: 'price',
-      sortOrder: 'asc',
-    };
-
-    while (true) {
-      const { data } = yield call(
-        SessionService.pollSession,
-        sessionKey,
-        params,
-      );
-      yield put(setPollResult(data));
-
       const { Agents } = data;
       const AllAgents = Agents.length;
       const PendingAgents = Agents.filter(
@@ -157,12 +123,12 @@ export function* getSession() {
       });
 
       if (data.Status === 'UpdatesComplete') {
-        console.log('UpdateComplete');
+        yield put(setPollResult(data));
         break;
       }
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 }
 
@@ -194,7 +160,7 @@ export function* getTempResults({ sessionKey }) {
 // ROOT SAGA
 export function* sessionSaga() {
   yield takeEvery(CREATE_SESSION, postSession);
-  yield takeEvery(POLL_SESSION, getSession);
+  // yield takeEvery(POLL_SESSION, getSession);
   yield takeEvery(POLL_TEMP_RESULTS, getTempResults);
 }
 
@@ -242,7 +208,53 @@ export default function session(state = initialState, action) {
         };
       }
 
+    case RESET_PROGRESS:
+      return {
+        ...state,
+        progress: 0,
+      };
+
     default:
       return state;
   }
 }
+
+// export function* getSession() {
+//   const sessionKey = yield select(state => state.session.sessionKey);
+//   // console.log(sessionKey);
+
+//   try {
+//     const params = {
+//       sortType: 'price',
+//       sortOrder: 'asc',
+//     };
+
+//     while (true) {
+//       const { data } = yield call(
+//         SessionService.pollSession,
+//         sessionKey,
+//         params,
+//       );
+//       yield put(setPollResult(data));
+
+//       const { Agents } = data;
+//       const AllAgents = Agents.length;
+//       const PendingAgents = Agents.filter(
+//         Agent => Agent.Status === 'UpdatesComplete',
+//       ).length;
+
+//       const progressNum = (PendingAgents / AllAgents) * 100;
+//       yield put({
+//         type: SET_PROGRESS_RESULT,
+//         progress: Math.floor(progressNum),
+//       });
+
+//       if (data.Status === 'UpdatesComplete') {
+//         console.log('UpdateComplete');
+//         break;
+//       }
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }

@@ -86,13 +86,15 @@ function TicketInfoDetail({
           <TicketWrapper>
             <TicketInfos>
               <div className="carrier">
-                {getAirlineLogo(ticket.OutboundLeg)}
-                {getOperatingAirline(ticket.OutboundLeg)}
+                {getAirlineLogo(ticket.OutboundLeg, data)}
+                {getOperatingAirline(ticket.OutboundLeg, data)}
               </div>
 
               <div className="departTime">
                 <p>{formatDateString(ticket.OutboundLeg.Departure)}</p>
-                <span>{getPlaceCode(ticket.OutboundLeg.OriginStation)}</span>
+                <span>
+                  {getPlaceCode(ticket.OutboundLeg.OriginStation, data)}
+                </span>
               </div>
               <div className="totalHour">
                 <p>{formatDuration(ticket.OutboundLeg.Duration)}</p>
@@ -116,7 +118,7 @@ function TicketInfoDetail({
                     <span className="direct">직항</span>
                   )}
                   {ticket.OutboundLeg.Stops.length > 0 &&
-                    getStopsList(ticket.OutboundLeg)}
+                    getStopsList(ticket.OutboundLeg, data)}
                 </p>
               </div>
               <div className="arriveTime">
@@ -127,21 +129,21 @@ function TicketInfoDetail({
                   )}
                 </p>
                 <PlaceCode same={isSamePlace(ticket)}>
-                  {getPlaceCode(ticket.OutboundLeg.DestinationStation)}
+                  {getPlaceCode(ticket.OutboundLeg.DestinationStation, data)}
                 </PlaceCode>
               </div>
             </TicketInfos>
             {ticket.InboundLeg && (
               <TicketInfos>
                 <div className="carrier">
-                  {getAirlineLogo(ticket.InboundLeg)}
-                  {getOperatingAirline(ticket.InboundLeg, 'inbound')}
+                  {getAirlineLogo(ticket.InboundLeg, data)}
+                  {getOperatingAirline(ticket.InboundLeg, data, 'inbound')}
                 </div>
 
                 <div className="departTime">
                   <p>{formatDateString(ticket.InboundLeg.Departure)}</p>
                   <PlaceCode same={isSamePlace(ticket)}>
-                    {getPlaceCode(ticket.InboundLeg.OriginStation)}
+                    {getPlaceCode(ticket.InboundLeg.OriginStation, data)}
                   </PlaceCode>
                 </div>
 
@@ -167,7 +169,7 @@ function TicketInfoDetail({
                       <span className="direct">직항</span>
                     )}
                     {ticket.InboundLeg.Stops.length > 0 &&
-                      getStopsList(ticket.InboundLeg)}
+                      getStopsList(ticket.InboundLeg, data)}
                   </p>
                 </div>
 
@@ -179,7 +181,7 @@ function TicketInfoDetail({
                     )}
                   </p>
                   <span>
-                    {getPlaceCode(ticket.InboundLeg.DestinationStation)}
+                    {getPlaceCode(ticket.InboundLeg.DestinationStation, data)}
                   </span>
                 </div>
               </TicketInfos>

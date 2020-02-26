@@ -1,11 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setError, clearError } from '../../redux/modules/error';
-import {
-  createSession,
-  pollSession,
-  pollTempResult,
-} from '../../redux/modules/session';
+import { createSession } from '../../redux/modules/session';
 import { push } from 'connected-react-router';
 
 const SearchButton = ({ children, allInfo, createSession, setError }) => {
@@ -110,8 +106,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(
       push(
         `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${convertDateToString(
-          allInfo.datepicker.inboundDate,
-        )}/${convertDateToString(allInfo.datepicker.outboundDate)}`,
+          allInfo.datepicker.outboundDate,
+        )}${allInfo.datepicker.outboundDate &&
+          `/${convertDateToString(allInfo.datepicker.outboundDate)}`}`,
       ),
     );
     dispatch(createSession());
