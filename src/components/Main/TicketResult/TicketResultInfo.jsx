@@ -256,6 +256,7 @@ const PriceAlarm = styled.button`
   vertical-align: middle;
   font-size: 1.9rem;
   font-weight: 700;
+  background: #fff;
   svg {
     transform: translateY(2px);
     margin-right: 5px;

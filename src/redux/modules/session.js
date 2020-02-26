@@ -50,6 +50,7 @@ export function* postSession() {
     inboundDate: convertDateToString(outboundDate),
     adults,
   };
+
   try {
     const { headers } = yield call(SessionService.createSession, params);
     const locationToArr = headers.location.split('/');
