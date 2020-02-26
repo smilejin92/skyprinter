@@ -24,7 +24,7 @@ export const setSessionKey = sessionKey => ({
 
 export const setPollResult = data => ({
   type: SET_POLL_RESULT,
-  pollResults: data,
+  pollResult: data,
 });
 
 export const pollSession = () => ({
@@ -45,7 +45,7 @@ export const toggleStop = () => ({
 // INITIAL STATE
 const initialState = {
   sessionKey: null,
-  pollResults: null,
+  pollResult: null,
   tempResults: null,
   progress: 0,
   filterOption: {
@@ -88,13 +88,13 @@ export function* postSession() {
 
   try {
     // 1. Session 생성
-    const { headers } = yield call(SessionService.createSession, params);
-    const locationToArr = headers.location.split('/');
-    const sessionKey = locationToArr[locationToArr.length - 1];
+    // const { headers } = yield call(SessionService.createSession, params);
+    // const locationToArr = headers.location.split('/');
+    // const sessionKey = locationToArr[locationToArr.length - 1];
 
     // 0. 더미용 Session
-    // const sessionKey = '9b567b31-d4e4-4fcf-9057-6d182704bb4d';
-    console.log(sessionKey);
+    const sessionKey = '06dadbf7-3180-4848-b1eb-627d6c060588';
+    // console.log('세션키 : ', sessionKey);
 
     yield put(setSessionKey(sessionKey));
 
@@ -125,10 +125,7 @@ export function* postSession() {
         progress: Math.floor(progressNum),
       });
 
-      if (data.Status === 'UpdatesComplete') {
-        yield put(setPollResult(data));
-        break;
-      }
+      if (data.Status === 'UpdatesComplete') break;
     }
   } catch (error) {
     console.log(error);
@@ -177,7 +174,7 @@ export default function session(state = initialState, action) {
     case SET_POLL_RESULT:
       return {
         ...state,
-        pollResults: action.pollResults,
+        pollResult: action.pollResult,
       };
 
     case SET_PROGRESS_RESULT:
