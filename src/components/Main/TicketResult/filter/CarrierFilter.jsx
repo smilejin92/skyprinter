@@ -14,28 +14,109 @@ import {
 } from '../../../styles/Filter.style';
 import uuid from 'uuid';
 
-const getCarriers = Agents => {
-  // 1번 airline인 타입 분류
-  const Airlines = Agents.filter(agent => agent.Type === 'Airline');
-  const names = Airlines.map(airline => ({
-    id: airline.Id,
-    checked: true,
-    name: airline.Name,
-  })).sort((a, b) => {
-    return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
-  });
+const getCarriers = ({ Carriers, Itineraries, Legs, Segments }) => {
+  const CarrierList = [];
+  for (let i = 0; i < Itineraries.length; i++) {
+    CarrierList.push(ticketLists(Itineraries[i]));
+  }
 
-  const getUniqueObjectArray = array => {
+  function getUniqueObjectArray(array) {
     return array.filter((item, i) => {
       return (
         array.findIndex((item2, j) => {
-          return item.name === item2.name;
+          return item.CarrierId === item2.CarrierId;
         }) === i
       );
     });
-  };
+  }
 
-  return getUniqueObjectArray(names);
+  function predicate(key, value) {
+    // key와 value를 기억하는 클로저를 반환
+    return item => item[key] === value;
+  }
+
+  function ticketLists(itinerary) {
+    const carrierPriceList = [];
+    const { PricingOptions, OutboundLegId, InboundLegId } = itinerary;
+    // data.Itineraries[n].PricingOptions, data.Itineraries[n].OutboundLegId, data.Itineraries[n].InboundLegId
+
+    // get Outbound Leg
+    let OutboundLeg;
+    Legs.forEach(leg => {
+      if (leg.Directionality === 'Outbound' && leg.Id === OutboundLegId) {
+        OutboundLeg = { ...leg };
+      }
+    });
+
+    // get Outbound segments
+    const OutboundSegments = [];
+    OutboundLeg.SegmentIds.forEach(id => {
+      OutboundSegments.push({ ...Segments[id] });
+    });
+
+    OutboundLeg.Segments = OutboundSegments;
+
+    const ticket = {
+      PricingOptions,
+      OutboundLeg,
+    };
+
+    // get Inbound Leg (왕복이라면)
+    if (InboundLegId) {
+      let InboundLeg;
+      Legs.forEach(leg => {
+        if (leg.Directionality === 'Inbound' && leg.Id === InboundLegId) {
+          InboundLeg = { ...leg };
+        }
+      });
+
+      const InboundSegments = [];
+      InboundLeg.SegmentIds.forEach(id => {
+        InboundSegments.push({ ...Segments[id] });
+      });
+      InboundLeg.Segments = InboundSegments;
+
+      ticket.InboundLeg = InboundLeg;
+
+      if (ticket.InboundLeg.Carriers[0] === ticket.OutboundLeg.Carriers[0]) {
+        carrierPriceList.push({
+          Price: ticket.PricingOptions[0].Price,
+          CarrierId: ticket.OutboundLeg.Carriers[0],
+        });
+        return carrierPriceList[0];
+      }
+    }
+    carrierPriceList.push({
+      Price: ticket.PricingOptions[0].Price,
+      CarrierId: ticket.OutboundLeg.Carriers[0],
+    });
+    return carrierPriceList[0];
+  }
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  const _carriers = getUniqueObjectArray(CarrierList);
+
+  const carriers = Carriers.map(Carrier => ({
+    id: Carrier.Id,
+    code: Carrier.Code,
+    name: Carrier.Name,
+    price:
+      _carriers.findIndex(predicate('CarrierId', Carrier.Id)) !== -1 &&
+      numberWithCommas(
+        _carriers[_carriers.findIndex(predicate('CarrierId', Carrier.Id))]
+          .Price,
+      ),
+    checked: true,
+  }))
+    .sort((a, b) => {
+      return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+    })
+    .filter(carrier => carrier.price !== false);
+
+  return carriers;
 };
 
 const CarrierFilter = ({ session }) => {
@@ -43,9 +124,9 @@ const CarrierFilter = ({ session }) => {
   const [carrierLists, setCarrierLists] = useState([]);
 
   useEffect(() => {
-    // setAirportLists(session.pollResults.)
-    setCarrierLists(() => getCarriers(session.pollResults.Agents));
-  }, [session.pollResults.Agents]);
+    // setAirportLists(session.pollResult)
+    setCarrierLists(() => getCarriers(session.pollResult));
+  }, [session.pollResult]);
 
   const onChange = id => {
     setCarrierLists(
@@ -75,6 +156,7 @@ const CarrierFilter = ({ session }) => {
 
   return (
     <FilterWrapperDl>
+      {console.log('55', carrierLists)}
       <div>
         <dt>
           <FilterWrapperButton drop={drop} onClick={switchDrop}>
@@ -117,8 +199,7 @@ const CarrierFilter = ({ session }) => {
                 >
                   {carrierList.name}
                 </StyleCheckBox>
-                <OptionContent> ₩117,209 </OptionContent>
-                {/* <OptionContent> {carrierList.price} </OptionContent> */}
+                <OptionContent> {`₩ ${carrierList.price}`} </OptionContent>
               </OptionHeader>
             ))}
           </FilterDropDiv>
@@ -129,7 +210,7 @@ const CarrierFilter = ({ session }) => {
 };
 
 const mapStateToProps = state => ({
-  session: state.session,
+  session: state.allResult,
 });
 
 const mapDispatchToProps = dispatch => ({});

@@ -647,7 +647,7 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
         </SearchSummary>
         {visible && <SearchForm />}
       </SearchArea>
-      {session.pollResults && session.pollResults.Itineraries.length !== 0 ? (
+      {session.pollResult && session.pollResult.Itineraries.length !== 0 ? (
         <div>
           <AddOns>
             <CalenderAndChart>
@@ -689,8 +689,8 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
             <TicketResultSection>
               <ResultAndArrangeStandard>
                 <div>
-                  {session.pollResults &&
-                    session.pollResults.Status !== 'UpdatesComplete' && (
+                  {session.pollResult &&
+                    session.pollResult.Status !== 'UpdatesComplete' && (
                       <Spinner />
                     )}
                   <span>{123}결과</span>
@@ -706,8 +706,8 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
                 </SelectArrageStandard>
               </ResultAndArrangeStandard>
               {/* 프로그레스바 */}
-              {session.pollResults &&
-                session.pollResults.Status !== 'UpdatesComplete' && (
+              {session.pollResult &&
+                session.pollResult.Status !== 'UpdatesComplete' && (
                   <ProgressDiv>
                     <Progress percent={session.progress} showInfo={false} />
                   </ProgressDiv>
@@ -732,10 +732,10 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
                 ))}
               </ArrangeFilterButtonWapper>
               {session.tempResults &&
-              session.pollResults &&
+              session.pollResult &&
               session.progress < 100
                 ? getResults(session.tempResults)
-                : getResults(session.pollResults)}
+                : getResults(session.pollResult)}
               <MoreResultButton>더 많은 결과 표시</MoreResultButton>
               <LuggageMoreDetail>
                 <p>
