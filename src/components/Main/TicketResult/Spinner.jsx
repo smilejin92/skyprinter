@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Spin = styled.div`
   display: inline-block;
-  margin-right: 5px;
+  margin-right: 0.8rem;
   svg {
     position: relative;
     -webkit-animation: load 0.7s infinite linear;
@@ -34,7 +34,7 @@ const Spin = styled.div`
   }
 `;
 
-const Spinner = ({ white }) => {
+const Spinner = () => {
   return (
     <>
       <Spin>

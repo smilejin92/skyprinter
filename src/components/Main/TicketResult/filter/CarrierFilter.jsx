@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import {
   FilterWrapperButton,
   FilterWrapperDl,
@@ -13,13 +14,38 @@ import {
 } from '../../../styles/Filter.style';
 import uuid from 'uuid';
 
-const CarrierFilter = props => {
+const getCarriers = Agents => {
+  // 1번 airline인 타입 분류
+  const Airlines = Agents.filter(agent => agent.Type === 'Airline');
+  const names = Airlines.map(airline => ({
+    id: airline.Id,
+    checked: true,
+    name: airline.Name,
+  })).sort((a, b) => {
+    return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+  });
+
+  const getUniqueObjectArray = array => {
+    return array.filter((item, i) => {
+      return (
+        array.findIndex((item2, j) => {
+          return item.name === item2.name;
+        }) === i
+      );
+    });
+  };
+
+  return getUniqueObjectArray(names);
+};
+
+const CarrierFilter = ({ session }) => {
   const [drop, setDrop] = useState(true);
-  const [carrierLists, setCarrierLists] = useState([
-    { id: '대한항공 (KAL)', checked: true, price: '₩ 117,780' },
-    { id: '아시아나', checked: true, price: '₩ 117,780' },
-    { id: '이스타항공', checked: true, price: '₩ 117,780' },
-  ]);
+  const [carrierLists, setCarrierLists] = useState([]);
+
+  useEffect(() => {
+    // setAirportLists(session.pollResults.)
+    setCarrierLists(() => getCarriers(session.pollResults.Agents));
+  }, [session.pollResults.Agents]);
 
   const onChange = id => {
     setCarrierLists(
@@ -89,9 +115,10 @@ const CarrierFilter = props => {
                   onChange={() => onChange(carrierList.id)}
                   checked={carrierList.checked}
                 >
-                  {carrierList.id}
+                  {carrierList.name}
                 </StyleCheckBox>
-                <OptionContent> {carrierList.price} </OptionContent>
+                <OptionContent> ₩117,209 </OptionContent>
+                {/* <OptionContent> {carrierList.price} </OptionContent> */}
               </OptionHeader>
             ))}
           </FilterDropDiv>
@@ -101,4 +128,10 @@ const CarrierFilter = props => {
   );
 };
 
-export default CarrierFilter;
+const mapStateToProps = state => ({
+  session: state.session,
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CarrierFilter);
