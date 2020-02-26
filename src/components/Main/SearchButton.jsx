@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setError, clearError } from '../../redux/modules/error';
-import { createSession } from '../../redux/modules/session';
+import {
+  createSession,
+  pollSession,
+  pollTempResult,
+} from '../../redux/modules/session';
 import { push } from 'connected-react-router';
 
 const SearchButton = ({ children, allInfo, createSession, setError }) => {
@@ -89,19 +93,30 @@ const mapStateToProps = state => ({
   },
 });
 
+const convertDateToString = date => {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const _date = date.getDate();
+  return `${year}-${Math.floor(month / 10) === 0 ? `0${month}` : month}-${
+    Math.floor(_date / 10) === 0 ? `0${_date}` : _date
+  }`;
+};
+
 const mapDispatchToProps = dispatch => ({
   createSession: allInfo => {
     console.log('세션생성');
-    dispatch(createSession());
     dispatch(clearError());
     // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{inboundDate}/{outboundDate}/?query
     dispatch(
       push(
-        `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${
-          allInfo.datepicker.inboundDate
-        }/${allInfo.datepicker.outboundDate}`,
+        `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${convertDateToString(
+          allInfo.datepicker.inboundDate,
+        )}/${convertDateToString(allInfo.datepicker.outboundDate)}`,
       ),
     );
+    dispatch(createSession());
+    // dispatch(pollSession());
+    // dispatch(pollTempResult());
   },
   setError: errors => {
     console.log('에러');
