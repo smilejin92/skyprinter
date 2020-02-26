@@ -13,6 +13,7 @@ import DurationFilter from './filter/DurationFilter';
 import CarrierFilter from './filter/CarrierFilter';
 import AirportFilter from './filter/AirportFilter';
 import earth from '../../../images/earth.gif';
+import duck from '../../../images/duck.gif';
 import { FlexWrapper } from '../../styles';
 import { HiddenHeader } from '../../styles';
 
@@ -133,6 +134,39 @@ const TicketResultSection = styled.section`
   width: 72%;
   margin-left: 1.5rem;
   position: relative;
+
+  ${({ filterLoader }) =>
+    filterLoader &&
+    css`
+      &::after {
+        content: '업데이트 중';
+        padding-top: 15rem;
+        text-align: center;
+        position: absolute;
+        font-weight: 900;
+        text-shadow: 0 0 10px #000;
+        color: #fff;
+        font-size: 4rem;
+        width: 100%;
+        height: 100%;
+        z-index: 99;
+        background-color: rgba(33, 33, 33, 0.2);
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 20rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50%;
+        height: 20%;
+        z-index: 100;
+        background-image: url(${duck});
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
+    `}
 `;
 
 const ResultAndArrangeStandard = styled(FlexWrapper)`
@@ -667,7 +701,7 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
               <CarrierFilter />
               <AirportFilter />
             </TicketFilterSection>
-            <TicketResultSection>
+            <TicketResultSection filterLoader={session.filterLoader}>
               <ResultAndArrangeStandard>
                 <div>
                   {session.pollResult && session.progress < 100 && <Spinner />}

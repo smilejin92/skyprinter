@@ -1,4 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  setFilterOption,
+  pollSession,
+  toggleFliterLoader,
+} from '../../../../redux/modules/session';
+import { connect } from 'react-redux';
 import {
   FilterWrapperButton,
   FilterWrapperDl,
@@ -10,22 +16,159 @@ import {
 } from '../../../styles/Filter.style';
 import uuid from 'uuid';
 
-const StopFilter = props => {
+const StopFilter = React.memo(({ session, setFilter }) => {
   const [drop, setDrop] = useState(true);
-  const [stopLists, setStopLists] = useState([
-    { id: '직항', checked: true, price: '₩ 117,780' },
-    { id: '1회 경유', checked: true, price: '₩ 117,780' },
-    { id: '2번 이상 경유', checked: true, price: '₩ 117,780' },
-  ]);
+  const [stopLists, setStopLists] = useState([]);
 
-  const onChange = id => {
-    setStopLists(
-      stopLists.map(stopList =>
-        stopList.id === id
-          ? { ...stopList, checked: !stopList.checked }
-          : stopList,
-      ),
-    );
+  const getStops = useCallback(
+    ({ Itineraries, Legs, Segments }) => {
+      const DirectStopList = [];
+      const OneOverStopList = [];
+      for (let i = 0; i < Itineraries.length; i++) {
+        ticketLists(Itineraries[i]);
+        if (DirectStopList.length && OneOverStopList.length) break;
+      }
+
+      function ticketLists(itinerary) {
+        const { PricingOptions, OutboundLegId, InboundLegId } = itinerary;
+        // data.Itineraries[n].PricingOptions, data.Itineraries[n].OutboundLegId, data.Itineraries[n].InboundLegId
+
+        // get Outbound Leg
+        let OutboundLeg;
+        Legs.forEach(leg => {
+          if (leg.Directionality === 'Outbound' && leg.Id === OutboundLegId) {
+            OutboundLeg = { ...leg };
+          }
+        });
+
+        // get Outbound segments
+        const OutboundSegments = [];
+        OutboundLeg.SegmentIds.forEach(id => {
+          OutboundSegments.push({ ...Segments[id] });
+        });
+
+        OutboundLeg.Segments = OutboundSegments;
+
+        const ticket = {
+          PricingOptions,
+          OutboundLeg,
+        };
+
+        // get Inbound Leg (왕복이라면)
+        if (InboundLegId) {
+          let InboundLeg;
+          Legs.forEach(leg => {
+            if (leg.Directionality === 'Inbound' && leg.Id === InboundLegId) {
+              InboundLeg = { ...leg };
+            }
+          });
+
+          const InboundSegments = [];
+          InboundLeg.SegmentIds.forEach(id => {
+            InboundSegments.push({ ...Segments[id] });
+          });
+          InboundLeg.Segments = InboundSegments;
+
+          ticket.InboundLeg = InboundLeg;
+
+          if (
+            ticket.OutboundLeg.Stops.length === ticket.InboundLeg.Stops.length
+          ) {
+            if (ticket.OutboundLeg.Stops.length === 0) {
+              if (DirectStopList.length === 0) DirectStopList.push(ticket);
+            }
+            if (ticket.OutboundLeg.Stops.length >= 1) {
+              if (OneOverStopList.length === 0) OneOverStopList.push(ticket);
+            }
+          }
+        } else {
+          if (ticket.OutboundLeg.Stops.length === 0) {
+            if (DirectStopList.length === 0) DirectStopList.push(ticket);
+          }
+          if (ticket.OutboundLeg.Stops.length >= 1) {
+            if (OneOverStopList.length === 0) OneOverStopList.push(ticket);
+          }
+        }
+      }
+
+      function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
+
+      function allStopPrice() {
+        if (DirectStopList.length > 0 && OneOverStopList.length > 0) {
+          const OneOverPrice = OneOverStopList[0].PricingOptions[0].Price;
+          const DirectPrice = DirectStopList[0].PricingOptions[0].Price;
+          return OneOverPrice < DirectPrice
+            ? `₩ ${numberWithCommas(Math.floor(OneOverPrice))}`
+            : `₩ ${numberWithCommas(Math.floor(DirectPrice))}`;
+        }
+        if (DirectStopList.length > 0 && OneOverStopList.length === 0) {
+          const DirectPrice = DirectStopList[0].PricingOptions[0].Price;
+          return `₩ ${numberWithCommas(Math.floor(DirectPrice))}`;
+        }
+        if (DirectStopList.length === 0 && OneOverStopList.length > 0) {
+          const OneOverPrice = OneOverStopList[0].PricingOptions[0].Price;
+          return `₩ ${numberWithCommas(Math.floor(OneOverPrice))}`;
+        }
+
+        return '없음';
+      }
+
+      const stops = [
+        {
+          id: '직항',
+          checked: session.filterOption.stops === 0 ? true : false,
+          price:
+            DirectStopList.length >= 1
+              ? `₩ ${numberWithCommas(
+                  Math.floor(DirectStopList[0].PricingOptions[0].Price),
+                )}`
+              : '없음',
+          disabled: DirectStopList.length === 0 ? true : false,
+        },
+        {
+          id: '1회 경유',
+          checked: session.filterOption.stops === 1 ? true : false,
+          price:
+            OneOverStopList.length >= 1
+              ? `₩ ${numberWithCommas(
+                  Math.floor(OneOverStopList[0].PricingOptions[0].Price),
+                )}`
+              : '없음',
+          disabled: OneOverStopList.length === 0 ? true : false,
+        },
+        {
+          id: '모두',
+          checked: session.filterOption.stops === undefined ? true : false,
+          price: allStopPrice(),
+          disabled: false,
+        },
+      ];
+
+      return stops;
+    },
+    [session.filterOption.stops],
+  );
+
+  useEffect(() => {
+    setStopLists(getStops(session.allResult));
+  }, [getStops, session.allResult]);
+
+  const onChange = stopList => {
+    console.log(stopList);
+    if (stopList.id === '직항') {
+      setFilter({ ...session.filterOption, stops: 0 });
+    }
+
+    if (stopList.id === '1회 경유') {
+      setFilter({ ...session.filterOption, stops: 1 });
+    }
+
+    if (stopList.id === '모두') {
+      const { stops, ...filterOption } = session.filterOption;
+      setFilter({ ...filterOption });
+    }
   };
 
   const switchDrop = () => {
@@ -34,6 +177,8 @@ const StopFilter = props => {
 
   return (
     <FilterWrapperDl>
+      {console.log('현재상태 : ', stopLists)}
+      {console.log('필터상태 : ', session.filterOption)}
       <div>
         <dt>
           <FilterWrapperButton drop={drop} onClick={switchDrop}>
@@ -46,14 +191,17 @@ const StopFilter = props => {
         <FilterWrapperDd>
           <FilterDropDiv drop={drop}>
             {stopLists.map(stopList => (
-              <OptionHeader key={uuid.v4()}>
+              <OptionHeader key={uuid.v4()} zero={stopList.disabled}>
                 <StyleCheckBox
-                  onChange={() => onChange(stopList.id)}
+                  onChange={() => onChange(stopList)}
                   checked={stopList.checked}
+                  disabled={stopList.disabled ? true : false}
                 >
                   {stopList.id}
                 </StyleCheckBox>
-                <OptionContent> {stopList.price} </OptionContent>
+                <OptionContent zero={stopList.disabled}>
+                  {stopList.price}
+                </OptionContent>
               </OptionHeader>
             ))}
           </FilterDropDiv>
@@ -61,6 +209,19 @@ const StopFilter = props => {
       </div>
     </FilterWrapperDl>
   );
-};
+});
 
-export default StopFilter;
+const mapStateToProps = state => ({
+  session: state.session,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setFilter: filterOption => {
+    dispatch(setFilterOption(filterOption));
+    // dispatch(toggleFliterLoader()); // true
+    dispatch(pollSession(true));
+    // dispatch(toggleFliterLoader()); // false
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(StopFilter);
