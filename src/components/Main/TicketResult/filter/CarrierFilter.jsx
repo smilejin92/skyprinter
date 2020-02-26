@@ -161,7 +161,6 @@ const CarrierFilter = ({ session }) => {
 
   return (
     <FilterWrapperDl>
-      {console.log('55', carrierLists)}
       <div>
         <dt>
           <FilterWrapperButton drop={drop} onClick={switchDrop}>
