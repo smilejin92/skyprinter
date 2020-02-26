@@ -20,7 +20,7 @@ const mapStateToProps = (state, ownProps) => {
   } = state.display;
 
   if (type === 'outbound') visible = outboundDatePicker;
-  if (type === 'inbound') visible = inboundDatePicker;
+  else if (type === 'inbound') visible = inboundDatePicker;
   else if (type === 'inline-outbound') visible = inlineOutboundDatePicker;
   else visible = inlineInboundDatePicker;
 

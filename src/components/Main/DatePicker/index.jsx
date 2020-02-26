@@ -37,8 +37,9 @@ function DatePicker({
     if (
       tripType === 'oneway' &&
       (type === 'inbound' || type === 'inline-inbound')
-    )
+    ) {
       setRoundTrip();
+    }
     displayModal();
   }, [displayModal, setRoundTrip, tripType, visible, type]);
 

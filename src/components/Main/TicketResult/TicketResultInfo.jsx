@@ -493,7 +493,7 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
     (placeId, data) => {
       // placeId => {
       const [targetPlace] = data.Places.filter(p => p.Id === placeId);
-      return getPlaceCode(targetPlace.ParentId);
+      return getPlaceCode(targetPlace.ParentId, data);
     },
     // [session.tempResults, getPlaceCode],
     [getPlaceCode],
@@ -634,9 +634,9 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
               {/* 서울 - 도쿄 */}
             </SearchTitle>
             <SearchDatePickerGroup tripType={tripType}>
-              <DatePickerContainer type="inline-inbound" inMain={false} />
+              <DatePickerContainer type="inline-outbound" inMain={false} />
               {tripType === 'round' && (
-                <DatePickerContainer type="inline-outbound" inMain={false} />
+                <DatePickerContainer type="inline-inbound" inMain={false} />
               )}
             </SearchDatePickerGroup>
           </SearchHeaderWrapper>

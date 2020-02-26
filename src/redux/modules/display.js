@@ -25,14 +25,12 @@ export default function display(state = initialState, action) {
 
       return {
         onScreen: true,
-        culture: modal === 'culture' ? true : false,
-        passengerInfo: modal === 'passengerInfo' ? true : false,
-        outboundDatePicker: modal === 'outboundDatePicker' ? true : false,
-        inboundDatePicker: modal === 'inboundDatePicker' ? true : false,
-        inlineOutboundDatePicker:
-          modal === 'inline-outboundDatePicker' ? true : false,
-        inlineInboundDatePicker:
-          modal === 'inline-inboundDatePicker' ? true : false,
+        culture: modal === 'culture',
+        passengerInfo: modal === 'passengerInfo',
+        outboundDatePicker: modal === 'outboundDatePicker',
+        inboundDatePicker: modal === 'inboundDatePicker',
+        inlineOutboundDatePicker: modal === 'inline-outboundDatePicker',
+        inlineInboundDatePicker: modal === 'inline-inboundDatePicker',
       };
 
     case HIDE_MODAL:
