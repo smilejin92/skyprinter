@@ -68,19 +68,18 @@ export const OptionHeader = styled.div`
   &:hover {
     label,
     span {
-      color: #0770e3;
+      color: ${props => (props.zero ? 'rgba(0, 0, 0, 0.25)' : '#0770e3')};
     }
   }
 `;
 
 export const OptionContent = styled.span`
-  color: #68697f;
   display: block;
   margin-left: 3rem;
   letter-spacing: -0.1rem;
-
+  color: ${props => (props.zero ? 'rgba(0, 0, 0, 0.25)' : '#68697f')};
   &:hover {
-    color: #0770e3;
+    color: ${props => (props.zero ? 'rgba(0, 0, 0, 0.25)' : '#0770e3')};
   }
 `;
 
@@ -100,7 +99,7 @@ export const StyleCheckBox = styled(Checkbox)`
     padding-left: 1.2rem;
 
     &:hover {
-      color: #0770e3;
+      ${props => (props.disabled ? 'rgba(0, 0, 0, 0.25)' : '#0770e3')};
     }
   }
 `;
