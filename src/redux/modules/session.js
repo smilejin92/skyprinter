@@ -11,8 +11,11 @@ export const SET_POLL_RESULT = 'skyprinter/session/SET_POLL_RESULT';
 export const SET_PROGRESS_RESULT = 'skyprinter/session/SET_PROGRESS_RESULT';
 export const POLL_SESSION = 'skyprinter/session/POLL_SESSION';
 export const TOGGLE_STOP = 'skyprinter/session/TOGGLE_STOP';
+export const SET_FILTER_OPTION = 'skyprinter/session/SET_FILTER_OPTION';
+export const SET_STOP_RESULT = 'skyprinter/session/SET_STOP_RESULT';
 export const RESET_RESULT = 'skyprinter/session/RESET_RESULT';
 export const SET_ALL_RESULT = 'skyprinter/session/SET_ALL_RESULT';
+export const TOGGLE_FILTER_LOADER = 'skyprinter/session/TOGGLE_FILTER_LOADER';
 export const SET_INFINITE_SCROLL = 'skyprinter/session/SET_INFINITE_SCROLL';
 export const SET_TICKET_INDEX = 'skyprinter/session/SET_TICKET_INDEX';
 export const SET_TICKETS = 'skyprinter/session/SET_TICKETS';
@@ -41,12 +44,18 @@ export const setPollResult = data => ({
   pollResult: data,
 });
 
-export const pollSession = () => ({
+export const pollSession = loader => ({
   type: POLL_SESSION,
+  loader: loader,
 });
 
 export const toggleStop = () => ({
   type: TOGGLE_STOP,
+});
+
+export const setFilterOption = filterOption => ({
+  type: SET_FILTER_OPTION,
+  filterOption,
 });
 
 export const resetResult = () => ({
@@ -56,6 +65,10 @@ export const resetResult = () => ({
 export const setAllResult = allResult => ({
   type: SET_ALL_RESULT,
   allResult,
+});
+
+export const toggleFliterLoader = () => ({
+  type: TOGGLE_FILTER_LOADER,
 });
 
 export const setInfiniteScroll = () => ({
@@ -310,7 +323,7 @@ export function* postSession({ allInfo }) {
     // 1. 초기화
     yield put(resetResult());
 
-    // 2 세션 생성
+    // 2. 세션 생성
     const { headers } = yield call(SessionService.createSession, params);
     const locationToArr = headers.location.split('/');
     const sessionKey = locationToArr[locationToArr.length - 1];
@@ -339,14 +352,15 @@ export function* postSession({ allInfo }) {
         progress: Math.floor(progressNum),
       });
 
-      // 4. 매초 표시할 티켓 갱신
+      // 4. 세션 로딩 80% 완료시 표시할 티켓 생성. 최초 1회만
+      yield put(setAllResult(data));
       yield put(setPollResult(data));
       yield put({ type: SET_TICKETS });
 
       // 4. 세션 로딩이 complete되면 원본을 allResult에 저장한 뒤
       // 5. UI에 표시할 티켓을 가장 최근 적용된 필터로 poll해온다.
       if (data.Status === 'UpdatesComplete') {
-        yield put(setAllResult(data));
+        // yield put(setAllResult(data));
         yield put({ type: POLL_SESSION });
         break;
       }
@@ -357,7 +371,8 @@ export function* postSession({ allInfo }) {
   }
 }
 
-export function* getSession() {
+export function* getSession(action) {
+  if (action.loader) yield put(toggleFliterLoader());
   const sessionKey = yield select(({ session }) => session.sessionKey);
   const filterOption = yield select(({ session }) => session.filterOption);
   try {
@@ -366,6 +381,7 @@ export function* getSession() {
       sessionKey,
       filterOption,
     );
+    if (action.loader) yield put(toggleFliterLoader());
     yield put(setPollResult(data));
   } catch (error) {
     console.error(error);
@@ -478,6 +494,12 @@ export default function session(state = initialState, action) {
         };
       }
 
+    case SET_FILTER_OPTION:
+      return {
+        ...state,
+        filterOption: action.filterOption,
+      };
+
     case SET_ALL_RESULT:
       return {
         ...state,
@@ -509,6 +531,12 @@ export default function session(state = initialState, action) {
       return {
         ...state,
         ticketEndIndex: action.ticketEndIndex,
+      };
+
+    case TOGGLE_FILTER_LOADER:
+      return {
+        ...state,
+        filterLoader: !state.filterLoader,
       };
 
     default:
