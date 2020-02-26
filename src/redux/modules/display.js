@@ -11,10 +11,10 @@ const initialState = {
   onScreen: false,
   culture: false,
   passengerInfo: false,
-  inboundDatePicker: false,
   outboundDatePicker: false,
-  inlineInboundDatePicker: false,
+  inboundDatePicker: false,
   inlineOutboundDatePicker: false,
+  inlineInboundDatePicker: false,
 };
 
 // REDUCER
@@ -25,14 +25,12 @@ export default function display(state = initialState, action) {
 
       return {
         onScreen: true,
-        culture: modal === 'culture' ? true : false,
-        passengerInfo: modal === 'passengerInfo' ? true : false,
-        inboundDatePicker: modal === 'inboundDatePicker' ? true : false,
-        outboundDatePicker: modal === 'outboundDatePicker' ? true : false,
-        inlineInboundDatePicker:
-          modal === 'inline-inboundDatePicker' ? true : false,
-        inlineOutboundDatePicker:
-          modal === 'inline-outboundDatePicker' ? true : false,
+        culture: modal === 'culture',
+        passengerInfo: modal === 'passengerInfo',
+        outboundDatePicker: modal === 'outboundDatePicker',
+        inboundDatePicker: modal === 'inboundDatePicker',
+        inlineOutboundDatePicker: modal === 'inline-outboundDatePicker',
+        inlineInboundDatePicker: modal === 'inline-inboundDatePicker',
       };
 
     case HIDE_MODAL:
@@ -40,11 +38,12 @@ export default function display(state = initialState, action) {
         onScreen: false,
         culture: false,
         passengerInfo: false,
-        inboundDatePicker: false,
         outboundDatePicker: false,
-        inlineInboundDatePicker: false,
+        inboundDatePicker: false,
         inlineOutboundDatePicker: false,
+        inlineInboundDatePicker: false,
       };
+
     default:
       return state;
   }

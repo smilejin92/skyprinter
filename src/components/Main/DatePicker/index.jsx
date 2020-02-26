@@ -36,9 +36,10 @@ function DatePicker({
     if (visible) return;
     if (
       tripType === 'oneway' &&
-      (type === 'outbound' || type === 'inline-outbound')
-    )
+      (type === 'inbound' || type === 'inline-inbound')
+    ) {
       setRoundTrip();
+    }
     displayModal();
   }, [displayModal, setRoundTrip, tripType, visible, type]);
 
@@ -74,16 +75,16 @@ function DatePicker({
     }
   }, [selectedDate, inMain]);
 
+  const { pathname } = useLocation();
   const outsideRef = useRef(null);
   useOutsideRef(outsideRef, hideModal);
-  const { pathname } = useLocation();
 
   return (
     <DatePickerWrapper page={pathname} inMain={inMain} tripType={tripType}>
       {inMain ? (
         <DatePickerHeader direction="column" inMain={inMain} arrowTip={visible}>
           <ButtonLabel htmlFor={`date-button-${type}`}>
-            {type === 'inbound' ? '가는 날' : '오는 날'}
+            {type === 'outbound' ? '가는 날' : '오는 날'}
           </ButtonLabel>
           <DisplayDatePickerBtn
             id={`date-button-${type}`}
@@ -102,12 +103,7 @@ function DatePicker({
           inMain={inMain}
           arrowTip={visible}
         >
-          <button
-            onClick={() => {
-              console.log('실시간 항공 검색');
-            }}
-            style={{ width: '3rem', lineHeight: '1rem' }}
-          >
+          <button style={{ width: '3rem', lineHeight: '1rem' }}>
             <svg style={{ fill: 'white' }} viewBox="0 0 24 24">
               <path d="M13.7 19.7L6.6 12l7.1-7.7c.6-.6 1.7-.2 1.7.7v14c0 .9-1.1 1.4-1.7.7z"></path>
             </svg>
@@ -115,12 +111,7 @@ function DatePicker({
           <button onClick={() => displayModal()}>
             <span style={{ color: 'white' }}>{convertDateToString}</span>
           </button>
-          <button
-            onClick={() => {
-              console.log('실시간 항공 검색');
-            }}
-            style={{ width: '3rem', lineHeight: '1rem' }}
-          >
+          <button style={{ width: '3rem', lineHeight: '1rem' }}>
             <svg style={{ fill: 'white' }} viewBox="0 0 24 24">
               <path d="M9.9 19.7L17 12 9.9 4.4c-.7-.7-1.7-.2-1.7.7v14c0 .8 1 1.3 1.7.6z"></path>
             </svg>
@@ -153,10 +144,10 @@ function DatePicker({
             type={type}
             tripType={tripType}
             selectedDate={selectedDate}
-            inboundDate={inboundDate}
             outboundDate={outboundDate}
-            setInboundDate={setInboundDate}
+            inboundDate={inboundDate}
             setOutboundDate={setOutboundDate}
+            setInboundDate={setInboundDate}
             closeModal={closeModal}
           />
           <ButtonBox>

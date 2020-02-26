@@ -1,11 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setError, clearError } from '../../redux/modules/error';
-import {
-  createSession,
-  pollSession,
-  pollTempResult,
-} from '../../redux/modules/session';
+import { createSession } from '../../redux/modules/session';
 import { push } from 'connected-react-router';
 
 const SearchButton = ({ children, allInfo, createSession, setError }) => {
@@ -81,18 +77,6 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
   return <button onClick={create}>{children}</button>;
 };
 
-const mapStateToProps = state => ({
-  allInfo: {
-    locale: state.culture.locale,
-    country: state.culture.country,
-    currency: state.culture.currency,
-    places: state.places,
-    culture: state.culture,
-    passenger: state.passenger,
-    datepicker: state.datepicker,
-  },
-});
-
 const convertDateToString = date => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
@@ -102,24 +86,30 @@ const convertDateToString = date => {
   }`;
 };
 
+const mapStateToProps = state => ({
+  allInfo: {
+    culture: state.culture,
+    places: state.places,
+    passenger: state.passenger,
+    datepicker: state.datepicker,
+  },
+});
+
 const mapDispatchToProps = dispatch => ({
   createSession: allInfo => {
-    console.log('세션생성');
     dispatch(clearError());
-    // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{inboundDate}/{outboundDate}/?query
+    // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{outboundDate}/{inboundDate && inboundDate}/?query
     dispatch(
       push(
         `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${convertDateToString(
-          allInfo.datepicker.inboundDate,
-        )}/${convertDateToString(allInfo.datepicker.outboundDate)}`,
+          allInfo.datepicker.outboundDate,
+        )}${allInfo.datepicker.inboundDate &&
+          `/${convertDateToString(allInfo.datepicker.inboundDate)}`}`,
       ),
     );
-    dispatch(createSession());
-    // dispatch(pollSession());
-    // dispatch(pollTempResult());
+    dispatch(createSession(allInfo));
   },
   setError: errors => {
-    console.log('에러');
     dispatch(setError(errors));
   },
 });

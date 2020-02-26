@@ -30,8 +30,6 @@ function TicketInfoDetail({
 
   useEffect(() => {
     // 각 티켓에 대한 정보 취합
-    // const itinerary = { ...data.Itineraries[4] }; // data.Itineraries[n]
-    // const itinerary = itinerary;
     const { PricingOptions, OutboundLegId, InboundLegId } = itinerary; // data.Itineraries[n].PricingOptions, data.Itineraries[n].OutboundLegId, data.Itineraries[n].InboundLegId
 
     // get Outbound Leg
@@ -39,8 +37,6 @@ function TicketInfoDetail({
     data.Legs.forEach(leg => {
       if (leg.Directionality === 'Outbound' && leg.Id === OutboundLegId) {
         OutboundLeg = { ...leg };
-        // console.log(OutboundLeg.SegmentIds);
-        // 왜 자꾸 SegmentsIds of undefined이지??
       }
     });
 
@@ -76,7 +72,6 @@ function TicketInfoDetail({
     }
 
     setTicket(ticket);
-    console.log(ticket);
   }, [data.Legs, data.Segments, itinerary]);
 
   return (
@@ -86,13 +81,15 @@ function TicketInfoDetail({
           <TicketWrapper>
             <TicketInfos>
               <div className="carrier">
-                {getAirlineLogo(ticket.OutboundLeg)}
-                {getOperatingAirline(ticket.OutboundLeg)}
+                {getAirlineLogo(ticket.OutboundLeg, data)}
+                {getOperatingAirline(ticket.OutboundLeg, data)}
               </div>
 
               <div className="departTime">
                 <p>{formatDateString(ticket.OutboundLeg.Departure)}</p>
-                <span>{getPlaceCode(ticket.OutboundLeg.OriginStation)}</span>
+                <span>
+                  {getPlaceCode(ticket.OutboundLeg.OriginStation, data)}
+                </span>
               </div>
               <div className="totalHour">
                 <p>{formatDuration(ticket.OutboundLeg.Duration)}</p>
@@ -116,7 +113,7 @@ function TicketInfoDetail({
                     <span className="direct">직항</span>
                   )}
                   {ticket.OutboundLeg.Stops.length > 0 &&
-                    getStopsList(ticket.OutboundLeg)}
+                    getStopsList(ticket.OutboundLeg, data)}
                 </p>
               </div>
               <div className="arriveTime">
@@ -127,21 +124,21 @@ function TicketInfoDetail({
                   )}
                 </p>
                 <PlaceCode same={isSamePlace(ticket)}>
-                  {getPlaceCode(ticket.OutboundLeg.DestinationStation)}
+                  {getPlaceCode(ticket.OutboundLeg.DestinationStation, data)}
                 </PlaceCode>
               </div>
             </TicketInfos>
             {ticket.InboundLeg && (
               <TicketInfos>
                 <div className="carrier">
-                  {getAirlineLogo(ticket.InboundLeg)}
-                  {getOperatingAirline(ticket.InboundLeg, 'inbound')}
+                  {getAirlineLogo(ticket.InboundLeg, data)}
+                  {getOperatingAirline(ticket.InboundLeg, data, 'inbound')}
                 </div>
 
                 <div className="departTime">
                   <p>{formatDateString(ticket.InboundLeg.Departure)}</p>
                   <PlaceCode same={isSamePlace(ticket)}>
-                    {getPlaceCode(ticket.InboundLeg.OriginStation)}
+                    {getPlaceCode(ticket.InboundLeg.OriginStation, data)}
                   </PlaceCode>
                 </div>
 
@@ -167,7 +164,7 @@ function TicketInfoDetail({
                       <span className="direct">직항</span>
                     )}
                     {ticket.InboundLeg.Stops.length > 0 &&
-                      getStopsList(ticket.InboundLeg)}
+                      getStopsList(ticket.InboundLeg, data)}
                   </p>
                 </div>
 
@@ -179,7 +176,7 @@ function TicketInfoDetail({
                     )}
                   </p>
                   <span>
-                    {getPlaceCode(ticket.InboundLeg.DestinationStation)}
+                    {getPlaceCode(ticket.InboundLeg.DestinationStation, data)}
                   </span>
                 </div>
               </TicketInfos>
@@ -190,7 +187,7 @@ function TicketInfoDetail({
             <div className="down"></div>
           </SemiCircle>
           <SelectTicketDetails>
-            <div>
+            <div className="ticketDetailsWrapper">
               <p className="mostCheap">
                 {ticket.PricingOptions.length > 1
                   ? `총 ${ticket.PricingOptions.length}건 중 최저가`

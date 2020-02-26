@@ -1,36 +1,36 @@
 import { connect } from 'react-redux';
 import { displayModal, hideModal } from '../redux/modules/display';
+import DatePicker from '../components/Main/DatePicker';
 import {
   setInboundDate,
   setOutboundDate,
   setRoundTrip,
 } from '../redux/modules/datepicker';
-import DatePicker from '../components/Main/DatePicker';
 
 const mapStateToProps = (state, ownProps) => {
   const { type } = ownProps;
-  const isInbound = type === 'inbound' || type === 'inline-inbound';
+  const isOutbound = type === 'outbound' || type === 'inline-outbound';
 
   let visible;
   const {
-    inboundDatePicker,
     outboundDatePicker,
-    inlineInboundDatePicker,
+    inboundDatePicker,
     inlineOutboundDatePicker,
+    inlineInboundDatePicker,
   } = state.display;
 
-  if (type === 'inbound') visible = inboundDatePicker;
-  else if (type === 'outbound') visible = outboundDatePicker;
-  else if (type === 'inline-inbound') visible = inlineInboundDatePicker;
-  else visible = inlineOutboundDatePicker;
+  if (type === 'outbound') visible = outboundDatePicker;
+  else if (type === 'inbound') visible = inboundDatePicker;
+  else if (type === 'inline-outbound') visible = inlineOutboundDatePicker;
+  else visible = inlineInboundDatePicker;
 
   return {
     tripType: state.datepicker.tripType,
-    inboundDate: state.datepicker.inboundDate,
     outboundDate: state.datepicker.outboundDate,
-    selectedDate: isInbound
-      ? state.datepicker.inboundDate
-      : state.datepicker.outboundDate,
+    inboundDate: state.datepicker.inboundDate,
+    selectedDate: isOutbound
+      ? state.datepicker.outboundDate
+      : state.datepicker.inboundDate,
     visible,
   };
 };
@@ -39,13 +39,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const { type } = ownProps;
 
   let modalType;
-  if (type === 'inbound') modalType = 'inboundDatePicker';
-  else if (type === 'outbound') modalType = 'outboundDatePicker';
-  else if (type === 'inline-inbound') modalType = 'inline-inboundDatePicker';
-  else modalType = 'inline-outboundDatePicker';
-
-  // const modalType =
-  //   type === 'inbound' ? 'inboundDatePicker' : 'outboundDatePicker';
+  if (type === 'outbound') modalType = 'outboundDatePicker';
+  else if (type === 'inbound') modalType = 'inboundDatePicker';
+  else if (type === 'inline-outbound') modalType = 'inline-outboundDatePicker';
+  else modalType = 'inline-inboundDatePicker';
 
   return {
     displayModal: () => {
@@ -54,11 +51,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     hideModal: () => {
       dispatch(hideModal());
     },
-    setInboundDate: inboundDate => {
-      dispatch(setInboundDate(inboundDate));
-    },
     setOutboundDate: outboundDate => {
       dispatch(setOutboundDate(outboundDate));
+    },
+    setInboundDate: inboundDate => {
+      dispatch(setInboundDate(inboundDate));
     },
     setRoundTrip: () => {
       dispatch(setRoundTrip());

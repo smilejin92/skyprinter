@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
   FilterWrapperButton,
   FilterWrapperDl,
@@ -11,8 +12,9 @@ import {
 } from '../../../styles/Filter.style';
 import uuid from 'uuid';
 
-const AirportFilter = props => {
+const AirportFilter = ({ session }) => {
   const [drop, setDrop] = useState(true);
+
   const [airportLists, setAirportLists] = useState([
     { id: 'LCY', checked: true, name: '런던시티' },
     { id: 'LGW', checked: true, name: '런던 개트윅' },
@@ -71,4 +73,15 @@ const AirportFilter = props => {
   );
 };
 
-export default AirportFilter;
+const mapStateToProps = state => ({
+  session: state.session,
+});
+
+const mapDispatchToProps = dispatch => ({
+  createSession: allInfo => {
+    console.log('세션생성');
+    // dispatch(clearError());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AirportFilter);

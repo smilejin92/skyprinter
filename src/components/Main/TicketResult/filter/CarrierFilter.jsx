@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import {
   FilterWrapperButton,
   FilterWrapperDl,
@@ -12,14 +13,125 @@ import {
   AllRemoveBtn,
 } from '../../../styles/Filter.style';
 import uuid from 'uuid';
+import { useCallback } from 'react';
 
-const CarrierFilter = props => {
+const CarrierFilter = ({ session }) => {
   const [drop, setDrop] = useState(true);
-  const [carrierLists, setCarrierLists] = useState([
-    { id: '대한항공 (KAL)', checked: true, price: '₩ 117,780' },
-    { id: '아시아나', checked: true, price: '₩ 117,780' },
-    { id: '이스타항공', checked: true, price: '₩ 117,780' },
-  ]);
+  const [carrierLists, setCarrierLists] = useState([]);
+
+  const getCarriers = useCallback(
+    ({ Carriers, Itineraries, Legs, Segments }) => {
+      const CarrierList = [];
+      for (let i = 0; i < Itineraries.length; i++) {
+        CarrierList.push(ticketLists(Itineraries[i]));
+      }
+
+      function getUniqueObjectArray(array) {
+        return array.filter((item, i) => {
+          return (
+            array.findIndex((item2, j) => {
+              return item.CarrierId === item2.CarrierId;
+            }) === i
+          );
+        });
+      }
+
+      function predicate(key, value) {
+        // key와 value를 기억하는 클로저를 반환
+        return item => item[key] === value;
+      }
+
+      function ticketLists(itinerary) {
+        const carrierPriceList = [];
+        const { PricingOptions, OutboundLegId, InboundLegId } = itinerary;
+        // data.Itineraries[n].PricingOptions, data.Itineraries[n].OutboundLegId, data.Itineraries[n].InboundLegId
+
+        // get Outbound Leg
+        let OutboundLeg;
+        Legs.forEach(leg => {
+          if (leg.Directionality === 'Outbound' && leg.Id === OutboundLegId) {
+            OutboundLeg = { ...leg };
+          }
+        });
+
+        // get Outbound segments
+        const OutboundSegments = [];
+        OutboundLeg.SegmentIds.forEach(id => {
+          OutboundSegments.push({ ...Segments[id] });
+        });
+
+        OutboundLeg.Segments = OutboundSegments;
+
+        const ticket = {
+          PricingOptions,
+          OutboundLeg,
+        };
+
+        // get Inbound Leg (왕복이라면)
+        if (InboundLegId) {
+          let InboundLeg;
+          Legs.forEach(leg => {
+            if (leg.Directionality === 'Inbound' && leg.Id === InboundLegId) {
+              InboundLeg = { ...leg };
+            }
+          });
+
+          const InboundSegments = [];
+          InboundLeg.SegmentIds.forEach(id => {
+            InboundSegments.push({ ...Segments[id] });
+          });
+          InboundLeg.Segments = InboundSegments;
+
+          ticket.InboundLeg = InboundLeg;
+
+          if (
+            ticket.InboundLeg.Carriers[0] === ticket.OutboundLeg.Carriers[0]
+          ) {
+            carrierPriceList.push({
+              Price: ticket.PricingOptions[0].Price,
+              CarrierId: ticket.OutboundLeg.Carriers[0],
+            });
+            return carrierPriceList[0];
+          }
+        }
+        carrierPriceList.push({
+          Price: ticket.PricingOptions[0].Price,
+          CarrierId: ticket.OutboundLeg.Carriers[0],
+        });
+        return carrierPriceList[0];
+      }
+
+      function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
+
+      const _carriers = getUniqueObjectArray(CarrierList);
+
+      const carriers = Carriers.map(Carrier => ({
+        id: Carrier.Id,
+        code: Carrier.Code,
+        name: Carrier.Name,
+        price:
+          _carriers.findIndex(predicate('CarrierId', Carrier.Id)) !== -1 &&
+          numberWithCommas(
+            _carriers[_carriers.findIndex(predicate('CarrierId', Carrier.Id))]
+              .Price,
+          ),
+        checked: true,
+      }))
+        .sort((a, b) => {
+          return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+        })
+        .filter(carrier => carrier.price !== false);
+
+      return carriers;
+    },
+    [],
+  );
+
+  useEffect(() => {
+    setCarrierLists(getCarriers(session.pollResult));
+  }, [getCarriers, session.pollResult]);
 
   const onChange = id => {
     setCarrierLists(
@@ -49,6 +161,7 @@ const CarrierFilter = props => {
 
   return (
     <FilterWrapperDl>
+      {console.log('55', carrierLists)}
       <div>
         <dt>
           <FilterWrapperButton drop={drop} onClick={switchDrop}>
@@ -89,9 +202,9 @@ const CarrierFilter = props => {
                   onChange={() => onChange(carrierList.id)}
                   checked={carrierList.checked}
                 >
-                  {carrierList.id}
+                  {carrierList.name}
                 </StyleCheckBox>
-                <OptionContent> {carrierList.price} </OptionContent>
+                <OptionContent> {`₩ ${carrierList.price}`} </OptionContent>
               </OptionHeader>
             ))}
           </FilterDropDiv>
@@ -101,4 +214,10 @@ const CarrierFilter = props => {
   );
 };
 
-export default CarrierFilter;
+const mapStateToProps = state => ({
+  session: state.session,
+});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CarrierFilter);

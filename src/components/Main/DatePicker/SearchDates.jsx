@@ -20,10 +20,10 @@ function SearchDates({
   tripType,
   selectedDate,
   closeModal,
-  setInboundDate,
   setOutboundDate,
-  inboundDate,
+  setInboundDate,
   outboundDate,
+  inboundDate,
 }) {
   const [months, setMonths] = useState([]); // DatePicker에 나타낼 15개의 month
   const [monthsIdx, setMonthsIdx] = useState(null); // Datepicker의 시작 month index
@@ -144,19 +144,18 @@ function SearchDates({
       if (clickedDate < today || yearAfterToday < clickedDate) return;
 
       // 2. travelDate을 설정한다.
-      if (type === 'inbound' || type === 'inline-inbound') {
-        if (clickedDate > outboundDate) {
+      if (type === 'outbound' || type === 'inline-outbound') {
+        if (clickedDate > inboundDate) {
           if (tripType === 'round') {
-            setOutboundDate(clickedDate);
+            setInboundDate(clickedDate);
           }
         }
-        setInboundDate(clickedDate);
-      } else {
-        // 2.2 outbound < inbound
-        if (clickedDate < inboundDate) {
-          setInboundDate(clickedDate);
-        }
         setOutboundDate(clickedDate);
+      } else {
+        if (clickedDate < outboundDate) {
+          setOutboundDate(clickedDate);
+        }
+        setInboundDate(clickedDate);
       }
       closeModal();
     },
