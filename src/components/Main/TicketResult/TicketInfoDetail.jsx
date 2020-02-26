@@ -30,8 +30,6 @@ function TicketInfoDetail({
 
   useEffect(() => {
     // 각 티켓에 대한 정보 취합
-    // const itinerary = { ...data.Itineraries[4] }; // data.Itineraries[n]
-    // const itinerary = itinerary;
     const { PricingOptions, OutboundLegId, InboundLegId } = itinerary; // data.Itineraries[n].PricingOptions, data.Itineraries[n].OutboundLegId, data.Itineraries[n].InboundLegId
 
     // get Outbound Leg
@@ -39,8 +37,6 @@ function TicketInfoDetail({
     data.Legs.forEach(leg => {
       if (leg.Directionality === 'Outbound' && leg.Id === OutboundLegId) {
         OutboundLeg = { ...leg };
-        // console.log(OutboundLeg.SegmentIds);
-        // 왜 자꾸 SegmentsIds of undefined이지??
       }
     });
 

@@ -43,9 +43,9 @@ const CarrierFilter = ({ session }) => {
   const [carrierLists, setCarrierLists] = useState([]);
 
   useEffect(() => {
-    // setAirportLists(session.pollResults.)
-    setCarrierLists(() => getCarriers(session.pollResults.Agents));
-  }, [session.pollResults.Agents]);
+    // setAirportLists(session.pollResult.)
+    setCarrierLists(() => getCarriers(session.pollResult.Agents));
+  }, [session.pollResult.Agents]);
 
   const onChange = id => {
     setCarrierLists(

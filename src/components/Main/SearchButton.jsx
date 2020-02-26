@@ -77,18 +77,6 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
   return <button onClick={create}>{children}</button>;
 };
 
-const mapStateToProps = state => ({
-  allInfo: {
-    locale: state.culture.locale,
-    country: state.culture.country,
-    currency: state.culture.currency,
-    places: state.places,
-    culture: state.culture,
-    passenger: state.passenger,
-    datepicker: state.datepicker,
-  },
-});
-
 const convertDateToString = date => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
@@ -98,10 +86,19 @@ const convertDateToString = date => {
   }`;
 };
 
+const mapStateToProps = state => ({
+  allInfo: {
+    culture: state.culture,
+    places: state.places,
+    passenger: state.passenger,
+    datepicker: state.datepicker,
+  },
+});
+
 const mapDispatchToProps = dispatch => ({
   createSession: allInfo => {
     dispatch(clearError());
-    // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{inboundDate}/{outboundDate}/?query
+    // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{outboundDate}/{inboundDate && inboundDate}/?query
     dispatch(
       push(
         `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${convertDateToString(
@@ -110,7 +107,7 @@ const mapDispatchToProps = dispatch => ({
           `/${convertDateToString(allInfo.datepicker.inboundDate)}`}`,
       ),
     );
-    dispatch(createSession());
+    dispatch(createSession(allInfo));
   },
   setError: errors => {
     dispatch(setError(errors));

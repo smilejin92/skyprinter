@@ -144,21 +144,6 @@ function SearchDates({
       if (clickedDate < today || yearAfterToday < clickedDate) return;
 
       // 2. travelDate을 설정한다.
-      // if (type === 'inbound' || type === 'inline-inbound') {
-      //   if (clickedDate > outboundDate) {
-      //     if (tripType === 'round') {
-      //       setOutboundDate(clickedDate);
-      //     }
-      //   }
-      //   setInboundDate(clickedDate);
-      // } else {
-      //   // 2.2 outbound < inbound
-      //   if (clickedDate < inboundDate) {
-      //     setInboundDate(clickedDate);
-      //   }
-      //   setOutboundDate(clickedDate);
-      // }
-
       if (type === 'outbound' || type === 'inline-outbound') {
         if (clickedDate > inboundDate) {
           if (tripType === 'round') {
