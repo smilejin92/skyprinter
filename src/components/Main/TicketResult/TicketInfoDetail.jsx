@@ -76,7 +76,6 @@ function TicketInfoDetail({
     }
 
     setTicket(ticket);
-    console.log(ticket);
   }, [data.Legs, data.Segments, itinerary]);
 
   return (

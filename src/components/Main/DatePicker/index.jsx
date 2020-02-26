@@ -103,12 +103,7 @@ function DatePicker({
           inMain={inMain}
           arrowTip={visible}
         >
-          <button
-            onClick={() => {
-              console.log('실시간 항공 검색');
-            }}
-            style={{ width: '3rem', lineHeight: '1rem' }}
-          >
+          <button style={{ width: '3rem', lineHeight: '1rem' }}>
             <svg style={{ fill: 'white' }} viewBox="0 0 24 24">
               <path d="M13.7 19.7L6.6 12l7.1-7.7c.6-.6 1.7-.2 1.7.7v14c0 .9-1.1 1.4-1.7.7z"></path>
             </svg>
@@ -116,12 +111,7 @@ function DatePicker({
           <button onClick={() => displayModal()}>
             <span style={{ color: 'white' }}>{convertDateToString}</span>
           </button>
-          <button
-            onClick={() => {
-              console.log('실시간 항공 검색');
-            }}
-            style={{ width: '3rem', lineHeight: '1rem' }}
-          >
+          <button style={{ width: '3rem', lineHeight: '1rem' }}>
             <svg style={{ fill: 'white' }} viewBox="0 0 24 24">
               <path d="M9.9 19.7L17 12 9.9 4.4c-.7-.7-1.7-.2-1.7.7v14c0 .8 1 1.3 1.7.6z"></path>
             </svg>

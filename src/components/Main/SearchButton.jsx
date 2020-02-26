@@ -100,23 +100,19 @@ const convertDateToString = date => {
 
 const mapDispatchToProps = dispatch => ({
   createSession: allInfo => {
-    console.log('세션생성');
     dispatch(clearError());
     // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{inboundDate}/{outboundDate}/?query
     dispatch(
       push(
         `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${convertDateToString(
           allInfo.datepicker.outboundDate,
-        )}${allInfo.datepicker.outboundDate &&
-          `/${convertDateToString(allInfo.datepicker.outboundDate)}`}`,
+        )}${allInfo.datepicker.inboundDate &&
+          `/${convertDateToString(allInfo.datepicker.inboundDate)}`}`,
       ),
     );
     dispatch(createSession());
-    // dispatch(pollSession());
-    // dispatch(pollTempResult());
   },
   setError: errors => {
-    console.log('에러');
     dispatch(setError(errors));
   },
 });

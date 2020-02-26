@@ -352,7 +352,6 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
           : { ...filterItem, toggle: false },
       ),
     );
-    console.log(id);
   };
 
   const formatDateString = useCallback(dateString => {
@@ -427,7 +426,6 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
   const getOperatingAirline = useCallback(
     (leg, data, type) => {
       // (leg, type) => {
-      console.log(leg);
       const { Carriers, OperatingCarriers } = leg;
       const operatorIds = OperatingCarriers.filter(
         oc => !Carriers.includes(oc),
@@ -481,7 +479,6 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
     (placeId, data) => {
       // placeId => {
       // const [targetPlace] = session.tempResults.Places.filter(
-      console.log();
       const [targetPlace] = data.Places.filter(p => p.Id === placeId);
       return targetPlace.Code;
     },
@@ -514,7 +511,6 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
 
   const getStopsList = useCallback(
     (leg, data) => {
-      console.log(leg);
       const { Stops, Segments } = leg;
       const textElements = [];
       if (Stops.length === Segments.length) {
@@ -568,7 +564,6 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
 
   const getResults = useCallback(
     results => {
-      console.log('results = ' + results);
       if (!results) return [];
       const lists = [];
       for (let i = 0; i < results.Itineraries.length; i++) {
