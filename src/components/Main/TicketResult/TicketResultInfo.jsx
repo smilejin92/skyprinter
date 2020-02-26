@@ -15,6 +15,8 @@ import AirportFilter from './filter/AirportFilter';
 import earth from '../../../images/earth.gif';
 import { FlexWrapper } from '../../styles';
 import { HiddenHeader } from '../../styles';
+import { useEffect } from 'react';
+import { setInfiniteScroll } from '../../../redux/modules/session';
 
 const TicketResultInfoWrapper = styled.div`
   width: calc(100% - 49.7rem);
@@ -299,8 +301,14 @@ const MainLoading = styled.div`
   }
 `;
 
-const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
-  // const [progressNum, setProgressNum] = useState(0);
+const TicketResultInfo = ({
+  tripType,
+  passengerInfo,
+  places,
+  session,
+  setInfiniteScroll,
+}) => {
+  // const [tickets, setTickets] = useState([]);
   const [visible, setVisible] = useState(false);
   const [filter, setFilter] = useState([
     {
@@ -325,6 +333,47 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
       toggle: false,
     },
   ]);
+
+  // useEffect(() => {
+  //   const { pollResult, infiniteScroll } = session;
+  //   if (!pollResult
+  //     || !pollResult.Itineraries.length
+  //     || pollResult.Itineraries.length <= tickets.length
+  //   ) return;
+
+  //   // 표시한 티켓이 없는 경우
+  //   // - 첫 setPollResult, lastIndex = 0
+
+  //   // 표시한 티켓이 있는 경우
+  //   // - infiniteScroll이 true이고 더 표시할 티켓이 있을 경우
+  //   // - setPollResult가 발생했을 경우, lastIndex
+  //   const startIdx = tickets.length ? tickets.length + 1 : 0;
+  //   const lists = [];
+  //   for (let i = startIdx; i < pollResult.Itineraries.length; i++) {
+  //     if (!pollResult.Itineraries[i] || i === startIdx + 10) break;
+  //     lists.push(
+  //       <TicketInfoDetail
+  //         key={uuid.v4()}
+  //         data={pollResult}
+  //         itinerary={pollResult.Itineraries[i]}
+  //         progress={session.progress}
+  //         formatDateString={formatDateString}
+  //         formatDuration={formatDuration}
+  //         getAirlineLogo={getAirlineLogo}
+  //         getOperatingAirline={getOperatingAirline}
+  //         getTimeDifference={getTimeDifference}
+  //         isSameDay={isSameDay}
+  //         getPlaceCode={getPlaceCode}
+  //         getParentPlaceCode={getParentPlaceCode}
+  //         getNumberOfStops={getNumberOfStops}
+  //         getStopsList={getStopsList}
+  //         getStopDots={getStopDots}
+  //         priceToString={priceToString}
+  //         isSamePlace={isSamePlace}
+  //       />,
+  //     );
+  //   }
+  // }, [session]);
 
   const convertClass = useCallback(type => {
     const seatTypes = [
@@ -709,7 +758,9 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
                 ))}
               </ArrangeFilterButtonWapper>
               {session.pollResult && getResults(session.pollResult)}
-              <MoreResultButton>더 많은 결과 표시</MoreResultButton>
+              <MoreResultButton onClick={setInfiniteScroll}>
+                더 많은 결과 표시
+              </MoreResultButton>
               <LuggageMoreDetail>
                 <p>
                   <b>요금은 매일 갱신됩니다.</b> 예약 시기의 이용 가능 여부에
@@ -748,4 +799,10 @@ const mapStateToProps = state => ({
   passengerInfo: state.passenger,
 });
 
-export default connect(mapStateToProps)(TicketResultInfo);
+const mapDispatchToProps = dispatch => ({
+  setInfiniteScroll: () => {
+    dispatch(setInfiniteScroll());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TicketResultInfo);

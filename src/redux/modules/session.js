@@ -10,6 +10,7 @@ export const POLL_SESSION = 'skyprinter/session/POLL_SESSION';
 export const TOGGLE_STOP = 'skyprinter/session/TOGGLE_STOP';
 export const RESET_RESULT = 'skyprinter/session/RESET_RESULT';
 export const SET_ALL_RESULT = 'skyprinter/session/SET_ALL_RESULT';
+export const SET_INFINITE_SCROLL = 'skyprinter/session/SET_INFINITE_SCROLL';
 
 // ACTION CREATORS
 export const createSession = allInfo => ({
@@ -44,6 +45,10 @@ export const setAllResult = allResult => ({
   allResult,
 });
 
+export const setInfiniteScroll = () => ({
+  type: SET_INFINITE_SCROLL,
+});
+
 // INITIAL STATE
 const initialState = {
   sessionKey: null,
@@ -55,6 +60,7 @@ const initialState = {
     sortOrder: 'asc',
   },
   infiniteScroll: false,
+  lastIndex: 0,
 };
 
 const convertDateToString = date => {
@@ -121,7 +127,7 @@ export function* postSession({ allInfo }) {
         progress: Math.floor(progressNum),
       });
 
-      // 4. 세션 로딩 80% 완료시 표시할 티켓 생성. 최초 1회만
+      // 4. 매초 표시할 티켓 갱신
       yield put(setPollResult(data));
 
       // 4. 세션 로딩이 complete되면 원본을 allResult에 저장한 뒤
@@ -210,11 +216,19 @@ export default function session(state = initialState, action) {
         ...state,
         allResult: null,
         pollResult: null,
+        infiniteScroll: false,
         progress: 0,
         filterOption: {
           sortType: 'price',
           sortOrder: 'asc',
         },
+        lastIndex: 0,
+      };
+
+    case SET_INFINITE_SCROLL:
+      return {
+        ...state,
+        infiniteScroll: true,
       };
 
     default:
