@@ -192,7 +192,7 @@ function TicketInfoDetail({
             <div className="down"></div>
           </SemiCircle>
           <SelectTicketDetails>
-            <div>
+            <div className="ticketDetailsWrapper">
               <p className="mostCheap">
                 {ticket.PricingOptions.length > 1
                   ? `총 ${ticket.PricingOptions.length}건 중 최저가`

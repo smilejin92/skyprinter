@@ -222,10 +222,11 @@ export const SelectTicketDetails = styled.div`
   position: relative;
   width: 33.3%;
   text-align: center;
-  div {
+  .ticketDetailsWrapper {
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 20rem;
     transform: translate(-50%, -50%);
     p {
       font-size: 1.2rem;

@@ -88,9 +88,12 @@ export function* postSession() {
 
   try {
     // 1. Session 생성
-    const { headers } = yield call(SessionService.createSession, params);
-    const locationToArr = headers.location.split('/');
-    const sessionKey = locationToArr[locationToArr.length - 1];
+    // const { headers } = yield call(SessionService.createSession, params);
+    // const locationToArr = headers.location.split('/');
+    // const sessionKey = locationToArr[locationToArr.length - 1];
+
+    // 0. 더미용 Session
+    const sessionKey = '9b567b31-d4e4-4fcf-9057-6d182704bb4d';
     console.log(sessionKey);
 
     yield put(setSessionKey(sessionKey));
@@ -151,6 +154,7 @@ export function* getTempResults({ sessionKey }) {
       }
     }
 
+    console.log('4444', response.data);
     yield put({ type: SET_TEMP_RESULTS, tempResults: response.data });
   } catch (error) {
     console.error(error);
