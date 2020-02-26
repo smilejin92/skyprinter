@@ -15,7 +15,7 @@ import {
 import uuid from 'uuid';
 import { useCallback } from 'react';
 
-const CarrierFilter = ({ session }) => {
+const CarrierFilter = React.memo(({ session }) => {
   const [drop, setDrop] = useState(true);
   const [carrierLists, setCarrierLists] = useState([]);
 
@@ -117,7 +117,7 @@ const CarrierFilter = ({ session }) => {
             _carriers[_carriers.findIndex(predicate('CarrierId', Carrier.Id))]
               .Price,
           ),
-        checked: true,
+        checked: true, // 로직 수정 해야함.
       }))
         .sort((a, b) => {
           return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
@@ -161,7 +161,6 @@ const CarrierFilter = ({ session }) => {
 
   return (
     <FilterWrapperDl>
-      {console.log('55', carrierLists)}
       <div>
         <dt>
           <FilterWrapperButton drop={drop} onClick={switchDrop}>
@@ -212,7 +211,7 @@ const CarrierFilter = ({ session }) => {
       </div>
     </FilterWrapperDl>
   );
-};
+});
 
 const mapStateToProps = state => ({
   session: state.session,
