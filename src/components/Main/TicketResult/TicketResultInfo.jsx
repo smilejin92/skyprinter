@@ -520,7 +520,11 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
           const placeCode = getPlaceCode(Stops[i], data);
           text += placeCode;
           if (i + 1 < Stops.length) text += ', ';
-          textElements.push(<span id={placeCode}>{text}</span>);
+          textElements.push(
+            <span key={uuid.v4()} id={placeCode}>
+              {text}
+            </span>,
+          );
         }
       }
       return textElements;
@@ -624,7 +628,7 @@ const TicketResultInfo = ({ tripType, passengerInfo, places, session }) => {
         </SearchSummary>
         {visible && <SearchForm />}
       </SearchArea>
-      {session.pollResult ? (
+      {session.pollResult && session.pollResult.Itineraries.length !== 0 ? (
         <div>
           <AddOns>
             <CalenderAndChart>

@@ -1,4 +1,4 @@
-import { takeEvery, put, call, select } from 'redux-saga/effects';
+import { takeEvery, put, call, select, delay } from 'redux-saga/effects';
 import SessionService from '../../services/SessionService';
 
 // ACTIONS
@@ -96,11 +96,11 @@ export function* postSession({ allInfo }) {
     const sessionKey = locationToArr[locationToArr.length - 1];
     yield put(setSessionKey(sessionKey));
 
-    let isEnough = false;
     // 3. 2에서 생성한 Session의 상태가 complete될 때까지 poll
     const filterOption = yield select(({ session }) => session.filterOption);
     console.log('initial filter options');
     console.log(filterOption);
+
     while (true) {
       const { data } = yield call(
         SessionService.pollSession,
@@ -122,10 +122,7 @@ export function* postSession({ allInfo }) {
       });
 
       // 4. 세션 로딩 80% 완료시 표시할 티켓 생성. 최초 1회만
-      if (!isEnough && progressNum >= 80) {
-        isEnough = true;
-        yield put(setPollResult(data));
-      }
+      yield put(setPollResult(data));
 
       // 4. 세션 로딩이 complete되면 원본을 allResult에 저장한 뒤
       // 5. UI에 표시할 티켓을 가장 최근 적용된 필터로 poll해온다.
@@ -134,6 +131,7 @@ export function* postSession({ allInfo }) {
         yield put({ type: POLL_SESSION });
         break;
       }
+      yield delay(1000);
     }
   } catch (error) {
     console.log(error);
@@ -200,6 +198,12 @@ export default function session(state = initialState, action) {
           },
         };
       }
+
+    case SET_ALL_RESULT:
+      return {
+        ...state,
+        allResult: action.allResult,
+      };
 
     case RESET_RESULT:
       return {
