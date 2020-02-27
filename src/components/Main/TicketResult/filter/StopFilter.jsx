@@ -155,7 +155,6 @@ const StopFilter = React.memo(({ session, setFilter }) => {
   }, [getStops, session.allResult]);
 
   const onChange = stopList => {
-    console.log(stopList);
     if (stopList.id === '직항') {
       setFilter({ ...session.filterOption, stops: 0 });
     }
