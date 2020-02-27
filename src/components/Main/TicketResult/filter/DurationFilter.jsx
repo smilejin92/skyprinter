@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   FilterWrapperButton,
   FilterWrapperDl,
@@ -9,17 +9,22 @@ import {
   TimeContent
 } from '../../../styles/Filter.style';
 import { connect } from 'react-redux';
+import {
+  setFilterOption,
+  pollSession
+} from '../../../../redux/modules/session';
 
-const DurationFilter = ({ session }) => {
+const DurationFilter = ({ session, setFilterOption, pollSession }) => {
   const [drop, setDrop] = useState(true);
   const [legLists, setLegLists] = useState([]);
   const [minHour, setMinHour] = useState(0);
   const [maxHour, setMaxHour] = useState(100);
   const [defaultMaxHour, setDefaultMaxHour] = useState(100);
-  const [sliderValue, setSliderValue] = useState(100);
+
+  const defaultHourRef = useRef(100);
 
   const getDurations = useCallback(({ Itineraries, Legs, Segments }) => {
-    console.log(Itineraries, Legs, Segments);
+    // console.log(Itineraries, Legs, Segments);
     const LegList = [];
     for (let i = 0; i < Legs.length; i++) {
       LegList.push(ticketLists(Legs[i]));
@@ -51,26 +56,35 @@ const DurationFilter = ({ session }) => {
     setMinHour(Minhours);
     setMaxHour(Maxhours);
     setDefaultMaxHour(Maxhours);
-    setSliderValue(Maxhours);
+    // setSliderValue(Maxhours);
+    defaultHourRef.current = Maxhours;
 
     return Legs;
   }, []);
 
   const sliderChange = e => {
-    setSliderValue(e);
+    defaultHourRef.current = e;
     setMaxHour(e);
 
     console.log(e);
     console.log('슬라이더 실행!');
   };
-  const slideAfterChange = () => {
+  const slideAfterChange = duration => {
     console.log('슬라이더 에프터!!');
-    // results 건드리기
+    // 1. session.filterOption에 duration property가 있는가?
+    // 2. duration 값을 슬라이더의 value로 설정
+    const newFilterOption = {
+      ...session.filterOption,
+      duration: duration * 60
+    };
+    // setSliderValue(duration);
+    setFilterOption(newFilterOption);
+    pollSession();
   };
   useEffect(() => {
-    console.log(getDurations(session.pollResult));
+    // console.log(getDurations(session.pollResult));
     setLegLists(getDurations(session.pollResult));
-    console.log(legLists);
+    // console.log(legLists);
   }, [getDurations, legLists, session.pollResult]);
 
   const switchDrop = () => {
@@ -79,7 +93,7 @@ const DurationFilter = ({ session }) => {
 
   return (
     <FilterWrapperDl>
-      {console.log()}
+      {console.log(defaultHourRef)}
       <div>
         <dt>
           <FilterWrapperButton drop={drop} onClick={switchDrop}>
@@ -98,7 +112,8 @@ const DurationFilter = ({ session }) => {
               <StyleSlider
                 min={minHour}
                 max={defaultMaxHour}
-                value={sliderValue}
+                // value={sliderValue}
+                defaultValue={defaultHourRef.current}
                 step={0.5}
                 onAfterChange={slideAfterChange}
                 onChange={sliderChange}
@@ -114,5 +129,12 @@ const DurationFilter = ({ session }) => {
 const maptStateToProps = state => ({
   session: state.session
 });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  setFilterOption: filterOption => {
+    dispatch(setFilterOption(filterOption));
+  },
+  pollSession: () => {
+    dispatch(pollSession());
+  }
+});
 export default connect(maptStateToProps, mapDispatchToProps)(DurationFilter);

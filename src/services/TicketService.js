@@ -160,7 +160,11 @@ export default class TicketService {
 
         // <span id={placeCode} warning={true}>
         if (prevDest !== curOrigin) {
-          textElements.push(<span id={placeCode}>{text}</span>);
+          textElements.push(
+            <span key={uuid.v4()} id={placeCode}>
+              {text}
+            </span>
+          );
         } else {
           textElements.push(
             <span key={uuid.v4()} id={placeCode}>

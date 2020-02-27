@@ -83,7 +83,8 @@ export function* postSession({ allInfo }) {
   const { culture, places, passenger, datepicker } = allInfo;
   const { country, currency, locale } = culture;
   const { inBoundId, outBoundId } = places;
-  const { adults, children, cabinClass } = passenger;
+  // children, infants
+  const { adults } = passenger;
   const { outboundDate, inboundDate } = datepicker;
 
   const params = {
@@ -111,6 +112,7 @@ export function* postSession({ allInfo }) {
 
     // 3. 2에서 생성한 Session의 상태가 complete될 때까지 poll
     const filterOption = yield select(({ session }) => session.filterOption);
+    // price, asc
 
     while (true) {
       const { data } = yield call(
@@ -132,7 +134,7 @@ export function* postSession({ allInfo }) {
         progress: Math.floor(progressNum)
       });
 
-      // 4. 세션 로딩 80% 완료시 표시할 티켓 생성. 최초 1회만
+      // 4. 세션 로딩시 표시할 티켓 생성
       yield put(setAllResult(data));
       yield put(setPollResult(data));
       yield put({ type: SET_TICKETS });
@@ -141,6 +143,8 @@ export function* postSession({ allInfo }) {
       // 5. UI에 표시할 티켓을 가장 최근 적용된 필터로 poll해온다.
       if (data.Status === 'UpdatesComplete') {
         // yield put(setAllResult(data));
+        console.log('오리지날 필터 옵션');
+        console.log(filterOption);
         yield put({ type: POLL_SESSION });
         break;
       }
@@ -155,6 +159,8 @@ export function* getSession(action) {
   if (action.loader) yield put(toggleFliterLoader());
   const sessionKey = yield select(({ session }) => session.sessionKey);
   const filterOption = yield select(({ session }) => session.filterOption);
+  console.log('after loading');
+  console.log(filterOption);
   try {
     const { data } = yield call(
       SessionService.pollSession,
@@ -163,6 +169,7 @@ export function* getSession(action) {
     );
     if (action.loader) yield put(toggleFliterLoader());
     yield put(setPollResult(data));
+    yield put({ type: SET_TICKETS });
   } catch (error) {
     console.error(error);
   }
@@ -218,7 +225,8 @@ const initialState = {
   tickets: null,
   filterOption: {
     sortType: 'price',
-    sortOrder: 'asc'
+    sortOrder: 'asc',
+    duration: ''
   },
   infiniteScroll: false,
   ticketEndIndex: 10
@@ -246,6 +254,7 @@ export default function session(state = initialState, action) {
       };
 
     case SET_POLL_RESULT:
+      console.log('2. 검색 결과');
       return {
         ...state,
         pollResult: action.pollResult
@@ -275,6 +284,7 @@ export default function session(state = initialState, action) {
       }
 
     case SET_FILTER_OPTION:
+      console.log('1. 필터 옵션 초기화');
       return {
         ...state,
         filterOption: action.filterOption

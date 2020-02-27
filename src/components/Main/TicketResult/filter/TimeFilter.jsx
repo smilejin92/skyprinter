@@ -9,13 +9,39 @@ import {
   TimeHeader,
   TimeContent,
   InBoundTimeDiv,
-  OutBoundTimeDiv,
+  OutBoundTimeDiv
 } from '../../../styles/Filter.style';
+import { connect } from 'react-redux';
+import {
+  setFilterOption,
+  pollSession
+} from '../../../../redux/modules/session';
 
-const TimeFilter = props => {
+const TimeFilter = ({ session, setFilterOption, pollSession }) => {
   const [drop, setDrop] = useState(true);
+  const [minHour, setMinHour] = useState(0);
+  const [maxHour, setMaxHour] = useState(0);
+
   const switchDrop = () => {
     setDrop(!drop);
+  };
+
+  const sliderChange = e => {
+    console.log(e);
+    console.log('슬라이더 실행!');
+  };
+
+  const slideAfterChange = ({}) => {
+    console.log('슬라이더 에프터!!');
+    // 1. session.filterOption에 duration property가 있는가?
+    // 2. duration 값을 슬라이더의 value로 설정
+    //   const newFilterOption = {
+    //     ...session.filterOption,
+    //     : duration * 60
+    //   };
+    //   // setSliderValue(duration);
+    //   setFilterOption(newFilterOption)
+    //   pollSession();
   };
 
   return (
@@ -33,16 +59,30 @@ const TimeFilter = props => {
           <FilterDropDiv drop={drop}>
             <OutBoundTimeDiv>
               <TimeHeader>가는날 출발 시간</TimeHeader>
-              <TimeContent>오전 12:00 - 오후 11:59</TimeContent>
+              <TimeContent>{`오전 12:00 - 오후 11:59`}</TimeContent>
               <StyleSliderWrapper>
-                <StyleSlider range defaultValue={[20, 50]} />
+                <StyleSlider
+                  onChange={sliderChange}
+                  onAfterChange={() => {}}
+                  range
+
+                  // min={outboundDepartTime}
+                  // max={outboundDepartEndTime}
+                />
               </StyleSliderWrapper>
             </OutBoundTimeDiv>
             <InBoundTimeDiv>
               <TimeHeader>오는날 출발 시간</TimeHeader>
-              <TimeContent>오전 12:00 - 오후 11:59</TimeContent>
+              <TimeContent>{`오전 12:00 - 오후 11:59`}</TimeContent>
               <StyleSliderWrapper>
-                <StyleSlider range defaultValue={[20, 50]} />
+                <StyleSlider
+                  onChange={sliderChange}
+                  onAfterChange={() => {}}
+                  range
+                  defaultValue={[0, 50]}
+                  //  min={inboundDepartStartTime}
+                  //  max={inboundDepartEndTime}
+                />
               </StyleSliderWrapper>
             </InBoundTimeDiv>
           </FilterDropDiv>
@@ -52,4 +92,15 @@ const TimeFilter = props => {
   );
 };
 
-export default TimeFilter;
+const maptStateToProps = state => ({
+  session: state.session
+});
+const mapDispatchToProps = dispatch => ({
+  setFilterOption: filterOption => {
+    dispatch(setFilterOption(filterOption));
+  },
+  pollSession: () => {
+    dispatch(pollSession());
+  }
+});
+export default connect(maptStateToProps, mapDispatchToProps)(TimeFilter);
