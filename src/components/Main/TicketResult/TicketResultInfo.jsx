@@ -139,6 +139,7 @@ const TicketResultSection = styled.section`
 
   ${({ filterLoader }) =>
     filterLoader &&
+    // true &&
     css`
       &::after {
         content: '업데이트 중';
@@ -161,12 +162,12 @@ const TicketResultSection = styled.section`
         top: 20rem;
         left: 50%;
         transform: translateX(-50%);
-        width: 50%;
-        height: 20%;
+        width: 40rem;
+        height: 50rem;
         z-index: 100;
         background-image: url(${duck});
         background-repeat: no-repeat;
-        background-size: 100% 100%;
+        background-size: 100%;
       }
     `}
 `;
@@ -195,6 +196,9 @@ const ResultAndArrangeStandard = styled(FlexWrapper)`
       url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4Ij48c3R5bGU+PC9zdHlsZT48cGF0aCBkPSJNMTkuNyAxMC4zTDEyIDE3LjRsLTcuNy03LjFjLS42LS42LS4yLTEuNy43LTEuN2gxNGMuOSAwIDEuMyAxLjEuNyAxLjd6IiBmaWxsPSIjNDQ0NTYwIi8+PC9zdmc+')
       no-repeat right 1.2rem center;
     -webkit-appearance: none;
+  }
+  .loading {
+    font-size: 1.6rem;
   }
 `;
 
@@ -475,7 +479,19 @@ const TicketResultInfo = ({
               <ResultAndArrangeStandard>
                 <div>
                   {session.pollResult && session.progress < 100 && <Spinner />}
-                  <span>{123}결과</span>
+                  {session.pollResult && session.progress < 100 ? (
+                    <span className="loading">
+                      {`(${session.pollResult.Agents.length}개의 항공사 중 ${
+                        session.pollResult.Agents.filter(
+                          Agent => Agent.Status === 'UpdatesComplete',
+                        ).length
+                      }개 확인)`}
+                    </span>
+                  ) : (
+                    <span className="complete">
+                      {`${session.allResult.Itineraries.length}개의 결과`}
+                    </span>
+                  )}
                 </div>
                 <SelectArrageStandard>
                   <label htmlFor="arrangedStandard">정렬기준</label>
