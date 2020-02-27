@@ -35,15 +35,14 @@ const TimeFilter = ({ session, setFilterOption, pollSession }) => {
     console.log('슬라이더 에프터!!');
     // 1. session.filterOption에 duration property가 있는가?
     // 2. duration 값을 슬라이더의 value로 설정
-    //   const newFilterOption = {
-    //     ...session.filterOption,
-    //     : duration * 60
-    //   };
-    //   // setSliderValue(duration);
-    //   setFilterOption(newFilterOption)
-    //   pollSession();
+    // const newFilterOption = {
+    //   ...session.filterOption,
+    //   : duration * 60
+    // };
+    // // setSliderValue(duration);
+    // setFilterOption(newFilterOption)
+    // pollSession();
   };
-
   return (
     <FilterWrapperDl>
       <div>

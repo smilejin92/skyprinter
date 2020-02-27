@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   setFilterOption,
-  pollSession,
-  toggleFliterLoader
+  pollSession
 } from '../../../../redux/modules/session';
 import { connect } from 'react-redux';
 import {
@@ -177,8 +176,6 @@ const StopFilter = React.memo(({ session, setFilter }) => {
 
   return (
     <FilterWrapperDl>
-      {console.log('현재상태 : ', stopLists)}
-      {console.log('필터상태 : ', session.filterOption)}
       <div>
         <dt>
           <FilterWrapperButton drop={drop} onClick={switchDrop}>
@@ -193,7 +190,10 @@ const StopFilter = React.memo(({ session, setFilter }) => {
             {stopLists.map(stopList => (
               <OptionHeader key={uuid.v4()} zero={stopList.disabled}>
                 <StyleCheckBox
-                  onChange={() => onChange(stopList)}
+                  onChange={() => {
+                    if (stopList.checked) return;
+                    onChange(stopList);
+                  }}
                   checked={stopList.checked}
                   disabled={stopList.disabled ? true : false}
                 >
@@ -218,9 +218,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setFilter: filterOption => {
     dispatch(setFilterOption(filterOption));
-    // dispatch(toggleFliterLoader()); // true
     dispatch(pollSession(true));
-    // dispatch(toggleFliterLoader()); // false
   }
 });
 

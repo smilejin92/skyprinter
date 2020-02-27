@@ -1,4 +1,11 @@
-import { takeEvery, put, call, select, delay } from 'redux-saga/effects';
+import {
+  takeEvery,
+  put,
+  call,
+  select,
+  delay,
+  takeLatest
+} from 'redux-saga/effects';
 import SessionService from '../../services/SessionService';
 import TicketService from '../../services/TicketService';
 
@@ -8,7 +15,7 @@ export const SET_SESSION_KEY = 'skyprinter/session/SET_SESSION_KEY';
 export const SET_POLL_RESULT = 'skyprinter/session/SET_POLL_RESULT';
 export const SET_PROGRESS_RESULT = 'skyprinter/session/SET_PROGRESS_RESULT';
 export const POLL_SESSION = 'skyprinter/session/POLL_SESSION';
-export const TOGGLE_STOP = 'skyprinter/session/TOGGLE_STOP';
+export const TOGGLE_DIRECT = 'skyprinter/session/TOGGLE_DIRECT';
 export const SET_FILTER_OPTION = 'skyprinter/session/SET_FILTER_OPTION';
 export const SET_STOP_RESULT = 'skyprinter/session/SET_STOP_RESULT';
 export const RESET_RESULT = 'skyprinter/session/RESET_RESULT';
@@ -21,6 +28,7 @@ export const ASSIGN_TICKETS = 'skyprinter/session/ASSIGN_TICKETS';
 export const ADD_TICKETS = 'skyprinter/session/ADD_TICKETS';
 export const INIT_INFINITE_SCROLL = 'skyprinter/session/INIT_INFINITE_SCROLL';
 export const LOAD_MORE_TICKETS = 'skyprinter/session/LOAD_MORE_TICKETS';
+export const TOGGLE_POLL_STATUS = 'skyprinter/session/TOGGLE_POLL_STATUS';
 
 // ACTION CREATORS
 export const loadMoreTickets = () => ({
@@ -47,8 +55,8 @@ export const pollSession = loader => ({
   loader: loader
 });
 
-export const toggleStop = () => ({
-  type: TOGGLE_STOP
+export const toggleDirect = () => ({
+  type: TOGGLE_DIRECT
 });
 
 export const setFilterOption = filterOption => ({
@@ -112,7 +120,7 @@ export function* postSession({ allInfo }) {
 
     // 3. 2에서 생성한 Session의 상태가 complete될 때까지 poll
     const filterOption = yield select(({ session }) => session.filterOption);
-    // price, asc
+    console.log(filterOption);
 
     while (true) {
       const { data } = yield call(
@@ -136,16 +144,16 @@ export function* postSession({ allInfo }) {
 
       // 4. 세션 로딩시 표시할 티켓 생성
       yield put(setAllResult(data));
-      yield put(setPollResult(data));
-      yield put({ type: SET_TICKETS });
+      // yield put(setPollResult(data));
+      const isPolling = yield select(({ session }) => session.isPolling);
+      if (!isPolling) yield put({ type: POLL_SESSION });
+      // yield put({ type: SET_TICKETS });
 
       // 4. 세션 로딩이 complete되면 원본을 allResult에 저장한 뒤
       // 5. UI에 표시할 티켓을 가장 최근 적용된 필터로 poll해온다.
       if (data.Status === 'UpdatesComplete') {
         // yield put(setAllResult(data));
-        console.log('오리지날 필터 옵션');
-        console.log(filterOption);
-        yield put({ type: POLL_SESSION });
+        // yield put({ type: POLL_SESSION });
         break;
       }
       yield delay(1500);
@@ -156,20 +164,25 @@ export function* postSession({ allInfo }) {
 }
 
 export function* getSession(action) {
+  yield put({ type: TOGGLE_POLL_STATUS });
   if (action.loader) yield put(toggleFliterLoader());
   const sessionKey = yield select(({ session }) => session.sessionKey);
   const filterOption = yield select(({ session }) => session.filterOption);
-  console.log('after loading');
-  console.log(filterOption);
+  const isDirect = yield select(({ session }) => session.isDirect);
+
+  if (isDirect) filterOption.stops = 0;
+
   try {
     const { data } = yield call(
       SessionService.pollSession,
       sessionKey,
       filterOption
     );
+
     if (action.loader) yield put(toggleFliterLoader());
     yield put(setPollResult(data));
     yield put({ type: SET_TICKETS });
+    yield put({ type: TOGGLE_POLL_STATUS });
   } catch (error) {
     console.error(error);
   }
@@ -225,16 +238,24 @@ const initialState = {
   tickets: null,
   filterOption: {
     sortType: 'price',
-    sortOrder: 'asc',
-    duration: ''
+    sortOrder: 'asc'
   },
   infiniteScroll: false,
-  ticketEndIndex: 10
+  ticketEndIndex: 10,
+  filterLoader: false,
+  isPolling: false,
+  isDirect: false
 };
 
 // REDUCER
 export default function session(state = initialState, action) {
   switch (action.type) {
+    case TOGGLE_POLL_STATUS:
+      return {
+        ...state,
+        isPolling: !state.isPolling
+      };
+
     case ADD_TICKETS:
       return {
         ...state,
@@ -266,27 +287,17 @@ export default function session(state = initialState, action) {
         progress: action.progress
       };
 
-    case TOGGLE_STOP:
-      if (state.filterOption.stops === 0) {
-        const { stops, ...filterOption } = state.filterOption;
-        return {
-          ...state,
-          filterOption
-        };
-      } else {
-        return {
-          ...state,
-          filterOption: {
-            ...state.filterOption,
-            stops: 0
-          }
-        };
-      }
+    case TOGGLE_DIRECT:
+      return {
+        ...state,
+        isDirect: !state.isDirect
+      };
 
     case SET_FILTER_OPTION:
       console.log('1. 필터 옵션 초기화');
       return {
         ...state,
+        isDirect: false,
         filterOption: action.filterOption
       };
 

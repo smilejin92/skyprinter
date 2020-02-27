@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 import SearchButton from './SearchButton';
 import { useSelector, useDispatch } from 'react-redux';
 import uuid from 'uuid';
-import { toggleStop } from '../../redux/modules/session';
+// import { toggleDirect } from '../../redux/modules/session';
 import {
   SearchFormWrapper,
   SearchFormOption,
@@ -16,7 +16,7 @@ import {
   SearchFormSubmit,
   SelectSeatDateBox,
   SearchSubmitButton,
-  ErrorMessageWrapper,
+  ErrorMessageWrapper
 } from '../styles/SearchForm.style';
 
 function SearchForm() {
@@ -65,13 +65,7 @@ function SearchForm() {
           </SelectSeatDateBox>
         </SearchWrapper>
         <SearchFormSubmit>
-          <CheckBox
-            toggleStop={() => {
-              dispatch(toggleStop());
-            }}
-          >
-            직항만
-          </CheckBox>
+          <CheckBox>직항만</CheckBox>
           <SearchSubmitButton page={pathname}>
             <SearchButton ariaLabel="항공권 검색">
               항공권 검색

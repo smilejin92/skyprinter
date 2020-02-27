@@ -186,13 +186,25 @@ function TicketResultInfo({
               <TimeFilter />
               <DurationFilter />
               <CarrierFilter />
-              <AirportFilter />
+              {/* <AirportFilter /> */}
             </TicketFilterSection>
             <TicketResultSection filterLoader={session.filterLoader}>
               <ResultAndArrangeStandard>
                 <div>
-                  {session.progress < 100 && <Spinner />}
-                  <span>{123}결과</span>
+                  {session.pollResult && session.progress < 100 && <Spinner />}
+                  {session.pollResult && session.progress < 100 ? (
+                    <span className="loading">
+                      {`(${session.pollResult.Agents.length}개의 항공사 중 ${
+                        session.pollResult.Agents.filter(
+                          Agent => Agent.Status === 'UpdatesComplete'
+                        ).length
+                      }개 확인)`}
+                    </span>
+                  ) : (
+                    <span className="complete">
+                      {`${session.allResult.Itineraries.length}개의 결과`}
+                    </span>
+                  )}
                 </div>
                 <SelectArrageStandard>
                   <label htmlFor="arrangedStandard">정렬기준</label>
@@ -235,6 +247,7 @@ function TicketResultInfo({
                 }
                 loadMore={loadMoreTickets}
               >
+                {/* 티켓 */}
                 <div>{session.tickets}</div>
               </InfiniteScroll>
               {!session.infiniteScroll && (

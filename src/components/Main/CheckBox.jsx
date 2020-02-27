@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Checkbox } from 'antd';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { toggleDirect } from '../../redux/modules/session';
 
 const StyledCheckbox = styled(Checkbox)`
   margin-top: 1.2rem;
@@ -20,29 +22,39 @@ const StyledCheckbox = styled(Checkbox)`
   }
 `;
 
-const CheckBox = props => {
-  const [checkbox, setCheckbox] = useState({
-    checked: false,
-    disabled: false || props.disabled,
-  });
+const CheckBox = ({ disabled, toggleDirect, children, isDirect }) => {
+  // const [checkbox, setCheckbox] = useState({
+  //   checked: false,
+  //   disabled: false || disabled,
+  // });
 
-  const onChange = e => {
-    setCheckbox({
-      checked: e.target.checked,
-      disabled: checkbox.disabled,
-    });
-    props.toggleStop();
-  };
+  // const onChange = e => {
+  //   setCheckbox({
+  //     checked: isDirect,
+  //     disabled: checkbox.disabled,
+  //   });
+  //   toggleDirect();
+  // };
 
   return (
     <StyledCheckbox
-      checked={checkbox.checked}
-      disabled={checkbox.disabled}
-      onChange={onChange}
+      checked={disabled ? false : isDirect}
+      disabled={disabled}
+      onChange={toggleDirect}
     >
-      {props.children}
+      {children}
     </StyledCheckbox>
   );
 };
 
-export default CheckBox;
+const mapStateToProps = ({ session }) => ({
+  isDirect: session.isDirect
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleDirect: () => {
+    dispatch(toggleDirect());
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckBox);
