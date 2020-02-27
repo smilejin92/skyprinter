@@ -180,8 +180,8 @@ function Sorts() {
         params,
         headers
       });
-      console.log('2', data);
 
+      console.log('2', data);
       if (data.Status === 'UpdatesComplete') break;
     }
   };

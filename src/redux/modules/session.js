@@ -84,7 +84,7 @@ export function* postSession({ allInfo }) {
   const { culture, places, passenger, datepicker } = allInfo;
   const { country, currency, locale } = culture;
   const { inBoundId, outBoundId } = places;
-  // children, cabinClass
+  // children, infants
   const { adults } = passenger;
   const { outboundDate, inboundDate } = datepicker;
 
@@ -134,6 +134,7 @@ export function* postSession({ allInfo }) {
         progress: Math.floor(progressNum)
       });
 
+      // 4. 세션 로딩시 표시할 티켓 생성
       // all data는 계속 업데이트 해준다
       yield put(setAllResult(data));
 
@@ -304,6 +305,7 @@ export default function session(state = initialState, action) {
       };
 
     case SET_FILTER_OPTION:
+      console.log('1. 필터 옵션 초기화');
       return {
         ...state,
         isDirect: false,
