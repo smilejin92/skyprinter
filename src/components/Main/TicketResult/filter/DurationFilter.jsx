@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   FilterWrapperButton,
   FilterWrapperDl,
@@ -8,9 +8,69 @@ import {
   StyleSlider,
   TimeContent,
 } from '../../../styles/Filter.style';
+import { connect } from 'react-redux';
 
-const DurationFilter = props => {
+const DurationFilter = ({ session }) => {
   const [drop, setDrop] = useState(true);
+  const [legLists, setLegLists] = useState([]);
+  const [minHour, setMinHour] = useState(0);
+  const [maxHour, setMaxHour] = useState(100);
+  const [defaultMaxHour, setDefaultMaxHour] = useState(100);
+  const [sliderValue, setSliderValue] = useState(100);
+
+  const getDurations = useCallback(({ Itineraries, Legs, Segments }) => {
+    console.log(Itineraries, Legs, Segments);
+    const LegList = [];
+    for (let i = 0; i < Legs.length; i++) {
+      LegList.push(ticketLists(Legs[i]));
+    }
+    function ticketLists(itinerary) {
+      return itinerary.Duration;
+    }
+    LegList.sort((a, b) => a - b);
+    // console.log(LegList)
+
+    let Minhours = Math.floor(LegList[0] / 60);
+    let Minresthours = LegList[0] % 60;
+
+    let Maxhours = Math.floor(LegList[LegList.length - 1] / 60);
+    let Maxresthours = LegList[LegList.length - 1] % 60;
+
+    if (Minresthours / 30 > 1) {
+      Minhours += 1;
+    } else if (Minresthours / 30 === 1) {
+      Minhours += 0.5;
+    }
+
+    if (Maxresthours / 30 > 1) {
+      Maxhours += 1;
+    } else if (Maxresthours / 30 === 1) {
+      Maxhours += 0.5;
+    }
+
+    setMinHour(Minhours);
+    setMaxHour(Maxhours);
+    setDefaultMaxHour(Maxhours);
+    setSliderValue(Maxhours);
+
+    return Legs;
+  }, []);
+
+  const sliderChange = e => {
+    setSliderValue(e);
+    setMaxHour(e);
+
+    console.log(e);
+    console.log('슬라이더 실행!');
+  };
+  const slideAfterChange = () => {
+    console.log('슬라이더 에프터!!');
+  };
+  useEffect(() => {
+    console.log(getDurations(session.pollResult));
+    setLegLists(getDurations(session.pollResult));
+    console.log(legLists);
+  }, [getDurations, legLists, session.pollResult]);
 
   const switchDrop = () => {
     setDrop(!drop);
@@ -18,6 +78,7 @@ const DurationFilter = props => {
 
   return (
     <FilterWrapperDl>
+      {console.log()}
       <div>
         <dt>
           <FilterWrapperButton drop={drop} onClick={switchDrop}>
@@ -30,10 +91,17 @@ const DurationFilter = props => {
         <FilterWrapperDd>
           <FilterDropDiv drop={drop}>
             <div>
-              <TimeContent>14.5시간 - 61.5시간</TimeContent>
+              <TimeContent>{`${minHour}시간 - ${maxHour}시간`}</TimeContent>
             </div>
             <StyleSliderWrapper>
-              <StyleSlider defaultValue={20} />
+              <StyleSlider
+                min={minHour}
+                max={defaultMaxHour}
+                value={sliderValue}
+                step={0.5}
+                onAfterChange={slideAfterChange}
+                onChange={sliderChange}
+              />
             </StyleSliderWrapper>
           </FilterDropDiv>
         </FilterWrapperDd>
@@ -42,4 +110,8 @@ const DurationFilter = props => {
   );
 };
 
-export default DurationFilter;
+const maptStateToProps = state => ({
+  session: state.session,
+});
+const mapDispatchToProps = dispatch => ({});
+export default connect(maptStateToProps, mapDispatchToProps)(DurationFilter);
