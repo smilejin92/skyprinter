@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { setError, clearError } from '../../redux/modules/error';
 import { createSession } from '../../redux/modules/session';
 import { push } from 'connected-react-router';
+import TicketService from '../../services/TicketService';
 
-const SearchButton = ({ children, allInfo, createSession, setError }) => {
-  const generatedId = errorLists => {
+function SearchButton({ children, allInfo, createSession, setError }) {
+  const generatedId = useCallback(errorLists => {
     return Math.max(0, ...errorLists.map(errorList => errorList.id)) + 1;
-  };
+  }, []);
 
   const create = () => {
     const errorLists = [];
     if (!allInfo.places.inBoundId || !allInfo.places.outBoundId) {
-      console.log('출발지 혹은 도착지를 입력해주세요.');
       errorLists.push({
         id: generatedId(errorLists),
         type: 'Incorrect places',
@@ -21,7 +21,6 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
     }
 
     if (allInfo.places.inBoundId === allInfo.places.outBoundId) {
-      console.log('출발지와 도착지가 같으면 검색이 불가능합니다.');
       errorLists.push({
         id: generatedId(errorLists),
         type: 'PlaceId is same',
@@ -45,7 +44,6 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
         allInfo.passenger.adults <
         allInfo.passenger.children.filter(child => child.age < 2).length
       ) {
-        console.log('성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.');
         errorLists.push({
           id: generatedId(errorLists),
           type: 'No matching adult',
@@ -75,16 +73,7 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
   };
 
   return <button onClick={create}>{children}</button>;
-};
-
-const convertDateToString = date => {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const _date = date.getDate();
-  return `${year}-${Math.floor(month / 10) === 0 ? `0${month}` : month}-${
-    Math.floor(_date / 10) === 0 ? `0${_date}` : _date
-  }`;
-};
+}
 
 const mapStateToProps = state => ({
   allInfo: {
@@ -101,10 +90,12 @@ const mapDispatchToProps = dispatch => ({
     // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{outboundDate}/{inboundDate && inboundDate}/?query
     dispatch(
       push(
-        `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${convertDateToString(
+        `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${TicketService.convertDateToString(
           allInfo.datepicker.outboundDate,
         )}${allInfo.datepicker.inboundDate &&
-          `/${convertDateToString(allInfo.datepicker.inboundDate)}`}`,
+          `/${TicketService.convertDateToString(
+            allInfo.datepicker.inboundDate,
+          )}`}`,
       ),
     );
     dispatch(createSession(allInfo));
