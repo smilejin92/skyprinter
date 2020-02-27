@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import TicketService from '../../../services/TicketService';
 import Spinner from './Spinner';
 import {
   Tickets,
@@ -6,31 +7,15 @@ import {
   TicketInfos,
   SemiCircle,
   SelectTicketDetails,
-  PlaceCode,
+  PlaceCode
 } from '../../styles/TicketInfoDetail.style';
 
-function TicketInfoDetail({
-  data,
-  itinerary,
-  progress,
-  formatDateString,
-  formatDuration,
-  getAirlineLogo,
-  getOperatingAirline,
-  getTimeDifference,
-  isSameDay,
-  getPlaceCode,
-  getNumberOfStops,
-  getStopsList,
-  getStopDots,
-  priceToString,
-  isSamePlace,
-}) {
+function TicketInfoDetail({ data, itinerary, progress }) {
   const [ticket, setTicket] = useState(null);
 
   useEffect(() => {
     // 각 티켓에 대한 정보 취합
-    const { PricingOptions, OutboundLegId, InboundLegId } = itinerary; // data.Itineraries[n].PricingOptions, data.Itineraries[n].OutboundLegId, data.Itineraries[n].InboundLegId
+    const { PricingOptions, OutboundLegId, InboundLegId } = itinerary;
 
     // get Outbound Leg
     let OutboundLeg;
@@ -50,7 +35,7 @@ function TicketInfoDetail({
 
     const ticket = {
       PricingOptions,
-      OutboundLeg,
+      OutboundLeg
     };
 
     // get Inbound Leg (왕복이라면)
@@ -81,21 +66,28 @@ function TicketInfoDetail({
           <TicketWrapper>
             <TicketInfos>
               <div className="carrier">
-                {getAirlineLogo(ticket.OutboundLeg, data)}
-                {getOperatingAirline(ticket.OutboundLeg, data)}
+                {TicketService.getAirlineLogo(ticket.OutboundLeg, data)}
+                {TicketService.getOperatingAirline(ticket.OutboundLeg, data)}
               </div>
 
               <div className="departTime">
-                <p>{formatDateString(ticket.OutboundLeg.Departure)}</p>
+                <p>
+                  {TicketService.formatDateString(ticket.OutboundLeg.Departure)}
+                </p>
                 <span>
-                  {getPlaceCode(ticket.OutboundLeg.OriginStation, data)}
+                  {TicketService.getPlaceCode(
+                    ticket.OutboundLeg.OriginStation,
+                    data
+                  )}
                 </span>
               </div>
               <div className="totalHour">
-                <p>{formatDuration(ticket.OutboundLeg.Duration)}</p>
+                <p>
+                  {TicketService.formatDuration(ticket.OutboundLeg.Duration)}
+                </p>
                 <div>
                   <ul>
-                    {getStopDots(ticket.OutboundLeg)}
+                    {TicketService.getStopDots(ticket.OutboundLeg)}
                     <svg width="12" height="12" viewBox="0 0 12 12">
                       <path
                         fill="#898294"
@@ -106,47 +98,65 @@ function TicketInfoDetail({
                 </div>
                 <p className="stops">
                   {ticket.OutboundLeg.Stops.length > 0 ? (
-                    <span className="transfer">{`${getNumberOfStops(
-                      ticket.OutboundLeg,
+                    <span className="transfer">{`${TicketService.getNumberOfStops(
+                      ticket.OutboundLeg
                     )}회 경유`}</span>
                   ) : (
                     <span className="direct">직항</span>
                   )}
                   {ticket.OutboundLeg.Stops.length > 0 &&
-                    getStopsList(ticket.OutboundLeg, data)}
+                    TicketService.getStopsList(ticket.OutboundLeg, data)}
                 </p>
               </div>
               <div className="arriveTime">
                 <p>
-                  {formatDateString(ticket.OutboundLeg.Arrival)}{' '}
-                  {!isSameDay(ticket.OutboundLeg) && (
-                    <span>{`+${getTimeDifference(ticket.OutboundLeg)}`}</span>
+                  {TicketService.formatDateString(ticket.OutboundLeg.Arrival)}{' '}
+                  {!TicketService.isSameDay(ticket.OutboundLeg) && (
+                    <span>{`+${TicketService.getTimeDifference(
+                      ticket.OutboundLeg
+                    )}`}</span>
                   )}
                 </p>
-                <PlaceCode same={isSamePlace(ticket)}>
-                  {getPlaceCode(ticket.OutboundLeg.DestinationStation, data)}
+                <PlaceCode same={TicketService.isSamePlace(ticket)}>
+                  {TicketService.getPlaceCode(
+                    ticket.OutboundLeg.DestinationStation,
+                    data
+                  )}
                 </PlaceCode>
               </div>
             </TicketInfos>
             {ticket.InboundLeg && (
               <TicketInfos>
                 <div className="carrier">
-                  {getAirlineLogo(ticket.InboundLeg, data)}
-                  {getOperatingAirline(ticket.InboundLeg, data, 'inbound')}
+                  {TicketService.getAirlineLogo(ticket.InboundLeg, data)}
+                  {TicketService.getOperatingAirline(
+                    ticket.InboundLeg,
+                    data,
+                    'inbound'
+                  )}
                 </div>
 
                 <div className="departTime">
-                  <p>{formatDateString(ticket.InboundLeg.Departure)}</p>
-                  <PlaceCode same={isSamePlace(ticket)}>
-                    {getPlaceCode(ticket.InboundLeg.OriginStation, data)}
+                  <p>
+                    {TicketService.formatDateString(
+                      ticket.InboundLeg.Departure
+                    )}
+                  </p>
+                  <PlaceCode same={TicketService.isSamePlace(ticket)}>
+                    {TicketService.getPlaceCode(
+                      ticket.InboundLeg.OriginStation,
+                      data
+                    )}
                   </PlaceCode>
                 </div>
 
                 <div className="totalHour">
-                  <p>{formatDuration(ticket.InboundLeg.Duration)}</p>
+                  <p>
+                    {TicketService.formatDuration(ticket.InboundLeg.Duration)}
+                  </p>
                   <div>
                     <ul>
-                      {getStopDots(ticket.InboundLeg)}
+                      {TicketService.getStopDots(ticket.InboundLeg)}
                       <svg width="12" height="12" viewBox="0 0 12 12">
                         <path
                           fill="#898294"
@@ -157,26 +167,31 @@ function TicketInfoDetail({
                   </div>
                   <p className="stops">
                     {ticket.InboundLeg.Stops.length > 0 ? (
-                      <span className="transfer">{`${getNumberOfStops(
-                        ticket.InboundLeg,
+                      <span className="transfer">{`${TicketService.getNumberOfStops(
+                        ticket.InboundLeg
                       )}회 경유`}</span>
                     ) : (
                       <span className="direct">직항</span>
                     )}
                     {ticket.InboundLeg.Stops.length > 0 &&
-                      getStopsList(ticket.InboundLeg, data)}
+                      TicketService.getStopsList(ticket.InboundLeg, data)}
                   </p>
                 </div>
 
                 <div className="arriveTime">
                   <p>
-                    {formatDateString(ticket.InboundLeg.Arrival)}{' '}
-                    {!isSameDay(ticket.InboundLeg) && (
-                      <span>{`+${getTimeDifference(ticket.InboundLeg)}`}</span>
+                    {TicketService.formatDateString(ticket.InboundLeg.Arrival)}{' '}
+                    {!TicketService.isSameDay(ticket.InboundLeg) && (
+                      <span>{`+${TicketService.getTimeDifference(
+                        ticket.InboundLeg
+                      )}`}</span>
                     )}
                   </p>
                   <span>
-                    {getPlaceCode(ticket.InboundLeg.DestinationStation, data)}
+                    {TicketService.getPlaceCode(
+                      ticket.InboundLeg.DestinationStation,
+                      data
+                    )}
                   </span>
                 </div>
               </TicketInfos>
@@ -194,10 +209,9 @@ function TicketInfoDetail({
                   : `상품 1개`}
               </p>
               {progress < 100 && <Spinner />}
-              <span>{`₩ ${priceToString(
-                ticket.PricingOptions[0].Price,
+              <span>{`₩ ${TicketService.priceToString(
+                ticket.PricingOptions[0].Price
               )}`}</span>
-              {/* <p className="totalPrice">총 가격</p> */}
               <a
                 href={ticket.PricingOptions[0].DeeplinkUrl}
                 target="_blank"
