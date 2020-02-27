@@ -1,11 +1,4 @@
-import {
-  takeEvery,
-  put,
-  call,
-  select,
-  delay,
-  takeLatest
-} from 'redux-saga/effects';
+import { takeEvery, put, call, select, delay } from 'redux-saga/effects';
 import SessionService from '../../services/SessionService';
 import TicketService from '../../services/TicketService';
 
@@ -142,18 +135,31 @@ export function* postSession({ allInfo }) {
       });
 
       // 4. 세션 로딩시 표시할 티켓 생성
+      // all data는 계속 업데이트 해준다
       yield put(setAllResult(data));
-      // yield put(setPollResult(data));
-      const isPolling = yield select(({ session }) => session.isPolling);
-      if (!isPolling) yield put({ type: POLL_SESSION });
-      // yield put({ type: SET_TICKETS });
 
       // 4. 세션 로딩이 complete되면 원본을 allResult에 저장한 뒤
       // 5. UI에 표시할 티켓을 가장 최근 적용된 필터로 poll해온다.
       if (data.Status === 'UpdatesComplete') {
-        // yield put(setAllResult(data));
-        // yield put({ type: POLL_SESSION });
+        const pollResult = yield select(({ session }) => session.pollResult);
+        // status가 complete인데 pollResult의 결과가 없다면
+        if (
+          !pollResult ||
+          !pollResult.Itineraries ||
+          !pollResult.Itineraries.length
+        ) {
+          const allResult = yield select(({ session }) => session.allResult);
+          // allResult는 있는 경우
+          if (allResult.Itineraries && allResult.Itineraries.length) {
+            yield put(setPollResult(allResult));
+            yield put({ type: SET_TICKETS });
+          }
+          yield put(setFilterOption({ sortType: 'price', sortOrder: 'asc' }));
+        }
         break;
+      } else {
+        const isPolling = yield select(({ session }) => session.isPolling);
+        if (!isPolling) yield put({ type: POLL_SESSION });
       }
       yield delay(1500);
     }
@@ -167,15 +173,21 @@ export function* getSession(action) {
   if (action.loader) yield put(toggleFliterLoader());
   const sessionKey = yield select(({ session }) => session.sessionKey);
   const filterOption = yield select(({ session }) => session.filterOption);
+  console.log('555', filterOption);
   const isDirect = yield select(({ session }) => session.isDirect);
 
-  if (isDirect) filterOption.stops = 0;
+  let newFilter = {
+    ...filterOption
+  };
+  if (isDirect) {
+    newFilter.stops = 0;
+  }
 
   try {
     const { data } = yield call(
       SessionService.pollSession,
       sessionKey,
-      filterOption
+      newFilter
     );
 
     if (action.loader) yield put(toggleFliterLoader());
@@ -190,13 +202,11 @@ export function* getSession(action) {
 export function* setTickets() {
   const ticketEndIndex = yield select(({ session }) => session.ticketEndIndex);
   const pollResult = yield select(({ session }) => session.pollResult);
-  const progress = yield select(({ session }) => session.progress);
   const tickets = yield call(
     TicketService.pushTickets,
     0,
     ticketEndIndex,
-    pollResult,
-    progress
+    pollResult
   );
   yield put({ type: ASSIGN_TICKETS, tickets });
 }
@@ -243,7 +253,10 @@ const initialState = {
   ticketEndIndex: 10,
   filterLoader: false,
   isPolling: false,
-  isDirect: false
+  isDirect: false,
+  minDurationItinerary: null,
+  earliestOutboundItinerary: null,
+  cheapestItinerary: null
 };
 
 // REDUCER
@@ -300,9 +313,69 @@ export default function session(state = initialState, action) {
       };
 
     case SET_ALL_RESULT:
+      const itineraries = [...action.allResult.Itineraries];
+      const legs = [...action.allResult.Legs];
+      const sortedDuration = [];
+      const sortedOutboundDepartureTime = [];
+
+      itineraries.forEach((itinerary, idx) => {
+        const price = itinerary.PricingOptions[0].Price;
+        // 1. get outboundleg
+        const [outboundLeg] = legs.filter(
+          l => l.Id === itinerary.OutboundLegId
+        );
+
+        // 2. get inboundLeg
+        let inboundLeg;
+        if (itinerary.InboundLegId) {
+          inboundLeg = legs.filter(l => l.Id === itinerary.InboundLegId)[0];
+        }
+
+        const totalDuration = inboundLeg
+          ? outboundLeg.Duration + inboundLeg.Duration
+          : outboundLeg.Duration;
+        sortedDuration.push({
+          id: idx,
+          duration: totalDuration,
+          durationString: TicketService.formatDuration(
+            inboundLeg ? totalDuration / 2 : totalDuration
+          ),
+          averaged: inboundLeg ? true : false,
+          price,
+          priceString: TicketService.priceToString(price)
+        });
+
+        sortedOutboundDepartureTime.push({
+          id: idx,
+          outboundDepartureTime: new Date(outboundLeg.Departure),
+          departureTimeString: TicketService.formatDateString(
+            outboundLeg.Departure
+          ),
+          price,
+          priceString: TicketService.priceToString(price)
+        });
+      });
+
+      sortedDuration.sort((d1, d2) => d1.duration - d2.duration);
+      console.log('sortedDuration', sortedDuration);
+
+      sortedOutboundDepartureTime.sort(
+        (d1, d2) => d1.outboundDepartureTime - d2.outboundDepartureTime
+      );
+      console.log('sortedOutbound', sortedOutboundDepartureTime);
+
+      const minDurationItinerary = sortedDuration[0];
+      const cheapestItinerary = [...sortedDuration].sort(
+        (d1, d2) => d1.price - d2.price
+      )[0];
+      const earliestOutboundItinerary = sortedOutboundDepartureTime[0];
+
       return {
         ...state,
-        allResult: action.allResult
+        allResult: action.allResult,
+        minDurationItinerary,
+        earliestOutboundItinerary,
+        cheapestItinerary
       };
 
     case RESET_RESULT:

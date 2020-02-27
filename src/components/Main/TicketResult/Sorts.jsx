@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styled, { css } from 'styled-components';
 import uuid from 'uuid';
@@ -82,6 +82,7 @@ function Sorts() {
       toggle: false
     }
   ]);
+
   const changeSort = id => {
     if (id === 'mostCheapest') {
       const params = {
@@ -184,20 +185,6 @@ function Sorts() {
       if (data.Status === 'UpdatesComplete') break;
     }
   };
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const params = {
-  //         sortType: 'price',
-  //         sortOrder: 'asc'
-  //       };
-  //       getFlight(params);
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   })();
-  // }, [setFilter,filter]);
 
   return (
     <>

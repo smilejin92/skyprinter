@@ -76,7 +76,7 @@ const StopFilter = React.memo(({ session, setFilter }) => {
             if (ticket.OutboundLeg.Stops.length === 0) {
               if (DirectStopList.length === 0) DirectStopList.push(ticket);
             }
-            if (ticket.OutboundLeg.Stops.length >= 1) {
+            if (ticket.OutboundLeg.Stops.length === 1) {
               if (OneOverStopList.length === 0) OneOverStopList.push(ticket);
             }
           }
@@ -84,7 +84,7 @@ const StopFilter = React.memo(({ session, setFilter }) => {
           if (ticket.OutboundLeg.Stops.length === 0) {
             if (DirectStopList.length === 0) DirectStopList.push(ticket);
           }
-          if (ticket.OutboundLeg.Stops.length >= 1) {
+          if (ticket.OutboundLeg.Stops.length === 1) {
             if (OneOverStopList.length === 0) OneOverStopList.push(ticket);
           }
         }
@@ -110,7 +110,15 @@ const StopFilter = React.memo(({ session, setFilter }) => {
           const OneOverPrice = OneOverStopList[0].PricingOptions[0].Price;
           return `₩ ${numberWithCommas(Math.floor(OneOverPrice))}`;
         }
-
+        if (DirectStopList.length === 0 && OneOverStopList.length === 0) {
+          if (Itineraries.length === 0) {
+            return '없음';
+          } else {
+            return `₩ ${numberWithCommas(
+              Math.floor(Itineraries[0].PricingOptions[0].Price)
+            )}`;
+          }
+        }
         return '없음';
       }
 
@@ -127,7 +135,7 @@ const StopFilter = React.memo(({ session, setFilter }) => {
           disabled: DirectStopList.length === 0 ? true : false
         },
         {
-          id: '1회 경유',
+          id: '최대 1회 경유',
           checked: session.filterOption.stops === 1 ? true : false,
           price:
             OneOverStopList.length >= 1
@@ -155,12 +163,11 @@ const StopFilter = React.memo(({ session, setFilter }) => {
   }, [getStops, session.allResult]);
 
   const onChange = stopList => {
-    console.log(stopList);
     if (stopList.id === '직항') {
       setFilter({ ...session.filterOption, stops: 0 });
     }
 
-    if (stopList.id === '1회 경유') {
+    if (stopList.id === '최대 1회 경유') {
       setFilter({ ...session.filterOption, stops: 1 });
     }
 
