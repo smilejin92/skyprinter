@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import IMAGE01 from '../../../images/ad_image01.jpeg';
 import IMAGE02 from '../../../images/ad_image02.jpeg';
-import IMAGE03 from '../../../images/ad_image03.jpeg';
+import IMAGE03 from '../../../images/ad_image04.jpeg';
 
 const AdWrapper = styled.div`
   width: 48rem;
@@ -23,9 +23,9 @@ const Advertise = styled.div`
 const Advertising = () => {
   return (
     <AdWrapper>
-      <Advertise image={IMAGE01}></Advertise>
       <Advertise image={IMAGE02}></Advertise>
-      <Advertise image={IMAGE03}></Advertise>
+      <Advertise height={'40rem'} image={IMAGE01}></Advertise>
+      <Advertise height={'42rem'} image={IMAGE03}></Advertise>
     </AdWrapper>
   );
 };

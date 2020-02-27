@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   setFilterOption,
-  pollSession,
+  pollSession
 } from '../../../../redux/modules/session';
 import {
   FilterWrapperButton,
@@ -14,12 +14,12 @@ import {
   StyleCheckBox,
   AllSelectOrRemoveDiv,
   AllSelectBtn,
-  AllRemoveBtn,
+  AllRemoveBtn
 } from '../../../styles/Filter.style';
 import uuid from 'uuid';
 import { useCallback } from 'react';
 
-const CarrierFilter = React.memo(({ session }) => {
+const CarrierFilter = React.memo(({ session, setFilter }) => {
   const [drop, setDrop] = useState(true);
   const [carrierLists, setCarrierLists] = useState([]);
 
@@ -68,7 +68,7 @@ const CarrierFilter = React.memo(({ session }) => {
 
         const ticket = {
           PricingOptions,
-          OutboundLeg,
+          OutboundLeg
         };
 
         // get Inbound Leg (왕복이라면)
@@ -93,14 +93,14 @@ const CarrierFilter = React.memo(({ session }) => {
           ) {
             carrierPriceList.push({
               Price: ticket.PricingOptions[0].Price,
-              CarrierId: ticket.OutboundLeg.Carriers[0],
+              CarrierId: ticket.OutboundLeg.Carriers[0]
             });
             return carrierPriceList[0];
           }
         }
         carrierPriceList.push({
           Price: ticket.PricingOptions[0].Price,
-          CarrierId: ticket.OutboundLeg.Carriers[0],
+          CarrierId: ticket.OutboundLeg.Carriers[0]
         });
         return carrierPriceList[0];
       }
@@ -111,6 +111,16 @@ const CarrierFilter = React.memo(({ session }) => {
 
       const _carriers = getUniqueObjectArray(CarrierList);
 
+      function inspectChecked(Carrier) {
+        if (session.filterOption.excludeCarriers) {
+          return session.filterOption.excludeCarriers.includes(Carrier.Code)
+            ? false
+            : true;
+        } else {
+          return true;
+        }
+      }
+
       const carriers = Carriers.map(Carrier => ({
         id: Carrier.Id,
         code: Carrier.Code,
@@ -119,13 +129,9 @@ const CarrierFilter = React.memo(({ session }) => {
           _carriers.findIndex(predicate('CarrierId', Carrier.Id)) !== -1 &&
           numberWithCommas(
             _carriers[_carriers.findIndex(predicate('CarrierId', Carrier.Id))]
-              .Price,
+              .Price
           ),
-        checked:
-          session.filterOption.excludeCarriers &&
-          session.filterOption.excludeCarriers.includes(Carrier.Code)
-            ? false
-            : true,
+        checked: inspectChecked(Carrier)
       }))
         .sort((a, b) => {
           return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
@@ -134,22 +140,40 @@ const CarrierFilter = React.memo(({ session }) => {
 
       return carriers;
     },
-    [session.filterOption.excludeCarriers],
+    [session.filterOption.excludeCarriers]
   );
 
   useEffect(() => {
     setCarrierLists(getCarriers(session.allResult));
   }, [getCarriers, session.allResult]);
 
-  const onChange = id => {
-    console.log(id);
-    setCarrierLists(
-      carrierLists.map(carrierList =>
-        carrierList.id === id
-          ? { ...carrierList, checked: !carrierList.checked }
-          : carrierList,
-      ),
-    );
+  const onChange = carrierList => {
+    if (carrierList.checked) {
+      setFilter({
+        ...session.filterOption,
+        excludeCarriers: session.filterOption.excludeCarriers
+          ? `${session.filterOption.excludeCarriers};${carrierList.code}`
+          : carrierList.code
+      });
+    } else {
+      // const { excludeCarriers, ...filterOption } = session.filterOption;
+      const reg = new RegExp(carrierList.code + ';', 'g');
+      const excludeCarrierList = session.filterOption.excludeCarriers.replace(
+        reg,
+        ''
+      );
+      if (excludeCarrierList.length === 2) {
+        const { excludeCarriers, ...filterOption } = session.filterOption;
+        setFilter({
+          ...filterOption
+        });
+      } else {
+        setFilter({
+          ...session.filterOption,
+          excludeCarriers: excludeCarrierList
+        });
+      }
+    }
   };
 
   const switchDrop = () => {
@@ -157,15 +181,23 @@ const CarrierFilter = React.memo(({ session }) => {
   };
 
   const allSelect = () => {
-    setCarrierLists(
-      carrierLists.map(carrierList => ({ ...carrierList, checked: true })),
-    );
+    const { excludeCarriers, ...filterOption } = session.filterOption;
+    setFilter({
+      ...filterOption
+    });
   };
 
   const allRemove = () => {
-    setCarrierLists(
-      carrierLists.map(carrierList => ({ ...carrierList, checked: false })),
+    let allExcludeCarrier = '';
+    carrierLists.forEach(
+      carrierList =>
+        (allExcludeCarrier = allExcludeCarrier + carrierList.code + ';')
     );
+
+    setFilter({
+      ...session.filterOption,
+      excludeCarriers: allExcludeCarrier.substr(0, allExcludeCarrier.length - 1)
+    });
   };
 
   return (
@@ -186,7 +218,7 @@ const CarrierFilter = React.memo(({ session }) => {
                 onClick={allSelect}
                 disabled={
                   !carrierLists.some(
-                    carrierList => carrierList.checked !== true,
+                    carrierList => carrierList.checked !== true
                   )
                 }
               >
@@ -197,7 +229,7 @@ const CarrierFilter = React.memo(({ session }) => {
                 onClick={allRemove}
                 disabled={
                   !carrierLists.some(
-                    carrierList => carrierList.checked !== false,
+                    carrierList => carrierList.checked !== false
                   )
                 }
               >
@@ -207,7 +239,7 @@ const CarrierFilter = React.memo(({ session }) => {
             {carrierLists.map(carrierList => (
               <OptionHeader key={uuid.v4()}>
                 <StyleCheckBox
-                  onChange={() => onChange(carrierList.id)}
+                  onChange={() => onChange(carrierList)}
                   checked={carrierList.checked}
                 >
                   {carrierList.name}
@@ -223,14 +255,14 @@ const CarrierFilter = React.memo(({ session }) => {
 });
 
 const mapStateToProps = state => ({
-  session: state.session,
+  session: state.session
 });
 
 const mapDispatchToProps = dispatch => ({
   setFilter: filterOption => {
     dispatch(setFilterOption(filterOption));
     dispatch(pollSession(true));
-  },
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CarrierFilter);
