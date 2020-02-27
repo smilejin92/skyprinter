@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   FilterWrapperDl,
   FilterWrapperDd,
@@ -17,32 +17,145 @@ import {
   pollSession
 } from '../../../../redux/modules/session';
 
-const TimeFilter = ({ session, setFilterOption, pollSession }) => {
+const TimeFilter = ({ session, setFilterOption }) => {
   const [drop, setDrop] = useState(true);
-  const [minHour, setMinHour] = useState(0);
-  const [maxHour, setMaxHour] = useState(0);
+  const [outBoundMinTime, setOutBoundMinTime] = useState('오전 12:00');
+  const [outBoundMaxTime, setOutBoundMaxTime] = useState('오후 11:59');
+
+  const [inBoundMinTime, setInBoundMinTime] = useState('오전 12:00');
+  const [inBoundMaxTime, setInBoundMaxTime] = useState('오후 11:59');
+
+  const getTime = (persent, day) => {
+    if (day) {
+      const time = persent * 15;
+      let date = '';
+      let hour = '0';
+      let minute = '';
+      if (time >= 750) {
+        date = '오후';
+      } else {
+        date = '오전';
+      }
+      if (time >= 60) {
+        hour = Math.floor(time / 60);
+        minute = time % 60;
+      } else {
+        minute = time;
+      }
+      const answer = `${date} ${persent > 48 ? (hour = hour - 12) : hour}:${
+        minute === 0 ? '00' : minute
+      }`;
+      if (persent === 48) {
+        return '오후 12:00';
+      }
+      if (answer === '오전 0:00') {
+        return '오전 12:00';
+      } else {
+        return answer;
+      }
+    } else {
+      const time = persent * 15;
+      let date = '';
+      let hour = '';
+      let minute = '';
+      if (time < 750) {
+        date = '오전';
+      } else {
+        date = '오후';
+      }
+      if (time >= 60) {
+        hour = Math.floor(time / 60);
+        minute = time % 60;
+      } else {
+        minute = time;
+      }
+      const answer = `${date} ${persent < 48 ? hour : hour - 12}:${
+        minute === 0 ? '00' : minute
+      }`;
+      if (persent === 48) {
+        return '오후 12:00';
+      }
+      if (answer === '오후 12:00') {
+        return '오후 11:59';
+      } else {
+        return answer;
+      }
+    }
+  };
+
+  const parseString = data => {
+    if (`${data}`.length === 1) {
+      return `0${data}`;
+    } else {
+      return `${data}`;
+    }
+  };
+  const slideAfterOutBoundChange = () => {
+    console.log('슬라이더 에프터!!', outBoundMinTime, outBoundMaxTime);
+    const minHour = +(outBoundMinTime.substring(3, 5)[1] === ':'
+      ? outBoundMinTime.substring(3, 4)
+      : outBoundMinTime.substring(3, 5));
+    const minMinute = outBoundMinTime.slice(-2);
+    const maxHour = +(outBoundMaxTime.substring(3, 5)[1] === ':'
+      ? outBoundMaxTime.substring(3, 4)
+      : outBoundMaxTime.substring(3, 5));
+    const maxMinute = outBoundMaxTime.slice(-2);
+    console.log(minHour, minMinute, maxHour, maxMinute);
+    const newFilterOption = {
+      ...session.filterOption,
+      outboundDepartStartTime:
+        outBoundMinTime.substring(0, 2) === '오후'
+          ? `${minHour + 12}:${minMinute}`
+          : `${parseString(minHour)}:${minMinute}`,
+      outboundDepartEndTime:
+        outBoundMaxTime.substring(0, 2) === '오후'
+          ? `${maxHour + 12}:${maxMinute}`
+          : `${parseString(maxHour)}:${maxMinute}`
+    };
+
+    setFilterOption(newFilterOption);
+  };
+
+  const slideOutBoundChange = e => {
+    setOutBoundMinTime(getTime(e[0], true));
+    setOutBoundMaxTime(getTime(e[1], false));
+  };
+
+  const slideAfterInBoundChange = () => {
+    console.log('슬라이더 에프터!!', inBoundMinTime, inBoundMaxTime);
+    const minHour = +(inBoundMinTime.substring(3, 5)[1] === ':'
+      ? inBoundMinTime.substring(3, 4)
+      : inBoundMinTime.substring(3, 5));
+    const minMinute = inBoundMinTime.slice(-2);
+    const maxHour = +(inBoundMaxTime.substring(3, 5)[1] === ':'
+      ? inBoundMaxTime.substring(3, 4)
+      : inBoundMinTime.substring(3, 5));
+    const maxMinute = inBoundMaxTime.slice(-2);
+    console.log(minHour, minMinute, maxHour, maxMinute);
+    const newFilterOption = {
+      ...session.filterOption,
+      inboundDepartStartTime:
+        inBoundMinTime.substring(0, 2) === '오후'
+          ? `${minHour + 12}:${minMinute}`
+          : `${parseString(minHour)}:${minMinute}`,
+      inboundDepartEndTime:
+        inBoundMaxTime.substring(0, 2) === '오후'
+          ? `${maxHour + 12}:${maxMinute}`
+          : `${parseString(maxHour)}:${maxMinute}`
+    };
+
+    setFilterOption(newFilterOption);
+  };
+
+  const slideInBoundChange = e => {
+    setInBoundMinTime(getTime(e[0], true));
+    setInBoundMaxTime(getTime(e[1], false));
+  };
 
   const switchDrop = () => {
     setDrop(!drop);
   };
 
-  const sliderChange = e => {
-    console.log(e);
-    console.log('슬라이더 실행!');
-  };
-
-  const slideAfterChange = ({}) => {
-    console.log('슬라이더 에프터!!');
-    // 1. session.filterOption에 duration property가 있는가?
-    // 2. duration 값을 슬라이더의 value로 설정
-    // const newFilterOption = {
-    //   ...session.filterOption,
-    //   : duration * 60
-    // };
-    // // setSliderValue(duration);
-    // setFilterOption(newFilterOption)
-    // pollSession();
-  };
   return (
     <FilterWrapperDl>
       <div>
@@ -58,29 +171,33 @@ const TimeFilter = ({ session, setFilterOption, pollSession }) => {
           <FilterDropDiv drop={drop}>
             <OutBoundTimeDiv>
               <TimeHeader>가는날 출발 시간</TimeHeader>
-              <TimeContent>{`오전 12:00 - 오후 11:59`}</TimeContent>
+              <TimeContent>{`${outBoundMinTime} - ${outBoundMaxTime}`}</TimeContent>
               <StyleSliderWrapper>
                 <StyleSlider
-                  onChange={sliderChange}
-                  onAfterChange={() => {}}
+                  onAfterChange={slideAfterOutBoundChange}
+                  onChange={slideOutBoundChange}
                   range
-
-                  // min={outboundDepartTime}
-                  // max={outboundDepartEndTime}
+                  step={2}
+                  min={0}
+                  max={96}
+                  tooltipVisible={false}
+                  defaultValue={[0, 100]}
                 />
               </StyleSliderWrapper>
             </OutBoundTimeDiv>
             <InBoundTimeDiv>
               <TimeHeader>오는날 출발 시간</TimeHeader>
-              <TimeContent>{`오전 12:00 - 오후 11:59`}</TimeContent>
+              <TimeContent>{`${inBoundMinTime} - ${inBoundMaxTime}`}</TimeContent>
               <StyleSliderWrapper>
                 <StyleSlider
-                  onChange={sliderChange}
-                  onAfterChange={() => {}}
+                  onAfterChange={slideAfterInBoundChange}
+                  onChange={slideInBoundChange}
                   range
-                  defaultValue={[0, 50]}
-                  //  min={inboundDepartStartTime}
-                  //  max={inboundDepartEndTime}
+                  step={2}
+                  min={0}
+                  max={96}
+                  tooltipVisible={false}
+                  defaultValue={[0, 100]}
                 />
               </StyleSliderWrapper>
             </InBoundTimeDiv>
@@ -97,9 +214,7 @@ const maptStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setFilterOption: filterOption => {
     dispatch(setFilterOption(filterOption));
-  },
-  pollSession: () => {
-    dispatch(pollSession());
+    dispatch(pollSession(true));
   }
 });
 export default connect(maptStateToProps, mapDispatchToProps)(TimeFilter);

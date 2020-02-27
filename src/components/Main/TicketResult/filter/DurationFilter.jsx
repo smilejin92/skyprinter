@@ -14,26 +14,61 @@ import {
   pollSession
 } from '../../../../redux/modules/session';
 
-const DurationFilter = ({ session, setFilterOption, pollSession }) => {
+const DurationFilter = ({ session, setFilterOption }) => {
   const [drop, setDrop] = useState(true);
   const [legLists, setLegLists] = useState([]);
   const [minHour, setMinHour] = useState(0);
   const [maxHour, setMaxHour] = useState(100);
   const [defaultMaxHour, setDefaultMaxHour] = useState(100);
-
   const defaultHourRef = useRef(100);
 
   const getDurations = useCallback(({ Itineraries, Legs, Segments }) => {
     // console.log(Itineraries, Legs, Segments);
     const LegList = [];
-    for (let i = 0; i < Legs.length; i++) {
-      LegList.push(ticketLists(Legs[i]));
+    for (let i = 0; i < Itineraries.length; i++) {
+      LegList.push(ticketLists(Itineraries[i]));
     }
+
     function ticketLists(itinerary) {
-      return itinerary.Duration;
+      const { PricingOptions, OutboundLegId, InboundLegId } = itinerary;
+      // data.Itineraries[n].PricingOptions, data.Itineraries[n].OutboundLegId, data.Itineraries[n].InboundLegId
+      // get Outbound Leg
+      let OutboundLeg;
+      Legs.forEach(leg => {
+        if (leg.Directionality === 'Outbound' && leg.Id === OutboundLegId) {
+          OutboundLeg = { ...leg };
+        }
+      });
+      // get Outbound segments
+      const OutboundSegments = [];
+      OutboundLeg.SegmentIds.forEach(id => {
+        OutboundSegments.push({ ...Segments[id] });
+      });
+      OutboundLeg.Segments = OutboundSegments;
+      const ticket = {
+        PricingOptions,
+        OutboundLeg
+      };
+
+      // get Inbound Leg (왕복이라면)
+      if (InboundLegId) {
+        let InboundLeg;
+        Legs.forEach(leg => {
+          if (leg.Directionality === 'Inbound' && leg.Id === InboundLegId) {
+            InboundLeg = { ...leg };
+          }
+        });
+        const InboundSegments = [];
+        InboundLeg.SegmentIds.forEach(id => {
+          InboundSegments.push({ ...Segments[id] });
+        });
+        InboundLeg.Segments = InboundSegments;
+        ticket.InboundLeg = InboundLeg;
+        return (ticket.OutboundLeg.Duration + ticket.InboundLeg.Duration) / 2;
+      }
+      return ticket.OutboundLeg.Duration;
     }
     LegList.sort((a, b) => a - b);
-    // console.log(LegList)
 
     let Minhours = Math.floor(LegList[0] / 60);
     let Minresthours = LegList[0] % 60;
@@ -41,15 +76,15 @@ const DurationFilter = ({ session, setFilterOption, pollSession }) => {
     let Maxhours = Math.floor(LegList[LegList.length - 1] / 60);
     let Maxresthours = LegList[LegList.length - 1] % 60;
 
-    if (Minresthours / 30 > 1) {
+    if (Minresthours > 50) {
       Minhours += 1;
-    } else if (Minresthours / 30 === 1) {
+    } else if (Minresthours > 0) {
       Minhours += 0.5;
     }
 
-    if (Maxresthours / 30 > 1) {
+    if (Maxresthours > 50) {
       Maxhours += 1;
-    } else if (Maxresthours / 30 === 1) {
+    } else if (Maxresthours > 0) {
       Maxhours += 0.5;
     }
 
@@ -65,27 +100,24 @@ const DurationFilter = ({ session, setFilterOption, pollSession }) => {
   const sliderChange = e => {
     defaultHourRef.current = e;
     setMaxHour(e);
-
-    console.log(e);
-    console.log('슬라이더 실행!');
   };
+
   const slideAfterChange = duration => {
-    console.log('슬라이더 에프터!!');
     // 1. session.filterOption에 duration property가 있는가?
     // 2. duration 값을 슬라이더의 value로 설정
     const newFilterOption = {
       ...session.filterOption,
-      duration: duration * 60
+      duration: duration * 60 * 2
     };
     // setSliderValue(duration);
     setFilterOption(newFilterOption);
-    pollSession();
+    // pollSession();
   };
   useEffect(() => {
     // console.log(getDurations(session.pollResult));
-    setLegLists(getDurations(session.pollResult));
+    setLegLists(getDurations(session.allResult));
     // console.log(legLists);
-  }, [getDurations, legLists, session.pollResult]);
+  }, [getDurations, legLists, session.allResult]);
 
   const switchDrop = () => {
     setDrop(!drop);
@@ -112,7 +144,6 @@ const DurationFilter = ({ session, setFilterOption, pollSession }) => {
               <StyleSlider
                 min={minHour}
                 max={defaultMaxHour}
-                // value={sliderValue}
                 defaultValue={defaultHourRef.current}
                 step={0.5}
                 onAfterChange={slideAfterChange}
@@ -132,9 +163,7 @@ const maptStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setFilterOption: filterOption => {
     dispatch(setFilterOption(filterOption));
-  },
-  pollSession: () => {
-    dispatch(pollSession());
+    dispatch(pollSession(true));
   }
 });
 export default connect(maptStateToProps, mapDispatchToProps)(DurationFilter);
