@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
+  setFilterOption,
+  pollSession,
+} from '../../../../redux/modules/session';
+import {
   FilterWrapperButton,
   FilterWrapperDl,
   FilterWrapperDd,
@@ -130,10 +134,11 @@ const CarrierFilter = React.memo(({ session }) => {
   );
 
   useEffect(() => {
-    setCarrierLists(getCarriers(session.pollResult));
-  }, [getCarriers, session.pollResult]);
+    setCarrierLists(getCarriers(session.allResult));
+  }, [getCarriers, session.allResult]);
 
   const onChange = id => {
+    console.log(id);
     setCarrierLists(
       carrierLists.map(carrierList =>
         carrierList.id === id
@@ -217,6 +222,11 @@ const mapStateToProps = state => ({
   session: state.session,
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  setFilter: filterOption => {
+    dispatch(setFilterOption(filterOption));
+    dispatch(pollSession(true));
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CarrierFilter);
