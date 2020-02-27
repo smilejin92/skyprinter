@@ -16,7 +16,7 @@ import { HiddenHeader } from '../../styles';
 import {
   setInfiniteScroll,
   setTicketIndex,
-  loadMoreTickets
+  loadMoreTickets,
 } from '../../../redux/modules/session';
 import {
   TicketResultInfoWrapper,
@@ -42,7 +42,7 @@ import {
   LuggageMoreDetail,
   PriceAlarm,
   ProgressDiv,
-  MainLoading
+  MainLoading,
 } from '../../styles/TicketResultInfo.style';
 
 function TicketResultInfo({
@@ -51,7 +51,7 @@ function TicketResultInfo({
   places,
   session,
   setInfiniteScroll,
-  loadMoreTickets
+  loadMoreTickets,
 }) {
   const [visible, setVisible] = useState(false);
   const [filter, setFilter] = useState([
@@ -60,22 +60,22 @@ function TicketResultInfo({
       name: '최저가',
       price: null,
       time: null,
-      toggle: true
+      toggle: true,
     },
     {
       id: 'shortTrip',
       name: '최단여행 시간',
       price: null,
       time: null,
-      toggle: false
+      toggle: false,
     },
     {
       id: 'departure',
       name: '출국:출발시간',
       price: null,
       time: null,
-      toggle: false
-    }
+      toggle: false,
+    },
   ]);
 
   const convertClass = useCallback(type => {
@@ -83,7 +83,7 @@ function TicketResultInfo({
       { cabinClass: 'economy', name: '일반석' },
       { cabinClass: 'premiumeconomy', name: '프리미엄 일반석' },
       { cabinClass: 'business', name: '비지니스석' },
-      { cabinClass: 'first', name: '일등석' }
+      { cabinClass: 'first', name: '일등석' },
     ];
 
     const [selectedSeat] = seatTypes.filter(s => type === s.cabinClass);
@@ -102,11 +102,11 @@ function TicketResultInfo({
         filter.map(filterItem =>
           filterItem.id === id
             ? { ...filterItem, toggle: true }
-            : { ...filterItem, toggle: false }
-        )
+            : { ...filterItem, toggle: false },
+        ),
       );
     },
-    [filter]
+    [filter],
   );
 
   const toggleVisible = useCallback(() => {
@@ -140,10 +140,10 @@ function TicketResultInfo({
           <SearchPassenger>
             {getTotalPassengers() > 1
               ? `${getTotalPassengers()} 승객 | ${convertClass(
-                  passengerInfo.cabinClass
+                  passengerInfo.cabinClass,
                 )}`
               : `${getTotalPassengers()} 성인 | ${convertClass(
-                  passengerInfo.cabinClass
+                  passengerInfo.cabinClass,
                 )}`}
           </SearchPassenger>{' '}
         </SearchSummary>
@@ -186,13 +186,25 @@ function TicketResultInfo({
               <TimeFilter />
               <DurationFilter />
               <CarrierFilter />
-              <AirportFilter />
+              {/* <AirportFilter /> */}
             </TicketFilterSection>
             <TicketResultSection filterLoader={session.filterLoader}>
               <ResultAndArrangeStandard>
                 <div>
-                  {session.progress < 100 && <Spinner />}
-                  <span>{123}결과</span>
+                  {session.pollResult && session.progress < 100 && <Spinner />}
+                  {session.pollResult && session.progress < 100 ? (
+                    <span className="loading">
+                      {`(${session.pollResult.Agents.length}개의 항공사 중 ${
+                        session.pollResult.Agents.filter(
+                          Agent => Agent.Status === 'UpdatesComplete',
+                        ).length
+                      }개 확인)`}
+                    </span>
+                  ) : (
+                    <span className="complete">
+                      {`${session.allResult.Itineraries.length}개의 결과`}
+                    </span>
+                  )}
                 </div>
                 <SelectArrageStandard>
                   <label htmlFor="arrangedStandard">정렬기준</label>
@@ -235,6 +247,7 @@ function TicketResultInfo({
                 }
                 loadMore={loadMoreTickets}
               >
+                {/* 티켓 */}
                 <div>{session.tickets}</div>
               </InfiniteScroll>
               {!session.infiniteScroll && (
@@ -277,7 +290,7 @@ const mapStateToProps = state => ({
   session: state.session,
   places: state.places,
   tripType: state.datepicker.tripType,
-  passengerInfo: state.passenger
+  passengerInfo: state.passenger,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -289,7 +302,7 @@ const mapDispatchToProps = dispatch => ({
   },
   loadMoreTickets: () => {
     dispatch(loadMoreTickets());
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketResultInfo);

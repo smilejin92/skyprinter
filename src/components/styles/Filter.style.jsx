@@ -21,7 +21,7 @@ export const FilterDropDiv = styled.div`
               max-height: 0;
             }
             100% {
-              max-height: ${allView ? '120rem' : '28rem'};
+              max-height: ${allView ? '300rem' : '28rem'};
             }
           }
         `
@@ -30,7 +30,7 @@ export const FilterDropDiv = styled.div`
 
           @keyframes close {
             0% {
-              max-height: ${allView ? '120rem' : '28rem'};
+              max-height: ${allView ? '300rem' : '28rem'};
             }
             100% {
               max-height: 0;

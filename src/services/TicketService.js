@@ -58,7 +58,7 @@ export default class TicketService {
     if (Carriers.length < 2) {
       const [carrierId] = Carriers;
       const { ImageUrl, Name } = data.Carriers.filter(
-        c => c.Id === carrierId
+        c => c.Id === carrierId,
       )[0];
       return <img src={ImageUrl} alt={Name} />;
     } else {
@@ -68,7 +68,7 @@ export default class TicketService {
         altText += `${Name} + `;
       }
       const { Name } = data.Carriers.filter(
-        c => c.Id === Carriers[Carriers.length - 1]
+        c => c.Id === Carriers[Carriers.length - 1],
       )[0];
       altText += Name;
       return <div>{altText}</div>;
@@ -165,7 +165,7 @@ export default class TicketService {
           textElements.push(
             <span key={uuid.v4()} id={placeCode}>
               {text}
-            </span>
+            </span>,
           );
         }
       }
@@ -178,7 +178,7 @@ export default class TicketService {
         textElements.push(
           <span key={uuid.v4()} id={placeCode}>
             {text}
-          </span>
+          </span>,
         );
       }
     }
@@ -205,7 +205,7 @@ export default class TicketService {
           data={pollResult}
           itinerary={Itineraries[i]}
           progress={progress}
-        />
+        />,
       );
     }
     return tickets;
