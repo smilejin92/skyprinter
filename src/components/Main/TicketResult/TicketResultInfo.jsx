@@ -186,7 +186,7 @@ function TicketResultInfo({
               <TimeFilter />
               <DurationFilter />
               <CarrierFilter />
-              <AirportFilter />
+              {/* <AirportFilter /> */}
             </TicketFilterSection>
             <TicketResultSection filterLoader={session.filterLoader}>
               <ResultAndArrangeStandard>
@@ -247,6 +247,7 @@ function TicketResultInfo({
                 }
                 loadMore={loadMoreTickets}
               >
+                {/* 티켓 */}
                 <div>{session.tickets}</div>
               </InfiniteScroll>
               {!session.infiniteScroll && (
