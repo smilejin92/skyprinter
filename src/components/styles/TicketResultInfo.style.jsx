@@ -132,6 +132,7 @@ export const TicketResultSection = styled.section`
         font-size: 4rem;
         width: 100%;
         height: 100%;
+        min-height: 75rem;
         z-index: 99;
         background-color: rgba(33, 33, 33, 0.2);
       }
@@ -142,8 +143,8 @@ export const TicketResultSection = styled.section`
         top: 20rem;
         left: 50%;
         transform: translateX(-50%);
-        width: 50%;
-        height: 20%;
+        width: 50rem;
+        height: 50rem;
         z-index: 100;
         background-image: url(${duck});
         background-repeat: no-repeat;

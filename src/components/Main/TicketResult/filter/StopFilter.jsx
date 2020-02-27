@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   setFilterOption,
-  pollSession,
+  pollSession
 } from '../../../../redux/modules/session';
 import { connect } from 'react-redux';
 import {
@@ -219,6 +219,7 @@ const mapDispatchToProps = dispatch => ({
   setFilter: filterOption => {
     dispatch(setFilterOption(filterOption));
     dispatch(pollSession(true));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StopFilter);
