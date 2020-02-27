@@ -45,6 +45,10 @@ export function* fetchChildAge(action) {
           newErrors = newErrors.filter(e => e.type !== 'Age not selected');
         }
 
+        if (passengerInfo.children.length === 0) {
+          newErrors = newErrors.filter(e => e.type !== 'Age not selected');
+        }
+
         if (
           passengerInfo.adults >=
           passengerInfo.children.filter(child => child.age < 2).length
