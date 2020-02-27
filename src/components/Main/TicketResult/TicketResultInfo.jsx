@@ -12,11 +12,14 @@ import DurationFilter from './filter/DurationFilter';
 import CarrierFilter from './filter/CarrierFilter';
 import AirportFilter from './filter/AirportFilter';
 import earth from '../../../images/earth.gif';
+import NoResult from './NoResult';
 import { HiddenHeader } from '../../styles';
 import {
   setInfiniteScroll,
   setTicketIndex,
-  loadMoreTickets
+  loadMoreTickets,
+  setFilterOption,
+  pollSession
 } from '../../../redux/modules/session';
 import {
   TicketResultInfoWrapper,
@@ -36,8 +39,8 @@ import {
   TicketResultSection,
   ResultAndArrangeStandard,
   SelectArrageStandard,
-  ArrangeFilterButtonWapper,
-  FilterPriceButton,
+  ArrangeSortButtonWapper,
+  SortPriceButton,
   MoreResultButton,
   LuggageMoreDetail,
   PriceAlarm,
@@ -51,29 +54,24 @@ function TicketResultInfo({
   places,
   session,
   setInfiniteScroll,
-  loadMoreTickets
+  loadMoreTickets,
+  setFilter
 }) {
   const [visible, setVisible] = useState(false);
-  const [filter, setFilter] = useState([
+  const [sort, setSort] = useState([
     {
       id: 'mostCheapest',
-      name: '최저가',
-      price: null,
-      time: null,
+      name: '최저가순',
       toggle: true
     },
     {
       id: 'shortTrip',
-      name: '최단여행 시간',
-      price: null,
-      time: null,
+      name: '최단여행시간순',
       toggle: false
     },
     {
       id: 'departure',
       name: '출국:출발시간',
-      price: null,
-      time: null,
       toggle: false
     }
   ]);
@@ -96,49 +94,98 @@ function TicketResultInfo({
     return adults + children.length;
   }, [passengerInfo]);
 
-  const changeFilter = useCallback(
-    id => {
-      setFilter(
-        filter.map(filterItem =>
+  const toggleVisible = useCallback(() => {
+    setVisible(!visible);
+  }, [visible, setVisible]);
+
+  const changeSort = id => {
+    if (id === 'mostCheapest') {
+      const params = {
+        ...session.filterOption,
+        sortType: 'price',
+        sortOrder: 'asc'
+      };
+      setFilter(params);
+      setSort(prevFilter =>
+        prevFilter.map(filterItem =>
           filterItem.id === id
             ? { ...filterItem, toggle: true }
             : { ...filterItem, toggle: false }
         )
       );
-    },
-    [filter]
-  );
-
-  const toggleVisible = useCallback(() => {
-    setVisible(!visible);
-  }, [visible, setVisible]);
-
-  const getStatus = () => {
-    if (session.allResult.Status === 'UpdatesComplete') {
-      if (session.allResult.Itineraries.length === 0) {
-        return (
-          <section>
-            <div>
-              <span>
-                <span>
-                  <strong>죄송합니다.</strong> 이 날짜에 검색되는{' '}
-                  <strong>결과가 없습니다</strong>.
-                </span>
-              </span>
-            </div>
-          </section>
-        );
-      }
+    } else if (id === 'shortTrip') {
+      const params = {
+        ...session.filterOption,
+        sortType: 'duration',
+        sortOrder: 'asc'
+      };
+      setFilter(params);
+      setSort(prevFilter =>
+        prevFilter.map(filterItem =>
+          filterItem.id === id
+            ? { ...filterItem, toggle: true }
+            : { ...filterItem, toggle: false }
+        )
+      );
+    } else if (id === 'departure') {
+      const params = {
+        ...session.filterOption,
+        sortType: 'outbounddeparttime',
+        sortOrder: 'asc'
+      };
+      setFilter(params);
+      setSort(prevFilter =>
+        prevFilter.map(filterItem =>
+          filterItem.id === id
+            ? { ...filterItem, toggle: true }
+            : { ...filterItem, toggle: false }
+        )
+      );
     } else {
-      return (
-        <MainLoading>
-          <div>
-            <img src={earth} alt="검색 중" />
-            <span>검색 중</span>
-          </div>
-        </MainLoading>
+      setSort(prevFilter =>
+        prevFilter.map(filterItem => ({ ...filterItem, toggle: false }))
       );
     }
+  };
+
+  const selectTypeSort = ({ target }) => {
+    if (target.value === '최단여행시간순') {
+      const params = {
+        ...session.filterOption,
+        sortType: 'duration',
+        sortOrder: 'asc'
+      };
+      setFilter(params);
+    } else if (target.value === '출국:출발시간') {
+      const params = {
+        ...session.filterOption,
+        sortType: 'outbounddeparttime',
+        sortOrder: 'asc'
+      };
+      setFilter(params);
+    } else if (target.value === '귀국:출발시간') {
+      const params = {
+        ...session.filterOption,
+        sortType: 'inbounddeparttime',
+        sortOrder: 'asc'
+      };
+      setFilter(params);
+    } else {
+      const params = {
+        ...session.filterOption,
+        sortType: 'price',
+        sortOrder: 'asc'
+      };
+      setFilter(params);
+    }
+
+    setSort(prevFilter =>
+      prevFilter.map(filterItem =>
+        filterItem.name === target.value
+          ? { ...filterItem, toggle: true }
+          : { ...filterItem, toggle: false }
+      )
+    );
   };
 
   return (
@@ -236,11 +283,19 @@ function TicketResultInfo({
                 </div>
                 <SelectArrageStandard>
                   <label htmlFor="arrangedStandard">정렬기준</label>
-                  <select id="arrangedStandard" onChange={() => {}}>
-                    <option value="최저가렬">최저가순</option>
+                  <select
+                    value={
+                      sort.filter(filterItem => filterItem.toggle)[0]
+                        ? sort.filter(filterItem => filterItem.toggle)[0].name
+                        : '귀국:출발시간'
+                    }
+                    id="arrangedStandard"
+                    onChange={selectTypeSort}
+                  >
+                    <option value="최저가순">최저가순</option>
                     <option value="최단여행시간순">최단여행시간순</option>
-                    <option value="출국">출국: 출발시간</option>
-                    <option value="귀국">귀국: 출발시간</option>
+                    <option value="출국:출발시간">출국:출발시간</option>
+                    <option value="귀국:출발시간">귀국:출발시간</option>
                   </select>
                 </SelectArrageStandard>
               </ResultAndArrangeStandard>
@@ -249,25 +304,42 @@ function TicketResultInfo({
                   <Progress percent={session.progress} showInfo={false} />
                 </ProgressDiv>
               )}
-              <ArrangeFilterButtonWapper>
-                {filter.map(filterItem => (
-                  <Popover
+              <ArrangeSortButtonWapper>
+                {sort.map(item => (
+                  <SortPriceButton
                     key={uuid.v4()}
-                    content={`${filterItem.name} 순 정렬`}
+                    id={item.id}
+                    toggle={item.toggle}
+                    onClick={() => changeSort(item.id)}
+                    className={item.toggle ? 'active' : null}
                   >
-                    <FilterPriceButton
-                      id={filterItem.id}
-                      toggle={filterItem.toggle}
-                      onClick={() => changeFilter(filterItem.id)}
-                      className={filterItem.toggle ? 'active' : null}
-                    >
-                      <p>{filterItem.name}</p>
-                      <span>₩533,800</span>
-                      <p>{`${filterItem.time}`}</p>
-                    </FilterPriceButton>
-                  </Popover>
+                    <p>{item.name}</p>
+                    <span>
+                      ₩
+                      {item.id === 'mostCheapest'
+                        ? session.cheapestItinerary.priceString
+                        : item.id === 'shortTrip'
+                        ? session.minDurationItinerary.priceString
+                        : session.earliestOutboundItinerary.priceString}
+                    </span>
+                    <p>
+                      {item.id === 'mostCheapest'
+                        ? `${
+                            session.cheapestItinerary.averaged
+                              ? `${session.cheapestItinerary.durationString} (평균)`
+                              : `${session.cheapestItinerary.durationString}`
+                          }`
+                        : item.id === 'shortTrip'
+                        ? `${
+                            session.minDurationItinerary.averaged
+                              ? `${session.minDurationItinerary.durationString} (평균)`
+                              : `${session.minDurationItinerary.durationString}`
+                          }`
+                        : session.earliestOutboundItinerary.departureTimeString}
+                    </p>
+                  </SortPriceButton>
                 ))}
-              </ArrangeFilterButtonWapper>
+              </ArrangeSortButtonWapper>
               <InfiniteScroll
                 hasMore={
                   session.pollResult.Itineraries[session.ticketEndIndex] !==
@@ -302,7 +374,8 @@ function TicketResultInfo({
             </TicketResultSection>
           </SectionWrapper>
         </div>
-      ) : session.allResult.Status === 'UpdatesPending' ? (
+      ) : !session.allResult ||
+        session.allResult.Status === 'UpdatesPending' ? (
         <MainLoading>
           <div>
             <img src={earth} alt="검색 중" />
@@ -361,6 +434,7 @@ function TicketResultInfo({
                   </select>
                 </SelectArrageStandard>
               </ResultAndArrangeStandard>
+              <NoResult />
               <LuggageMoreDetail>
                 <p>
                   <b>요금은 매일 갱신됩니다.</b> 예약 시기의 이용 가능 여부에
@@ -401,6 +475,10 @@ const mapDispatchToProps = dispatch => ({
   },
   loadMoreTickets: () => {
     dispatch(loadMoreTickets());
+  },
+  setFilter: params => {
+    dispatch(setFilterOption(params));
+    dispatch(pollSession(true));
   }
 });
 

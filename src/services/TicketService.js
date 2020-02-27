@@ -15,7 +15,8 @@ export default class TicketService {
   static formatDateString(dateString) {
     const time = dateString.split('T')[1];
     const [militaryHours, minutes] = time.split(':');
-    const timePeriod = +militaryHours < 12 ? '오전' : '오후';
+    const timePeriod =
+      +militaryHours < 12 || +militaryHours >= 24 ? '오전' : '오후';
     const hours = +militaryHours <= 12 ? +militaryHours : +militaryHours - 12;
     return `${timePeriod} ${hours}:${minutes}`;
   }
@@ -27,7 +28,7 @@ export default class TicketService {
     const minutes = duration % 60;
     if (!minutes) return `${hours}시간`;
 
-    return `${hours}시간 ${minutes}분`;
+    return `${hours}시간 ${('' + minutes).split('.')[0]}분`;
   }
 
   static priceToString(price) {
@@ -58,7 +59,7 @@ export default class TicketService {
     if (Carriers.length < 2) {
       const [carrierId] = Carriers;
       const { ImageUrl, Name } = data.Carriers.filter(
-        c => c.Id === carrierId,
+        c => c.Id === carrierId
       )[0];
       return <img src={ImageUrl} alt={Name} />;
     } else {
@@ -68,7 +69,7 @@ export default class TicketService {
         altText += `${Name} + `;
       }
       const { Name } = data.Carriers.filter(
-        c => c.Id === Carriers[Carriers.length - 1],
+        c => c.Id === Carriers[Carriers.length - 1]
       )[0];
       altText += Name;
       return <div>{altText}</div>;
@@ -160,12 +161,16 @@ export default class TicketService {
 
         // <span id={placeCode} warning={true}>
         if (prevDest !== curOrigin) {
-          textElements.push(<span id={placeCode}>{text}</span>);
+          textElements.push(
+            <span key={uuid.v4()} id={placeCode}>
+              {text}
+            </span>
+          );
         } else {
           textElements.push(
             <span key={uuid.v4()} id={placeCode}>
               {text}
-            </span>,
+            </span>
           );
         }
       }
@@ -178,7 +183,7 @@ export default class TicketService {
         textElements.push(
           <span key={uuid.v4()} id={placeCode}>
             {text}
-          </span>,
+          </span>
         );
       }
     }
@@ -194,7 +199,7 @@ export default class TicketService {
     return $lis;
   }
 
-  static pushTickets(start, end, pollResult, progress) {
+  static pushTickets(start, end, pollResult) {
     const { Itineraries } = pollResult;
     const tickets = [];
     for (let i = start; i < end; i++) {
@@ -204,8 +209,7 @@ export default class TicketService {
           key={uuid.v4()}
           data={pollResult}
           itinerary={Itineraries[i]}
-          progress={progress}
-        />,
+        />
       );
     }
     return tickets;

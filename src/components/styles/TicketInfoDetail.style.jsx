@@ -19,6 +19,7 @@ export const Tickets = styled(FlexWrapper)`
   border-radius: 0.6rem 0.6rem;
   box-shadow: 0 1px 3px 0 rgba(37, 32, 31, 0.3);
   transition: box-shadow 0.2s ease-in-out;
+  min-height: 13rem;
 
   &:hover {
     box-shadow: 0 4px 14px 0 rgba(37, 32, 31, 0.25);

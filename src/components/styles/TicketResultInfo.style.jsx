@@ -183,7 +183,8 @@ export const ResultAndArrangeStandard = styled(FlexWrapper)`
 export const SelectArrageStandard = styled(FlexWrapper)`
   align-items: center;
 `;
-export const ArrangeFilterButtonWapper = styled.div`
+export const ArrangeSortButtonWapper = styled.div`
+  display: block;
   margin-bottom: 1.2rem;
   height: 10rem;
   width: 100%;
@@ -191,7 +192,7 @@ export const ArrangeFilterButtonWapper = styled.div`
   border-radius: 0.6rem 0.6rem;
 `;
 
-export const FilterPriceButton = styled.button`
+export const SortPriceButton = styled.button`
   padding: 1.2rem 1.8rem;
   width: 33.3%;
   text-align: left;

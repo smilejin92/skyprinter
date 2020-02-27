@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styled, { css } from 'styled-components';
 import uuid from 'uuid';
@@ -65,66 +65,67 @@ function Sorts() {
       name: '최저가순',
       price: null,
       time: null,
-      toggle: true,
+      toggle: true
     },
     {
       id: 'shortTrip',
       name: '최단여행시간순',
       price: null,
       time: null,
-      toggle: false,
+      toggle: false
     },
     {
       id: 'departure',
       name: '출국:출발시간',
       price: null,
       time: null,
-      toggle: false,
-    },
+      toggle: false
+    }
   ]);
+
   const changeSort = id => {
     if (id === 'mostCheapest') {
       const params = {
         sortType: 'duration',
-        sortOrder: 'asc',
+        sortOrder: 'asc'
       };
       getFlight(params);
       setSort(prevFilter =>
         prevFilter.map(filterItem =>
           filterItem.id === id
             ? { ...filterItem, toggle: true }
-            : { ...filterItem, toggle: false },
-        ),
+            : { ...filterItem, toggle: false }
+        )
       );
     } else if (id === 'shortTrip') {
       const params = {
         sortType: 'duration',
-        sortOrder: 'asc',
+        sortOrder: 'asc'
       };
       getFlight(params);
       setSort(prevFilter =>
         prevFilter.map(filterItem =>
           filterItem.id === id
             ? { ...filterItem, toggle: true }
-            : { ...filterItem, toggle: false },
-        ),
+            : { ...filterItem, toggle: false }
+        )
       );
     } else if (id === 'departure') {
       const params = {
         sortType: 'duration',
-        sortOrder: 'asc',
+        sortOrder: 'asc'
       };
       getFlight(params);
       setSort(prevFilter =>
         prevFilter.map(filterItem =>
           filterItem.id === id
             ? { ...filterItem, toggle: true }
-            : { ...filterItem, toggle: false },
-        ),
+            : { ...filterItem, toggle: false }
+        )
       );
     } else {
       setSort(prevFilter =>
-        prevFilter.map(filterItem => ({ ...filterItem, toggle: false })),
+        prevFilter.map(filterItem => ({ ...filterItem, toggle: false }))
       );
     }
   };
@@ -133,25 +134,25 @@ function Sorts() {
     if (target.value === '최단여행시간순') {
       const params = {
         sortType: 'duration',
-        sortOrder: 'asc',
+        sortOrder: 'asc'
       };
       getFlight(params);
     } else if (target.value === '출국:출발시간') {
       const params = {
         sortType: 'outbounddeparttime',
-        sortOrder: 'asc',
+        sortOrder: 'asc'
       };
       getFlight(params);
     } else if (target.value === '귀국:출발시간') {
       const params = {
         sortType: 'inbounddeparttime',
-        sortOrder: 'asc',
+        sortOrder: 'asc'
       };
       getFlight(params);
     } else {
       const params = {
         sortType: 'price',
-        sortOrder: 'asc',
+        sortOrder: 'asc'
       };
       getFlight(params);
     }
@@ -160,8 +161,8 @@ function Sorts() {
       prevFilter.map(filterItem =>
         filterItem.name === target.value
           ? { ...filterItem, toggle: true }
-          : { ...filterItem, toggle: false },
-      ),
+          : { ...filterItem, toggle: false }
+      )
     );
   };
 
@@ -171,33 +172,19 @@ function Sorts() {
 
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'X-RapidAPI-Key': '6add32701fmsh97fc79500331376p15b684jsn8ec7fcda9082',
+      'X-RapidAPI-Key': '6add32701fmsh97fc79500331376p15b684jsn8ec7fcda9082'
     };
 
     while (true) {
       const { data } = await axios.get(POLL_URL, {
         params,
-        headers,
+        headers
       });
       console.log('2', data);
 
       if (data.Status === 'UpdatesComplete') break;
     }
   };
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const params = {
-  //         sortType: 'price',
-  //         sortOrder: 'asc'
-  //       };
-  //       getFlight(params);
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   })();
-  // }, [setFilter,filter]);
 
   return (
     <>
