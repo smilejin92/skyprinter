@@ -1,11 +1,4 @@
-import {
-  takeEvery,
-  put,
-  call,
-  select,
-  delay,
-  takeLatest
-} from 'redux-saga/effects';
+import { takeEvery, put, call, select, delay } from 'redux-saga/effects';
 import SessionService from '../../services/SessionService';
 import TicketService from '../../services/TicketService';
 
@@ -56,7 +49,7 @@ export const pollSession = loader => ({
 });
 
 export const toggleDirect = () => ({
-  type: TOGGLE_DIRECT
+  type: TOGGLE_DIRECT,
 });
 
 export const setFilterOption = filterOption => ({
@@ -243,7 +236,7 @@ const initialState = {
   ticketEndIndex: 10,
   filterLoader: false,
   isPolling: false,
-  isDirect: false
+  isDirect: false,
 };
 
 // REDUCER
@@ -252,7 +245,7 @@ export default function session(state = initialState, action) {
     case TOGGLE_POLL_STATUS:
       return {
         ...state,
-        isPolling: !state.isPolling
+        isPolling: !state.isPolling,
       };
 
     case ADD_TICKETS:
@@ -288,14 +281,14 @@ export default function session(state = initialState, action) {
     case TOGGLE_DIRECT:
       return {
         ...state,
-        isDirect: !state.isDirect
+        isDirect: !state.isDirect,
       };
 
     case SET_FILTER_OPTION:
       return {
         ...state,
         isDirect: false,
-        filterOption: action.filterOption
+        filterOption: action.filterOption,
       };
 
     case SET_ALL_RESULT:
