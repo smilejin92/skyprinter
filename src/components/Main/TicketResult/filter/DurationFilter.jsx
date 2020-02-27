@@ -6,7 +6,7 @@ import {
   FilterDropDiv,
   StyleSliderWrapper,
   StyleSlider,
-  TimeContent,
+  TimeContent
 } from '../../../styles/Filter.style';
 import { connect } from 'react-redux';
 
@@ -65,6 +65,7 @@ const DurationFilter = ({ session }) => {
   };
   const slideAfterChange = () => {
     console.log('슬라이더 에프터!!');
+    // results 건드리기
   };
   useEffect(() => {
     console.log(getDurations(session.pollResult));
@@ -111,7 +112,7 @@ const DurationFilter = ({ session }) => {
 };
 
 const maptStateToProps = state => ({
-  session: state.session,
+  session: state.session
 });
 const mapDispatchToProps = dispatch => ({});
 export default connect(maptStateToProps, mapDispatchToProps)(DurationFilter);
