@@ -16,7 +16,7 @@ import { HiddenHeader } from '../../styles';
 import {
   setInfiniteScroll,
   setTicketIndex,
-  loadMoreTickets,
+  loadMoreTickets
 } from '../../../redux/modules/session';
 import {
   TicketResultInfoWrapper,
@@ -42,7 +42,7 @@ import {
   LuggageMoreDetail,
   PriceAlarm,
   ProgressDiv,
-  MainLoading,
+  MainLoading
 } from '../../styles/TicketResultInfo.style';
 
 function TicketResultInfo({
@@ -51,7 +51,7 @@ function TicketResultInfo({
   places,
   session,
   setInfiniteScroll,
-  loadMoreTickets,
+  loadMoreTickets
 }) {
   const [visible, setVisible] = useState(false);
   const [filter, setFilter] = useState([
@@ -60,22 +60,22 @@ function TicketResultInfo({
       name: '최저가',
       price: null,
       time: null,
-      toggle: true,
+      toggle: true
     },
     {
       id: 'shortTrip',
       name: '최단여행 시간',
       price: null,
       time: null,
-      toggle: false,
+      toggle: false
     },
     {
       id: 'departure',
       name: '출국:출발시간',
       price: null,
       time: null,
-      toggle: false,
-    },
+      toggle: false
+    }
   ]);
 
   const convertClass = useCallback(type => {
@@ -83,7 +83,7 @@ function TicketResultInfo({
       { cabinClass: 'economy', name: '일반석' },
       { cabinClass: 'premiumeconomy', name: '프리미엄 일반석' },
       { cabinClass: 'business', name: '비지니스석' },
-      { cabinClass: 'first', name: '일등석' },
+      { cabinClass: 'first', name: '일등석' }
     ];
 
     const [selectedSeat] = seatTypes.filter(s => type === s.cabinClass);
@@ -102,16 +102,44 @@ function TicketResultInfo({
         filter.map(filterItem =>
           filterItem.id === id
             ? { ...filterItem, toggle: true }
-            : { ...filterItem, toggle: false },
-        ),
+            : { ...filterItem, toggle: false }
+        )
       );
     },
-    [filter],
+    [filter]
   );
 
   const toggleVisible = useCallback(() => {
     setVisible(!visible);
   }, [visible, setVisible]);
+
+  const getStatus = () => {
+    if (session.allResult.Status === 'UpdatesComplete') {
+      if (session.allResult.Itineraries.length === 0) {
+        return (
+          <section>
+            <div>
+              <span>
+                <span>
+                  <strong>죄송합니다.</strong> 이 날짜에 검색되는{' '}
+                  <strong>결과가 없습니다</strong>.
+                </span>
+              </span>
+            </div>
+          </section>
+        );
+      }
+    } else {
+      return (
+        <MainLoading>
+          <div>
+            <img src={earth} alt="검색 중" />
+            <span>검색 중</span>
+          </div>
+        </MainLoading>
+      );
+    }
+  };
 
   return (
     <TicketResultInfoWrapper>
@@ -140,10 +168,10 @@ function TicketResultInfo({
           <SearchPassenger>
             {getTotalPassengers() > 1
               ? `${getTotalPassengers()} 승객 | ${convertClass(
-                  passengerInfo.cabinClass,
+                  passengerInfo.cabinClass
                 )}`
               : `${getTotalPassengers()} 성인 | ${convertClass(
-                  passengerInfo.cabinClass,
+                  passengerInfo.cabinClass
                 )}`}
           </SearchPassenger>{' '}
         </SearchSummary>
@@ -196,7 +224,7 @@ function TicketResultInfo({
                     <span className="loading">
                       {`(${session.pollResult.Agents.length}개의 항공사 중 ${
                         session.pollResult.Agents.filter(
-                          Agent => Agent.Status === 'UpdatesComplete',
+                          Agent => Agent.Status === 'UpdatesComplete'
                         ).length
                       }개 확인)`}
                     </span>
@@ -274,13 +302,84 @@ function TicketResultInfo({
             </TicketResultSection>
           </SectionWrapper>
         </div>
-      ) : (
+      ) : session.allResult.Status === 'UpdatesPending' ? (
         <MainLoading>
           <div>
             <img src={earth} alt="검색 중" />
             <span>검색 중</span>
           </div>
         </MainLoading>
+      ) : (
+        <div>
+          <AddOns>
+            <CalenderAndChart>
+              <a
+                href="https://www.skyscanner.co.kr/transport/flights/icn/nyca?adultsv2=1&childrenv2=&cabinclass=economy&rtn=1&preferdirects=false&oym=2002&iym=2003&outboundaltsenabled=false&inboundaltsenabled=false"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                달력/차트 보기
+              </a>
+            </CalenderAndChart>
+            <AddLuggage>
+              <a
+                href="https://www.skyscanner.co.kr/airlinefees"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                추가 수화물 요금이 부과될 수 있음
+              </a>
+            </AddLuggage>
+          </AddOns>
+          <SectionWrapper>
+            <TicketFilterSection>
+              <PriceAlarm>
+                <svg viewBox="0 0 24 24 " width="18" height="18">
+                  <path
+                    fill="#0770e3"
+                    d="M18 13.2c.2 2.3 2 1.7 2 4 0 1.7-3.5 3.8-8 3.8s-8-2.1-8-3.8c0-2.3 1.8-1.7 2-4 .5-5.5 1-7.7 4.4-8.9C11.6 3.8 11 3 12 3s.4.8 1.6 1.3c3.5 1.2 3.9 3.4 4.4 8.9zM12 20c3.9 0 6.5-1.7 6.5-2.1 0-.7-2-2-6.5-1.9-4.5 0-6.5 1.4-6.5 2 0 .3 2.6 2 6.5 2zm-2.5-2.8c.7-.1 1.6-.2 2.5-.2s1.8.1 2.5.2c-.6 1.2-1.4 1.8-2.5 1.8s-2-.6-2.5-1.8z"
+                  ></path>
+                </svg>
+                가격 변동 알림 받기
+              </PriceAlarm>
+              <StopFilter />
+            </TicketFilterSection>
+            <TicketResultSection filterLoader={session.filterLoader}>
+              <ResultAndArrangeStandard>
+                <div>
+                  <span className="complete">
+                    {`${session.allResult.Itineraries.length}개의 결과`}
+                  </span>
+                </div>
+                <SelectArrageStandard>
+                  <label htmlFor="arrangedStandard">정렬기준</label>
+                  <select id="arrangedStandard" onChange={() => {}}>
+                    <option value="최저가렬">최저가순</option>
+                    <option value="최단여행시간순">최단여행시간순</option>
+                    <option value="출국">출국: 출발시간</option>
+                    <option value="귀국">귀국: 출발시간</option>
+                  </select>
+                </SelectArrageStandard>
+              </ResultAndArrangeStandard>
+              <LuggageMoreDetail>
+                <p>
+                  <b>요금은 매일 갱신됩니다.</b> 예약 시기의 이용 가능 여부에
+                  따라 요금이 달라질 수 있습니다.
+                </p>
+                <p>
+                  <b>체크인 수화물이 있습니까?</b>
+                  <a
+                    href="https://www.skyscanner.co.kr/airlinefees"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    추가 수화물 요금이 부과될 수 있음
+                  </a>
+                </p>
+              </LuggageMoreDetail>
+            </TicketResultSection>
+          </SectionWrapper>
+        </div>
       )}
     </TicketResultInfoWrapper>
   );
@@ -290,7 +389,7 @@ const mapStateToProps = state => ({
   session: state.session,
   places: state.places,
   tripType: state.datepicker.tripType,
-  passengerInfo: state.passenger,
+  passengerInfo: state.passenger
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -302,7 +401,7 @@ const mapDispatchToProps = dispatch => ({
   },
   loadMoreTickets: () => {
     dispatch(loadMoreTickets());
-  },
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketResultInfo);

@@ -1,11 +1,4 @@
-import {
-  takeEvery,
-  put,
-  call,
-  select,
-  delay,
-  takeLatest
-} from 'redux-saga/effects';
+import { takeEvery, put, call, select, delay } from 'redux-saga/effects';
 import SessionService from '../../services/SessionService';
 import TicketService from '../../services/TicketService';
 
@@ -32,27 +25,27 @@ export const TOGGLE_POLL_STATUS = 'skyprinter/session/TOGGLE_POLL_STATUS';
 
 // ACTION CREATORS
 export const loadMoreTickets = () => ({
-  type: LOAD_MORE_TICKETS,
+  type: LOAD_MORE_TICKETS
 });
 
 export const createSession = allInfo => ({
   type: CREATE_SESSION,
-  allInfo,
+  allInfo
 });
 
 export const setSessionKey = sessionKey => ({
   type: SET_SESSION_KEY,
-  sessionKey,
+  sessionKey
 });
 
 export const setPollResult = data => ({
   type: SET_POLL_RESULT,
-  pollResult: data,
+  pollResult: data
 });
 
 export const pollSession = loader => ({
   type: POLL_SESSION,
-  loader: loader,
+  loader: loader
 });
 
 export const toggleDirect = () => ({
@@ -61,29 +54,29 @@ export const toggleDirect = () => ({
 
 export const setFilterOption = filterOption => ({
   type: SET_FILTER_OPTION,
-  filterOption,
+  filterOption
 });
 
 export const resetResult = () => ({
-  type: RESET_RESULT,
+  type: RESET_RESULT
 });
 
 export const setAllResult = allResult => ({
   type: SET_ALL_RESULT,
-  allResult,
+  allResult
 });
 
 export const toggleFliterLoader = () => ({
-  type: TOGGLE_FILTER_LOADER,
+  type: TOGGLE_FILTER_LOADER
 });
 
 export const setInfiniteScroll = () => ({
-  type: SET_INFINITE_SCROLL,
+  type: SET_INFINITE_SCROLL
 });
 
 export const setTicketIndex = ticketEndIndex => ({
   type: SET_TICKET_INDEX,
-  ticketEndIndex,
+  ticketEndIndex
 });
 
 // SAGA GENERATOR
@@ -91,7 +84,8 @@ export function* postSession({ allInfo }) {
   const { culture, places, passenger, datepicker } = allInfo;
   const { country, currency, locale } = culture;
   const { inBoundId, outBoundId } = places;
-  const { adults, children, cabinClass } = passenger;
+  // children, cabinClass
+  const { adults } = passenger;
   const { outboundDate, inboundDate } = datepicker;
 
   const params = {
@@ -101,7 +95,7 @@ export function* postSession({ allInfo }) {
     originPlace: inBoundId + '-sky',
     destinationPlace: outBoundId + '-sky',
     outboundDate: TicketService.convertDateToString(outboundDate),
-    adults,
+    adults
   };
 
   if (inboundDate)
@@ -125,25 +119,25 @@ export function* postSession({ allInfo }) {
       const { data } = yield call(
         SessionService.pollSession,
         sessionKey,
-        filterOption,
+        filterOption
       );
 
       // 프로그래스바 계산
       const { Agents } = data;
       const AllAgents = Agents.length;
       const PendingAgents = Agents.filter(
-        Agent => Agent.Status === 'UpdatesComplete',
+        Agent => Agent.Status === 'UpdatesComplete'
       ).length;
 
       const progressNum = (PendingAgents / AllAgents) * 100;
       yield put({
         type: SET_PROGRESS_RESULT,
-        progress: Math.floor(progressNum),
+        progress: Math.floor(progressNum)
       });
-
-      // 4. 세션 로딩 80% 완료시 표시할 티켓 생성. 최초 1회만
+      // all data는 계속 업데이트 해준다
       yield put(setAllResult(data));
       // yield put(setPollResult(data));
+
       const isPolling = yield select(({ session }) => session.isPolling);
       if (!isPolling) yield put({ type: POLL_SESSION });
       // yield put({ type: SET_TICKETS });
@@ -152,7 +146,17 @@ export function* postSession({ allInfo }) {
       // 5. UI에 표시할 티켓을 가장 최근 적용된 필터로 poll해온다.
       if (data.Status === 'UpdatesComplete') {
         // yield put(setAllResult(data));
-        // yield put({ type: POLL_SESSION });
+        yield put({ type: POLL_SESSION });
+        const pollResult = yield select(({ session }) => session.pollResult);
+        // status가 complete인데 pollResult의 결과가 없다면
+        if (!pollResult.Itineraries || !pollResult.Itineraries.length) {
+          const allResult = yield select(({ session }) => session.allResult);
+          // allResult는 있는 경우
+          if (allResult.Itineraries && allResult.Itineraries.length) {
+            yield put(setPollResult(allResult));
+          }
+          yield put(setFilterOption({ sortType: 'price', sortOrder: 'asc' }));
+        }
         break;
       }
       yield delay(1500);
@@ -175,7 +179,7 @@ export function* getSession(action) {
     const { data } = yield call(
       SessionService.pollSession,
       sessionKey,
-      filterOption,
+      filterOption
     );
 
     if (action.loader) yield put(toggleFliterLoader());
@@ -196,7 +200,7 @@ export function* setTickets() {
     0,
     ticketEndIndex,
     pollResult,
-    progress,
+    progress
   );
   yield put({ type: ASSIGN_TICKETS, tickets });
 }
@@ -214,7 +218,7 @@ export function* initInfiniteScroll(action) {
     ticketEndIndex,
     ticketEndIndex + 10,
     pollResult,
-    progress,
+    progress
   );
   yield put({ type: ADD_TICKETS, tickets });
 }
@@ -237,7 +241,7 @@ const initialState = {
   tickets: null,
   filterOption: {
     sortType: 'price',
-    sortOrder: 'asc',
+    sortOrder: 'asc'
   },
   infiniteScroll: false,
   ticketEndIndex: 10,
@@ -258,31 +262,31 @@ export default function session(state = initialState, action) {
     case ADD_TICKETS:
       return {
         ...state,
-        tickets: [...state.tickets, ...action.tickets],
+        tickets: [...state.tickets, ...action.tickets]
       };
 
     case ASSIGN_TICKETS:
       return {
         ...state,
-        tickets: action.tickets,
+        tickets: action.tickets
       };
 
     case SET_SESSION_KEY:
       return {
         ...state,
-        sessionKey: action.sessionKey,
+        sessionKey: action.sessionKey
       };
 
     case SET_POLL_RESULT:
       return {
         ...state,
-        pollResult: action.pollResult,
+        pollResult: action.pollResult
       };
 
     case SET_PROGRESS_RESULT:
       return {
         ...state,
-        progress: action.progress,
+        progress: action.progress
       };
 
     case TOGGLE_DIRECT:
@@ -301,7 +305,7 @@ export default function session(state = initialState, action) {
     case SET_ALL_RESULT:
       return {
         ...state,
-        allResult: action.allResult,
+        allResult: action.allResult
       };
 
     case RESET_RESULT:
@@ -313,28 +317,28 @@ export default function session(state = initialState, action) {
         progress: 0,
         filterOption: {
           sortType: 'price',
-          sortOrder: 'asc',
+          sortOrder: 'asc'
         },
-        ticketEndIndex: 10,
+        ticketEndIndex: 10
       };
 
     case INIT_INFINITE_SCROLL:
       return {
         ...state,
         infiniteScroll: true,
-        ticketEndIndex: state.ticketEndIndex + 10,
+        ticketEndIndex: state.ticketEndIndex + 10
       };
 
     case SET_TICKET_INDEX:
       return {
         ...state,
-        ticketEndIndex: action.ticketEndIndex,
+        ticketEndIndex: action.ticketEndIndex
       };
 
     case TOGGLE_FILTER_LOADER:
       return {
         ...state,
-        filterLoader: !state.filterLoader,
+        filterLoader: !state.filterLoader
       };
 
     default:
