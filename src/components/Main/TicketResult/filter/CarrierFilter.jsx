@@ -10,12 +10,12 @@ import {
   StyleCheckBox,
   AllSelectOrRemoveDiv,
   AllSelectBtn,
-  AllRemoveBtn,
+  AllRemoveBtn
 } from '../../../styles/Filter.style';
 import uuid from 'uuid';
 import { useCallback } from 'react';
 
-const CarrierFilter = ({ session }) => {
+const CarrierFilter = React.memo(({ session }) => {
   const [drop, setDrop] = useState(true);
   const [carrierLists, setCarrierLists] = useState([]);
 
@@ -64,7 +64,7 @@ const CarrierFilter = ({ session }) => {
 
         const ticket = {
           PricingOptions,
-          OutboundLeg,
+          OutboundLeg
         };
 
         // get Inbound Leg (왕복이라면)
@@ -89,14 +89,14 @@ const CarrierFilter = ({ session }) => {
           ) {
             carrierPriceList.push({
               Price: ticket.PricingOptions[0].Price,
-              CarrierId: ticket.OutboundLeg.Carriers[0],
+              CarrierId: ticket.OutboundLeg.Carriers[0]
             });
             return carrierPriceList[0];
           }
         }
         carrierPriceList.push({
           Price: ticket.PricingOptions[0].Price,
-          CarrierId: ticket.OutboundLeg.Carriers[0],
+          CarrierId: ticket.OutboundLeg.Carriers[0]
         });
         return carrierPriceList[0];
       }
@@ -115,9 +115,9 @@ const CarrierFilter = ({ session }) => {
           _carriers.findIndex(predicate('CarrierId', Carrier.Id)) !== -1 &&
           numberWithCommas(
             _carriers[_carriers.findIndex(predicate('CarrierId', Carrier.Id))]
-              .Price,
+              .Price
           ),
-        checked: true,
+        checked: true // 로직 수정 해야함.
       }))
         .sort((a, b) => {
           return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
@@ -126,7 +126,7 @@ const CarrierFilter = ({ session }) => {
 
       return carriers;
     },
-    [],
+    []
   );
 
   useEffect(() => {
@@ -138,8 +138,8 @@ const CarrierFilter = ({ session }) => {
       carrierLists.map(carrierList =>
         carrierList.id === id
           ? { ...carrierList, checked: !carrierList.checked }
-          : carrierList,
-      ),
+          : carrierList
+      )
     );
   };
 
@@ -149,19 +149,18 @@ const CarrierFilter = ({ session }) => {
 
   const allSelect = () => {
     setCarrierLists(
-      carrierLists.map(carrierList => ({ ...carrierList, checked: true })),
+      carrierLists.map(carrierList => ({ ...carrierList, checked: true }))
     );
   };
 
   const allRemove = () => {
     setCarrierLists(
-      carrierLists.map(carrierList => ({ ...carrierList, checked: false })),
+      carrierLists.map(carrierList => ({ ...carrierList, checked: false }))
     );
   };
 
   return (
     <FilterWrapperDl>
-      {console.log('55', carrierLists)}
       <div>
         <dt>
           <FilterWrapperButton drop={drop} onClick={switchDrop}>
@@ -178,7 +177,7 @@ const CarrierFilter = ({ session }) => {
                 onClick={allSelect}
                 disabled={
                   !carrierLists.some(
-                    carrierList => carrierList.checked !== true,
+                    carrierList => carrierList.checked !== true
                   )
                 }
               >
@@ -189,7 +188,7 @@ const CarrierFilter = ({ session }) => {
                 onClick={allRemove}
                 disabled={
                   !carrierLists.some(
-                    carrierList => carrierList.checked !== false,
+                    carrierList => carrierList.checked !== false
                   )
                 }
               >
@@ -212,10 +211,10 @@ const CarrierFilter = ({ session }) => {
       </div>
     </FilterWrapperDl>
   );
-};
+});
 
 const mapStateToProps = state => ({
-  session: state.session,
+  session: state.session
 });
 
 const mapDispatchToProps = dispatch => ({});

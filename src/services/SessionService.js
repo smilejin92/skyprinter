@@ -8,27 +8,25 @@ const POLL_URL = `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/
 
 export default class SessionService {
   static createSession(params) {
-    console.log('createSession');
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'X-RapidAPI-Key': RAPID_API_KEY,
+      'X-RapidAPI-Key': RAPID_API_KEY
     };
 
     return axios.post(CREATE_SESSION_URL, qs.stringify(params), {
-      headers,
+      headers
     });
   }
 
   static pollSession(sessionKey, params) {
-    console.log('pollSession');
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'X-RapidAPI-Key': RAPID_API_KEY,
+      'X-RapidAPI-Key': RAPID_API_KEY
     };
 
     return axios.get(`${POLL_URL}/${sessionKey}`, {
       headers,
-      params,
+      params
     });
   }
 }

@@ -1,31 +1,30 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { setError, clearError } from '../../redux/modules/error';
 import { createSession } from '../../redux/modules/session';
 import { push } from 'connected-react-router';
+import TicketService from '../../services/TicketService';
 
-const SearchButton = ({ children, allInfo, createSession, setError }) => {
-  const generatedId = errorLists => {
+function SearchButton({ children, allInfo, createSession, setError }) {
+  const generatedId = useCallback(errorLists => {
     return Math.max(0, ...errorLists.map(errorList => errorList.id)) + 1;
-  };
+  }, []);
 
   const create = () => {
     const errorLists = [];
     if (!allInfo.places.inBoundId || !allInfo.places.outBoundId) {
-      console.log('출발지 혹은 도착지를 입력해주세요.');
       errorLists.push({
         id: generatedId(errorLists),
         type: 'Incorrect places',
-        message: '출발지 혹은 도착지를 입력해주세요.',
+        message: '출발지 혹은 도착지를 입력해주세요.'
       });
     }
 
     if (allInfo.places.inBoundId === allInfo.places.outBoundId) {
-      console.log('출발지와 도착지가 같으면 검색이 불가능합니다.');
       errorLists.push({
         id: generatedId(errorLists),
         type: 'PlaceId is same',
-        message: '출발지와 도착지가 같으면 검색이 불가능합니다.',
+        message: '출발지와 도착지가 같으면 검색이 불가능합니다.'
       });
     }
 
@@ -36,7 +35,7 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
       errorLists.push({
         id: generatedId(errorLists),
         type: 'Age not selected',
-        message: '모든 유/소아의 나이를 입력해주세요.',
+        message: '모든 유/소아의 나이를 입력해주세요.'
       });
     }
 
@@ -45,11 +44,10 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
         allInfo.passenger.adults <
         allInfo.passenger.children.filter(child => child.age < 2).length
       ) {
-        console.log('성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.');
         errorLists.push({
           id: generatedId(errorLists),
           type: 'No matching adult',
-          message: '성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.',
+          message: '성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.'
         });
       }
     }
@@ -62,7 +60,7 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
       errorLists.push({
         id: generatedId(errorLists),
         type: 'No Country',
-        message: '실시간 항공권 검색은 도시 단위까지만 가능합니다.',
+        message: '실시간 항공권 검색은 도시 단위까지만 가능합니다.'
       });
     }
 
@@ -75,24 +73,15 @@ const SearchButton = ({ children, allInfo, createSession, setError }) => {
   };
 
   return <button onClick={create}>{children}</button>;
-};
-
-const convertDateToString = date => {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  const _date = date.getDate();
-  return `${year}-${Math.floor(month / 10) === 0 ? `0${month}` : month}-${
-    Math.floor(_date / 10) === 0 ? `0${_date}` : _date
-  }`;
-};
+}
 
 const mapStateToProps = state => ({
   allInfo: {
     culture: state.culture,
     places: state.places,
     passenger: state.passenger,
-    datepicker: state.datepicker,
-  },
+    datepicker: state.datepicker
+  }
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -101,17 +90,19 @@ const mapDispatchToProps = dispatch => ({
     // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{outboundDate}/{inboundDate && inboundDate}/?query
     dispatch(
       push(
-        `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${convertDateToString(
-          allInfo.datepicker.outboundDate,
+        `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${TicketService.convertDateToString(
+          allInfo.datepicker.outboundDate
         )}${allInfo.datepicker.inboundDate &&
-          `/${convertDateToString(allInfo.datepicker.inboundDate)}`}`,
-      ),
+          `/${TicketService.convertDateToString(
+            allInfo.datepicker.inboundDate
+          )}`}`
+      )
     );
     dispatch(createSession(allInfo));
   },
   setError: errors => {
     dispatch(setError(errors));
-  },
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchButton);
