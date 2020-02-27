@@ -121,7 +121,11 @@ const CarrierFilter = React.memo(({ session }) => {
             _carriers[_carriers.findIndex(predicate('CarrierId', Carrier.Id))]
               .Price,
           ),
-        checked: true, // 로직 수정 해야함.
+        checked:
+          session.filterOption.excludeCarriers &&
+          session.filterOption.excludeCarriers.includes(Carrier.Code)
+            ? false
+            : true,
       }))
         .sort((a, b) => {
           return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
@@ -130,7 +134,7 @@ const CarrierFilter = React.memo(({ session }) => {
 
       return carriers;
     },
-    [],
+    [session.filterOption.excludeCarriers],
   );
 
   useEffect(() => {
