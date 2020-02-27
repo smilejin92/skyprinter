@@ -120,7 +120,6 @@ export function* postSession({ allInfo }) {
 
     // 3. 2에서 생성한 Session의 상태가 complete될 때까지 poll
     const filterOption = yield select(({ session }) => session.filterOption);
-    console.log(filterOption);
 
     while (true) {
       const { data } = yield call(
@@ -275,7 +274,6 @@ export default function session(state = initialState, action) {
       };
 
     case SET_POLL_RESULT:
-      console.log('2. 검색 결과');
       return {
         ...state,
         pollResult: action.pollResult

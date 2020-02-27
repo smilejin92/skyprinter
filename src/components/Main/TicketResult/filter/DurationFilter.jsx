@@ -23,7 +23,6 @@ const DurationFilter = ({ session, setFilterOption }) => {
   const defaultHourRef = useRef(100);
 
   const getDurations = useCallback(({ Itineraries, Legs, Segments }) => {
-    // console.log(Itineraries, Legs, Segments);
     const LegList = [];
     for (let i = 0; i < Itineraries.length; i++) {
       LegList.push(ticketLists(Itineraries[i]));
@@ -31,7 +30,7 @@ const DurationFilter = ({ session, setFilterOption }) => {
 
     function ticketLists(itinerary) {
       const { PricingOptions, OutboundLegId, InboundLegId } = itinerary;
-      // data.Itineraries[n].PricingOptions, data.Itineraries[n].OutboundLegId, data.Itineraries[n].InboundLegId
+
       // get Outbound Leg
       let OutboundLeg;
       Legs.forEach(leg => {
@@ -91,7 +90,7 @@ const DurationFilter = ({ session, setFilterOption }) => {
     setMinHour(Minhours);
     setMaxHour(Maxhours);
     setDefaultMaxHour(Maxhours);
-    // setSliderValue(Maxhours);
+
     defaultHourRef.current = Maxhours;
 
     return Legs;
@@ -109,14 +108,11 @@ const DurationFilter = ({ session, setFilterOption }) => {
       ...session.filterOption,
       duration: duration * 60 * 2
     };
-    // setSliderValue(duration);
+
     setFilterOption(newFilterOption);
-    // pollSession();
   };
   useEffect(() => {
-    // console.log(getDurations(session.pollResult));
     setLegLists(getDurations(session.allResult));
-    // console.log(legLists);
   }, [getDurations, legLists, session.allResult]);
 
   const switchDrop = () => {
@@ -125,7 +121,6 @@ const DurationFilter = ({ session, setFilterOption }) => {
 
   return (
     <FilterWrapperDl>
-      {console.log(defaultHourRef)}
       <div>
         <dt>
           <FilterWrapperButton drop={drop} onClick={switchDrop}>
