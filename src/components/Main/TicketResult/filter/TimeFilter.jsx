@@ -136,11 +136,11 @@ const TimeFilter = ({ session, setFilterOption }) => {
       ...session.filterOption,
       inboundDepartStartTime:
         inBoundMinTime.substring(0, 2) === '오후'
-          ? `${minHour + 12}:${minMinute}`
+          ? `${minHour + 12 === 24 ? 23 : minHour + 12}:${minMinute}`
           : `${parseString(minHour)}:${minMinute}`,
       inboundDepartEndTime:
         inBoundMaxTime.substring(0, 2) === '오후'
-          ? `${maxHour + 12}:${maxMinute}`
+          ? `${maxHour + 12 === 24 ? 23 : maxHour + 12}:${maxMinute}`
           : `${parseString(maxHour)}:${maxMinute}`
     };
 
