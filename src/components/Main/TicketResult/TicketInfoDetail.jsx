@@ -9,6 +9,7 @@ import {
   SelectTicketDetails,
   PlaceCode,
 } from '../../styles/TicketInfoDetail.style';
+import { connect } from 'react-redux';
 
 function TicketInfoDetail({ data, itinerary, progress }) {
   const [ticket, setTicket] = useState(null);
@@ -63,7 +64,7 @@ function TicketInfoDetail({ data, itinerary, progress }) {
     <div>
       {ticket && (
         <Tickets>
-          <TicketWrapper>
+          <TicketWrapper direction="column" justify="space-around">
             <TicketInfos>
               <div className="carrier">
                 {TicketService.getAirlineLogo(ticket.OutboundLeg, data)}
@@ -231,4 +232,9 @@ function TicketInfoDetail({ data, itinerary, progress }) {
     </div>
   );
 }
-export default TicketInfoDetail;
+
+const mapStateToProps = ({ session }) => ({
+  progress: session.progress,
+});
+
+export default connect(mapStateToProps)(TicketInfoDetail);

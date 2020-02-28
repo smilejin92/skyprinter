@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Checkbox } from 'antd';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -23,19 +23,6 @@ const StyledCheckbox = styled(Checkbox)`
 `;
 
 const CheckBox = ({ disabled, toggleDirect, children, isDirect }) => {
-  // const [checkbox, setCheckbox] = useState({
-  //   checked: false,
-  //   disabled: false || disabled,
-  // });
-
-  // const onChange = e => {
-  //   setCheckbox({
-  //     checked: isDirect,
-  //     disabled: checkbox.disabled,
-  //   });
-  //   toggleDirect();
-  // };
-
   return (
     <StyledCheckbox
       checked={disabled ? false : isDirect}
@@ -48,13 +35,13 @@ const CheckBox = ({ disabled, toggleDirect, children, isDirect }) => {
 };
 
 const mapStateToProps = ({ session }) => ({
-  isDirect: session.isDirect
+  isDirect: session.isDirect,
 });
 
 const mapDispatchToProps = dispatch => ({
   toggleDirect: () => {
     dispatch(toggleDirect());
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckBox);

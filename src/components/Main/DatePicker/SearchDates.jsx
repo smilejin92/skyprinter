@@ -103,8 +103,17 @@ function SearchDates({
     setMonths(_months);
     setMonthsIdx(_monthsIdx);
     setToday(new Date(`${curYear}/${curMonth}/${curDate}`));
-    setYearAfterToday(new Date(`${curYear + 1}/${curMonth}/${curDate}`));
-  }, [getTotalDays, selectedDate]);
+
+    const isFirstDay = curDate - 1 === 0;
+    const { days } = _months[_monthsIdx - 1];
+    setYearAfterToday(
+      new Date(
+        `${curYear + 1}/${isFirstDay ? curMonth - 1 : curMonth}/${
+          isFirstDay ? days : curDate - 1
+        }`,
+      ),
+    );
+  }, [days, getTotalDays, selectedDate]);
 
   // Datepicker에 표시할 요일 엘리먼트 초기화
   useLayoutEffect(() => {
