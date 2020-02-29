@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   setFilterOption,
-  pollSession
+  pollSession,
 } from '../../../../redux/modules/session';
 import { connect } from 'react-redux';
 import {
@@ -11,7 +11,7 @@ import {
   FilterDropDiv,
   OptionContent,
   OptionHeader,
-  StyleCheckBox
+  StyleCheckBox,
 } from '../../../styles/Filter.style';
 import uuid from 'uuid';
 
@@ -50,7 +50,7 @@ const StopFilter = React.memo(({ session, setFilter }) => {
 
         const ticket = {
           PricingOptions,
-          OutboundLeg
+          OutboundLeg,
         };
 
         // get Inbound Leg (왕복이라면)
@@ -115,7 +115,7 @@ const StopFilter = React.memo(({ session, setFilter }) => {
             return '없음';
           } else {
             return `₩ ${numberWithCommas(
-              Math.floor(Itineraries[0].PricingOptions[0].Price)
+              Math.floor(Itineraries[0].PricingOptions[0].Price),
             )}`;
           }
         }
@@ -129,10 +129,10 @@ const StopFilter = React.memo(({ session, setFilter }) => {
           price:
             DirectStopList.length >= 1
               ? `₩ ${numberWithCommas(
-                  Math.floor(DirectStopList[0].PricingOptions[0].Price)
+                  Math.floor(DirectStopList[0].PricingOptions[0].Price),
                 )}`
               : '없음',
-          disabled: DirectStopList.length === 0 ? true : false
+          disabled: DirectStopList.length === 0 ? true : false,
         },
         {
           id: '최대 1회 경유',
@@ -140,22 +140,22 @@ const StopFilter = React.memo(({ session, setFilter }) => {
           price:
             OneOverStopList.length >= 1
               ? `₩ ${numberWithCommas(
-                  Math.floor(OneOverStopList[0].PricingOptions[0].Price)
+                  Math.floor(OneOverStopList[0].PricingOptions[0].Price),
                 )}`
               : '없음',
-          disabled: OneOverStopList.length === 0 ? true : false
+          disabled: OneOverStopList.length === 0 ? true : false,
         },
         {
           id: '모두',
           checked: session.filterOption.stops === undefined ? true : false,
           price: allStopPrice(),
-          disabled: false
-        }
+          disabled: false,
+        },
       ];
 
       return stops;
     },
-    [session.filterOption.stops]
+    [session.filterOption.stops],
   );
 
   useEffect(() => {
@@ -219,14 +219,14 @@ const StopFilter = React.memo(({ session, setFilter }) => {
 });
 
 const mapStateToProps = state => ({
-  session: state.session
+  session: state.session,
 });
 
 const mapDispatchToProps = dispatch => ({
   setFilter: filterOption => {
     dispatch(setFilterOption(filterOption));
     dispatch(pollSession(true));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StopFilter);

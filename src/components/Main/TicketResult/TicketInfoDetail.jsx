@@ -7,7 +7,7 @@ import {
   TicketInfos,
   SemiCircle,
   SelectTicketDetails,
-  PlaceCode
+  PlaceCode,
 } from '../../styles/TicketInfoDetail.style';
 import { connect } from 'react-redux';
 
@@ -36,7 +36,7 @@ function TicketInfoDetail({ data, itinerary, progress }) {
 
     const ticket = {
       PricingOptions,
-      OutboundLeg
+      OutboundLeg,
     };
 
     // get Inbound Leg (왕복이라면)
@@ -78,7 +78,7 @@ function TicketInfoDetail({ data, itinerary, progress }) {
                 <span>
                   {TicketService.getPlaceCode(
                     ticket.OutboundLeg.OriginStation,
-                    data
+                    data,
                   )}
                 </span>
               </div>
@@ -100,7 +100,7 @@ function TicketInfoDetail({ data, itinerary, progress }) {
                 <p className="stops">
                   {ticket.OutboundLeg.Stops.length > 0 ? (
                     <span className="transfer">{`${TicketService.getNumberOfStops(
-                      ticket.OutboundLeg
+                      ticket.OutboundLeg,
                     )}회 경유`}</span>
                   ) : (
                     <span className="direct">직항</span>
@@ -114,14 +114,14 @@ function TicketInfoDetail({ data, itinerary, progress }) {
                   {TicketService.formatDateString(ticket.OutboundLeg.Arrival)}{' '}
                   {!TicketService.isSameDay(ticket.OutboundLeg) && (
                     <span>{`+${TicketService.getTimeDifference(
-                      ticket.OutboundLeg
+                      ticket.OutboundLeg,
                     )}`}</span>
                   )}
                 </p>
                 <PlaceCode same={TicketService.isSamePlace(ticket)}>
                   {TicketService.getPlaceCode(
                     ticket.OutboundLeg.DestinationStation,
-                    data
+                    data,
                   )}
                 </PlaceCode>
               </div>
@@ -133,20 +133,20 @@ function TicketInfoDetail({ data, itinerary, progress }) {
                   {TicketService.getOperatingAirline(
                     ticket.InboundLeg,
                     data,
-                    'inbound'
+                    'inbound',
                   )}
                 </div>
 
                 <div className="departTime">
                   <p>
                     {TicketService.formatDateString(
-                      ticket.InboundLeg.Departure
+                      ticket.InboundLeg.Departure,
                     )}
                   </p>
                   <PlaceCode same={TicketService.isSamePlace(ticket)}>
                     {TicketService.getPlaceCode(
                       ticket.InboundLeg.OriginStation,
-                      data
+                      data,
                     )}
                   </PlaceCode>
                 </div>
@@ -169,7 +169,7 @@ function TicketInfoDetail({ data, itinerary, progress }) {
                   <p className="stops">
                     {ticket.InboundLeg.Stops.length > 0 ? (
                       <span className="transfer">{`${TicketService.getNumberOfStops(
-                        ticket.InboundLeg
+                        ticket.InboundLeg,
                       )}회 경유`}</span>
                     ) : (
                       <span className="direct">직항</span>
@@ -184,14 +184,14 @@ function TicketInfoDetail({ data, itinerary, progress }) {
                     {TicketService.formatDateString(ticket.InboundLeg.Arrival)}{' '}
                     {!TicketService.isSameDay(ticket.InboundLeg) && (
                       <span>{`+${TicketService.getTimeDifference(
-                        ticket.InboundLeg
+                        ticket.InboundLeg,
                       )}`}</span>
                     )}
                   </p>
                   <span>
                     {TicketService.getPlaceCode(
                       ticket.InboundLeg.DestinationStation,
-                      data
+                      data,
                     )}
                   </span>
                 </div>
@@ -211,7 +211,7 @@ function TicketInfoDetail({ data, itinerary, progress }) {
               </p>
               {progress < 100 && <Spinner />}
               <span>{`₩ ${TicketService.priceToString(
-                ticket.PricingOptions[0].Price
+                ticket.PricingOptions[0].Price,
               )}`}</span>
               <a
                 href={ticket.PricingOptions[0].DeeplinkUrl}
@@ -234,7 +234,7 @@ function TicketInfoDetail({ data, itinerary, progress }) {
 }
 
 const mapStateToProps = ({ session }) => ({
-  progress: session.progress
+  progress: session.progress,
 });
 
 export default connect(mapStateToProps)(TicketInfoDetail);

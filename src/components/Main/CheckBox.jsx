@@ -35,13 +35,13 @@ const CheckBox = ({ disabled, toggleDirect, children, isDirect }) => {
 };
 
 const mapStateToProps = ({ session }) => ({
-  isDirect: session.isDirect
+  isDirect: session.isDirect,
 });
 
 const mapDispatchToProps = dispatch => ({
   toggleDirect: () => {
     dispatch(toggleDirect());
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckBox);

@@ -6,12 +6,12 @@ import {
   FilterDropDiv,
   StyleSliderWrapper,
   StyleSlider,
-  TimeContent
+  TimeContent,
 } from '../../../styles/Filter.style';
 import { connect } from 'react-redux';
 import {
   setFilterOption,
-  pollSession
+  pollSession,
 } from '../../../../redux/modules/session';
 
 const DurationFilter = ({ session, setFilterOption }) => {
@@ -46,7 +46,7 @@ const DurationFilter = ({ session, setFilterOption }) => {
       OutboundLeg.Segments = OutboundSegments;
       const ticket = {
         PricingOptions,
-        OutboundLeg
+        OutboundLeg,
       };
 
       // get Inbound Leg (왕복이라면)
@@ -106,7 +106,7 @@ const DurationFilter = ({ session, setFilterOption }) => {
     // 2. duration 값을 슬라이더의 value로 설정
     const newFilterOption = {
       ...session.filterOption,
-      duration: duration * 60 * 2
+      duration: duration * 60 * 2,
     };
 
     setFilterOption(newFilterOption);
@@ -153,12 +153,12 @@ const DurationFilter = ({ session, setFilterOption }) => {
 };
 
 const maptStateToProps = state => ({
-  session: state.session
+  session: state.session,
 });
 const mapDispatchToProps = dispatch => ({
   setFilterOption: filterOption => {
     dispatch(setFilterOption(filterOption));
     dispatch(pollSession(true));
-  }
+  },
 });
 export default connect(maptStateToProps, mapDispatchToProps)(DurationFilter);

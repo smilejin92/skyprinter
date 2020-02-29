@@ -16,7 +16,7 @@ function SearchButton({ children, allInfo, createSession, setError }) {
       errorLists.push({
         id: generatedId(errorLists),
         type: 'Incorrect places',
-        message: '출발지 혹은 도착지를 입력해주세요.'
+        message: '출발지 혹은 도착지를 입력해주세요.',
       });
     }
 
@@ -24,7 +24,7 @@ function SearchButton({ children, allInfo, createSession, setError }) {
       errorLists.push({
         id: generatedId(errorLists),
         type: 'PlaceId is same',
-        message: '출발지와 도착지가 같으면 검색이 불가능합니다.'
+        message: '출발지와 도착지가 같으면 검색이 불가능합니다.',
       });
     }
 
@@ -35,7 +35,7 @@ function SearchButton({ children, allInfo, createSession, setError }) {
       errorLists.push({
         id: generatedId(errorLists),
         type: 'Age not selected',
-        message: '모든 유/소아의 나이를 입력해주세요.'
+        message: '모든 유/소아의 나이를 입력해주세요.',
       });
     }
 
@@ -47,7 +47,7 @@ function SearchButton({ children, allInfo, createSession, setError }) {
         errorLists.push({
           id: generatedId(errorLists),
           type: 'No matching adult',
-          message: '성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.'
+          message: '성인 한 사람당 유/소아 1명(만 0 - 2세)만 허용됩니다.',
         });
       }
     }
@@ -60,7 +60,7 @@ function SearchButton({ children, allInfo, createSession, setError }) {
       errorLists.push({
         id: generatedId(errorLists),
         type: 'No Country',
-        message: '실시간 항공권 검색은 도시 단위까지만 가능합니다.'
+        message: '실시간 항공권 검색은 도시 단위까지만 가능합니다.',
       });
     }
 
@@ -80,8 +80,8 @@ const mapStateToProps = state => ({
     culture: state.culture,
     places: state.places,
     passenger: state.passenger,
-    datepicker: state.datepicker
-  }
+    datepicker: state.datepicker,
+  },
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -91,18 +91,18 @@ const mapDispatchToProps = dispatch => ({
     dispatch(
       push(
         `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${TicketService.convertDateToString(
-          allInfo.datepicker.outboundDate
+          allInfo.datepicker.outboundDate,
         )}${allInfo.datepicker.inboundDate &&
           `/${TicketService.convertDateToString(
-            allInfo.datepicker.inboundDate
-          )}`}`
-      )
+            allInfo.datepicker.inboundDate,
+          )}`}`,
+      ),
     );
     dispatch(createSession(allInfo));
   },
   setError: errors => {
     dispatch(setError(errors));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchButton);

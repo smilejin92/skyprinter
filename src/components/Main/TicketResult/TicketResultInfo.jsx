@@ -19,7 +19,7 @@ import {
   setTicketIndex,
   loadMoreTickets,
   setFilterOption,
-  pollSession
+  pollSession,
 } from '../../../redux/modules/session';
 import {
   TicketResultInfoWrapper,
@@ -45,7 +45,7 @@ import {
   LuggageMoreDetail,
   PriceAlarm,
   ProgressDiv,
-  MainLoading
+  MainLoading,
 } from '../../styles/TicketResultInfo.style';
 
 function TicketResultInfo({
@@ -55,25 +55,25 @@ function TicketResultInfo({
   session,
   setInfiniteScroll,
   loadMoreTickets,
-  setFilter
+  setFilter,
 }) {
   const [visible, setVisible] = useState(false);
   const [sort, setSort] = useState([
     {
       id: 'mostCheapest',
       name: '최저가순',
-      toggle: true
+      toggle: true,
     },
     {
       id: 'shortTrip',
       name: '최단여행시간순',
-      toggle: false
+      toggle: false,
     },
     {
       id: 'departure',
       name: '출국:출발시간',
-      toggle: false
-    }
+      toggle: false,
+    },
   ]);
 
   const convertClass = useCallback(type => {
@@ -81,7 +81,7 @@ function TicketResultInfo({
       { cabinClass: 'economy', name: '일반석' },
       { cabinClass: 'premiumeconomy', name: '프리미엄 일반석' },
       { cabinClass: 'business', name: '비지니스석' },
-      { cabinClass: 'first', name: '일등석' }
+      { cabinClass: 'first', name: '일등석' },
     ];
 
     const [selectedSeat] = seatTypes.filter(s => type === s.cabinClass);
@@ -103,47 +103,47 @@ function TicketResultInfo({
       const params = {
         ...session.filterOption,
         sortType: 'price',
-        sortOrder: 'asc'
+        sortOrder: 'asc',
       };
       setFilter(params);
       setSort(prevFilter =>
         prevFilter.map(filterItem =>
           filterItem.id === id
             ? { ...filterItem, toggle: true }
-            : { ...filterItem, toggle: false }
-        )
+            : { ...filterItem, toggle: false },
+        ),
       );
     } else if (id === 'shortTrip') {
       const params = {
         ...session.filterOption,
         sortType: 'duration',
-        sortOrder: 'asc'
+        sortOrder: 'asc',
       };
       setFilter(params);
       setSort(prevFilter =>
         prevFilter.map(filterItem =>
           filterItem.id === id
             ? { ...filterItem, toggle: true }
-            : { ...filterItem, toggle: false }
-        )
+            : { ...filterItem, toggle: false },
+        ),
       );
     } else if (id === 'departure') {
       const params = {
         ...session.filterOption,
         sortType: 'outbounddeparttime',
-        sortOrder: 'asc'
+        sortOrder: 'asc',
       };
       setFilter(params);
       setSort(prevFilter =>
         prevFilter.map(filterItem =>
           filterItem.id === id
             ? { ...filterItem, toggle: true }
-            : { ...filterItem, toggle: false }
-        )
+            : { ...filterItem, toggle: false },
+        ),
       );
     } else {
       setSort(prevFilter =>
-        prevFilter.map(filterItem => ({ ...filterItem, toggle: false }))
+        prevFilter.map(filterItem => ({ ...filterItem, toggle: false })),
       );
     }
   };
@@ -153,28 +153,28 @@ function TicketResultInfo({
       const params = {
         ...session.filterOption,
         sortType: 'duration',
-        sortOrder: 'asc'
+        sortOrder: 'asc',
       };
       setFilter(params);
     } else if (target.value === '출국:출발시간') {
       const params = {
         ...session.filterOption,
         sortType: 'outbounddeparttime',
-        sortOrder: 'asc'
+        sortOrder: 'asc',
       };
       setFilter(params);
     } else if (target.value === '귀국:출발시간') {
       const params = {
         ...session.filterOption,
         sortType: 'inbounddeparttime',
-        sortOrder: 'asc'
+        sortOrder: 'asc',
       };
       setFilter(params);
     } else {
       const params = {
         ...session.filterOption,
         sortType: 'price',
-        sortOrder: 'asc'
+        sortOrder: 'asc',
       };
       setFilter(params);
     }
@@ -183,8 +183,8 @@ function TicketResultInfo({
       prevFilter.map(filterItem =>
         filterItem.name === target.value
           ? { ...filterItem, toggle: true }
-          : { ...filterItem, toggle: false }
-      )
+          : { ...filterItem, toggle: false },
+      ),
     );
   };
 
@@ -215,10 +215,10 @@ function TicketResultInfo({
           <SearchPassenger>
             {getTotalPassengers() > 1
               ? `${getTotalPassengers()} 승객 | ${convertClass(
-                  passengerInfo.cabinClass
+                  passengerInfo.cabinClass,
                 )}`
               : `${getTotalPassengers()} 성인 | ${convertClass(
-                  passengerInfo.cabinClass
+                  passengerInfo.cabinClass,
                 )}`}
           </SearchPassenger>{' '}
         </SearchSummary>
@@ -271,7 +271,7 @@ function TicketResultInfo({
                     <span className="loading">
                       {`(${session.pollResult.Agents.length}개의 항공사 중 ${
                         session.pollResult.Agents.filter(
-                          Agent => Agent.Status === 'UpdatesComplete'
+                          Agent => Agent.Status === 'UpdatesComplete',
                         ).length
                       }개 확인)`}
                     </span>
@@ -463,7 +463,7 @@ const mapStateToProps = state => ({
   session: state.session,
   places: state.places,
   tripType: state.datepicker.tripType,
-  passengerInfo: state.passenger
+  passengerInfo: state.passenger,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -479,7 +479,7 @@ const mapDispatchToProps = dispatch => ({
   setFilter: params => {
     dispatch(setFilterOption(params));
     dispatch(pollSession(true));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TicketResultInfo);

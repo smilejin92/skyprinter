@@ -2,7 +2,7 @@ import React, {
   useState,
   useEffect,
   useCallback,
-  useLayoutEffect
+  useLayoutEffect,
 } from 'react';
 import uuid from 'uuid';
 import { FlexWrapper } from '../../styles';
@@ -12,7 +12,7 @@ import {
   SkipButton,
   Days,
   Day,
-  DateItem
+  DateItem,
 } from '../../styles/SearchDates.style';
 
 function SearchDates({
@@ -23,7 +23,7 @@ function SearchDates({
   setOutboundDate,
   setInboundDate,
   outboundDate,
-  inboundDate
+  inboundDate,
 }) {
   const [months, setMonths] = useState([]); // DatePicker에 나타낼 15개의 month
   const [monthsIdx, setMonthsIdx] = useState(null); // Datepicker의 시작 month index
@@ -110,8 +110,8 @@ function SearchDates({
       new Date(
         `${curYear + 1}/${isFirstDay ? curMonth - 1 : curMonth}/${
           isFirstDay ? days : curDate - 1
-        }`
-      )
+        }`,
+      ),
     );
   }, [days, getTotalDays, selectedDate]);
 
@@ -123,7 +123,7 @@ function SearchDates({
       _days.push(
         <Day key={uuid.v4()} border={i === 0 || i === 5}>
           {targets[i]}
-        </Day>
+        </Day>,
       );
     }
     setDays(_days);
@@ -137,7 +137,7 @@ function SearchDates({
       options.push(
         <option key={uuid.v4()} value={`${year}-${month}`}>
           {`${year}년 ${month}월`}
-        </option>
+        </option>,
       );
     }
     setMonthOptions(options);
@@ -177,8 +177,8 @@ function SearchDates({
       setInboundDate,
       setOutboundDate,
       inboundDate,
-      tripType
-    ]
+      tripType,
+    ],
   );
 
   // Datepicker에 표시할 날짜 엘리먼트 변경
@@ -237,7 +237,7 @@ function SearchDates({
           onClick={selectDate}
         >
           {startDate + count}
-        </DateItem>
+        </DateItem>,
       );
 
       count += 1;
@@ -259,7 +259,7 @@ function SearchDates({
     yearAfterToday,
     selectDate,
     type,
-    selectedDate
+    selectedDate,
   ]);
 
   // Dropdown으로 년월을 선택했을 경우
@@ -276,7 +276,7 @@ function SearchDates({
       setMonthsIdx(idx);
       setSelectedYearMonth(target.value);
     },
-    [months]
+    [months],
   );
 
   // 양쪽 화살표로 월을 선택했을 경우
@@ -299,7 +299,7 @@ function SearchDates({
         return curIdx + count;
       });
     },
-    [months, monthsIdx]
+    [months, monthsIdx],
   );
 
   const getPrevMonth = useCallback(() => {
