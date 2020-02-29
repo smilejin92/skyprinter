@@ -149,20 +149,22 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
 
   const onChange = carrierList => {
     if (carrierList.checked) {
+      // true -> false 상황,
       setFilter({
         ...session.filterOption,
         excludeCarriers: session.filterOption.excludeCarriers
           ? `${session.filterOption.excludeCarriers};${carrierList.code}`
-          : carrierList.code
+          : `${carrierList.code}`
       });
     } else {
-      // const { excludeCarriers, ...filterOption } = session.filterOption;
-      const reg = new RegExp(carrierList.code + ';', 'g');
-      const excludeCarrierList = session.filterOption.excludeCarriers.replace(
-        reg,
-        ''
-      );
-      if (excludeCarrierList.length === 2) {
+      // false -> true 상황,
+      const reg = new RegExp(carrierList.code, 'g');
+      const excludeCarrierList = session.filterOption.excludeCarriers
+        .replace(reg, '') // 1. 해당 캐리어 코드를 exclude에서 제거한다.
+        .replace(/[;]/g, '') // 2. 모든 특수문자를 제거한다.
+        .replace(/(.{2})/g, '$1;'); // 3. 2글자단위로 세미콜론을 찍어준다. 단, 마지막에도 ';'가 포함됨.
+
+      if (excludeCarrierList.length <= 2) {
         const { excludeCarriers, ...filterOption } = session.filterOption;
         setFilter({
           ...filterOption
@@ -170,7 +172,10 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
       } else {
         setFilter({
           ...session.filterOption,
-          excludeCarriers: excludeCarrierList
+          excludeCarriers: excludeCarrierList.substr(
+            0,
+            excludeCarrierList.length - 1
+          ) // 4. 마지막의 ';'을 제거
         });
       }
     }
