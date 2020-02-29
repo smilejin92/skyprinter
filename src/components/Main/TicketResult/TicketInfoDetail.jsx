@@ -16,6 +16,7 @@ function TicketInfoDetail({ data, itinerary, progress }) {
 
   useEffect(() => {
     // 각 티켓에 대한 정보 취합
+
     const { PricingOptions, OutboundLegId, InboundLegId } = itinerary;
 
     // get Outbound Leg

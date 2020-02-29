@@ -200,6 +200,7 @@ export default class TicketService {
   }
 
   static pushTickets(start, end, pollResult) {
+    if (!pollResult) return [];
     const { Itineraries } = pollResult;
     const tickets = [];
     for (let i = start; i < end; i++) {

@@ -155,6 +155,8 @@ export function* postSession({ allInfo }) {
             yield put({ type: SET_TICKETS });
           }
           yield put(setFilterOption({ sortType: 'price', sortOrder: 'asc' }));
+        } else {
+          yield put({ type: POLL_SESSION });
         }
         break;
       } else {
@@ -173,7 +175,6 @@ export function* getSession(action) {
   if (action.loader) yield put(toggleFliterLoader());
   const sessionKey = yield select(({ session }) => session.sessionKey);
   const filterOption = yield select(({ session }) => session.filterOption);
-  console.log('555', filterOption);
   const isDirect = yield select(({ session }) => session.isDirect);
 
   let newFilter = {
@@ -202,6 +203,7 @@ export function* getSession(action) {
 export function* setTickets() {
   const ticketEndIndex = yield select(({ session }) => session.ticketEndIndex);
   const pollResult = yield select(({ session }) => session.pollResult);
+
   const tickets = yield call(
     TicketService.pushTickets,
     0,
@@ -286,12 +288,6 @@ export default function session(state = initialState, action) {
         sessionKey: action.sessionKey
       };
 
-    case SET_POLL_RESULT:
-      return {
-        ...state,
-        pollResult: action.pollResult
-      };
-
     case SET_PROGRESS_RESULT:
       return {
         ...state,
@@ -305,11 +301,86 @@ export default function session(state = initialState, action) {
       };
 
     case SET_FILTER_OPTION:
-      console.log('1. 필터 옵션 초기화');
       return {
         ...state,
         isDirect: false,
         filterOption: action.filterOption
+      };
+
+    case SET_POLL_RESULT:
+      // const itinerariesList = [...action.pollResult.Itineraries];
+      // const legsList = [...action.pollResult.Legs];
+      // const durationSorted = [];
+      // const departureTimeSorted = [];
+
+      // itinerariesList.forEach((itinerary, idx) => {
+      //   const price = itinerary.PricingOptions[0].Price;
+      //   // 1. get outboundleg
+      //   const [outboundLeg] = legsList.filter(
+      //     l => l.Id === itinerary.OutboundLegId
+      //   );
+
+      //   // 2. get inboundLeg
+      //   let inboundLeg;
+      //   if (itinerary.InboundLegId) {
+      //     inboundLeg = legsList.filter(l => l.Id === itinerary.InboundLegId)[0];
+      //   }
+
+      //   const totalDuration = inboundLeg
+      //     ? outboundLeg.Duration + inboundLeg.Duration
+      //     : outboundLeg.Duration;
+
+      //   durationSorted.push({
+      //     id: idx,
+      //     duration: totalDuration,
+      //     durationString: TicketService.formatDuration(
+      //       inboundLeg ? totalDuration / 2 : totalDuration
+      //     ),
+      //     averaged: inboundLeg ? true : false,
+      //     price,
+      //     priceString: TicketService.priceToString(price)
+      //   });
+
+      //   departureTimeSorted.push({
+      //     id: idx,
+      //     outboundDepartureTime: new Date(outboundLeg.Departure),
+      //     departureTimeString: TicketService.formatDateString(
+      //       outboundLeg.Departure
+      //     ),
+      //     price,
+      //     priceString: TicketService.priceToString(price)
+      //   });
+      // });
+
+      // durationSorted.sort((d1, d2) => {
+      //   if (d1.duration - d2.duration < 0) return -1;
+      //   else if (d1.duration - d2.duration > 0) return 1;
+      //   else {
+      //     if (d1.price < d2.price) return -1;
+      //     else if (d1.price > d2.price) return 1;
+      //     else return 0;
+      //   }
+      // });
+
+      // departureTimeSorted.sort((d1, d2) => {
+      //   if (d1.outboundDepartureTime - d2.outboundDepartureTime < 0) return -1;
+      //   else if (d1.outboundDepartureTime - d2.outboundDepartureTime > 0) return 1;
+      //   else {
+      //     if (d1.price < d2.price) return -1;
+      //     else if (d1.price > d2.price) return 1;
+      //     else return 0;
+      //   }
+      // });
+
+      // if (state.filterOption.sortType === 'outbounddeparttime') {
+      //   action.pollResult.Itineraries = [...departureTimeSorted];
+      // } else if (state.filterOption.sortType === 'duration') {
+      //   action.pollResult.Itineraries = [...durationSorted];
+      // }
+
+      return {
+        ...state,
+        pollResult: action.pollResult
       };
 
     case SET_ALL_RESULT:
@@ -334,6 +405,7 @@ export default function session(state = initialState, action) {
         const totalDuration = inboundLeg
           ? outboundLeg.Duration + inboundLeg.Duration
           : outboundLeg.Duration;
+
         sortedDuration.push({
           id: idx,
           duration: totalDuration,
@@ -357,12 +429,10 @@ export default function session(state = initialState, action) {
       });
 
       sortedDuration.sort((d1, d2) => d1.duration - d2.duration);
-      console.log('sortedDuration', sortedDuration);
 
       sortedOutboundDepartureTime.sort(
         (d1, d2) => d1.outboundDepartureTime - d2.outboundDepartureTime
       );
-      console.log('sortedOutbound', sortedOutboundDepartureTime);
 
       const minDurationItinerary = sortedDuration[0];
       const cheapestItinerary = [...sortedDuration].sort(
