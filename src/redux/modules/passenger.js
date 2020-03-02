@@ -7,6 +7,7 @@ const SET_ADULTS = 'skyprinter/passenger/SET_ADULTS';
 const SET_CHILDREN = 'skyprinter/passenger/SET_CHILDREN';
 const SET_CHILD_AGE = 'skyprinter/passenger/SET_CHILD_AGE';
 const FETCH_CHILD_AGE = 'skyprinter/passenger/FETCH_CHILD_AGE';
+const FETCH_CHILDREN = 'skyprinter/passenger/FETCH_CHILDREN';
 
 //Action creater
 export const setCabinClass = cabinClass => ({
@@ -25,14 +26,13 @@ const intialState = {
 };
 
 export function* fetchChildAge(action) {
-  const error = yield select(state => state.error);
-
   try {
     yield put({
       type: FETCH_CHILD_AGE,
       id: action.id,
       age: action.age
     });
+    const error = yield select(state => state.error);
 
     if (error.errorOccurred) {
       const passengerInfo = yield select(state => state.passenger);
@@ -42,10 +42,6 @@ export function* fetchChildAge(action) {
           passengerInfo.children.filter(child => child.type === undefined)
             .length === 0
         ) {
-          newErrors = newErrors.filter(e => e.type !== 'Age not selected');
-        }
-
-        if (passengerInfo.children.length === 0) {
           newErrors = newErrors.filter(e => e.type !== 'Age not selected');
         }
 
@@ -66,9 +62,38 @@ export function* fetchChildAge(action) {
   }
 }
 
+export function* fetchChildren(action) {
+  try {
+    yield put({
+      type: FETCH_CHILDREN,
+      mode: action.mode,
+    });
+    const error = yield select(state => state.error);
+
+    if (error.errorOccurred) {
+      const passengerInfo = yield select(state => state.passenger);
+      let newErrors = error.errors;
+      if (
+        passengerInfo.children.filter(child => child.type === undefined)
+          .length === 0
+      ) {
+        newErrors = newErrors.filter(e => e.type !== 'Age not selected');
+      } else if (passengerInfo.children.length === 0) {
+        newErrors = newErrors.filter(e => e.type !== 'Age not selected');
+      }
+      newErrors.length === 0 || newErrors === null
+        ? yield put({ type: SET_ERROR, errors: null })
+        : yield put({ type: SET_ERROR, errors: newErrors });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // ROOT SAGA
 export function* passengerSaga() {
   yield takeEvery(SET_CHILD_AGE, fetchChildAge);
+  yield takeEvery(SET_CHILDREN, fetchChildren);
 }
 
 //reducer
@@ -91,7 +116,7 @@ export default function passenger(state = intialState, action) {
           adults: state.adults - 1
         };
       break;
-    case SET_CHILDREN:
+    case FETCH_CHILDREN:
       if (action.mode === 'add') {
         const getNextId = () =>
           Math.max(0, ...state.children.map(c => c.id)) + 1;
