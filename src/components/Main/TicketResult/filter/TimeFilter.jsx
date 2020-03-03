@@ -9,12 +9,12 @@ import {
   TimeHeader,
   TimeContent,
   InBoundTimeDiv,
-  OutBoundTimeDiv,
+  OutBoundTimeDiv
 } from '../../../styles/Filter.style';
 import { connect } from 'react-redux';
 import {
   setFilterOption,
-  pollSession,
+  pollSession
 } from '../../../../redux/modules/session';
 
 const TimeFilter = ({ session, setFilterOption }) => {
@@ -110,7 +110,7 @@ const TimeFilter = ({ session, setFilterOption }) => {
       outboundDepartEndTime:
         outBoundMaxTime.substring(0, 2) === '오후'
           ? `${maxHour + 12}:${maxMinute}`
-          : `${parseString(maxHour)}:${maxMinute}`,
+          : `${parseString(maxHour)}:${maxMinute}`
     };
 
     setFilterOption(newFilterOption);
@@ -141,7 +141,7 @@ const TimeFilter = ({ session, setFilterOption }) => {
       inboundDepartEndTime:
         inBoundMaxTime.substring(0, 2) === '오후'
           ? `${maxHour + 12 === 24 ? 23 : maxHour + 12}:${maxMinute}`
-          : `${parseString(maxHour)}:${maxMinute}`,
+          : `${parseString(maxHour)}:${maxMinute}`
     };
 
     setFilterOption(newFilterOption);
@@ -209,12 +209,12 @@ const TimeFilter = ({ session, setFilterOption }) => {
 };
 
 const maptStateToProps = state => ({
-  session: state.session,
+  session: state.session
 });
 const mapDispatchToProps = dispatch => ({
   setFilterOption: filterOption => {
     dispatch(setFilterOption(filterOption));
     dispatch(pollSession(true));
-  },
+  }
 });
 export default connect(maptStateToProps, mapDispatchToProps)(TimeFilter);
