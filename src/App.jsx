@@ -22,7 +22,11 @@ function App() {
               path="/transport/flights/:originId/:destId/:outbounDate/:inboundDate"
               component={TicketResult}
             /> */}
-            <Route path="/transport/flights" component={TicketResult} />
+            <Route
+              path="/transport/flights/:originId/:destinationId/:outboundDate"
+              component={TicketResult}
+            />
+            {/* <Route path="/transport/flights" component={TicketResult} /> */}
             <Route exact path="/" component={Home} />
             <Route component={NotFound} />
           </Switch>
