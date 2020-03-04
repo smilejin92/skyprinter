@@ -8,11 +8,19 @@ const SET_CHILDREN = 'skyprinter/passenger/SET_CHILDREN';
 const SET_CHILD_AGE = 'skyprinter/passenger/SET_CHILD_AGE';
 const FETCH_CHILD_AGE = 'skyprinter/passenger/FETCH_CHILD_AGE';
 const FETCH_CHILDREN = 'skyprinter/passenger/FETCH_CHILDREN';
+const RESET_PASSENGER = 'skyprinter/datepicker/RESET_PASSENGER';
 
 //Action creater
+export const resetPassenger = ({ cabinClass, adults, children }) => ({
+  type: RESET_PASSENGER,
+  cabinClass,
+  adults,
+  children,
+});
+
 export const setCabinClass = cabinClass => ({
   type: SET_CABIN_CLASS,
-  cabinClass
+  cabinClass,
 });
 export const setAdults = mode => ({ type: SET_ADULTS, mode });
 export const setChildren = mode => ({ type: SET_CHILDREN, mode });
@@ -22,7 +30,7 @@ export const setChildAge = (id, age) => ({ type: SET_CHILD_AGE, id, age });
 const intialState = {
   cabinClass: 'economy',
   adults: 1,
-  children: []
+  children: [],
 };
 
 export function* fetchChildAge(action) {
@@ -30,7 +38,7 @@ export function* fetchChildAge(action) {
     yield put({
       type: FETCH_CHILD_AGE,
       id: action.id,
-      age: action.age
+      age: action.age,
     });
     const error = yield select(state => state.error);
 
@@ -99,21 +107,28 @@ export function* passengerSaga() {
 //reducer
 export default function passenger(state = intialState, action) {
   switch (action.type) {
+    case RESET_PASSENGER:
+      return {
+        cabinClass: action.cabinClass,
+        adults: action.adults,
+        children: action.children,
+      };
+
     case SET_CABIN_CLASS:
       return {
         ...state,
-        cabinClass: action.cabinClass
+        cabinClass: action.cabinClass,
       };
     case SET_ADULTS:
       if (action.mode === 'add')
         return {
           ...state,
-          adults: state.adults + 1
+          adults: state.adults + 1,
         };
       if (action.mode === 'subtract')
         return {
           ...state,
-          adults: state.adults - 1
+          adults: state.adults - 1,
         };
       break;
     case FETCH_CHILDREN:
@@ -124,8 +139,8 @@ export default function passenger(state = intialState, action) {
           ...state,
           children: [
             ...state.children,
-            { id: getNextId(), age: '나이를 선택하세요', type: undefined }
-          ]
+            { id: getNextId(), age: '나이를 선택하세요', type: undefined },
+          ],
         };
       }
       if (action.mode === 'remove') {
@@ -133,26 +148,26 @@ export default function passenger(state = intialState, action) {
         newChildren.pop();
         return {
           ...state,
-          children: newChildren
+          children: newChildren,
         };
       }
       break;
     case FETCH_CHILD_AGE:
       if (action.age === '0' || action.age === '1') {
         const newChildren = state.children.map(c =>
-          c.id === action.id ? { ...c, type: 'infant', age: action.age } : c
+          c.id === action.id ? { ...c, type: 'infant', age: action.age } : c,
         );
         return {
           ...state,
-          children: newChildren
+          children: newChildren,
         };
       } else {
         const newChildren = state.children.map(c =>
-          c.id === action.id ? { ...c, type: 'child', age: action.age } : c
+          c.id === action.id ? { ...c, type: 'child', age: action.age } : c,
         );
         return {
           ...state,
-          children: newChildren
+          children: newChildren,
         };
       }
     default:
