@@ -91,7 +91,7 @@ const TimeFilter = ({ session, setFilterOption }) => {
     }
   };
   const slideAfterOutBoundChange = () => {
-    console.log('슬라이더 에프터!!', outBoundMinTime, outBoundMaxTime);
+    // console.log('슬라이더 에프터!!', outBoundMinTime, outBoundMaxTime);
     const minHour = +(outBoundMinTime.substring(3, 5)[1] === ':'
       ? outBoundMinTime.substring(3, 4)
       : outBoundMinTime.substring(3, 5));
@@ -100,7 +100,7 @@ const TimeFilter = ({ session, setFilterOption }) => {
       ? outBoundMaxTime.substring(3, 4)
       : outBoundMaxTime.substring(3, 5));
     const maxMinute = outBoundMaxTime.slice(-2);
-    console.log(minHour, minMinute, maxHour, maxMinute);
+    // console.log(minHour, minMinute, maxHour, maxMinute);
     const newFilterOption = {
       ...session.filterOption,
       outboundDepartStartTime:
@@ -122,7 +122,7 @@ const TimeFilter = ({ session, setFilterOption }) => {
   };
 
   const slideAfterInBoundChange = () => {
-    console.log('슬라이더 에프터!!', inBoundMinTime, inBoundMaxTime);
+    // console.log('슬라이더 에프터!!', inBoundMinTime, inBoundMaxTime);
     const minHour = +(inBoundMinTime.substring(3, 5)[1] === ':'
       ? inBoundMinTime.substring(3, 4)
       : inBoundMinTime.substring(3, 5));
@@ -131,7 +131,7 @@ const TimeFilter = ({ session, setFilterOption }) => {
       ? inBoundMaxTime.substring(3, 4)
       : inBoundMinTime.substring(3, 5));
     const maxMinute = inBoundMaxTime.slice(-2);
-    console.log(minHour, minMinute, maxHour, maxMinute);
+    // console.log(minHour, minMinute, maxHour, maxMinute);
     const newFilterOption = {
       ...session.filterOption,
       inboundDepartStartTime:

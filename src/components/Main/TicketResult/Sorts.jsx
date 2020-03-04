@@ -181,7 +181,6 @@ function Sorts() {
         headers
       });
 
-      console.log('2', data);
       if (data.Status === 'UpdatesComplete') break;
     }
   };
@@ -190,8 +189,6 @@ function Sorts() {
     <>
       <SelectArrageStandard>
         <label htmlFor="arrangedStandard">정렬기준</label>
-        {console.log(sort)}
-        {console.log('ada', sort.filter(filterItem => filterItem.toggle)[0])}
         <select
           value={
             sort.filter(filterItem => filterItem.toggle)[0]

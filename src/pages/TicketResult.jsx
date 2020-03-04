@@ -3,7 +3,7 @@ import HeaderContainer from '../containers/HeaderContainer';
 import Main from '../components/Main/TicketResult';
 import Footer from '../components/Footer';
 import Copyright from '../components/Copyright';
-import withTest from '../hocs/withTest';
+import withPath from '../hocs/withPath';
 
 const TicketResult = ({ location, match }) => (
   <>
@@ -14,4 +14,4 @@ const TicketResult = ({ location, match }) => (
   </>
 );
 
-export default withTest(TicketResult);
+export default withPath(TicketResult);

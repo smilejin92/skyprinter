@@ -6,7 +6,7 @@ import { setPlace } from '../redux/modules/places';
 import { resetDate } from '../redux/modules/datepicker';
 import { resetPassenger } from '../redux/modules/passenger';
 
-function withTest(Component) {
+function withPath(Component) {
   function WrappedComponent(props) {
     const storePlaces = useSelector(state => state.places);
     const culture = useSelector(state => state.culture);
@@ -14,7 +14,6 @@ function withTest(Component) {
 
     useEffect(() => {
       const urlQuery = qs.parse(props.location.search);
-      console.log('url쿼리', urlQuery);
       const places = {
         inBoundId: props.match.params.originId,
         inBoundName: urlQuery.originPlaceName,
@@ -32,13 +31,11 @@ function withTest(Component) {
       };
 
       const children = urlQuery.children
-        ? urlQuery.childrenAge
-            .split('|')
-            .map((c, i) => ({
-              id: i,
-              age: c,
-              type: c >= 2 ? 'child' : 'infant'
-            }))
+        ? urlQuery.childrenAge.split('|').map((c, i) => ({
+            id: i,
+            age: c,
+            type: c >= 2 ? 'child' : 'infant'
+          }))
         : [];
 
       const passenger = {
@@ -77,23 +74,16 @@ function withTest(Component) {
         dispatch(resetDate({ ...datepicker }));
         dispatch(resetPassenger({ ...passenger }));
       }
-    }, [
-      culture,
-      dispatch,
-      props.location.search,
-      props.match.params.destinationId,
-      props.match.params.originId,
-      props.match.params.outboundDate,
-      storePlaces
-    ]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.match, props.location]);
 
     return <Component {...props} />;
     // }
   }
   // display 이름 설정. (디버깅시 이름을 유지시켜주기 위함.)
-  WrappedComponent.displayName = `withTest(${Component.name})`;
+  WrappedComponent.displayName = `withPath(${Component.name})`;
 
   return WrappedComponent;
 }
 
-export default withTest;
+export default withPath;

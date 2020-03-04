@@ -304,42 +304,45 @@ function TicketResultInfo({
                   <Progress percent={session.progress} showInfo={false} />
                 </ProgressDiv>
               )}
-              <ArrangeSortButtonWapper>
-                {sort.map(item => (
-                  <SortPriceButton
-                    key={uuid.v4()}
-                    id={item.id}
-                    toggle={item.toggle}
-                    onClick={() => changeSort(item.id)}
-                    className={item.toggle ? 'active' : null}
-                  >
-                    <p>{item.name}</p>
-                    <span>
-                      ₩
-                      {item.id === 'mostCheapest'
-                        ? session.cheapestItinerary.priceString
-                        : item.id === 'shortTrip'
-                        ? session.minDurationItinerary.priceString
-                        : session.earliestOutboundItinerary.priceString}
-                    </span>
-                    <p>
-                      {item.id === 'mostCheapest'
-                        ? `${
-                            session.cheapestItinerary.averaged
-                              ? `${session.cheapestItinerary.durationString} (평균)`
-                              : `${session.cheapestItinerary.durationString}`
-                          }`
-                        : item.id === 'shortTrip'
-                        ? `${
-                            session.minDurationItinerary.averaged
-                              ? `${session.minDurationItinerary.durationString} (평균)`
-                              : `${session.minDurationItinerary.durationString}`
-                          }`
-                        : session.earliestOutboundItinerary.departureTimeString}
-                    </p>
-                  </SortPriceButton>
-                ))}
-              </ArrangeSortButtonWapper>
+              {session.cheapestItinerary && (
+                <ArrangeSortButtonWapper>
+                  {sort.map(item => (
+                    <SortPriceButton
+                      key={uuid.v4()}
+                      id={item.id}
+                      toggle={item.toggle}
+                      onClick={() => changeSort(item.id)}
+                      className={item.toggle ? 'active' : null}
+                    >
+                      <p>{item.name}</p>
+                      <span>
+                        ₩
+                        {item.id === 'mostCheapest'
+                          ? session.cheapestItinerary.priceString
+                          : item.id === 'shortTrip'
+                          ? session.minDurationItinerary.priceString
+                          : session.earliestOutboundItinerary.priceString}
+                      </span>
+                      <p>
+                        {item.id === 'mostCheapest'
+                          ? `${
+                              session.cheapestItinerary.averaged
+                                ? `${session.cheapestItinerary.durationString} (평균)`
+                                : `${session.cheapestItinerary.durationString}`
+                            }`
+                          : item.id === 'shortTrip'
+                          ? `${
+                              session.minDurationItinerary.averaged
+                                ? `${session.minDurationItinerary.durationString} (평균)`
+                                : `${session.minDurationItinerary.durationString}`
+                            }`
+                          : session.earliestOutboundItinerary
+                              .departureTimeString}
+                      </p>
+                    </SortPriceButton>
+                  ))}
+                </ArrangeSortButtonWapper>
+              )}
               <InfiniteScroll
                 hasMore={
                   session.pollResult.Itineraries[session.ticketEndIndex] !==
