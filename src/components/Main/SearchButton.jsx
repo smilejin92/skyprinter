@@ -88,15 +88,24 @@ const mapDispatchToProps = dispatch => ({
   createSession: allInfo => {
     dispatch(clearError());
     // URL -> /transport/flights/{originPlace_id}/{destinationPlace_id}/{outboundDate}/{inboundDate && inboundDate}/?query
+    const originPlace = allInfo.places.inBoundId.toLowerCase();
+    const destinationPlace = allInfo.places.outBoundId.toLowerCase();
+    const outboundDate = TicketService.convertDateToString(
+      allInfo.datepicker.outboundDate,
+    );
+    const inboundDate =
+      allInfo.datepicker.inboundDate &&
+      TicketService.convertDateToString(allInfo.datepicker.inboundDate);
+    const adults = allInfo.passenger.adults;
+    const children = allInfo.passenger.children.length;
+    const infants = allInfo.passenger.children.filter(c => c.type === 'infant')
+      .length;
+    const cabinclass = allInfo.passenger.cabinClass;
+
     dispatch(
       push(
-        `/transport/flights/${allInfo.places.inBoundId.toLowerCase()}/${allInfo.places.outBoundId.toLowerCase()}/${TicketService.convertDateToString(
-          allInfo.datepicker.outboundDate
-        )}${allInfo.datepicker.inboundDate &&
-          `/${TicketService.convertDateToString(
-            allInfo.datepicker.inboundDate
-          )}`}`
-      )
+        `/transport/flights/${originPlace}/${destinationPlace}/${outboundDate}/?inboundDate=${inboundDate}&adults=${adults}&children=${children}&infants=${infants}&cabinclass=${cabinclass}`,
+      ),
     );
     dispatch(createSession(allInfo));
   },
