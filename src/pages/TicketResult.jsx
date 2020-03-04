@@ -3,11 +3,10 @@ import HeaderContainer from '../containers/HeaderContainer';
 import Main from '../components/Main/TicketResult';
 import Footer from '../components/Footer';
 import Copyright from '../components/Copyright';
+import withTest from '../hocs/withTest';
 
 const TicketResult = ({ location, match }) => (
   <>
-    {console.log('로케이션 : ', location)}
-    {console.log('매치 : ', match)}
     <HeaderContainer width="144rem" />
     <Main />
     <Footer />
@@ -15,4 +14,4 @@ const TicketResult = ({ location, match }) => (
   </>
 );
 
-export default TicketResult;
+export default withTest(TicketResult);
