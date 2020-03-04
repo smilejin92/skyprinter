@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { setError, clearError } from '../../redux/modules/error';
-import { createSession } from '../../redux/modules/session';
+// import { createSession } from '../../redux/modules/session';
 import { push } from 'connected-react-router';
 import TicketService from '../../services/TicketService';
 
@@ -101,13 +101,14 @@ const mapDispatchToProps = dispatch => ({
       TicketService.convertDateToString(allInfo.datepicker.inboundDate);
     const adults = allInfo.passenger.adults;
     const children = allInfo.passenger.children.length;
+    const childrenAge = allInfo.passenger.children.map(c => c.age).join('|');
     const infants = allInfo.passenger.children.filter(c => c.type === 'infant')
       .length;
     const cabinclass = allInfo.passenger.cabinClass;
 
     dispatch(
       push(
-        `/transport/flights/${originPlace}/${destinationPlace}/${outboundDate}/?inboundDate=${inboundDate}&originPlaceName=${originPlaceName}&destinationPlaceName=${destinationPlaceName}&tripType=${tripType}&adults=${adults}&children=${children}&infants=${infants}&cabinclass=${cabinclass}`,
+        `/transport/flights/${originPlace}/${destinationPlace}/${outboundDate}/?inboundDate=${inboundDate}&tripType=${tripType}&adults=${adults}&children=${children}&childrenAge=${childrenAge}&infants=${infants}&cabinclass=${cabinclass}&originPlaceName=${originPlaceName}&destinationPlaceName=${destinationPlaceName}`,
       ),
     );
     // dispatch(createSession(allInfo));
