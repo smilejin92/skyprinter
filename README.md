@@ -74,4 +74,6 @@
 
 ### 9. 구현 일정
 
+![skyprinter-calendar](https://user-images.githubusercontent.com/31315644/75995588-01257880-5f40-11ea-8a1a-94afddb40337.jpeg)
+
 <br/>
