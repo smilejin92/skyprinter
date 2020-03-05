@@ -4,8 +4,13 @@ export const SET_INBOUND_DATE = 'skyprinter/datepicker/SET_INBOUND_DATE';
 export const SET_ONEWAY_TRIP = 'skyprinter/datepicker/SET_ONEWAY_TRIP';
 export const SET_ROUND_TRIP = 'skyprinter/datepicker/SET_ROUND_TRIP';
 export const RESET_DATE = 'skyprinter/datepicker/RESET_DATE';
+export const INITIALIZE_DATE = 'skyprinter/datepicker/INITIALIZE_DATE';
 
 // ACTION CREATORS
+export const initializeDate = () => ({
+  type: INITIALIZE_DATE
+});
+
 export const resetDate = ({
   tripType,
   outboundDate,
@@ -48,6 +53,9 @@ const initialState = {
 // REDUCER
 export default function datepicker(state = initialState, action) {
   switch (action.type) {
+    case INITIALIZE_DATE:
+      return initialState;
+
     case RESET_DATE:
       return {
         tripType: action.tripType,

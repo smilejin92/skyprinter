@@ -7,24 +7,20 @@ const Message = styled.section`
   box-shadow: inset 0 0 0 1px #dddde5;
   border-radius: 0.6rem;
   padding: 1.2rem;
-
   div {
     padding: 2.4rem;
   }
-
   span {
     font-size: 2.4rem;
     line-height: 3rem;
     font-weight: 400;
     letter-spacing: normal;
-
     span {
       box-sizing: inherit;
       font-size: 2.4rem;
       line-height: 3rem;
       font-weight: 400;
       letter-spacing: normal;
-
       strong {
         font-weight: bolder;
       }

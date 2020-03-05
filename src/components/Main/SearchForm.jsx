@@ -6,7 +6,7 @@ import TripTypes from './TripTypes';
 import CabinClassPassengerContainer from '../../containers/CabinPassengerContainer';
 import { useLocation } from 'react-router-dom';
 import SearchButton from './SearchButton';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import uuid from 'uuid';
 // import { toggleDirect } from '../../redux/modules/session';
 import {
@@ -26,7 +26,6 @@ function SearchForm() {
 
   const { pathname } = useLocation();
   const errors = useSelector(state => state.error.errors);
-  const dispatch = useDispatch();
 
   return (
     <SearchFormWrapper

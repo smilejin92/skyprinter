@@ -18,15 +18,10 @@ function App() {
       <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
         <ConnectedRouter history={history}>
           <Switch>
-            {/* <Route
-              path="/transport/flights/:originId/:destId/:outbounDate/:inboundDate"
-              component={TicketResult}
-            /> */}
             <Route
               path="/transport/flights/:originId/:destinationId/:outboundDate"
               component={TicketResult}
             />
-            {/* <Route path="/transport/flights" component={TicketResult} /> */}
             <Route exact path="/" component={Home} />
             <Route component={NotFound} />
           </Switch>

@@ -30,7 +30,7 @@ function withPath(Component) {
         prevInboundDate: null
       };
 
-      const children = urlQuery.children
+      const children = +urlQuery.children
         ? urlQuery.childrenAge.split('|').map((c, i) => ({
             id: i,
             age: c,
@@ -78,9 +78,8 @@ function withPath(Component) {
     }, [props.match, props.location]);
 
     return <Component {...props} />;
-    // }
   }
-  // display 이름 설정. (디버깅시 이름을 유지시켜주기 위함.)
+
   WrappedComponent.displayName = `withPath(${Component.name})`;
 
   return WrappedComponent;

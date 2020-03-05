@@ -7,8 +7,12 @@ import { SET_ERROR } from './error';
 export const SET_PLACE = 'skyprinter/places/SET_PLACE';
 export const FETCH_PLACE = 'skyprinter/places/FETCH_PLACE';
 export const SWITCH_PLACES = 'skyprinter/places/SWITCH_PLACES';
+export const INITIALIZE_PLACES = 'skyprinter/places/INITIALIZE_PLACES';
 
 // ACTION CREATORS
+export const initializePlaces = () => ({
+  type: INITIALIZE_PLACES
+});
 export const setPlace = places => ({ type: SET_PLACE, places });
 export const switchPlaces = () => ({ type: SWITCH_PLACES });
 
@@ -18,7 +22,7 @@ export function* fetchPlaces(action) {
   try {
     yield put({
       type: FETCH_PLACE,
-      places: action.places,
+      places: action.places
     });
 
     if (error.errorOccurred) {
@@ -55,12 +59,15 @@ const initialState = {
   inBoundId: '',
   inBoundName: '',
   outBoundId: '',
-  outBoundName: '',
+  outBoundName: ''
 };
 
 // REDUCER
 export default function places(state = initialState, action) {
   switch (action.type) {
+    case INITIALIZE_PLACES:
+      return initialState;
+
     case FETCH_PLACE:
       const { places } = action;
       if (places.type === 'inBound') {
@@ -68,14 +75,14 @@ export default function places(state = initialState, action) {
           inBoundId: places.PlaceId,
           inBoundName: places.PlaceName,
           outBoundId: state.outBoundId,
-          outBoundName: state.outBoundName,
+          outBoundName: state.outBoundName
         };
       } else {
         return {
           inBoundId: state.inBoundId,
           inBoundName: state.inBoundName,
           outBoundId: places.PlaceId,
-          outBoundName: places.PlaceName,
+          outBoundName: places.PlaceName
         };
       }
     case SWITCH_PLACES:
@@ -83,7 +90,7 @@ export default function places(state = initialState, action) {
         inBoundId: state.outBoundId,
         inBoundName: state.outBoundName,
         outBoundId: state.inBoundId,
-        outBoundName: state.inBoundName,
+        outBoundName: state.inBoundName
       };
     default:
       return state;
