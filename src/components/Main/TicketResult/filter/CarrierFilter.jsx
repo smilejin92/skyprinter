@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
   setFilterOption,
-  pollSession
+  pollSession,
 } from '../../../../redux/modules/session';
 import {
   FilterWrapperButton,
@@ -14,7 +14,7 @@ import {
   StyleCheckBox,
   AllSelectOrRemoveDiv,
   AllSelectBtn,
-  AllRemoveBtn
+  AllRemoveBtn,
 } from '../../../styles/Filter.style';
 import uuid from 'uuid';
 import { useCallback } from 'react';
@@ -68,7 +68,7 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
 
         const ticket = {
           PricingOptions,
-          OutboundLeg
+          OutboundLeg,
         };
 
         // get Inbound Leg (왕복이라면)
@@ -93,14 +93,14 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
           ) {
             carrierPriceList.push({
               Price: ticket.PricingOptions[0].Price,
-              CarrierId: ticket.OutboundLeg.Carriers[0]
+              CarrierId: ticket.OutboundLeg.Carriers[0],
             });
             return carrierPriceList[0];
           }
         }
         carrierPriceList.push({
           Price: ticket.PricingOptions[0].Price,
-          CarrierId: ticket.OutboundLeg.Carriers[0]
+          CarrierId: ticket.OutboundLeg.Carriers[0],
         });
         return carrierPriceList[0];
       }
@@ -128,10 +128,12 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
         price:
           _carriers.findIndex(predicate('CarrierId', Carrier.Id)) !== -1 &&
           numberWithCommas(
-            _carriers[_carriers.findIndex(predicate('CarrierId', Carrier.Id))]
-              .Price
+            Math.floor(
+              _carriers[_carriers.findIndex(predicate('CarrierId', Carrier.Id))]
+                .Price,
+            ),
           ),
-        checked: inspectChecked(Carrier)
+        checked: inspectChecked(Carrier),
       }))
         .sort((a, b) => {
           return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
@@ -140,7 +142,7 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
 
       return carriers;
     },
-    [session.filterOption.excludeCarriers]
+    [session.filterOption.excludeCarriers],
   );
 
   useEffect(() => {
@@ -154,7 +156,7 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
         ...session.filterOption,
         excludeCarriers: session.filterOption.excludeCarriers
           ? `${session.filterOption.excludeCarriers};${carrierList.code}`
-          : `${carrierList.code}`
+          : `${carrierList.code}`,
       });
     } else {
       // false -> true 상황,
@@ -167,15 +169,15 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
       if (excludeCarrierList.length <= 2) {
         const { excludeCarriers, ...filterOption } = session.filterOption;
         setFilter({
-          ...filterOption
+          ...filterOption,
         });
       } else {
         setFilter({
           ...session.filterOption,
           excludeCarriers: excludeCarrierList.substr(
             0,
-            excludeCarrierList.length - 1
-          ) // 4. 마지막의 ';'을 제거
+            excludeCarrierList.length - 1,
+          ), // 4. 마지막의 ';'을 제거
         });
       }
     }
@@ -188,7 +190,7 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
   const allSelect = () => {
     const { excludeCarriers, ...filterOption } = session.filterOption;
     setFilter({
-      ...filterOption
+      ...filterOption,
     });
   };
 
@@ -196,12 +198,15 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
     let allExcludeCarrier = '';
     carrierLists.forEach(
       carrierList =>
-        (allExcludeCarrier = allExcludeCarrier + carrierList.code + ';')
+        (allExcludeCarrier = allExcludeCarrier + carrierList.code + ';'),
     );
 
     setFilter({
       ...session.filterOption,
-      excludeCarriers: allExcludeCarrier.substr(0, allExcludeCarrier.length - 1)
+      excludeCarriers: allExcludeCarrier.substr(
+        0,
+        allExcludeCarrier.length - 1,
+      ),
     });
   };
 
@@ -223,7 +228,7 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
                 onClick={allSelect}
                 disabled={
                   !carrierLists.some(
-                    carrierList => carrierList.checked !== true
+                    carrierList => carrierList.checked !== true,
                   )
                 }
               >
@@ -234,7 +239,7 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
                 onClick={allRemove}
                 disabled={
                   !carrierLists.some(
-                    carrierList => carrierList.checked !== false
+                    carrierList => carrierList.checked !== false,
                   )
                 }
               >
@@ -249,6 +254,7 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
                 >
                   {carrierList.name}
                 </StyleCheckBox>
+                {console.log('test', carrierList.price)}
                 <OptionContent> {`₩ ${carrierList.price}`} </OptionContent>
               </OptionHeader>
             ))}
@@ -260,14 +266,14 @@ const CarrierFilter = React.memo(({ session, setFilter }) => {
 });
 
 const mapStateToProps = state => ({
-  session: state.session
+  session: state.session,
 });
 
 const mapDispatchToProps = dispatch => ({
   setFilter: filterOption => {
     dispatch(setFilterOption(filterOption));
     dispatch(pollSession(true));
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CarrierFilter);
