@@ -1,68 +1,79 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Thumbnail](https://user-images.githubusercontent.com/31315644/74083056-1f17ce80-4aa3-11ea-950a-371118f8f12a.png)
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+# Sky Printer
 
-### `npm start`
+### **[Sky Scanner](https://www.skyscanner.co.kr/) 클론**
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<br/>
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### 1. 팀 소개
 
-### `npm test`
+- 팀명 : **Skyprinter**
+  - 팀원 : 김진현, 김재헌, 김준혁,
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<br/>
 
-### `npm run build`
+### 2. 팀 주제
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [Sky Scanner](https://www.skyscanner.co.kr/) 메인페이지 및 검색 결과 페이지 클론
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+<br/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 3. 주제 선정 이유
 
-### `npm run eject`
+- **Front :**
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+  [Sky Scanner ](https://www.skyscanner.com/)페이지 자체가 React로 구성되어 있고 적은 페이지에 선택한 조건에 따른 상호작용성이 높고, 반응형 페이지이기 때문에 HTML, CSS 적인 관점도 중요하지만 JavaScript, React등의 개발적인 요소를 활용하기에 매우 적합하다고 생각되었습니다.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Back :**
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  현재 프로젝트를 진행함에 있어 팀원들이 Front-End 개발을 지향하고 있기 때문에 Back-End를 동시에 공부하기에는 어려울것 같다는 생각이 들었습니다. 따라서 공개 API를 이용하여 Back-End를 구축할 시간을 최대한 적게 줄이고자 하였습니다. Sky Scanner Api의 항공권에 대한 내용은 개발 학습에 있어 복잡성이 뛰어나고 요청 또한 무제한이기 때문에 결정하게 되었습니다.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<br/>
 
-## Learn More
+### 4. 프로젝트 요구 사항
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- W3C에서 제공한 MarkUp Validation Service 에서 이상이 없을 것.
+- 최대한 시멘틱 하게 작성.
+- 여러 라이브러리 경험.
+- Git flow를 사용하여 협업을 할 것.
+- Git Convention을 최대한 지킬 것.
+- SkyPrinter API 사용.
+- 리액트 컴포넌트 간의 최적화.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br/>
 
-### Code Splitting
+### 5. MVP
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+1. 실시간 항공권 검색 기능
+2. 캐싱된 항공권 검색 기능
+3. 항공권 필터 기능
 
-### Analyzing the Bundle Size
+<br/>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### 6. API 및 문서 정리
 
-### Making a Progressive Web App
+1. [RapidAPISkyscanner-API-Documentation](./RapidAPISkyscanner-API-Documentation.md)
+2. [Mainpage-Documentation & Use cases](./Mainpage-Use-cases-Documentation.md)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+<br/>
 
-### Advanced Configuration
+### 7. Flow Chart
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+![SkyPrinter_FlowChart](https://lh6.googleusercontent.com/ipfJkBFAPz8fCGGbsg0xHKXCzrO4xEWqSZ6q6Xfv5hHVmasoDh8pdb-Av8nr323ppoZKtkmyo2W1EVXhVAesH5FUVQh_tYlqBoOHih2n0-iq9n0l0dSynmkVRzZ_b5IzhDLLJr8I)
 
-### Deployment
+<br/>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+### 8. Wire Frame
 
-### `npm run build` fails to minify
+[**![SkyPrinter_WireFrame](https://lh3.googleusercontent.com/WRH_SsstNuVq0TJl6OMe13MTXtUQOZUwFEaLLlTDv3ZJWnkuACWxSNpo9Yi1AqaOWIk47pxJ1CJzSnEaOqYHiKtTaRabIWdJpbIm6r1lyqe7QF69Rt5lg4ogBi_Offd0fDMp03BN)**](https://ovenapp.io/view/oSsbyScwAhgp8XeIrhNJRkSI91XFCe1a/)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+<br/>
+
+### 9. 구현 일정
+
+![skyprinter-calendar](https://user-images.githubusercontent.com/31315644/75995588-01257880-5f40-11ea-8a1a-94afddb40337.jpeg)
+
+<br/>
