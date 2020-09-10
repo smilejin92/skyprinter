@@ -1,3 +1,5 @@
+> **NOTE**: Skyscanner 측의 요청으로 deploy된 페이지는 운영 중단되었습니다.
+
 [![](https://user-images.githubusercontent.com/32444914/81935111-0f240380-962b-11ea-9f4b-8baf86db6fa2.png)](https://youtu.be/I-8yuIpRqu0)
 
 ---
